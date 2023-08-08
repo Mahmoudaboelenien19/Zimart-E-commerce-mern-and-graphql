@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { opacityVariant } from "../../variants/globals";
 import Favorite from "../widgets/Favorite";
 import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";

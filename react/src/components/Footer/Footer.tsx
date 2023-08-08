@@ -22,7 +22,7 @@ const Footer = () => {
     <motion.footer
       ref={scope}
       whileInView={{ opacity: [0, 0.3, 0.6, 1] }}
-      viewport={{ amount: 0.6 }}
+      viewport={{ amount: 0.25 }}
     >
       <div className="content">
         <AboutFooter />

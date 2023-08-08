@@ -59,7 +59,10 @@ exports.userResolver = {
             try {
                 const result = yield (0, authenticate_js_1.authenticateMiddleware)(args.email, args.password);
                 if (Array.isArray(result)) {
+                    console.log(89);
+                    console.log(result);
                     if (result.length >= 1) {
+                        console.log(92);
                         const expire = { expiresIn: "15s" };
                         const accessToken = jsonwebtoken_1.default.sign({ result }, config_js_1.ACCESS_TOKEN_SECRET, expire);
                         const refToken = jsonwebtoken_1.default.sign({ result }, config_js_1.REFRESH_TOKEN_SECRET);
@@ -67,6 +70,7 @@ exports.userResolver = {
                         res.cookie("user_email", result[0].email, {
                             httpOnly: true,
                         });
+                        console.log(refToken);
                         res.cookie("user_id", id, {
                             httpOnly: true,
                         });

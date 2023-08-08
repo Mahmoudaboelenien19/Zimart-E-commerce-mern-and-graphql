@@ -1,4 +1,3 @@
-import React, { useContext, useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
 import Rating from "./Rating";
 import Price from "./Price";
@@ -20,6 +19,7 @@ import { useAppSelector } from "../../../../custom/reduxTypes";
 import useIsMobile from "../../../../custom/useIsMobile";
 
 import MobileCloseDropDown from "../../../widgets/MobileCloseDropDown";
+import React, { useContext } from "react";
 
 interface Props {
   startFiltering: boolean;

@@ -31,8 +31,8 @@ app.use(
   cookieSession({
     name: "session",
     keys: [SeSSion_Secret as unknown as string],
-    // maxAge: 24 * 60 * 60 * 100,
-    maxAge: 24 * 60,
+    maxAge: 24 * 60 * 60 * 100,
+    // maxAge: 24 * 60,
   })
 );
 
@@ -91,7 +91,7 @@ app.get("*", (_, res) => {
   });
 
   //change port
-  app.listen({ port: 4000 }, () => {
+  app.listen({ port: 3000 }, () => {
     console.log("server-runs");
   });
 })();

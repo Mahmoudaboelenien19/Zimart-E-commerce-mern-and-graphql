@@ -11,7 +11,6 @@ nav {
   justify-content: space-between;
   padding: 0 20px;
 
-  // filter: drop-shadow(var(--forth-shadow));
   .links-par {
     display: flex;
     justify-content: space-between;
@@ -154,7 +153,7 @@ nav {
     height: calc(100vh - 40px);
     right: 0;
     background-color: var(--secondary);
-    z-index: 100;
+    z-index: 5;
     .links {
       height: 100%;
       flex-direction: column;

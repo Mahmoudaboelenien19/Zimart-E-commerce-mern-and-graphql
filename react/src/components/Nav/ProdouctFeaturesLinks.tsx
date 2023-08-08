@@ -1,27 +1,30 @@
-import { motion, AnimatePresence, MotionValue } from "framer-motion";
-import React, { useContext, useState } from "react";
+import { motion, MotionValue } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { IoGitCompareSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import isAuth, { isAuthContext } from "../../context/isAuth";
-import { opacityVariant } from "../../variants/globals";
-import FadeElement from "../widgets/FadeElement";
-import NavImg from "../widgets/NavImg";
 import ShowCount from "../widgets/showCounter";
 import WishList from "./WishList";
 import Title from "../widgets/Title";
 import { useAppSelector } from "../../custom/reduxTypes";
+import useIsMobile from "../../custom/useIsMobile";
 interface Props {
   LinkClr?: MotionValue | string;
 }
 const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
-  const { isAuth } = useContext(isAuthContext);
-
   const [showFav, setShowFav] = useState(false);
   const { cart } = useAppSelector((state) => state.cart);
   const { compare } = useAppSelector((state) => state.compare);
   const { fav } = useAppSelector((state) => state.fav);
+  const { isMobile } = useIsMobile();
+  useEffect(() => {
+    if (isMobile && showFav) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [showFav, isMobile]);
   return (
     <ul>
       <NavLink to="/cart" className="cart-active-link ">

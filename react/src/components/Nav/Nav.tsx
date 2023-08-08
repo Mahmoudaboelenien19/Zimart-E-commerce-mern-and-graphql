@@ -46,6 +46,12 @@ const Nav = () => {
   }, [location, isAuth]);
 
   const { isMobile } = useIsMobile();
+
+  useEffect(() => {
+    if (!isMobile) {
+      document.body.style.overflowY = "auto";
+    }
+  }, [isMobile]);
   return (
     <>
       {showNav && (

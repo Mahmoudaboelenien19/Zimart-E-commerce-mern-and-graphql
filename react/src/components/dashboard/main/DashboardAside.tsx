@@ -22,6 +22,14 @@ const DashboardAside = () => {
       sessionStorage.setItem("show-aside", JSON.stringify(false));
     }
   }, [showAsideDash]);
+
+  useEffect(() => {
+    if (showAsideDash && isMobile) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [showAsideDash, isMobile]);
   return (
     <AnimatePresence mode="wait" initial={false}>
       {showAsideDash && (

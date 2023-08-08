@@ -21,6 +21,7 @@ import NoData from "../../widgets/NoData";
 import { RiNotification2Line } from "react-icons/ri";
 import ShowCount from "../../widgets/showCounter";
 import { opacityVariant } from "../../../variants/globals";
+import useIsMobile from "../../../custom/useIsMobile";
 
 const NotificationDropDown = () => {
   const { userId } = useContext(isAuthContext);
@@ -32,7 +33,7 @@ const NotificationDropDown = () => {
   });
   const { count } = useAppSelector((st) => st.notification);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const { isMobile } = useIsMobile();
   const [showAll, setShowAll] = useState(true);
   const { notificatins } = useAppSelector((st) => st.notification);
   const [clearFn] = useMutation(Clear_Notification, {
@@ -59,6 +60,13 @@ const NotificationDropDown = () => {
     }
   }, [notificatins, showAll]);
 
+  useEffect(() => {
+    if (showNotifications && isMobile) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [showNotifications, isMobile]);
   const handleClear = async () => {
     const { data } = await clearFn();
     if (data?.ClearNotification?.msg) {

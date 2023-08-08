@@ -6,9 +6,11 @@ import Sort from "../viewOptions/Sort";
 import { productListContext } from "../../../context/FilterData";
 import MainProductAnimation from "./MainProductAnimation";
 import { useAppSelector } from "../../../custom/reduxTypes";
+import useIsMobile from "../../../custom/useIsMobile";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
+  const { isMobile } = useIsMobile();
   const {
     RateChecked,
     priceFilter,
@@ -21,6 +23,13 @@ const Products = () => {
   useEffect(() => {
     setProducts(Allproducts);
   }, []);
+  useEffect(() => {
+    if (isMobile && showFilter) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [showFilter, isMobile]);
   useEffect(() => {
     if (
       RateChecked === "" &&

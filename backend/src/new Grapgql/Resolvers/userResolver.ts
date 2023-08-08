@@ -86,7 +86,11 @@ export const userResolver = {
           );
 
           if (Array.isArray(result)) {
+            console.log(89);
+            console.log(result);
             if (result.length >= 1) {
+              console.log(92);
+
               const expire = { expiresIn: "15s" };
               const accessToken = jwt.sign(
                 { result },
@@ -102,6 +106,7 @@ export const userResolver = {
               res.cookie("user_email", result[0].email as unknown as string, {
                 httpOnly: true,
               });
+              console.log(refToken);
               res.cookie("user_id", id as unknown as string, {
                 httpOnly: true,
               });
