@@ -1,7 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
-import Title from "../../widgets/Title";
 import { opacityVariant } from "../../../variants/globals";
 import FadeElement from "../../widgets/FadeElement";
 interface Props {
@@ -19,28 +18,25 @@ const Pages = ({ numOfPages, setPage, page }: Props) => {
   }, [numOfPages]);
   return (
     <>
-      {numOfPages > 0 && (
+      {numOfPages > 1 && (
         <FadeElement cls="" delay={0.6}>
           <div className="pages-par center">
-            <Title title="prev page">
-              <motion.button
-                className="page center"
-                variants={opacityVariant}
-                style={{
-                  background:
-                    page > 1 ? "var(--wheat)" : "var(--wheat-lighter)",
-                }}
-                disabled={page < 2 ? true : false}
-                initial="start"
-                animate="end"
-                exit="exit"
-                transition={{ duration: 0.4 }}
-                key={"prev-page"}
-                onClick={() => setPage(page - 1)}
-              >
-                <BiLeftArrowAlt />
-              </motion.button>
-            </Title>
+            <motion.button
+              className="page center"
+              variants={opacityVariant}
+              style={{
+                background: page > 1 ? "var(--wheat)" : "var(--wheat-lighter)",
+              }}
+              disabled={page < 2 ? true : false}
+              initial="start"
+              animate="end"
+              exit="exit"
+              transition={{ duration: 0.4 }}
+              key={"prev-page"}
+              onClick={() => setPage(page - 1)}
+            >
+              <BiLeftArrowAlt />
+            </motion.button>
 
             <div className="center-pages-par">
               {pageArr?.map((num, index) => {
@@ -53,7 +49,6 @@ const Pages = ({ numOfPages, setPage, page }: Props) => {
                       onClick={() => setPage(index + 1)}
                       key={index}
                     >
-                      {" "}
                       {num}
                     </div>
                   );
@@ -61,25 +56,23 @@ const Pages = ({ numOfPages, setPage, page }: Props) => {
               })}
             </div>
 
-            <Title title="next page">
-              <motion.button
-                className="page center"
-                variants={opacityVariant}
-                initial="start"
-                animate="end"
-                exit="exit"
-                transition={{ duration: 0.4 }}
-                key={"next-page"}
-                onClick={() => setPage(page + 1)}
-                style={{
-                  background:
-                    page < numOfPages ? "var(--wheat)" : "var(--wheat-lighter)",
-                }}
-                disabled={page > numOfPages - 1 ? true : false}
-              >
-                <BiRightArrowAlt />
-              </motion.button>
-            </Title>
+            <motion.button
+              className="page center"
+              variants={opacityVariant}
+              initial="start"
+              animate="end"
+              exit="exit"
+              transition={{ duration: 0.4 }}
+              key={"next-page"}
+              onClick={() => setPage(page + 1)}
+              style={{
+                background:
+                  page < numOfPages ? "var(--wheat)" : "var(--wheat-lighter)",
+              }}
+              disabled={page > numOfPages - 1 ? true : false}
+            >
+              <BiRightArrowAlt />
+            </motion.button>
           </div>
         </FadeElement>
       )}

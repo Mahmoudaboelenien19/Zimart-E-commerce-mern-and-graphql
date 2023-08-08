@@ -22,7 +22,7 @@ const WishList = ({ showFav, setter }: Props) => {
   const { fav } = useAppSelector((state) => state.fav);
   const [showClearFav, setShowClearFav] = useState(false);
 
-  const [IsStatus200, setIsStatus200] = useState(false);
+  const [Status, setStatus] = useState<number>(0);
   const [clearFav] = useMutation(Clear_Fav, {
     variables: {
       userId,
@@ -31,21 +31,13 @@ const WishList = ({ showFav, setter }: Props) => {
   const handleClearFav = async () => {
     const { data } = await clearFav();
     if (data?.ClearFav?.status === 200) {
-      setIsStatus200(true);
+      setStatus(200);
       dispatch(clearAllFav());
     } else {
-      setIsStatus200(false);
+      setStatus(404);
     }
   };
 
-  useEffect(() => {
-    if (!IsStatus200) return;
-    const timer = setTimeout(() => {
-      setIsStatus200(false);
-      setShowClearFav(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [IsStatus200]);
   return (
     <>
       <DropDown
@@ -72,7 +64,10 @@ const WishList = ({ showFav, setter }: Props) => {
                 color: "var(--delete)",
                 fontSize: ".7rem",
               }}
-              onClick={() => setShowClearFav(true)}
+              onClick={() => {
+                setShowClearFav(true);
+                setStatus(0);
+              }}
             >
               clear All
             </button>
@@ -94,24 +89,24 @@ const WishList = ({ showFav, setter }: Props) => {
               </FadeElement>
             )}
           </AnimatePresence>
-          <AnimatePresence>
-            {showClearFav && (
-              <SlideButton
-                key={"slide-button-clear"}
-                sethide={setShowClearFav}
-                cls="clear-all"
-                doneMsg="All CLeared"
-                head="are you sure you want to clear All?"
-                height={120}
-                fn={handleClearFav}
-                IsStatus200={IsStatus200}
-                isVaild
-              >
-                {" "}
-              </SlideButton>
-            )}
-          </AnimatePresence>
         </NoData>
+        <AnimatePresence>
+          {showClearFav && (
+            <SlideButton
+              key={"slide-button-clear"}
+              sethide={setShowClearFav}
+              cls="clear-all"
+              doneMsg="All CLeared"
+              head="are you sure you want to clear All?"
+              height={120}
+              fn={handleClearFav}
+              Status={Status}
+              isVaild
+            >
+              {" "}
+            </SlideButton>
+          )}
+        </AnimatePresence>
       </DropDown>
     </>
   );

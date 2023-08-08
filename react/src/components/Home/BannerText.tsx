@@ -45,7 +45,11 @@ const BannerText = ({ fn, header, clr, button, to, slogan }: Props) => {
           <button
             onClick={fn}
             className="banner-btn btn"
-            style={{ background: clr, cursor: "pointer" }}
+            style={{
+              background: clr,
+              cursor: "pointer",
+              border: `1.5px solid ${clr}`,
+            }}
           >
             {button}
           </button>

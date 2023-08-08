@@ -92,7 +92,7 @@ const NotificationDropDown = () => {
         <DropDown
           setter={setShowNotifications}
           bool={showNotifications}
-          cls="notifications"
+          cls="notification-par"
           head="notifications"
           title="close notifications"
         >
@@ -141,11 +141,13 @@ const NotificationDropDown = () => {
             length={showAll ? notificatins.length >= 1 : dataShown.length >= 1}
             cls="no-data-80"
           >
-            <AnimatePresence>
-              {dataShown.map((notificatin, i) => {
-                return <Notificatin key={notificatin._id} {...notificatin} />;
-              })}
-            </AnimatePresence>
+            <div className="notifications">
+              <AnimatePresence>
+                {dataShown.map((notificatin, i) => {
+                  return <Notificatin key={notificatin._id} {...notificatin} />;
+                })}
+              </AnimatePresence>
+            </div>
           </NoData>
         </DropDown>
       </span>

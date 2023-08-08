@@ -121,7 +121,8 @@ const Banner = () => {
                     alt={`banner proile`}
                     effect="blur"
                     width={"fit-content"}
-                    height={340}
+                    height={350}
+                    style={{ marginTop: -5, overflow: "visible" }}
                   />
                   {/* <img src={image} alt={`banner proile`} /> */}
                 </FadeElement>

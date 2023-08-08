@@ -1,3 +1,4 @@
+@import "../globels/mixins";
 .log-in {
   width: 100%;
   min-height: 100vh;
@@ -8,6 +9,7 @@
   .header {
     margin-bottom: 0;
     letter-spacing: 2px;
+    text-transform: uppercase;
   }
   .redirect {
     color: var(--white);
@@ -45,8 +47,8 @@
   }
   form {
     background: var(--secondary);
-    width: 50vw;
-    max-width: 300px;
+    width: 95vw;
+    max-width: 350px;
     min-width: 260px;
     height: fit-content;
     padding: 40px 0;
@@ -57,7 +59,10 @@
     // gap: 10px;
     gap: 25px;
     overflow: hidden;
-
+    h2 {
+      color: white;
+      @include kyiv(600, -400);
+    }
     input {
       height: 30px;
       padding-right: 20px;

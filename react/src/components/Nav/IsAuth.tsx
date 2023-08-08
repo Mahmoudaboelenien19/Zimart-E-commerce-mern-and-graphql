@@ -27,7 +27,7 @@ const IsAuth = ({ color }: Props) => {
       ) : (
         <FadeElement
           cls="nav-is-auth center"
-          delay={3}
+          delay={0.5}
           key={"user-isn't-autherized"}
         >
           <motion.button

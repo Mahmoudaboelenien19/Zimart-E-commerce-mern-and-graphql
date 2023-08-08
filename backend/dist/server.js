@@ -36,12 +36,14 @@ const permissions_js_1 = require("./new Grapgql/shield/permissions.js");
 const blogResolver_js_1 = require("./new Grapgql/Resolvers/blogResolver.js");
 const blogsType_js_1 = require("./new Grapgql/typeDefs/blogsType.js");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
+const path_1 = __importDefault(require("path"));
 mongoose_1.default.connect(config_js_1.MongoDB_URL);
 const app = (0, express_1.default)();
 app.use(cookieSession({
     name: "session",
     keys: [config_js_1.SeSSion_Secret],
-    maxAge: 24 * 60 * 60 * 100,
+    // maxAge: 24 * 60 * 60 * 100,
+    maxAge: 24 * 60,
 }));
 app.use(passport_1.default.initialize());
 app.use((0, cookie_parser_1.default)());
@@ -64,7 +66,7 @@ const server = new apollo_server_express_1.ApolloServer({
         return { req, res };
     },
 });
-// app.use(express.static(path.join(path.resolve(), "/react/dist")));
+app.use(express_1.default.static(path_1.default.join(path_1.default.resolve(), "/react/dist")));
 app.get("/cookie", (req, res) => {
     const { access_token, refresh_token, user_id } = req.cookies;
     res.json({ access_token, refresh_token, user_id });
@@ -73,9 +75,9 @@ app.use("/upload", uploudRoute_js_1.uploadRoute);
 app.use("/stripe", stripe_js_1.default);
 app.use("/", googleAuth_js_1.oAuthRouter);
 app.use("/token", tokensRoutes_js_1.AuthRouter);
-// app.get("*", (_, res) => {
-//   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
-// });
+app.get("*", (_, res) => {
+    res.sendFile(path_1.default.join(path_1.default.resolve(), "/react/dist/index.html"));
+});
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield server.start();
     server.applyMiddleware({

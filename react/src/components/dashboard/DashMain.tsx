@@ -18,7 +18,7 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         style={{
           width: showAsideDash && !isMobile ? "calc(100% - 210px )" : "95%",
           margin:
-            showAsideDash && !isMobile ? "20px 10px 10px 210px" : "20px auto",
+            showAsideDash && !isMobile ? "10px 20px 10px 210px" : "25px auto",
         }}
       >
         <>

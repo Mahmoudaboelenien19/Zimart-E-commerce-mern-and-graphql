@@ -49,7 +49,7 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
   const parent = {
     start: {},
     end: { transition: { staggerChildren: 0.4 } },
-    exit: { opacity: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, transition: { duration: 0 } },
   };
 
   const selectedFlag = {
@@ -57,11 +57,6 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
     end: { opacity: 1, rotate: [0, 20, -20, 0], transition: { duration: 0.4 } },
   };
 
-  const listVariant = {
-    start: { opacity: 0, x: -100 },
-    end: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -100 },
-  };
   const ref = useRef<HTMLDivElement | null>(null);
   const view = useInView(ref);
   return (
@@ -95,15 +90,13 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
             className={`select-dropdown gap drop-country ${
               bottom ? "bottom" : ""
             }`}
-            // style={{ bottom: bottom ? "100%" : "", top: bottom ? "" : "100%" }}
           >
             {countries.map((obj: countryInterface, i) => {
               const flag = obj.flags.png;
               const country = obj.name.common;
               return (
                 <motion.div
-                  variants={listVariant}
-                  custom={view}
+                  variants={opacityVariant}
                   ref={ref}
                   initial="start"
                   animate="end"

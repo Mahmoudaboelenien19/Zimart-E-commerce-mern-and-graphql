@@ -11,12 +11,6 @@ import { Update_Pass } from "../../graphql/mutations/user";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
-interface Props {
-  value: string;
-  detail: string;
-  fn: (variables: any) => void;
-  placeholder?: string;
-}
 
 const Password = () => {
   const { userId } = useContext(isAuthContext);
@@ -62,26 +56,19 @@ const Password = () => {
     console.log(data);
   };
 
-  const [IsStatus200, setIsStatus200] = useState(false);
+  const [Status, setStatus] = useState<number>(0);
 
   const [updatePass] = useMutation(Update_Pass, {
     variables: { _id: userId, newPassword: newPass, oldPassword: old },
   });
 
-  useEffect(() => {
-    if (!IsStatus200) return;
-    const timer = setTimeout(() => {
-      setIsStatus200(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [IsStatus200]);
-
   const passwordFn = async () => {
     const { data } = await updatePass();
     if (data?.updatePassword.status === 200) {
-      setIsStatus200(true);
+      setStatus(200);
     } else {
-      setIsStatus200(false);
+      setStatus(404);
+
       toast.error(data?.updatePassword.msg);
     }
   };
@@ -99,6 +86,7 @@ const Password = () => {
             cls="btn update-user center gap"
             fn={() => {
               setShowPass(true);
+              setStatus(0);
             }}
             Icon={GrUpdate}
           />
@@ -113,7 +101,7 @@ const Password = () => {
                 fn={passwordFn}
                 head={`update your password`}
                 isVaild={isValid}
-                IsStatus200={IsStatus200}
+                Status={Status}
               >
                 <Input
                   placeholder={"old"}

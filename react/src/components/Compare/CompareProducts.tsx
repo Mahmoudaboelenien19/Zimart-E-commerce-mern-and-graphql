@@ -14,7 +14,7 @@ const CompareProducts = () => {
   }
   return (
     <Animation addIntialX={false}>
-      <div className="select-compare">
+      <div className="compare-products">
         <SeletedProduct
           order="first"
           product={firstproduct}

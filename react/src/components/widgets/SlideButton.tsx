@@ -17,7 +17,7 @@ interface Props extends ChildrenInterFace {
   height: number;
   fn: () => void;
   isVaild?: boolean;
-  IsStatus200?: boolean;
+  Status?: number;
 }
 const SlideButton = ({
   height,
@@ -28,10 +28,9 @@ const SlideButton = ({
   children,
   isVaild,
   fn,
-  IsStatus200,
+  Status,
 }: Props) => {
   const offset = useMotionValue(0);
-
   const controls = useAnimation();
   const opacity = useTransform(offset, [0, 200], [1, 0]);
   const background = useTransform(offset, [0, 200], ["#378758", "#c5af87c9"]);
@@ -48,15 +47,13 @@ const SlideButton = ({
 
   useEffect(() => {
     let timer: number;
-    if (IsStatus200) {
+    if (Status === 200) {
       setIsConfirmed(true);
-    } else {
-      timer = setTimeout(() => {
-        controls.start({ x: 0, y: 0 });
-      }, 2000);
+    } else if (Status == 404) {
+      controls.start({ x: 0, y: 0 });
     }
     return () => clearTimeout(timer);
-  }, [IsStatus200, fn]);
+  }, [Status, fn]);
 
   return (
     <Overley
@@ -97,7 +94,7 @@ const SlideButton = ({
                   });
                 }
               }}
-              onPanEnd={(e, info) => {
+              onPanEnd={(_, info) => {
                 if (info.offset.x >= 200 && isVaild) {
                   fn();
                 } else {

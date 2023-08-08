@@ -40,9 +40,32 @@ const MobileOrder = ({
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="order-mobile box-shadow"
     >
-      <span className="order-delete-mobile center gap ">
+      <span className="order-delete-mobile center  ">
+        <div className="order-state-par center ">
+          <AnimatePresence mode="wait">
+            <FadeElement cls="" key={state}>
+              <span
+                style={{
+                  background: `var(--${state.split(" ").slice(-1)})`,
+                }}
+                className="order-state center gap"
+              >
+                {state}
+              </span>
+            </FadeElement>
+          </AnimatePresence>
+          <DashDropDown
+            arr={["pending", "shipped", "delivered", "canceled", "on hold"]}
+            _id={_id}
+            setter={setOrderState}
+            state={orderState}
+          />
+        </div>
         <Title title={`delete this order`}>
           <AiTwotoneDelete
+            style={{
+              marginRight: 2,
+            }}
             fontSize={15}
             className="icon"
             onClick={() => {
@@ -57,25 +80,6 @@ const MobileOrder = ({
       <div className="mobile-order-title center between">
         <span className="mobile-order-id ">
           <span> Order #{_id}</span>
-
-          <div className="order-state-par center gap">
-            <AnimatePresence mode="wait">
-              <FadeElement cls="" key={state}>
-                <span
-                  style={{ background: `var(--${state.split(" ").slice(-1)})` }}
-                  className="order-state center gap"
-                >
-                  {state}
-                </span>
-              </FadeElement>
-            </AnimatePresence>
-            <DashDropDown
-              arr={["pending", "shipped", "delivered", "canceled", "on hold"]}
-              _id={_id}
-              setter={setOrderState}
-              state={orderState}
-            />
-          </div>
         </span>
       </div>
       <span className="date" style={{ marginTop: 6 }}>

@@ -133,7 +133,7 @@
   width: 100vw;
   height: 100vh;
   background: var(--overley);
-  z-index: 8;
+  z-index: 10;
 }
 
 .between {
@@ -296,7 +296,7 @@
   padding: 4px 6px;
   background: var(--wheat-light);
   color: var(--white) !important;
-  z-index: 4;
+  z-index: 10;
   white-space: nowrap;
   border-radius: 4px;
   letter-spacing: 0.8px;

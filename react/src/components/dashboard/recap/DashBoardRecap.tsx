@@ -24,7 +24,8 @@ const DashBoardRecap = ({
       style={{ opacity: 0 }}
       transition={{ delay: 0.05, duration: 0.4 }}
       whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
-      className="recap"
+      className={`recap 
+      `}
     >
       <div className=" center between">
         <span

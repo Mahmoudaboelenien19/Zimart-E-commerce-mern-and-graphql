@@ -18,7 +18,7 @@ const UsersDashboard = () => {
   const { isMobile } = useIsMobile();
   const [page, setPage] = useState(1);
 
-  const [dataShown, numberOfPages] = usePagination(14, page, user || []);
+  const [dataShown, numberOfPages] = usePagination(12, page, user || []);
   return (
     <DashMain key={"order-dashmain"}>
       <>

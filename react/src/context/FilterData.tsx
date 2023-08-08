@@ -66,14 +66,16 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
   const { data: orderData } = useQuery(GET_ALL_ORDERS);
   useEffect(() => {
     if (orderData?.orders) {
-      dispatch(addToOrderRedux(orderData?.orders));
+      const ar = orderData?.orders.slice(0).reverse();
+      dispatch(addToOrderRedux(ar));
     }
   }, [orderData?.orders]);
 
   const { data: userData, loading: usersLoading } = useQuery(GET_ALL_USERS);
   useEffect(() => {
     if (userData?.users && !usersLoading) {
-      dispatch(addToUserRedux(userData?.users));
+      const ar = userData?.users.slice(0).reverse();
+      dispatch(addToUserRedux(ar));
     }
   }, [usersLoading]);
 

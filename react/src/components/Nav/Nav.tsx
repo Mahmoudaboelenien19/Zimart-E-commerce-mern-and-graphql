@@ -8,11 +8,9 @@ import { isAuthContext } from "../../context/isAuth";
 import ThemeToggle from "../widgets/ThemeToggle";
 import { themeContext } from "../../context/ThemContext";
 import NavLinks from "./NavLinks";
-import ProdouctFeaturesLinks from "./ProdouctFeaturesLinks";
 import useIsMobile from "../../custom/useIsMobile";
 import LinksAside from "./LinksAside";
 import IsAuth from "./IsAuth";
-import FadeElement from "../widgets/FadeElement";
 
 const Nav = () => {
   const { isAuth } = useContext(isAuthContext);
@@ -54,7 +52,7 @@ const Nav = () => {
         <motion.nav
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          transition={{ delay: 1.4 }}
+          transition={{ delay: 0.7 }}
           ref={navRef}
           style={{ background: navClr, boxShadow }}
         >

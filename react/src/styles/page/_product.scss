@@ -182,7 +182,6 @@ p {
 
 .heart-rate-cont {
   display: flex;
-  // justify-content: space-between;
   width: 60%;
   max-width: 200px;
   position: relative;
@@ -204,7 +203,7 @@ p {
   border-radius: 5px;
   font-weight: bold;
   font-style: 12px;
-  z-index: 4;
+  z-index: 1;
   transform: translateX(-50%);
   background: var(--wheat-lighter);
 }

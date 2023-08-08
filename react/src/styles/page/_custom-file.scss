@@ -20,6 +20,7 @@
   .btn-file {
     @extend .custon-file-pos;
     right: 10px;
+    border-radius: 10px 25px;
   }
   .span-file {
     @extend .custon-file-pos;

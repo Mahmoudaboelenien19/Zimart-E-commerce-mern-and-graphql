@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { opacityVariant, selectDropDownVariants } from "../../variants/globals";
+import { opacityVariant } from "../../variants/globals";
 import { useAppSelector } from "../../custom/reduxTypes";
 interface Props {
   product: string;
@@ -18,13 +18,13 @@ const ProductSelect = ({ product, setProduct }: Props) => {
   const parent = {
     start: {},
     end: { transition: { staggerChildren: 0.4 } },
-    exit: { opacity: 0, transition: { duration: 0.4 } },
+    exit: { opacity: 0, transition: { duration: 0 } },
   };
 
   const listVariant = {
     start: { opacity: 0, x: -100 },
     end: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -100 },
+    exit: { opacity: 0 },
   };
   const ref = useRef<HTMLDivElement | null>(null);
   const view = useInView(ref);
@@ -52,14 +52,14 @@ const ProductSelect = ({ product, setProduct }: Props) => {
       <BiDownArrow className="icon select-icon arrow" />
       <AnimatePresence>
         {showDropSelect && (
-          <motion.div
+          <div
             className={`select-dropdown gap drop-country`}
             style={{ height: "fit-content", maxHeight: 150 }}
           >
             <>
               {compare.length ? (
                 <div key={"compared-data"}>
-                  {compare.map(({ title, productId }, i) => {
+                  {compare.map(({ title }, i) => {
                     return (
                       <motion.div
                         variants={listVariant}
@@ -70,7 +70,7 @@ const ProductSelect = ({ product, setProduct }: Props) => {
                         exit="exit"
                         key={i}
                         className="select-country center gap"
-                        whileHover={{ x: 4 }}
+                        whileHover={{ backgroundColor: "#000000" }}
                         onClick={() => {
                           setProduct(title);
                         }}
@@ -95,7 +95,7 @@ const ProductSelect = ({ product, setProduct }: Props) => {
                 </AnimatePresence>
               )}
             </>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

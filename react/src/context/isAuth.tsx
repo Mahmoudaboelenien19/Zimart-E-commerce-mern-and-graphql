@@ -94,26 +94,19 @@ const IsAuthContextComponent = ({ children }: ChildrenInterFace) => {
     isAuthFn();
   }, [isAuth]);
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     getData({
-  //       variables: {
-  //         id: userId,
-  //       },
-  //     });
-  //   }
-  // }, [userId]);
-
   const check =
     !cart.length && !notificatins.length && !compare.length && !fav.length;
   // this check variable because when i log in then log out then log in data added again
   useEffect(() => {
     if (data?.getUserData && check) {
+      const notificationsArr = data?.getUserData?.notifications
+        .slice(0)
+        .reverse();
       setUserData(data?.getUserData);
       dispatch(addToFavRedux(data?.getUserData?.fav));
       dispatch(addToCartRedux(data?.getUserData?.cart));
       dispatch(addToCompareRedux(data?.getUserData?.compare));
-      dispatch(addToNotificatinsRedux(data?.getUserData?.notifications));
+      dispatch(addToNotificatinsRedux(notificationsArr));
       dispatch(changeNotificationCount(data?.getUserData?.notificationsCount));
       setProfile(data?.getUserData?.image);
     }

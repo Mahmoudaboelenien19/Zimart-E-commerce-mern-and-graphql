@@ -4,7 +4,7 @@
   width: 90%;
   overflow-y: auto;
   margin: 0 auto;
-  min-height: 80vh;
+  min-height: calc(60vh - 60px);
 }
 table.order {
   position: relative;
@@ -14,9 +14,9 @@ table.order {
   border-spacing: 0.4px;
   color: var(--third);
   margin: 0 auto;
-  margin-bottom: 40px;
   overflow: hidden;
   overflow-y: initial;
+  margin-bottom: 45px;
   > * {
     font-weight: bold;
   }
@@ -55,7 +55,8 @@ table.order {
   display: flex;
   flex-direction: column;
   gap: 40px !important;
-  margin: 10px;
+  margin-bottom: 5px;
+  width: 100%;
   .order-date {
     margin: 0;
   }
@@ -81,7 +82,7 @@ table.order {
       display: flex;
       align-items: center;
       width: 80%;
-      min-width: 260px;
+      min-width: 280px;
 
       .mobile-order-id {
         font-weight: normal;
@@ -89,8 +90,8 @@ table.order {
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
-        gap: 5px;
-        width: 80%;
+        gap: 25px;
+        font-size: 0.9rem;
         max-width: 340px;
       }
     }
@@ -99,12 +100,13 @@ table.order {
 
 .order-state {
   padding: 4px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: bold;
   letter-spacing: 0.8px;
   color: var(--white);
   border-radius: 4px;
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
 .order-date {
@@ -133,7 +135,7 @@ table.order {
   right: -3px;
   width: 90px;
   background: var(--main);
-  z-index: 100;
+  z-index: 5;
   padding: 4px;
   font-size: 0.8rem;
   &.notification-actions {
@@ -170,7 +172,6 @@ table.order {
   display: flex;
   justify-content: flex-end !important;
   align-items: center;
-  margin-left: -8px;
 }
 
 .mobile-order-details {

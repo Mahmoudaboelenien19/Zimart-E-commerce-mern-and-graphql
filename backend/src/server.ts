@@ -31,7 +31,8 @@ app.use(
   cookieSession({
     name: "session",
     keys: [SeSSion_Secret as unknown as string],
-    maxAge: 24 * 60 * 60 * 100,
+    // maxAge: 24 * 60 * 60 * 100,
+    maxAge: 24 * 60,
   })
 );
 
@@ -63,7 +64,7 @@ const server = new ApolloServer({
   },
 });
 
-// app.use(express.static(path.join(path.resolve(), "/react/dist")));
+app.use(express.static(path.join(path.resolve(), "/react/dist")));
 app.get("/cookie", (req: Request, res) => {
   const { access_token, refresh_token, user_id } = req.cookies;
 
@@ -75,9 +76,9 @@ app.use("/stripe", stripeRoutes);
 app.use("/", oAuthRouter);
 app.use("/token", AuthRouter);
 
-// app.get("*", (_, res) => {
-//   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
-// });
+app.get("*", (_, res) => {
+  res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
+});
 (async () => {
   await server.start();
   server.applyMiddleware({

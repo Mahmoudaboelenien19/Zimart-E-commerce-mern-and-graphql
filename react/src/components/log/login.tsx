@@ -72,10 +72,7 @@ const Login = () => {
       <div className="log-in center">
         <FormProvider {...methods}>
           <FormAnimation fn={handleSubmit(onSubmit)} cls="center">
-            <h2 className="underline header " style={{ color: "var(--white)" }}>
-              {" "}
-              Log in
-            </h2>
+            <h2 className="underline header ">Log in</h2>
             <Input
               placeholder={"email"}
               err={errors.email?.message?.toString()}

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import SlideButton from "../widgets/SlideButton";
 import AddRate from "./AddRate";
 import useAddReview from "../../custom/useAddReview";
@@ -58,20 +58,12 @@ const AddReview = ({
       input: updateReviewObj,
     },
   });
-  const [IsStatus200, setIsStatus200] = useState(false);
-  useEffect(() => {
-    if (!IsStatus200) return;
-    const timer = setTimeout(() => {
-      setIsStatus200(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [IsStatus200]);
+  const [Status, setStatus] = useState<number>(0);
 
   const handleAddReview = async () => {
     const { data } = await addReviewFn();
-    console.log({ addReview: data });
     if (data?.addReview?._id) {
-      setIsStatus200(true);
+      setStatus(200);
       dispatch(
         addReviewRedux({
           reviewObj: { ...obj, _id: data?.addReview?._id },
@@ -83,10 +75,12 @@ const AddReview = ({
 
   const updateReview = async () => {
     await updateReviewFn();
-    setIsStatus200(true);
+    setStatus(200);
     dispatch(updateReviewRedux(updateReviewObj));
   };
-
+  useEffect(() => {
+    setStatus(0);
+  }, []);
   return (
     <SlideButton
       doneMsg={hasReview ? "rate updated" : "rate added"}
@@ -94,7 +88,7 @@ const AddReview = ({
       sethide={setShowAddRate}
       cls="add-rate-pop"
       height={200}
-      IsStatus200={IsStatus200}
+      Status={Status}
       isVaild
       fn={hasReview ? updateReview : handleAddReview}
     >

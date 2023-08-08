@@ -13,7 +13,7 @@
 .select-opt {
   width: 100%;
   padding: 1px;
-  padding-left: 4px;
+  padding-left: 6px;
   border-radius: 2px;
   &:hover {
     background-color: black;
@@ -54,9 +54,8 @@
   box-shadow: var(--third-shadow);
   border-radius: 2px;
   color: var(--white);
-  padding: 4px;
   align-items: flex-start;
-  padding-left: 10px;
+  padding: 3px 0;
   cursor: pointer;
   font-size: 10px;
 }
@@ -67,10 +66,11 @@
   margin: 0 auto;
   background: var(--wheat-light);
   flex-direction: column;
-  padding: 10px;
+  padding: 3px 10px;
   text-transform: capitalize;
   font-weight: bold;
   border-radius: 5px;
+  font-size: 0.8rem;
 
   color: var(--third);
   .drop-country {
@@ -83,7 +83,7 @@
     display: flex;
     justify-content: flex-start;
     height: 20px;
-
+    width: 100%;
     img {
       width: 10px;
       height: 10px;
@@ -156,13 +156,22 @@
 }
 .select-text {
   display: inline-block;
-  width: 80%;
+  width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  padding-left: 15px;
 }
-
+.compare-products {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+}
 @media (max-width: 500px) {
+  .compare-products {
+    flex-direction: column;
+  }
   .select-compare {
     width: 100%;
     gap: 5px;

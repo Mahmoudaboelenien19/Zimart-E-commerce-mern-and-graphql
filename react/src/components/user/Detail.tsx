@@ -34,7 +34,7 @@ const Detail = ({
 }: Props) => {
   const { userId } = useContext(isAuthContext);
   const [UpdatedCountry, setUpdatedCountry] = useState("");
-  const [IsStatus200, setIsStatus200] = useState(false);
+  const [Status, setStatus] = useState<number>(0);
 
   useEffect(() => {
     if (userdata?.country && UpdatedCountry === "") {
@@ -89,14 +89,6 @@ const Detail = ({
   } = methods;
   const { [detail]: detailvalue } = getValues();
 
-  useEffect(() => {
-    if (!IsStatus200) return;
-    const timer = setTimeout(() => {
-      setIsStatus200(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [IsStatus200]);
-
   const update = async () => {
     const { data: res } = await fn({
       variables: {
@@ -107,37 +99,37 @@ const Detail = ({
 
     if (detail === "email") {
       if (res?.updateEmail?.status === 200) {
-        setIsStatus200(true);
+        setStatus(200);
       } else {
         toast.error(res?.updateEmail.msg);
-        setIsStatus200(false);
+        setStatus(404);
       }
     }
 
     if (detail === "phone") {
       if (res?.updateUserPhone?.status === 200) {
-        setIsStatus200(true);
+        setStatus(200);
       } else {
         toast.error(res?.updateUserPhone.msg);
-        setIsStatus200(false);
+        setStatus(404);
       }
     }
 
     if (detail === "name") {
       if (res?.updateUserName?.status === 200) {
-        setIsStatus200(true);
+        setStatus(200);
       } else {
         toast.error(res?.updateUserName.msg);
-        setIsStatus200(false);
+        setStatus(404);
       }
     }
 
     if (detail === "country") {
       if (res?.updateUserCountry?.status === 200) {
-        setIsStatus200(true);
+        setStatus(200);
       } else {
         toast.error(res?.updateUserCountry.msg);
-        setIsStatus200(false);
+        setStatus(404);
       }
     }
 
@@ -156,7 +148,14 @@ const Detail = ({
       <form action="" onSubmit={handleSubmit(OnSubmit)}>
         <div className="user-detail-par center">
           <span className="user-detail detail">{detail} :</span>
-          <span className="user-value value">{value}</span>
+          <span
+            className="user-value value"
+            style={{
+              textTransform: detail === "country" ? "capitalize" : "none",
+            }}
+          >
+            {value}
+          </span>
 
           <OpacityBtn
             key={detail}
@@ -164,6 +163,7 @@ const Detail = ({
             cls="btn update-user center gap"
             fn={() => {
               setter(true);
+              setStatus(0);
             }}
             Icon={GrUpdate}
           />
@@ -177,7 +177,7 @@ const Detail = ({
                 doneMsg={`your ${detail} is updated`}
                 fn={update}
                 isVaild={detail !== "detail" ? isValid : true}
-                IsStatus200={IsStatus200}
+                Status={Status}
                 head={`update your ${detail}`}
               >
                 {detail !== "country" && (

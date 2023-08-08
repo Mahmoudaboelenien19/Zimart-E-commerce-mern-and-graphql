@@ -155,7 +155,10 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
           fn={handleSubmit(onSubmit)}
           cls="update-product-form center  col box-shadow"
         >
-          <h2 className="underline header " style={{ color: "var(--white)" }}>
+          <h2
+            className="underline header "
+            style={{ color: "var(--white)", margin: "10px auto" }}
+          >
             {head}
           </h2>
           {inpArr.map(({ placeholder, type: inptype }, i) => {

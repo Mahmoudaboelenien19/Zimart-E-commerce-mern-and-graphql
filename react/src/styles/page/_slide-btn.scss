@@ -19,6 +19,8 @@
   justify-content: flex-start;
   margin-bottom: 10px;
   position: relative;
+  position: relative;
+  z-index: 100;
 }
 .slide {
   width: 40px;
@@ -27,8 +29,6 @@
   // margin-left: 2px;
   font-size: 20px;
   background: #000;
-  position: relative;
-  z-index: 100;
 }
 .slide-text {
   color: var(--white);

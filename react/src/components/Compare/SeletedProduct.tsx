@@ -16,7 +16,7 @@ const SeletedProduct = ({ product, setProduct, order }: Props) => {
   const { compare } = useAppSelector((state) => state.compare);
   const obj = compare.find((ob) => ob.title === product);
   const { data } = useQuery(GET_Product_By_Id, {
-    variables: { id: obj?.productId ? obj!.productId : null },
+    variables: { id: obj?.productId || null },
   });
 
   return (
