@@ -3,13 +3,16 @@ const useChartData = (
   head: string,
   type?: string
 ) => {
-  const dataByMonth = arr?.reduce((acc: any, product) => {
-    const month = new Date(product?.createdAt).toLocaleString("default", {
-      month: "long",
-    });
-    acc[month] = (acc[month] || 0) + (type === "earn" ? product.cost : 1);
-    return acc;
-  }, {});
+  const dataByMonth = arr
+    .slice(0)
+    .reverse()
+    ?.reduce((acc: any, product) => {
+      const month = new Date(product?.createdAt).toLocaleString("default", {
+        month: "long",
+      });
+      acc[month] = (acc[month] || 0) + (type === "earn" ? product.cost : 1);
+      return acc;
+    }, {});
 
   const barChartData = {
     labels: Object.keys(dataByMonth || []),
@@ -21,8 +24,8 @@ const useChartData = (
           "#FF8A80",
           "#80DEEA",
           "#1877f2",
-          "#ff0100",
-          "#0ff000",
+          "#ff0119",
+          "#0ff059",
           "black",
           "darkblue",
           "#FF8A00",

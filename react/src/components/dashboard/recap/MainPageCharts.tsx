@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useAppSelector } from "../../../custom/reduxTypes";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import useChartData from "./useChartData";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ChildrenInterFace } from "../../../interfaces/general";
 import LatestOrders from "./LatestOrders";
 interface Props extends ChildrenInterFace {
   head: string;
 }
 const InViewPar = ({ head, children }: Props) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
   return (
     <motion.div
       className={`center chart-par col  between`}
+      ref={ref}
       style={{ opacity: 0 }}
       transition={{ delay: 0.05 }}
       whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
     >
       <h3 className="header">{head}</h3>
-
-      {children}
+      {inView && children}
     </motion.div>
   );
 };
@@ -49,6 +51,14 @@ const MainPageCharts = ({ width }: { width: number }) => {
         grid: {
           color: "grey",
         },
+      },
+    },
+    animations: {
+      tension: {
+        duration: 1000,
+        delay: 400,
+        from: 1,
+        to: 0,
       },
     },
   };
