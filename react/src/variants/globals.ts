@@ -87,12 +87,13 @@ export const selectDropDownVariants = {
       when: "beforeChildren",
       staggerChildren: 0.1,
       duration: 0.01,
+      delay: 0.3,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      when: "afterChildren",
+      // when: "afterChildren",
       duration: 0.05,
     },
   },

@@ -29,8 +29,8 @@ const useChartData = (
           "#1a474d",
           "#1877f2",
 
-          "#ff0119",
-          "#0ff059",
+          "var(--delete)",
+          "#0ff099",
           "black",
           "darkblue",
           "#FF8A00",

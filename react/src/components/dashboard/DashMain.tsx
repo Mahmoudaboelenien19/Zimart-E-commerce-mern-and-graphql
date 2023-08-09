@@ -47,7 +47,7 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         className="dash-product"
         style={{
           width: showAsideDash && !isMobile ? "calc(100% - 210px )" : "95%",
-          margin: showAsideDash && !isMobile ? "0px auto 0px 210px" : "0 auto",
+          margin: showAsideDash && !isMobile ? "0px 10px 0px 210px" : "0 auto",
         }}
       >
         <>

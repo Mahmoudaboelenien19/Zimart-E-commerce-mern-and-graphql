@@ -46,6 +46,7 @@ const Notificatin = ({
               bool={isRead}
               top={pos.top}
               right={pos.right}
+              setter={setShowActions}
             />
           )}
         </AnimatePresence>

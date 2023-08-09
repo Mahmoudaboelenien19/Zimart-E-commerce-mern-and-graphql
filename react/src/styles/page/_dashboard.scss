@@ -339,7 +339,7 @@ div.dash-nav {
         text-transform: capitalize;
         letter-spacing: 0.5px;
         color: var(--third);
-        text-shadow: var(--secondary-shadow);
+        text-shadow: var(--third-shadow);
       }
     }
   }
@@ -361,6 +361,7 @@ div.dash-nav {
       font-size: 0.7rem;
       line-height: 0.8rem;
       letter-spacing: 0.8px;
+      font-weight: 700;
     }
     .time {
       font-size: 0.6rem;
@@ -371,7 +372,7 @@ div.dash-nav {
       position: absolute;
       top: 4px;
       right: 2px;
-      color: var(--wheat-light);
+      color: var(--wheat);
     }
     .is-read {
       display: inline-block;

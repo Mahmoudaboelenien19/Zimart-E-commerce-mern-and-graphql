@@ -16,14 +16,22 @@ import {
   removeFromNotificatinsRedux,
   toggleReadNotificatinsRedux,
 } from "../../../redux/notificationsSlice";
+import useClickOutside from "../../../custom/useClickOutside";
 
 interface Props {
   bool: boolean;
   _id: string;
   top: number;
   right: number;
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NotificationActionsDropDown = ({ bool, _id, top, right }: Props) => {
+const NotificationActionsDropDown = ({
+  bool,
+  _id,
+  top,
+  right,
+  setter,
+}: Props) => {
   const dispatch = useAppDispatch();
   const { userId } = useContext(isAuthContext);
   const [deleteNotificationDB] = useMutation(Delete_Notification, {
@@ -61,20 +69,19 @@ const NotificationActionsDropDown = ({ bool, _id, top, right }: Props) => {
     { btn: !bool ? "mark as read" : "mark as unread", fn: handleToggleRead },
     { btn: "remove this notification", fn: handleDelete },
   ];
-
+  const ref = useClickOutside<HTMLDivElement>(() => setter(false), bool);
   return (
     <motion.div
       className="order-drop box-shadow notification-actions"
       variants={selectDropDownVariants}
       initial="start"
       animate="end"
-      exit="exit"
       style={{
         position: "fixed",
         top: top + 20,
         left: right - 160,
       }}
-      transition={{ duration: 0 }}
+      ref={ref}
     >
       {actionsArr.map(({ btn, fn }, i) => {
         return (
