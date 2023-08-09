@@ -19,7 +19,7 @@ const Pages = ({ numOfPages, setPage, page }: Props) => {
   return (
     <>
       {numOfPages > 1 && (
-        <FadeElement cls="" delay={0.6}>
+        <FadeElement cls="" delay={1.5}>
           <div className="pages-par center">
             <motion.button
               className="page center"

@@ -9,6 +9,7 @@
 .log-in .header {
   margin-bottom: 0;
   letter-spacing: 2px;
+  text-transform: uppercase;
 }
 .log-in .redirect {
   color: var(--white);
@@ -46,8 +47,8 @@
 }
 .log-in form {
   background: var(--secondary);
-  width: 50vw;
-  max-width: 300px;
+  width: 95vw;
+  max-width: 350px;
   min-width: 260px;
   height: -moz-fit-content;
   height: fit-content;
@@ -57,6 +58,11 @@
   box-shadow: 0.5px 0.5px 2px black;
   gap: 25px;
   overflow: hidden;
+}
+.log-in form h2 {
+  color: white;
+  font-family: Kyiv Sans;
+  font-variation-settings: "CONT" 600, "MIDL" -400;
 }
 .log-in form input {
   height: 30px;

@@ -15,7 +15,7 @@ const OrderDetails = () => {
   const { data, loading } = useQuery(GET_ORDER, { variables: { id } });
   useEffect(() => {
     setTimeout(() => {
-      document.title = `orders | ${data?.order._id || ""}`;
+      document.title = `Orders | ${data?.order._id || ""}`;
     }, 400);
   }, [loading]);
 

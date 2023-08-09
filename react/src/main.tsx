@@ -41,12 +41,14 @@ const httpLink = new HttpLink({ uri: graphQLRoute });
 
 const middleware: unknown = setContext(async (_, { headers }) => {
   const token = await getnewAccess();
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : null,
-    },
-  };
+  if (token) {
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : null,
+      },
+    };
+  }
 });
 
 const client = new ApolloClient({

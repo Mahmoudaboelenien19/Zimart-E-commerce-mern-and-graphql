@@ -70,36 +70,40 @@ const Sort = () => {
 
               {!isMobile && (
                 <span className="center gap view-type">
-                  <BsListTask
-                    onClick={() => {
-                      if (gridView) {
-                        startTransition(() => setGridView(false));
-                      }
-                    }}
-                    style={{
-                      color: gridView ? "var(--third)" : "var(--green)",
-                      transition: "0s",
-                    }}
-                    className={`view-icon  ${gridView ? " icon-shadow" : ""} `}
-                  />
-
-                  <HiOutlineViewGrid
-                    onClick={() => {
-                      if (!gridView) {
-                        startTransition(() => setGridView(true));
-                      }
-                    }}
-                    style={{
-                      color: gridView ? "var(--green)" : "var(--third)",
-                      transition: "0s",
-                    }}
-                    className={`view-icon  ${!gridView ? " icon-shadow" : ""} `}
-                  />
+                  <Title title="list view" cls="" cancelTap={false}>
+                    <BsListTask
+                      onClick={() => {
+                        if (gridView) {
+                          startTransition(() => setGridView(false));
+                        }
+                      }}
+                      style={{
+                        color: gridView ? "var(--third)" : "var(--green)",
+                      }}
+                      className={`view-icon  ${
+                        gridView ? " icon-shadow" : ""
+                      } `}
+                    />
+                  </Title>
+                  <Title title="grid view" cls="" cancelTap={false}>
+                    <HiOutlineViewGrid
+                      onClick={() => {
+                        if (!gridView) {
+                          startTransition(() => setGridView(true));
+                        }
+                      }}
+                      style={{
+                        color: gridView ? "var(--green)" : "var(--third)",
+                      }}
+                      className={`view-icon  ${
+                        !gridView ? " icon-shadow" : ""
+                      } `}
+                    />
+                  </Title>
                 </span>
               )}
             </div>
             <SelectFilter />
-            {/* </div> */}
           </FadeElement>
         )}
       </AnimatePresence>

@@ -15,15 +15,16 @@
   background: var(--secondary);
   display: flex;
   flex-direction: column;
-  border-top-right-radius: 20px;
+  // border-top-right-radius: 20px;
   overflow: hidden;
   padding: 0;
   color: white;
   box-shadow: var(--third-shadow);
+  z-index: 6;
 
   a {
     text-decoration: none;
-    color: white;
+    color: var(--third);
     letter-spacing: 1px;
     text-transform: capitalize;
     padding: 10px;
@@ -47,8 +48,6 @@
 
 .dash-product {
   min-height: 85vh;
-  height: max-content;
-  margin: 0 auto;
   margin-bottom: 25px !important;
   position: relative;
 }
@@ -76,7 +75,7 @@
 form.update-product-form {
   width: 80%;
   max-width: 600px;
-  background: var(--secondary);
+  background: #222222;
   margin: 0 auto;
   padding: 30px;
   gap: 30px;
@@ -122,11 +121,8 @@ textarea.update-product {
   display: flex;
   gap: 6px;
   margin-left: 10px;
-
   align-items: center;
-  position: absolute;
-  top: 20px;
-  left: 20px;
+
   .crumbs-line {
     margin: 10px;
 
@@ -185,7 +181,7 @@ a.crumb-link {
     .analytics {
       font-weight: bold;
       font-size: 22px;
-      color: white;
+      color: var(--third);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -209,7 +205,7 @@ a.crumb-link {
       }
       svg {
         font-size: 1.3rem;
-        color: white;
+        color: var(--third);
       }
     }
   }
@@ -241,7 +237,6 @@ a.crumb-link {
     &:nth-child(1) {
       flex-grow: 2;
       flex-basis: 500px;
-      // grid-column: span 2;
     }
 
     & > div {
@@ -262,10 +257,11 @@ a.crumb-link {
         width: 100%;
         color: var(--white);
         padding: 5px;
-        background-color: rgba(0, 128, 0, 0.113);
+        background-color: #1a474d;
         margin: 0 auto;
         height: 50px;
         font-size: 0.9rem;
+        border-radius: 5px;
         .order-recap-data {
           width: 90% !important;
           display: flex;
@@ -276,7 +272,7 @@ a.crumb-link {
       }
     }
     h3 {
-      color: white;
+      color: var(--third);
       font-size: 1.4rem;
       letter-spacing: 1px;
       margin-bottom: 25px;
@@ -303,11 +299,18 @@ a.crumb-link {
 }
 
 div.dash-nav {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  gap: 12px;
+  position: fixed;
+  top: 0px;
+  padding: 0 10px;
+  height: 40px;
+
+  right: 0;
   z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--forth);
+  transition: 0.3s;
 }
 
 .notification-par {
@@ -323,10 +326,10 @@ div.dash-nav {
 
   .notifications {
     display: flex;
-
     flex-direction: column;
     gap: 5px;
     overflow: auto;
+    min-height: 230px;
   }
   .notification-btns {
     > * {
@@ -349,7 +352,7 @@ div.dash-nav {
     justify-content: space-between;
     padding: 4px;
     height: 40px;
-    color: var(--white);
+    color: var(--third);
     width: 95%;
     margin: 0 auto;
     .content {

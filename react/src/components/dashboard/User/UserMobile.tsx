@@ -33,14 +33,10 @@ const UserMobile = ({
       style={{ padding: 20 }}
     >
       <div className="center between w-100">
-        {/* <span style={{ fontWeight: "bold" }} className="mobile-order-id">
-          user
-          <span style={{ fontWeight: "normal" }}> #{_id}</span>
-        </span> */}
         <span
           style={{
             fontWeight: "bold",
-            color: "var(--white)",
+            color: "var(--third)",
             marginBottom: -4,
           }}
         >

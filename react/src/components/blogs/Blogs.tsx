@@ -9,7 +9,7 @@ import Animation from "../widgets/Animation";
 
 const Blogs = () => {
   useEffect(() => {
-    document.title = "Zimart | blogs";
+    document.title = "Zimart | Blogs";
   }, []);
   const { blogs } = useAppSelector((st) => st.blogs);
   const { data } = useQuery(getAllBlogs);

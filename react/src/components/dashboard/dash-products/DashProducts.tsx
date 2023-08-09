@@ -10,7 +10,7 @@ const DashProducts = () => {
   useEffect(() => {
     setGridView(true);
     setTimeout(() => {
-      document.title = " Dashboard | all Products";
+      document.title = " Dashboard | All Products";
     }, 400);
   }, []);
   return (

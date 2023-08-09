@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import DropDown from "../../widgets/DropDown";
 import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
-import Notificatin from "./Notificatin";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import {
   Clear_Notification,
@@ -17,11 +16,12 @@ import {
   clearNotificationRedux,
   notificationInterface,
 } from "../../../redux/notificationsSlice";
-import NoData from "../../widgets/NoData";
 import { RiNotification2Line } from "react-icons/ri";
 import ShowCount from "../../widgets/showCounter";
 import { opacityVariant } from "../../../variants/globals";
 import useIsMobile from "../../../custom/useIsMobile";
+
+import Notifications from "./Notifications";
 
 const NotificationDropDown = () => {
   const { userId } = useContext(isAuthContext);
@@ -87,7 +87,7 @@ const NotificationDropDown = () => {
       <span className="relative">
         <RiNotification2Line
           className="shdaow above"
-          color="var(--third)"
+          color="inherit"
           fontSize={20}
           onClick={async () => {
             await resetNotification();
@@ -144,19 +144,7 @@ const NotificationDropDown = () => {
               </div>
             </motion.div>
           )}
-          <NoData
-            message={`no ${!showAll ? "unread " : ""}notifications`}
-            length={showAll ? notificatins.length >= 1 : dataShown.length >= 1}
-            cls="no-data-80"
-          >
-            <div className="notifications">
-              <AnimatePresence>
-                {dataShown.map((notificatin, i) => {
-                  return <Notificatin key={notificatin._id} {...notificatin} />;
-                })}
-              </AnimatePresence>
-            </div>
-          </NoData>
+          <Notifications showAll={showAll} dataShown={dataShown} />
         </DropDown>
       </span>
     </>

@@ -6,10 +6,10 @@ interface Props extends ChildrenInterFace {
   title: string;
   dir?: string;
   cls?: string;
-
   abs?: boolean;
+  cancelTap?: boolean;
 }
-const Title = ({ title, cls, dir, children, abs }: Props) => {
+const Title = ({ title, cls, dir, children, abs, cancelTap = true }: Props) => {
   const variant = {
     start: { opacity: 0, y: 10 },
     end: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -27,7 +27,11 @@ const Title = ({ title, cls, dir, children, abs }: Props) => {
       className={`title-par ${abs ? "" : "relative"} ${cls}`}
       onHoverStart={show}
       onHoverEnd={hide}
-      onTapStart={hide}
+      onTapStart={() => {
+        if (cancelTap) {
+          hide();
+        }
+      }}
     >
       {children}
       <AnimatePresence mode="wait">

@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Title from "./Title";
 import UserDropDown from "./userDropDown";
 import ProfileImg from "./ProfileImg";
-import { isAuthContext } from "../../context/isAuth";
 
 const NavImg = () => {
   const [showUserDrop, setShowUserDrop] = useState(false);

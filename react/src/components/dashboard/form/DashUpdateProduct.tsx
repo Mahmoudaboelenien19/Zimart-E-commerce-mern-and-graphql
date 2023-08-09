@@ -15,7 +15,7 @@ const DashUpdateProduct = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      document.title = "Dashboaed | update Product";
+      document.title = "Dashboaed | Update Product";
     }, 400);
   }, []);
 

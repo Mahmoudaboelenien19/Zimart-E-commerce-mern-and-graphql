@@ -40,7 +40,10 @@ const ThemeToggle = ({ linkClr, navClr }: Props) => {
 
   return (
     <motion.div className="theme" ref={ref}>
-      <Title title={theme === "light" ? "apply dark mode" : "apply light mode"}>
+      <Title
+        title={theme === "light" ? "apply dark mode" : "apply light mode"}
+        dir="left"
+      >
         <AnimatePresence initial={false}>
           <motion.div
             className="toggle-icon center"

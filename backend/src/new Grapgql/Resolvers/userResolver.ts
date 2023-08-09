@@ -103,17 +103,27 @@ export const userResolver = {
               );
 
               const id = result[0]._id.toString();
+              console.log({
+                accessToken,
+                refToken,
+                id,
+                email: result[0].email,
+              });
               res.cookie("user_email", result[0].email as unknown as string, {
                 httpOnly: true,
               });
-              console.log(refToken);
               res.cookie("user_id", id as unknown as string, {
                 httpOnly: true,
+                secure: true,
               });
               res.cookie("access_token", accessToken, {
                 httpOnly: true,
+                secure: true,
               });
-              res.cookie("refresh_token", refToken, { httpOnly: true });
+              res.cookie("refresh_token", refToken, {
+                httpOnly: true,
+                secure: true,
+              });
               return { msg: "you successfully logged in", status: 200 };
             }
           } else if (!result) {

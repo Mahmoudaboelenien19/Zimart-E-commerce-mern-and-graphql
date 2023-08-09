@@ -13,12 +13,9 @@ const ThemContext = ({ children }: ChildrenInterFace) => {
 
   useEffect(() => {
     if (theme == "light") {
-      document.documentElement.style.setProperty(
-        "--main",
-        "rgb(247, 246, 246)"
-      );
+      document.documentElement.style.setProperty("--secondary", "#EFF0F2");
       document.documentElement.style.setProperty("--third", "#000");
-      document.documentElement.style.setProperty("--secondary", " #333335");
+      document.documentElement.style.setProperty("--main", "#ffffff");
       document.documentElement.style.setProperty("--forth", " #ffffff");
       localStorage.setItem("zimart-theme", "light");
     } else {

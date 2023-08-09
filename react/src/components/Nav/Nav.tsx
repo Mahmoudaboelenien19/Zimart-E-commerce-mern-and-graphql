@@ -22,7 +22,10 @@ const Nav = () => {
   const navClr = useTransform(
     scrollY,
     [0, 0.5],
-    [theme === "light" ? "#fff" : "#000", theme === "dark" ? "#fff" : "#000"]
+    [
+      theme === "light" ? "#fffff00" : "#0000000",
+      theme === "dark" ? "#fff" : "#000",
+    ]
   );
 
   const LinkClr = useTransform(
@@ -58,25 +61,25 @@ const Nav = () => {
         <motion.nav
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 1 }}
           ref={navRef}
           style={{ background: navClr, boxShadow }}
         >
           <Link to="/" className="logo center">
             <LogoSvg />
           </Link>
-
+          {!isMobile && (
+            <div className=" center">
+              <>
+                <NavLinks LinkClr={LinkClr} />
+              </>
+            </div>
+          )}
           <div className="links-par">
-            {!isMobile && (
-              <div className="e-commerce-features center">
-                <>
-                  <NavLinks LinkClr={LinkClr} />
-                </>
-              </div>
-            )}
             <div className="center ">
               {!isMobile && <ThemeToggle navClr={navClr} linkClr={LinkClr} />}
             </div>
+
             <div className="center">
               <IsAuth color={LinkClr} />
               {isMobile && <LinksAside />}

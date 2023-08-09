@@ -67,17 +67,27 @@ exports.userResolver = {
                         const accessToken = jsonwebtoken_1.default.sign({ result }, config_js_1.ACCESS_TOKEN_SECRET, expire);
                         const refToken = jsonwebtoken_1.default.sign({ result }, config_js_1.REFRESH_TOKEN_SECRET);
                         const id = result[0]._id.toString();
+                        console.log({
+                            accessToken,
+                            refToken,
+                            id,
+                            email: result[0].email,
+                        });
                         res.cookie("user_email", result[0].email, {
                             httpOnly: true,
                         });
-                        console.log(refToken);
                         res.cookie("user_id", id, {
                             httpOnly: true,
+                            secure: true,
                         });
                         res.cookie("access_token", accessToken, {
                             httpOnly: true,
+                            secure: true,
                         });
-                        res.cookie("refresh_token", refToken, { httpOnly: true });
+                        res.cookie("refresh_token", refToken, {
+                            httpOnly: true,
+                            secure: true,
+                        });
                         return { msg: "you successfully logged in", status: 200 };
                     }
                 }

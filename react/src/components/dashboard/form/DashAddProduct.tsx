@@ -8,7 +8,7 @@ const DashAddProduct = () => {
   const [addProductFn] = useMutation(Add_Product);
   useEffect(() => {
     setTimeout(() => {
-      document.title = "Dashboaed | add Product";
+      document.title = "Dashboaed | Add Product";
     }, 1000);
   }, []);
   return (

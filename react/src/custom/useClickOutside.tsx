@@ -8,7 +8,8 @@ const useClickOutside = <T extends HTMLElement>(
   useEffect(() => {
     let timer: number;
     const handler = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node) && bool) {
+      const check = !ref.current?.contains(e.target as Node) && bool;
+      if (check) {
         timer = setTimeout(() => {
           fn();
         }, 200);

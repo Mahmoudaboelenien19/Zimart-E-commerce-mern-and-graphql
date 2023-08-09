@@ -13,13 +13,6 @@ nav {
 
   .links-par {
     display: flex;
-    justify-content: space-between;
-    width: 60%;
-    min-width: 450px;
-    .e-commerce-features {
-      width: 90%;
-      justify-content: space-between;
-    }
   }
   ul {
     margin-left: 20px;
@@ -121,6 +114,8 @@ nav {
   display: flex;
   align-items: center;
   padding: 2px;
+  position: relative;
+  z-index: 10;
   .toggle-icon {
     width: 20px;
     height: 20px;
@@ -162,6 +157,7 @@ nav {
 
       a {
         font-size: 20px;
+        color: var(--third);
         &:before,
         &:after {
           content: initial;

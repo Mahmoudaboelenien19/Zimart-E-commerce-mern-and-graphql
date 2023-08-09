@@ -23,7 +23,7 @@ const Cart = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [showSlider, setShowSLider] = useState(false);
   useEffect(() => {
-    document.title = "cart";
+    document.title = "Cart";
     setTimeout(() => {
       setShowSLider(true);
     }, 1000);

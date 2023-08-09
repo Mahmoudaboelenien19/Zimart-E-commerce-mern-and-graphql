@@ -4,9 +4,8 @@ import Title from "../widgets/Title";
 interface Props {
   fn: () => void;
   isFavoraited: boolean;
-  isCard?: boolean;
 }
-const HeartSvg = ({ fn, isFavoraited, isCard = false }: Props) => {
+const HeartSvg = ({ fn, isFavoraited }: Props) => {
   return (
     <div className="heart-parent">
       <Title
@@ -16,7 +15,7 @@ const HeartSvg = ({ fn, isFavoraited, isCard = false }: Props) => {
       >
         <svg
           style={{
-            fill: isFavoraited ? "red" : isCard ? "white" : "var(--third)",
+            fill: isFavoraited ? "red" : "var(--third)",
             transition: "0.3s",
           }}
           className="svg-heart"

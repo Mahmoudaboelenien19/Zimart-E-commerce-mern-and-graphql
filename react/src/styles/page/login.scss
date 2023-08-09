@@ -46,15 +46,16 @@
     white-space: nowrap;
   }
   form {
-    background: var(--secondary);
+    background: #222222;
     width: 95vw;
     max-width: 350px;
     min-width: 260px;
     height: fit-content;
-    padding: 40px 0;
+    padding: 20px 0;
     border-radius: 5px;
     flex-direction: column;
     box-shadow: 0.5px 0.5px 2px black;
+    padding-bottom: 40px;
 
     // gap: 10px;
     gap: 25px;

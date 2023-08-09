@@ -17,7 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AiFillWarning } from "react-icons/ai";
 const Login = () => {
   useEffect(() => {
-    document.title = "Zimart | login";
+    document.title = "Zimart | Login";
   }, []);
 
   const schema = yup.object().shape({

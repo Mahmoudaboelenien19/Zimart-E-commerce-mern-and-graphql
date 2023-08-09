@@ -15,7 +15,6 @@ interface Props {
 const UserDropDown = ({ bool, setter }: Props) => {
   const { name } = useContext(isAuthContext);
   const { handleLogOut } = useLogOut();
-
   const dropArr = [
     {
       link: "update your data",

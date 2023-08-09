@@ -74,6 +74,7 @@ a {
 
 *::-webkit-scrollbar-thumb {
   background: var(--wheat);
+  border-radius: 40px;
 }
 
 input::-webkit-outer-spin-button,

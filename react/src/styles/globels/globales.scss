@@ -24,27 +24,15 @@
 body {
   font-family: "PT Sans", sans-serif;
   overflow-x: hidden;
-  // background-color: var(--main);
   background: linear-gradient(120deg, var(--forth), var(--main));
 }
 :root {
   font-size: clamp(12px, 1vw, 14px);
 }
-// @media (max-width: 600px) {
-//   :root {
-//     font-size: 10px;
-//   }
-// }
 
 a {
   text-decoration: none;
 }
-
-// @media (min-width: 599px) {
-//   :root {
-//     font-size: 12px;
-//   }
-// }
 
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px var(--green);
@@ -56,6 +44,7 @@ a {
 
 *::-webkit-scrollbar-thumb {
   background: var(--wheat);
+  border-radius: 40px;
 }
 
 input::-webkit-outer-spin-button,

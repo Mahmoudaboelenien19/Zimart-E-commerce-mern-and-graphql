@@ -20,8 +20,10 @@ import {
 interface Props {
   bool: boolean;
   _id: string;
+  top: number;
+  right: number;
 }
-const NotificationActionsDropDown = ({ bool, _id }: Props) => {
+const NotificationActionsDropDown = ({ bool, _id, top, right }: Props) => {
   const dispatch = useAppDispatch();
   const { userId } = useContext(isAuthContext);
   const [deleteNotificationDB] = useMutation(Delete_Notification, {
@@ -50,7 +52,6 @@ const NotificationActionsDropDown = ({ bool, _id }: Props) => {
   const handleToggleRead = async () => {
     const { data } = await toggleReadNotificationDB();
 
-    console.log(data?.toggleReadNotification);
     if (data?.toggleReadNotification?.status === 200) {
       dispatch(toggleReadNotificatinsRedux({ id: _id, isRead: !bool }));
     }
@@ -68,6 +69,12 @@ const NotificationActionsDropDown = ({ bool, _id }: Props) => {
       initial="start"
       animate="end"
       exit="exit"
+      style={{
+        position: "fixed",
+        top: top + 20,
+        left: right - 160,
+      }}
+      transition={{ duration: 0 }}
     >
       {actionsArr.map(({ btn, fn }, i) => {
         return (

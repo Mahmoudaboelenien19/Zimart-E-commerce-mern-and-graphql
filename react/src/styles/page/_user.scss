@@ -43,8 +43,13 @@
       }
     }
     .update-user {
-      background: linear-gradient(120deg, var(--green), var(--secondary));
+      background: var(--green);
       font-size: 0.8rem;
+      svg {
+        path {
+          stroke: white;
+        }
+      }
     }
     .user-head {
       width: fit-content;

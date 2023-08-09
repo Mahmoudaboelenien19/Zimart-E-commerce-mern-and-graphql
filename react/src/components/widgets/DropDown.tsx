@@ -10,6 +10,7 @@ interface Props extends ChildrenInterFace {
   head?: string;
   cls: string;
   title: string;
+  isUser?: boolean;
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

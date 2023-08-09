@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { themeContext } from "../../../context/ThemContext";
+
 const useChartData = (
   arr: { createdAt: string; cost?: number }[],
   head: string,
   type?: string
 ) => {
+  const { theme } = useContext(themeContext);
   const dataByMonth = arr
     .slice(0)
     .reverse()
@@ -22,16 +26,17 @@ const useChartData = (
         data: Object.values(dataByMonth || []),
         backgroundColor: [
           "#FF8A80",
-          "#80DEEA",
+          "#1a474d",
           "#1877f2",
+
           "#ff0119",
           "#0ff059",
           "black",
           "darkblue",
           "#FF8A00",
         ],
-        borderColor: "white",
-        pointBackgroundColor: "white",
+        borderColor: theme === "dark" ? "white" : "black",
+        pointBackgroundColor: theme === "dark" ? "white" : "black",
         borderWidth: 0.5,
       },
     ],
