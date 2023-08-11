@@ -106,7 +106,7 @@ aside {
 
 .product-list-par {
   gap: 5px;
-  padding: 10px 0;
+  padding: 10px;
   position: relative;
   margin: 0 auto;
   min-height: 100vh;
@@ -122,7 +122,7 @@ aside {
   &.grid {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
     .product-data {
       width: 90%;
     }
@@ -262,7 +262,7 @@ svg.svg-star {
     overflow: hidden;
     padding: 4px;
     img {
-      transition: 0.5s;
+      transition: 0.3s !important;
       object-fit: contain;
       padding: 5px;
 

@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast";
-import { removeFromOrderRedux, updateOrderRedux } from "../redux/OrderSlice";
+import { updateOrderRedux } from "../redux/OrderSlice";
 import { useAppDispatch } from "./reduxTypes";
 import { useMutation } from "@apollo/client";
 import { update_Order } from "../graphql/mutations/order";

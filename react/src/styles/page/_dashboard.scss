@@ -257,7 +257,7 @@ a.crumb-link {
         width: 100%;
         color: var(--white);
         padding: 5px;
-        background-color: #1a474d;
+        background-color: var(--green);
         margin: 0 auto;
         height: 50px;
         font-size: 0.9rem;
@@ -430,4 +430,9 @@ div.dash-nav {
   form.update-product-form {
     width: 95vw;
   }
+}
+
+.loading-recap {
+  height: calc(100vh - 100px);
+  width: 100%;
 }

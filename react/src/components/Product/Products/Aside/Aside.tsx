@@ -19,7 +19,7 @@ import { useAppSelector } from "../../../../custom/reduxTypes";
 import useIsMobile from "../../../../custom/useIsMobile";
 
 import MobileCloseDropDown from "../../../widgets/MobileCloseDropDown";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 interface Props {
   startFiltering: boolean;
@@ -42,8 +42,9 @@ const Aside = ({ startFiltering }: Props) => {
   } = useContext(productListContext);
   const { isMobile } = useIsMobile();
   const [filterAllFn] = useMutation(FILTER_All);
-
+  const [isPending, setIsPending] = useState(false);
   const handleFiltering = async () => {
+    setIsPending(true);
     const res: any = await filterAllFn({
       variables: {
         input: {
@@ -57,6 +58,7 @@ const Aside = ({ startFiltering }: Props) => {
     });
     startTransition(() => {
       setProducts(res?.data.filterAllTypes);
+      setIsPending(false);
       if (isMobile) {
         setShowFilter(false);
       }
@@ -80,7 +82,7 @@ const Aside = ({ startFiltering }: Props) => {
       exit="exit"
       animate="end"
       key={"aside"}
-      custom={{ bool: isMobile, w: 300 }}
+      custom={{ bool: isMobile, w: 280 }}
       className="aside-products"
     >
       <div className="aside-head center gap">
@@ -98,6 +100,7 @@ const Aside = ({ startFiltering }: Props) => {
                 btn={"apply"}
                 fn={handleFiltering}
                 Icon={MdFilterListAlt}
+                isPending={isPending}
               />
             )}
           </AnimatePresence>

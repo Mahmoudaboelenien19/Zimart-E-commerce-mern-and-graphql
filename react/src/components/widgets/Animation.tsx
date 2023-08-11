@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 interface Props extends ChildrenInterFace {
   addIntialX?: boolean;
 }
-const Animation = ({ children, addIntialX = true }: Props) => {
+const Animation = ({ children }: Props) => {
   const variant = {
     start: { opacity: 0 },
-    end: { x: 0, opacity: [0, 0.2, 0.4, 0.6, 1] },
+    end: { opacity: [0, 0.2, 0.4, 0.6, 1] },
     exit: {
       opacity: 0,
     },
@@ -18,7 +18,7 @@ const Animation = ({ children, addIntialX = true }: Props) => {
       initial="start"
       animate="end"
       exit={"exit"}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.3 }}
     >
       {children}
     </motion.div>

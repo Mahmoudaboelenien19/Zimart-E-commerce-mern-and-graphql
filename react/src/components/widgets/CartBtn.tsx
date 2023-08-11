@@ -21,11 +21,12 @@ const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
     price,
     title,
   };
-  const { handleAddToCart } = useAddToCart(addToCartObj);
-  const { handleRemoveFromCart } = useRemoveFromCart({
-    userId,
-    productId: [productId],
-  });
+  const { handleAddToCart, isPending } = useAddToCart(addToCartObj);
+  const { handleRemoveFromCart, isPending: isPendingRemove } =
+    useRemoveFromCart({
+      userId,
+      productId: [productId],
+    });
 
   return (
     <>
@@ -33,12 +34,13 @@ const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
         key={btn === "add to cart" ? "add-to-cart" : "remove from cart"}
         cls={`${
           btn === "add to cart"
-            ? "btn wheat-light center gap"
+            ? "btn main center gap"
             : "btn remove center gap"
         }`}
         btn={btn}
         fn={btn === "add to cart" ? handleAddToCart : handleRemoveFromCart}
         Icon={btn === "add to cart" ? BsFillCartPlusFill : BsFillCartXFill}
+        isPending={isPending || isPendingRemove}
       />
     </>
   );

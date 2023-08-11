@@ -8,7 +8,7 @@ import useDashProgress from "../../../custom/useDashProgress";
 import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
 import useMeasure from "react-use-measure";
-import { all } from "axios";
+import GridLoader from "../../widgets/GridLoader";
 
 const Recap = () => {
   const { user } = useAppSelector((st) => st.user);
@@ -30,7 +30,7 @@ const Recap = () => {
       percentage: Number(orderProgress.toFixed(2)),
 
       analytics: String(order.length),
-      link: "go to orders",
+      link: "orders",
       Icon: AiOutlineShoppingCart,
     },
 
@@ -40,7 +40,7 @@ const Recap = () => {
       percentage: Number(productProgress.toFixed(2)),
 
       analytics: String(Allproducts.length),
-      link: "go to products",
+      link: "products",
       Icon: GrProductHunt,
     },
     {
@@ -48,7 +48,7 @@ const Recap = () => {
       head: "earnings",
       percentage: Number(orderEaringProgress.toFixed(2)),
       analytics: String(orderEaring.toFixed(2)),
-      link: "go to earning",
+      link: "earning",
       Icon: FaDollarSign,
     },
     {
@@ -56,16 +56,15 @@ const Recap = () => {
       head: "users",
       percentage: Number(userProgress.toFixed(2)),
       analytics: String(user.length),
-      link: "go to users",
+      link: "users",
       Icon: FaUserAlt,
     },
   ];
   const [ref, { width }] = useMeasure();
-  const check =
-    order.length >= 0 && Allproducts.length >= 0 && user.length >= 0;
+  const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
   return (
     <DashMain>
-      {check && (
+      {check ? (
         <>
           <div
             className="dash-recap"
@@ -79,6 +78,8 @@ const Recap = () => {
 
           <MainPageCharts width={width} />
         </>
+      ) : (
+        <GridLoader cls="loading-recap center" />
       )}
     </DashMain>
   );

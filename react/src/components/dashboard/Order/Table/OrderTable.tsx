@@ -65,7 +65,7 @@ const OrderTable = () => {
             </tr>
           </thead>
           <tbody style={{ overflow: "hidden" }}>
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
               {dataShown.map((order: any, i: number) => {
                 return <Order key={order._id} index={i} {...order} />;
               })}

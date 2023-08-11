@@ -25,15 +25,12 @@ const useChartData = (
         label: head,
         data: Object.values(dataByMonth || []),
         backgroundColor: [
+          "#136231",
           "#FF8A80",
-          "#1a474d",
           "#1877f2",
-
-          "var(--delete)",
           "#0ff099",
-          "black",
-          "darkblue",
           "#FF8A00",
+          "black",
         ],
         borderColor: theme === "dark" ? "white" : "black",
         pointBackgroundColor: theme === "dark" ? "white" : "black",

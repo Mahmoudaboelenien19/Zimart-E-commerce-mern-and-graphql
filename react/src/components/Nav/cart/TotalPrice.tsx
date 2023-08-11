@@ -58,7 +58,7 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
     exit: { width: 0, transition: { delay: 0.5, duration: 0.2 } },
   };
 
-  const { handlePurchase } = useBuy(cart);
+  const { handlePurchase, isPending } = useBuy(cart);
 
   return (
     <div className="totel-price center between col box-shadow">
@@ -152,6 +152,7 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
         </h3>
       </div>
       <OpacityBtn
+        isPending={isPending}
         btn="checkout now"
         cls="btn btn-buy  center gap"
         Icon={FaShoppingCart}

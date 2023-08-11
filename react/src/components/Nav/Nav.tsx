@@ -1,45 +1,23 @@
-import React, { useRef, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LogoSvg from "../widgets/LogoSvg";
 
 import { isAuthContext } from "../../context/isAuth";
 
 import ThemeToggle from "../widgets/ThemeToggle";
-import { themeContext } from "../../context/ThemContext";
 import NavLinks from "./NavLinks";
 import useIsMobile from "../../custom/useIsMobile";
 import LinksAside from "./LinksAside";
 import IsAuth from "./IsAuth";
+import useNavTransition from "../../custom/useNavTransition";
 
 const Nav = () => {
   const { isAuth } = useContext(isAuthContext);
-  const { theme } = useContext(themeContext);
-  const navRef = useRef<HTMLElement | null>(null);
-  const { scrollY } = useScroll({
-    target: navRef,
-  });
-  const navClr = useTransform(
-    scrollY,
-    [0, 0.5],
-    [
-      theme === "light" ? "#fffff00" : "#0000000",
-      theme === "dark" ? "#fff" : "#000",
-    ]
-  );
-
-  const LinkClr = useTransform(
-    scrollY,
-    [0, 0.5],
-    [theme === "dark" ? "#fff" : "#000", theme === "light" ? "#fff" : "#000"]
-  );
-  const boxShadow = useTransform(
-    scrollY,
-    [0, 0.5],
-    ["0 0 0 000", ".5px .5px 1.5px 000"]
-  );
+  const { LinkClr, boxShadow, navClr, navRef } =
+    useNavTransition<HTMLElement>();
   const location = useLocation();
-  const [showNav, setShowNav] = useState(true);
+  const [showNav, setShowNav] = useState(false);
   useEffect(() => {
     if (location.pathname.startsWith("/dashboard") && isAuth) {
       setShowNav(false);
@@ -56,12 +34,15 @@ const Nav = () => {
     }
   }, [isMobile]);
   return (
-    <>
+    <AnimatePresence initial={!showNav}>
       {showNav && (
         <motion.nav
-          animate={{ opacity: 1 }}
+          key={"main-nav"}
           initial={{ opacity: 0 }}
-          transition={{ delay: 1 }}
+          animate={{
+            opacity: [0, 0.2, 0.4, 0.6, 1],
+            transition: { delay: 1, duration: 0.3 },
+          }}
           ref={navRef}
           style={{ background: navClr, boxShadow }}
         >
@@ -76,9 +57,7 @@ const Nav = () => {
             </div>
           )}
           <div className="links-par">
-            <div className="center ">
-              {!isMobile && <ThemeToggle navClr={navClr} linkClr={LinkClr} />}
-            </div>
+            <div className="center ">{!isMobile && <ThemeToggle />}</div>
 
             <div className="center">
               <IsAuth color={LinkClr} />
@@ -87,7 +66,7 @@ const Nav = () => {
           </div>
         </motion.nav>
       )}
-    </>
+    </AnimatePresence>
   );
 };
 

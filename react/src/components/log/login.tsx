@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 
@@ -16,10 +16,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AiFillWarning } from "react-icons/ai";
 const Login = () => {
+  const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     document.title = "Zimart | Login";
   }, []);
-
   const schema = yup.object().shape({
     email: yup.string().email("insert a valid email").required(),
     password: yup.string().required(),
@@ -36,6 +36,8 @@ const Login = () => {
 
   const [authenticate] = useMutation(Authenticate_Query);
   const handleLogIn = async () => {
+    setIsPending(true);
+
     const { email, password } = getValues();
     const res = await authenticate({
       variables: {
@@ -47,19 +49,23 @@ const Login = () => {
       },
     });
     if (res.data.authenticate.status === 404) {
+      setIsPending(false);
       toast.error(res.data.authenticate.msg);
     } else if (res.data.authenticate.status === 200) {
       toast.success(res.data.authenticate.msg);
+      setIsPending(false);
+
       setIsAuth(true);
       navigate("/");
     } else {
+      setIsPending(false);
+
       toast(res.data.authenticate.msg, {
         icon: <AiFillWarning fontSize={18} color="var(--star)" />,
       });
     }
   };
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
     handleLogIn();
   };
 
@@ -92,6 +98,7 @@ const Login = () => {
               fn={() => null}
               btn="log In"
               type="submit"
+              isPending={isPending}
             />
 
             <div className="redirect">

@@ -1,29 +1,35 @@
 @import "../variables.scss";
 
 .banner-par {
-  width: 95vw;
-  height: calc(100vh - 80px);
+  width: 100vw;
+  max-height: calc(100vh);
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 40px;
   display: flex !important;
   align-items: flex-start;
+  overflow-y: hidden;
 
   .banner {
     width: 100%;
-    max-width: 1000px;
-    height: calc(100vh - 100px);
+    max-width: 1100px;
+    height: calc(100vh - 40px);
     margin: 0 auto;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 0 20px;
+    padding: 0 3vw;
     .banner-image {
-      max-width: 40%;
+      width: 40%;
       display: flex !important;
       justify-content: flex-end !important;
-      align-items: center !important;
+      align-items: flex-start !important;
       align-self: flex-end;
       height: 100%;
+      position: relative;
+
+      img {
+        width: clamp(200px, 40vw, 400px);
+      }
     }
   }
 }
@@ -37,8 +43,8 @@
   width: 48%;
   text-shadow: var(--forth-shadow);
   // padding: 10px 20px;
-  max-width: 480px;
-  padding: 0.2vw;
+  padding: 10px;
+  // padding-left: 40px;
   gap: 10px;
   letter-spacing: 0.1vw;
   .product-links {
@@ -49,7 +55,7 @@
     width: 100%;
     font-size: 4.2vw;
     letter-spacing: 0.25vw;
-    text-align: justify;
+
     color: var(--green);
     font-weight: 600;
     text-transform: capitalize;
@@ -62,93 +68,94 @@
     font-size: 1rem;
     width: 100%;
     text-transform: lowercase;
-    // letter-spacing: clamp(0.3px, 0.015vw, 1.4px);
+    text-align: initial;
+    letter-spacing: 0.5px;
     &::first-letter {
       font-size: inherit;
       font-weight: normal;
       color: inherit;
 
       margin: 0;
-      // text-transform: capitalize;
     }
   }
 }
-.banner-dot {
-  z-index: 4;
+.swiper-pagination-bullet {
+  background: var(--third) !important;
 }
-.background {
+.swiper-button-prev {
+  left: 2px !important;
+}
+.swiper-button-next {
+  right: 2px !important;
+}
+.custom-shape-divider-top-1691782077 {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 270px;
-  width: 100%;
-  z-index: -1;
-  clip-path: polygon(19% 61%, 100% 75%, 100% 100%, 0 100%, 0 75%);
-  background: var(--wheat-lighter);
-  opacity: 0.3;
+  top: 0;
+  left: 0;
+  width: 120%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  background-color: var(--third);
+  opacity: 0.03;
 }
-// @media (max-width: 700px) and (min-width: 500px) {
-//   .banner-par {
-//     .banner {
-//       // width: 95%;
 
-//       .banner-image {
-//         img {
-//           // object-fit: cover;
-//           // height: 300px;
-//         }
-//       }
-//       .banner-content {
-//         // h1 {
-//         //   font-size: 3.4vw;
-//         // }
-//         p {
-//           // letter-spacing: 0.6px;
-//         }
-//       }
-//     }
-//   }
-// }
+.custom-shape-divider-top-1691782077 svg {
+  position: relative;
+  display: block;
+  width: calc(221% + 1.3px);
+  height: calc(150vh - 40px);
+  transform: rotateY(180deg);
+}
+
+.custom-shape-divider-top-1691782077 .shape-fill {
+  fill: var(--forth);
+}
 
 @media (max-width: 499px) {
   .banner-par {
     width: 100%;
-    // margin: 0;
-    // padding: 0;
-    // overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
     .banner {
       gap: 6vh;
-      width: 95%;
+      width: 100%;
       max-width: initial;
       flex-direction: column;
-      justify-content: space-between !important;
+      justify-content: center !important;
       align-items: center !important;
       margin: 0 auto;
       margin-top: 50px;
-      .banner-image {
-        max-width: 95vw;
+      padding: 0;
 
-        align-items: center !important;
-        margin: 0 auto;
+      .banner-image {
+        // display: none !important;
+        width: 100%;
+        height: 45vh;
+        justify-content: center !important;
 
         img {
-          object-fit: cover;
-          height: 250px;
+          // height: 75%;
+          object-fit: contain;
         }
       }
       .banner-content {
-        width: 100%;
+        width: 90%;
         align-self: initial;
         margin: 0 auto;
         padding: 0;
         margin: 0;
         h1 {
-          font-size: 9vw;
+          font-size: 9.5vw;
           letter-spacing: 0.3vw;
-          line-height: 9vw;
+          line-height: 10vw;
         }
         p {
-          font-size: 1.2rem;
+          letter-spacing: 0.4px;
+
+          font-size: 1.15rem;
         }
         .product-links {
           flex-direction: column;
@@ -176,5 +183,15 @@
         }
       }
     }
+  }
+
+  .custom-shape-divider-top-1691782077 {
+    width: 100%;
+    top: initial;
+    bottom: 0;
+    left: 0;
+  }
+  .custom-shape-divider-top-1691782077 svg {
+    height: 40vh;
   }
 }

@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Animation from "../widgets/Animation";
 import { useAppSelector } from "../../custom/reduxTypes";
 import ContinueShopping from "../widgets/ContinueShopping";
+import SLiderComponent from "../widgets/SLider";
 
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
@@ -25,6 +26,11 @@ const Product = () => {
   const [singleProduct, setSingleProduct] = useState<any>({ _id: "" });
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
 
+  useEffect(() => {
+    if (singleProduct._id) {
+      document.title = singleProduct.title;
+    }
+  }, [singleProduct._id]);
   useEffect(() => {
     if (Allproducts?.length >= 1) {
       const pro = Allproducts.find((product: any) => product._id === id);
@@ -68,31 +74,27 @@ const Product = () => {
               createdAt,
             }}
           >
-            <div className="product-container box-shadow">
-              <ContinueShopping />
-              <section className="product-page">
-                <ProductImages
-                  key={_id}
-                  data={{
-                    images,
-                    bigImgInd,
-                    setBigImgInd,
-                  }}
-                />
+            <ContinueShopping />
+            <section className="product-page">
+              <ProductImages
+                key={_id}
+                data={{
+                  images,
+                  bigImgInd,
+                  setBigImgInd,
+                }}
+              />
 
-                <ProductDetails
-                  key={`product-${_id}`}
-                  setShowPop={setShowPop}
-                />
-                <AnimatePresence mode="wait">
-                  {showPop && (
-                    <Reviews key={`review-${_id}`} setShowPop={setShowPop} />
-                  )}
-                </AnimatePresence>
-              </section>
-            </div>
+              <ProductDetails key={`product-${_id}`} setShowPop={setShowPop} />
+              <AnimatePresence mode="wait">
+                {showPop && (
+                  <Reviews key={`review-${_id}`} setShowPop={setShowPop} />
+                )}
+              </AnimatePresence>
+            </section>
           </productContext.Provider>
         )}
+        <SLiderComponent />
       </Animation>
     );
   } else {

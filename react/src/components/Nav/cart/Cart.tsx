@@ -21,12 +21,8 @@ const Cart = () => {
   const { cart } = useAppSelector((state) => state.cart);
 
   const [subTotal, setSubTotal] = useState(0);
-  const [showSlider, setShowSLider] = useState(false);
   useEffect(() => {
     document.title = "Cart";
-    setTimeout(() => {
-      setShowSLider(true);
-    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -69,7 +65,7 @@ const Cart = () => {
           <NoData
             length={cart.length >= 1}
             message="No products at your cart"
-            cls={"h-50 center"}
+            cls={"h-50-w-65  center"}
           >
             <div className="carts-par center col">
               {cart.map((item: cartInterface) => {
@@ -84,7 +80,7 @@ const Cart = () => {
           <TotalPrice subTotal={subTotal} key={"TotalPrice"} />
         </div>
       </div>
-      {showSlider && <SLiderComponent key={"cart-slider"} />}
+      <SLiderComponent key={"cart-slider"} />
     </Animation>
   );
 };

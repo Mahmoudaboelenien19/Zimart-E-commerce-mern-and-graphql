@@ -3,7 +3,6 @@ import React from "react";
 import { opacityVariant } from "../../../variants/globals";
 
 import TrUser from "./TrUser";
-import NoData from "../../widgets/NoData";
 import FadeElement from "../../widgets/FadeElement";
 
 const DashBoardUsersTable = ({ data }: { data: any }) => {

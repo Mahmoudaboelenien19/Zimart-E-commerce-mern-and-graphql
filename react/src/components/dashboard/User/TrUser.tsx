@@ -19,7 +19,6 @@ const Order = ({
   name,
   email,
 
-  index,
   createdAt,
 }: Props) => {
   const [updateRole, setUpdateRole] = useState(role);
@@ -45,7 +44,6 @@ const Order = ({
           )}
         </AnimatePresence>
       </td>
-      {/* <div className=" center gap`"> */}
       <td
         className="order-state center"
         style={{
@@ -66,7 +64,6 @@ const Order = ({
           type="user"
         />
       </td>
-      {/* </div> */}
     </Fragment>
   );
 };

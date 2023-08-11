@@ -1,45 +1,20 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { showAsideContext } from "./Dashboard";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChildrenInterFace } from "../../interfaces/general";
 import useIsMobile from "../../custom/useIsMobile";
 import Animation from "../widgets/Animation";
 import DashboardAside from "./main/DashboardAside";
 import DashNav from "./main/DashNav";
-import { themeContext } from "../../context/ThemContext";
+import FadeElement from "../widgets/FadeElement";
+import useNavTransition from "../../custom/useNavTransition";
 
 const DashMain = ({ children }: ChildrenInterFace) => {
   const { showAsideDash } = useContext(showAsideContext);
   const { isMobile } = useIsMobile();
-  const { theme } = useContext(themeContext);
+  const { LinkClr, boxShadow, navClr, navRef } =
+    useNavTransition<HTMLElement>();
 
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const { scrollY } = useScroll({
-    target: navRef,
-  });
-  const boxShadow = useTransform(
-    scrollY,
-    [0, 0.5],
-    ["0 0 0 000000", ".5px .5px 1.5px 000000"]
-  );
-  const navClr = useTransform(
-    scrollY,
-    [0, 0.5],
-    [
-      theme === "light" ? "#fffff00" : "#0000000",
-      theme === "dark" ? "#fff" : "#000",
-    ]
-  );
-  const LinkClr = useTransform(
-    scrollY,
-    [0, 0.5],
-    [theme === "dark" ? "#fff" : "#000", theme === "light" ? "#fff" : "#000"]
-  );
   return (
     <div className="center w-100">
       <DashboardAside />
@@ -51,18 +26,21 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         }}
       >
         <>
-          <motion.div
-            className="dash-nav w-100"
-            style={{
-              paddingLeft: showAsideDash && !isMobile ? 210 : 10,
-              boxShadow,
-              background: navClr,
-              color: LinkClr,
-            }}
-            ref={navRef}
-          >
-            <DashNav linkClr={LinkClr} navClr={navClr} />
-          </motion.div>
+          <FadeElement cls="">
+            <motion.nav
+              className="dash-nav w-100"
+              style={{
+                paddingLeft: showAsideDash && !isMobile ? 210 : 10,
+                boxShadow,
+                background: navClr,
+                color: LinkClr,
+              }}
+              ref={navRef}
+            >
+              <DashNav />
+            </motion.nav>
+          </FadeElement>
+
           <Animation>
             <AnimatePresence initial={false} mode="wait">
               <motion.div
@@ -72,7 +50,6 @@ const DashMain = ({ children }: ChildrenInterFace) => {
                 }}
                 style={{ marginTop: 75 }}
                 transition={{ delay: showAsideDash ? 0.2 : 0.6 }}
-                // transition={{ delay: 0.6 }}
                 key="dash-products"
               >
                 {children}

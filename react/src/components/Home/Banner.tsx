@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { RefAttributes, useContext, useEffect, useState } from "react";
 import useFilterCategory from "../../custom/useFilterCategory";
 import { productListContext } from "../../context/FilterData";
 import useFilterState from "../../custom/useFIlterState";
@@ -6,42 +6,38 @@ import BannerText from "./BannerText";
 import { useAppSelector } from "../../custom/reduxTypes";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+
 import FadeElement from "../widgets/FadeElement";
+import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const arrClrs = ["var(--gmail)", "var(--delete)", "var(--fb)", "var(--green)"];
 
 const Banner = () => {
-  const settings = {
-    slidesToScroll: 1,
-    slidesToShow: 1,
-    ease: "esaeInOut",
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    initialSlide: -5,
-  };
+  const [showArrow, setShowArrow] = useState(false);
+  const [ind, setInd] = useState(0);
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const categoryfn = useFilterCategory();
+
   const { setProducts, setCategoryFilter } = useContext(productListContext);
 
   const filterStateFn = useFilterState();
-  const sliderRef = useRef<null | Slider>(null);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      sliderRef?.current?.slickNext();
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+
   const handleCategory = (category: string) => {
     categoryfn({ variables: { category } }).then(({ data }) => {
       setProducts(data.filterBycatageory);
       setCategoryFilter(category);
     });
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setShowArrow(true);
+    }, 1500);
+  }, []);
   const handleState = (state: string) => {
     filterStateFn({ variables: { state } }).then(({ data }) => {
       setProducts(data.filterByState);
@@ -98,42 +94,67 @@ const Banner = () => {
     },
   ];
 
+  const options: RefAttributes<SwiperRef> & SwiperProps = {
+    loop: true,
+    spaceBetween: 5,
+    slidesPerView: 1,
+    direction: "horizontal",
+    pagination: { clickable: true },
+    modules: [Pagination, Navigation],
+    navigation: showArrow ? true : false,
+    onSlideChange: (e: any) => setInd(e.realIndex),
+  };
   return (
     <>
-      <Slider
-        ref={sliderRef}
-        {...settings}
-        lazyLoad="ondemand"
+      <Swiper
         className="banner-par "
-        dotsClass="slick-dots banner-dot"
-        dots
-        waitForAnimate
-        arrows={false}
+        // loop={true}
+        // spaceBetween={5}
+        // slidesPerView={1}
+        // direction="horizontal"
+        // pagination={{ clickable: true }}
+        // modules={[Pagination, Navigation]}
+        // navigation={showArrow ? true : false}
+        // onSlideChange={(e: any) => setInd(e.realIndex)}
+        {...options}
       >
+        <FadeElement cls="" delay={0.6}>
+          <div className="custom-shape-divider-top-1691782077">
+            <svg
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M741,116.23C291,117.43,0,27.57,0,6V120H1200V6C1200,27.93,1186.4,119.83,741,116.23Z"
+                className="shape-fill"
+              ></path>
+            </svg>
+          </div>
+        </FadeElement>
         {bannerArr.map((ob, index) => {
           return (
-            <div className="banner " key={index}>
-              <BannerText clr={arrClrs[index]} {...ob} key={ob.header} />
-              <div className="banner-image  ">
-                <FadeElement delay={1.7} cls="">
+            <SwiperSlide key={index}>
+              <div className="banner ">
+                <BannerText
+                  clr={arrClrs[index]}
+                  {...ob}
+                  key={ob.header}
+                  isShown={index === ind && showArrow}
+                />
+                <div className="banner-image  ">
                   <LazyLoadImage
                     src={ob.image}
                     alt={`banner proile`}
                     effect="blur"
-                    width={"fit-content"}
-                    height={350}
-                    style={{ marginTop: -5, overflow: "visible" }}
                   />
-                  {/* <img src={image} alt={`banner proile`} /> */}
-                </FadeElement>
+                </div>
               </div>
-            </div>
+            </SwiperSlide>
           );
         })}
-      </Slider>
-      <FadeElement cls="" delay={0.1}>
-        <div className="background"></div>
-      </FadeElement>
+      </Swiper>
     </>
   );
 };

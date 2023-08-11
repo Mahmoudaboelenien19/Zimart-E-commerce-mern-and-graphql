@@ -14,7 +14,6 @@ const express_1 = require("express");
 const order_js_1 = require("../mongoose/schema/order.js");
 const auth_js_1 = require("../middlewares/auth.js");
 const user_js_1 = require("../mongoose/schema/user.js");
-// const process = new stripe(Stripe_key);
 const stripeData = require("stripe")(config_js_1.Stripe_key);
 let orderData;
 let session;
@@ -46,6 +45,7 @@ const stripeFn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         const date = () => new Date();
         res.json(session);
+        console.log(session);
         yield order_js_1.OrderCollection.create({
             createdAt: date(),
             cost: session.amount_total / 100,

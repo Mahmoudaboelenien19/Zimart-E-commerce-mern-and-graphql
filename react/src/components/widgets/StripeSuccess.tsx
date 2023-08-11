@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Overley from "./Overley";
 import CircleCheckSvg from "../../custom SVGs/CircleCheckSvg";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { textVariant } from "../../variants/globals";
 const StripeSuccess = () => {
   const location = useLocation();
   const isSuccess = location.search.includes("?success=true");
 
   const [show, setShow] = useState(false);
-  console.log({ isSuccess });
   useEffect(() => {
     if (isSuccess) {
       setShow(true);
@@ -36,9 +35,6 @@ const StripeSuccess = () => {
             </div>
             <motion.span
               variants={textVariant}
-              //   initial="start"
-              //   exit="exit"
-              //   animate="end"
               onAnimationComplete={() =>
                 setTimeout(() => {
                   setShow(false);

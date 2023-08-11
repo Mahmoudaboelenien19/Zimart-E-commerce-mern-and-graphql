@@ -22,6 +22,8 @@ interface oAuthInterface {
 }
 
 const SignUp = () => {
+  const [isPending, setIsPending] = useState(false);
+
   useEffect(() => {
     document.title = "Zimart | Signup";
   }, []);
@@ -51,6 +53,8 @@ const SignUp = () => {
   const [country, setCountry] = useState("egypt");
 
   const handleSignUp = async () => {
+    setIsPending(true);
+
     const { name, password, email } = getValues();
 
     const { data } = await addUserFn({
@@ -66,9 +70,13 @@ const SignUp = () => {
     });
     console.log(data);
     if (data.addUser.status === 200) {
+      setIsPending(false);
+
       navigate(`/login?email=${getValues("email")}`);
       toast.success(data.addUser.msg);
     } else {
+      setIsPending(false);
+
       toast(data.addUser.msg, {
         icon: <AiFillWarning fontSize={18} color="var(--star)" />,
       });
@@ -117,6 +125,7 @@ const SignUp = () => {
               fn={() => null}
               type="submit"
               parCls="w-100"
+              isPending={isPending}
             />
             <div className="redirect">
               <span> have an account</span>

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { REMOVE_FROM_Cart } from "../graphql/mutations/user";
 import { useMutation } from "@apollo/client";
 import { removeFromCartRedux } from "../redux/cartSlice";
@@ -10,16 +10,21 @@ interface Props {
   productId: string[];
 }
 const useRemoveFromCart = (obj: Props) => {
+  const [isPending, setIsPending] = useState(false);
+
   const [removeFromCartDB] = useMutation(REMOVE_FROM_Cart);
   const dispatch = useDispatch();
   const handleRemoveFromCart = async () => {
+    setIsPending(true);
+
     const res = await removeFromCartDB({
       variables: obj,
     });
     toast.success(res.data.removeFromCart.msg);
     dispatch(removeFromCartRedux(obj.productId));
+    setIsPending(false);
   };
-  return { handleRemoveFromCart };
+  return { handleRemoveFromCart, isPending };
 };
 
 export default useRemoveFromCart;

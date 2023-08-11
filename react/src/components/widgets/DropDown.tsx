@@ -23,7 +23,7 @@ const DropDown = ({ bool, head, cls, setter, title, children }: Props) => {
     <section ref={ref}>
       <AnimatePresence mode="wait">
         {bool && (
-          <FadeElement cls={`dropdown ${cls}`} delay={0.2}>
+          <div className={`dropdown ${cls}`}>
             {cls !== "user-drop" && (
               <MobileCloseDropDown setter={setter} title={title} />
             )}
@@ -40,7 +40,7 @@ const DropDown = ({ bool, head, cls, setter, title, children }: Props) => {
             )}
 
             {children}
-          </FadeElement>
+          </div>
         )}
       </AnimatePresence>
     </section>

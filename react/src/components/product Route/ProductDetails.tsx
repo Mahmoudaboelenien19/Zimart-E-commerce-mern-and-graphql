@@ -3,7 +3,6 @@ import { BiCommentEdit, BiPurchaseTagAlt, BiShow } from "react-icons/bi";
 
 import { AiFillPlusSquare, AiOutlineCheck } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
-import { btnHover } from "../../variants/globals";
 import useAvg from "../../custom/useAvg";
 import { useAppSelector } from "../../custom/reduxTypes";
 import HeartSvgProduct from "../../custom SVGs/HeartSvgProduct";
@@ -19,7 +18,6 @@ import OpacityBtn from "../widgets/OpacityBtn";
 import CompareIcons from "../widgets/CompareIcons";
 import StyledPrice from "../widgets/StyledPrice";
 import { toast } from "react-hot-toast";
-import RatingDetails from "../Product/Products/RateDetails";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
@@ -68,7 +66,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
     }
   }, [cart, id]);
 
-  const { handlePurchase } = useBuy([
+  const { handlePurchase, isPending } = useBuy([
     { _id, productId: _id, parentId: "", price, path: "", title, count: 1 },
   ]);
 
@@ -181,19 +179,14 @@ const ProductDetails = ({ setShowPop }: Props) => {
             fn={handlePurchase}
             Icon={BiPurchaseTagAlt}
             btn="Buy Now"
+            isPending={isPending}
           />
 
-          <AnimatePresence mode="wait">
-            {!onCart ? (
-              <CartBtn id={_id} key={"add-to-cart"} btn="add to cart" />
-            ) : (
-              <CartBtn
-                id={_id}
-                btn="remove from cart"
-                key={"remove-from-cart"}
-              />
-            )}
-          </AnimatePresence>
+          {!onCart ? (
+            <CartBtn id={_id} key={"add-to-cart"} btn="add to cart" />
+          ) : (
+            <CartBtn id={_id} btn="remove from cart" key={"remove-from-cart"} />
+          )}
         </div>
       </div>
 

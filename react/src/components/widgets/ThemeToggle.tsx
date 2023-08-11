@@ -1,21 +1,12 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { TbMoonFilled } from "react-icons/tb";
 import { themeContext } from "../../context/ThemContext";
 import Title from "./Title";
-import {
-  AnimatePresence,
-  MotionValue,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { FaSun } from "react-icons/fa";
+import useNavTransition from "../../custom/useNavTransition";
 
-interface Props {
-  linkClr?: MotionValue<string>;
-  navClr?: MotionValue<string>;
-}
-const ThemeToggle = ({ linkClr, navClr }: Props) => {
+const ThemeToggle = () => {
   const { toggleTheme, theme } = useContext(themeContext);
   const variant = {
     start: { x: theme === "light" ? 0 : 10 },
@@ -25,21 +16,9 @@ const ThemeToggle = ({ linkClr, navClr }: Props) => {
     },
   };
 
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollY } = useScroll({
-    target: ref,
-  });
-
-  const clr1 = useTransform(scrollY, [0], [theme === "dark" ? "#000" : "#fff"]);
-
-  const clr2 = useTransform(
-    scrollY,
-    [0],
-    [theme !== "light" ? "#fff" : "#000"]
-  );
-
+  const { navRef, LinkClr } = useNavTransition<HTMLDivElement>();
   return (
-    <motion.div className="theme" ref={ref}>
+    <motion.div className="theme" ref={navRef}>
       <Title
         title={theme === "light" ? "apply dark mode" : "apply light mode"}
         dir="left"
@@ -49,8 +28,8 @@ const ThemeToggle = ({ linkClr, navClr }: Props) => {
             className="toggle-icon center"
             variants={variant}
             animate="end"
-            style={{ background: navClr || clr1, color: linkClr || clr2 }}
             initial="start"
+            style={{ color: LinkClr }}
           >
             {theme === "dark" ? (
               <TbMoonFilled onClick={toggleTheme} className="above" />

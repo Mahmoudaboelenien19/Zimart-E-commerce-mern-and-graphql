@@ -4,7 +4,6 @@ import { OrderCollection } from "../mongoose/schema/order.js";
 import { RestfullAuth } from "../middlewares/auth.js";
 import { userCollection } from "../mongoose/schema/user.js";
 
-// const process = new stripe(Stripe_key);
 const stripeData = require("stripe")(Stripe_key);
 
 let orderData: any;
@@ -40,6 +39,7 @@ const stripeFn = async (req: Request, res: Response) => {
     const date = () => new Date();
 
     res.json(session);
+    console.log(session);
     await OrderCollection.create({
       createdAt: date(),
       cost: session.amount_total / 100,

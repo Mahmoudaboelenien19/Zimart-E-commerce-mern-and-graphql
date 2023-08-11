@@ -7,12 +7,13 @@ import useChartData from "./useChartData";
 import { motion, useInView } from "framer-motion";
 import { ChildrenInterFace } from "../../../interfaces/general";
 import LatestOrders from "./LatestOrders";
+import FadeElement from "../../widgets/FadeElement";
 interface Props extends ChildrenInterFace {
   head: string;
 }
 const InViewPar = ({ head, children }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.3 });
   return (
     <motion.div
       className={`center chart-par col  between`}
@@ -22,7 +23,12 @@ const InViewPar = ({ head, children }: Props) => {
       whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
     >
       <h3 className="header">{head}</h3>
-      {inView && children}
+
+      {inView && (
+        <FadeElement cls="" delay={0.2}>
+          {children}
+        </FadeElement>
+      )}
     </motion.div>
   );
 };
@@ -67,29 +73,19 @@ const MainPageCharts = ({ width }: { width: number }) => {
     <>
       <div className={`dash-main-charts ${width <= 800 ? "reverse" : ""} `}>
         <InViewPar head="Users Per Time">
-          <div>
-            <Line data={userChartData || []} options={options} />
-          </div>
+          <Line data={userChartData || []} options={options} />
         </InViewPar>
         <InViewPar head="Latest Orders">
-          <div>
-            <LatestOrders />
-          </div>
+          <LatestOrders />
         </InViewPar>
         <InViewPar head="Earnings Per Time">
-          <div>
-            <Pie data={orderChartData || []} options={options} />
-          </div>
+          <Pie data={orderChartData || []} options={options} />
         </InViewPar>
         <InViewPar head="Orders Per Time">
-          <div>
-            <Bar data={EarningChartData || []} options={options} />
-          </div>
+          <Bar data={EarningChartData || []} options={options} />
         </InViewPar>
         <InViewPar head="Added Products Per Time">
-          <div>
-            <Line data={productChartData || []} options={options} />
-          </div>
+          <Line data={productChartData || []} options={options} />
         </InViewPar>
       </div>
     </>

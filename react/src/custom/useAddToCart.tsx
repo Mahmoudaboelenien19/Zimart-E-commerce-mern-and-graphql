@@ -3,6 +3,7 @@ import { Add_To_Cart } from "../graphql/mutations/user";
 import { useAppDispatch } from "./reduxTypes";
 import { addToCartRedux } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 interface Props {
   userId: string;
@@ -13,6 +14,8 @@ interface Props {
   title: string;
 }
 const useAddToCart = (obj: Props) => {
+  const [isPending, setIsPending] = useState(false);
+
   const [addToCart] = useMutation(Add_To_Cart, {
     variables: {
       input: {
@@ -24,6 +27,7 @@ const useAddToCart = (obj: Props) => {
 
   const dispatch = useAppDispatch();
   const handleAddToCart = async () => {
+    setIsPending(true);
     try {
       const { data } = await addToCart();
       dispatch(
@@ -34,13 +38,15 @@ const useAddToCart = (obj: Props) => {
       );
 
       toast.success(data.addToCart.msg);
+      setIsPending(false);
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
         toast.error((err as Error).message);
+        setIsPending(false);
       }
     }
   };
-  return { handleAddToCart };
+  return { handleAddToCart, isPending };
 };
 
 export default useAddToCart;

@@ -25,33 +25,33 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
       message="no products matched"
       cls="h-80 center"
     >
-      {isPending ? (
-        <GridLoader cls={`${showFilter ? "nodata-w-80" : "h-80"} center`} />
-      ) : (
-        <motion.div
-          ref={ref}
-          className={`product-list-par ${!gridView ? "list" : "grid"} `}
-          animate={{
-            width:
-              showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "90%",
-          }}
-        >
-          {dataShown?.map((product: any, index: number) => {
-            return (
-              <Fragment key={`${product._id}-list`}>
-                <ProductFliter {...product} index={index} isDash={isDash} />
-              </Fragment>
-            );
-          })}
-
-          <Pages
-            key={"pages"}
-            page={page}
-            numOfPages={numberOfPages}
-            setPage={setPage}
-          />
-        </motion.div>
-      )}
+      <motion.div
+        ref={ref}
+        className={`product-list-par ${!gridView ? "list" : "grid"} `}
+        animate={{
+          width: showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "90%",
+        }}
+      >
+        {isPending ? (
+          <GridLoader cls={`h-80 center`} />
+        ) : (
+          <>
+            {dataShown?.map((product: any, index: number) => {
+              return (
+                <Fragment key={`${product._id}-list`}>
+                  <ProductFliter {...product} index={index} isDash={isDash} />
+                </Fragment>
+              );
+            })}
+          </>
+        )}
+        <Pages
+          key={"pages"}
+          page={page}
+          numOfPages={numberOfPages}
+          setPage={setPage}
+        />
+      </motion.div>
     </NoData>
   );
 };

@@ -304,7 +304,7 @@
 
 .reset-filter {
   margin-top: 20px;
-  background: linear-gradient(30deg, var(--delete), var(--wheat));
+  background: var(--delete);
 }
 
 .gap {
@@ -430,6 +430,11 @@ form.hide textarea {
 
 .h-50 {
   width: 100%;
+  min-height: 50vh;
+}
+
+.h-50-w-65 {
+  width: 65%;
   min-height: 50vh;
 }
 

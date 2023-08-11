@@ -51,14 +51,16 @@ const ListCartBtn = ({
     title,
     parentId,
   };
-  const { handleAddToCart } = useAddToCart(addToCartObj);
-  const { handleRemoveFromCart } = useRemoveFromCart({
-    userId,
-    productId: (images as imagesInterface[]).map((img) => img._id),
-  });
+  const { handleAddToCart, isPending } = useAddToCart(addToCartObj);
+  const { handleRemoveFromCart, isPending: isPendingRemove } =
+    useRemoveFromCart({
+      userId,
+      productId: (images as imagesInterface[]).map((img) => img._id),
+    });
 
   return (
     <OpacityBtn
+      isPending={isPending || isPendingRemove}
       cls={`btn center gap ${btn === "add to cart" ? "main" : "remove"}`}
       btn={btn}
       fn={btn === "add to cart" ? handleAddToCart : handleRemoveFromCart}

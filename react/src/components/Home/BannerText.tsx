@@ -10,17 +10,25 @@ interface Props {
   slogan: string;
   to: string;
   fn: () => void;
+  isShown: boolean;
 }
-const BannerText = ({ fn, header, clr, button, to, slogan }: Props) => {
+const BannerText = ({
+  fn,
+  header,
+  clr,
+  button,
+  to,
+  slogan,
+  isShown,
+}: Props) => {
   const bannerTextVariant = {
     start: {
       opacity: 0,
-      x: 120,
     },
     end: {
-      opacity: [0, 0.2, 0.5, 0.7, 1],
-      x: 0,
-      transition: { duration: 0.4, delay: 1.2 },
+      opacity: isShown ? [0, 0.2, 0.5, 0.7, 1] : 0,
+      x: !isShown ? 0 : [120, 0],
+      transition: { duration: 0.4, delay: 0.4 },
     },
   };
   const navigate = useNavigate();
@@ -30,9 +38,8 @@ const BannerText = ({ fn, header, clr, button, to, slogan }: Props) => {
       variants={bannerTextVariant}
       key={header}
       className="banner-content center col"
-      initial={"start"}
+      initial="start"
       animate="end"
-      style={{ opacity: 0 }}
     >
       <h1 className="header" style={{ color: `${clr}` }}>
         {header}

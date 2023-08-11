@@ -1,38 +1,16 @@
 import React, { useEffect, useContext } from "react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+
 import ProductFliter from "../Product/Products/AllProducts/ProductFliter";
 import { viewContext } from "../../context/gridView";
 import { useAppSelector } from "../../custom/reduxTypes";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 const SLiderComponent = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: 4,
-    ease: "esaeInOut",
-    responsive: [
-      {
-        breakpoint: 900,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 400,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-    autoplay: true,
-  };
   const { setGridView } = useContext(viewContext);
 
   useEffect(() => {
@@ -47,17 +25,39 @@ const SLiderComponent = () => {
         you may like{" "}
       </h2>
 
-      <Slider {...settings} lazyLoad="anticipated">
-        {Allproducts?.map((product: any, index: number) => {
+      <Swiper
+        className="banner-par "
+        loop
+        spaceBetween={5}
+        slidesPerView={1}
+        direction="horizontal"
+        modules={[Autoplay]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+      >
+        {" "}
+        {Allproducts.map((product: any, index: number) => {
           return (
-            <ProductFliter
-              key={`${product._id}-list`}
-              index={index}
-              {...product}
-            />
+            <SwiperSlide key={`${product._id}-list`}>
+              <ProductFliter index={index} {...product} />
+            </SwiperSlide>
           );
         })}
-      </Slider>
+      </Swiper>
     </>
   );
 };
