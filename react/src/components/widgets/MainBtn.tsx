@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React, { useRef } from "react";
-import { btnHover } from "../../variants/globals";
 import Title from "./Title";
 import SmallLoader from "./SmallLoader";
 interface Props {
@@ -35,7 +34,6 @@ const MainBtn = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
-        whileHover={btnHover}
         whileTap={{ opacity: 0.5 }}
         disabled={isPending}
         className={`center ${cls}`}

@@ -1,22 +1,3 @@
-export const btnHover = {
-  boxShadow: "var(--main-shadow)",
-  scale: 1.01,
-  transition: {
-    type: "spring",
-    stiffness: 200,
-    damping: 7,
-  },
-};
-
-export const btnTap = {
-  // scale: 0.9,
-  // transition: {
-  //   type: "spring",
-  //   stiffness: 200,
-  //   damping: 7,
-  // },
-};
-
 export const parentVariant = {
   start: { height: 0 },
   end: (delay: number) => ({
@@ -44,29 +25,20 @@ export const opacityVariant = {
   exit: { opacity: 0 },
 };
 
-interface popInterface {
-  dir: string;
-  height?: number;
-}
-export const popVariant = {
-  start: ({ dir, height }: popInterface) => ({
-    y: dir === "bottom" ? height : -500,
-  }),
-  end: { y: 0, transition: { duration: 0.5, delay: 0.4 } },
-  exit: ({ dir, height }: popInterface) => ({
-    y: dir === "bottom" ? height : -500,
-    transition: { duration: 0.5 },
-  }),
-};
-
-export const overleyVariant = {
-  start: { opacity: 0 },
-  end: { opacity: 1, transition: { duration: 0.2, when: "beforeChildren" } },
-  exit: {
-    opacity: 0,
-    transition: { duration: 0.05, when: "afterChildren", ease: "easeInOut" },
-  },
-};
+// interface popInterface {
+//   dir: string;
+//   height?: number;
+// }
+// export const popVariant = {
+//   start: ({ dir, height }: popInterface) => ({
+//     y: dir === "bottom" ? height : -500,
+//   }),
+//   end: { y: 0, transition: { duration: 0.5, delay: 0.4 } },
+//   exit: ({ dir, height }: popInterface) => ({
+//     y: dir === "bottom" ? height : -500,
+//     transition: { duration: 0.5 },
+//   }),
+// };
 
 export const reviewCounter = {
   start: { opacity: 0, y: -5 },
