@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import OpacityBtn from "./OpacityBtn";
+import MainBtn from "./MainBtn";
 import { BsInfoCircleFill } from "react-icons/bs";
 import Title from "./Title";
 interface Props {

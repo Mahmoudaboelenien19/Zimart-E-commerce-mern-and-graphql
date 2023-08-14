@@ -18,7 +18,6 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_js_1 = require("./config.js");
 const uploudRoute_js_1 = require("./Upload/uploudRoute.js");
-const stripe_js_1 = __importDefault(require("./stripe/stripe.js"));
 const passport_1 = __importDefault(require("passport"));
 require("./oAuth/google.js");
 const googleAuth_js_1 = require("./routes/googleAuth.js");
@@ -36,7 +35,8 @@ const permissions_js_1 = require("./new Grapgql/shield/permissions.js");
 const blogResolver_js_1 = require("./new Grapgql/Resolvers/blogResolver.js");
 const blogsType_js_1 = require("./new Grapgql/typeDefs/blogsType.js");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-const path_1 = __importDefault(require("path"));
+const stripeType_js_1 = require("./new Grapgql/typeDefs/stripeType.js");
+const stripeResolver_js_1 = require("./new Grapgql/Resolvers/stripeResolver.js");
 mongoose_1.default.connect(config_js_1.MongoDB_URL);
 const app = (0, express_1.default)();
 app.use(cookieSession({
@@ -55,8 +55,20 @@ app.use((0, cors_1.default)({
     methods: ["GET", "POST", "PATCH", "DELETE"],
 }));
 const schema = makeExecutableSchema({
-    typeDefs: [ProductDefTypes_js_1.productTypeDefs, orderType_js_1.orderDefType, userTypeDefs_js_1.userTypeDefs, blogsType_js_1.BlogDefType],
-    resolvers: [productResolver_js_1.productResolver, orderResolver_js_1.orderResolver, userResolver_js_1.userResolver, blogResolver_js_1.blogResolver],
+    typeDefs: [
+        ProductDefTypes_js_1.productTypeDefs,
+        orderType_js_1.orderDefType,
+        userTypeDefs_js_1.userTypeDefs,
+        blogsType_js_1.BlogDefType,
+        stripeType_js_1.StripeTypes,
+    ],
+    resolvers: [
+        productResolver_js_1.productResolver,
+        orderResolver_js_1.orderResolver,
+        userResolver_js_1.userResolver,
+        blogResolver_js_1.blogResolver,
+        stripeResolver_js_1.stripeResolver,
+    ],
 });
 const schemaWithPermissions = (0, graphql_middleware_1.applyMiddleware)(schema, permissions_js_1.permissions);
 app.use(express_1.default.json());
@@ -66,18 +78,17 @@ const server = new apollo_server_express_1.ApolloServer({
         return { req, res };
     },
 });
-app.use(express_1.default.static(path_1.default.join(path_1.default.resolve(), "/react/dist")));
+// app.use(express.static(path.join(path.resolve(), "/react/dist")));
 app.get("/cookie", (req, res) => {
     const { access_token, refresh_token, user_id } = req.cookies;
     res.json({ access_token, refresh_token, user_id });
 });
 app.use("/upload", uploudRoute_js_1.uploadRoute);
-app.use("/stripe", stripe_js_1.default);
 app.use("/", googleAuth_js_1.oAuthRouter);
 app.use("/token", tokensRoutes_js_1.AuthRouter);
-app.get("*", (_, res) => {
-    res.sendFile(path_1.default.join(path_1.default.resolve(), "/react/dist/index.html"));
-});
+// app.get("*", (_, res) => {
+//   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
+// });
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield server.start();
     server.applyMiddleware({

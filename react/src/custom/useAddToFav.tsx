@@ -21,8 +21,7 @@ const useAddToFav = (obj: Props) => {
       const res = await addToFav({
         variables: { input: obj },
       });
-      console.log(res);
-      if ((res as any).status === 401) {
+      if ((res as { status: number }).status === 401) {
         toast.error("unauth");
       } else {
         toast.success(res.data.addToFav.msg);

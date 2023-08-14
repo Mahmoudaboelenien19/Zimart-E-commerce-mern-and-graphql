@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import Input from "../widgets/Input";
 import { ADD_USER } from "../../graphql/mutations/user";
 import { NavLink, useNavigate } from "react-router-dom";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import SelectCOuntry from "../user/SelectCOuntry";
@@ -119,7 +119,7 @@ const SignUp = () => {
               type="password"
             />
             <SelectCOuntry setCountry={setCountry} country={country} />
-            <OpacityBtn
+            <MainBtn
               btn="sign up"
               cls="btn main w-80"
               fn={() => null}

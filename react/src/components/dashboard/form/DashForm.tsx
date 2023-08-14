@@ -12,7 +12,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { opacityVariant } from "../../../variants/globals";
-import OpacityBtn from "../../widgets/OpacityBtn";
+import MainBtn from "../../widgets/MainBtn";
 import DashMain from "../DashMain";
 import {
   addToProductRedux,
@@ -191,7 +191,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             />
           </div>
 
-          <OpacityBtn
+          <MainBtn
             btn={btn}
             cls="main btn center gap w-100"
             fn={() => null}

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import OpacityBtn from "./OpacityBtn";
+import MainBtn from "./MainBtn";
 import { BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
 import usePathAndId from "../../custom/usePathAndId";
 import { productContext } from "../product Route/Product";
@@ -30,7 +30,7 @@ const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
 
   return (
     <>
-      <OpacityBtn
+      <MainBtn
         key={btn === "add to cart" ? "add-to-cart" : "remove from cart"}
         cls={`${
           btn === "add to cart"

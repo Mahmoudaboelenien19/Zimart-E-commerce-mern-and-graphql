@@ -351,7 +351,7 @@ div.dash-nav {
     flex-direction: column;
     justify-content: space-between;
     padding: 4px;
-    height: 40px;
+    min-height: 40px;
     color: var(--third);
     width: 95%;
     margin: 0 auto;
@@ -435,4 +435,11 @@ div.dash-nav {
 .loading-recap {
   height: calc(100vh - 100px);
   width: 100%;
+  margin: 0 auto;
+}
+.product-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
 }

@@ -18,9 +18,8 @@ import { addToUserRedux } from "../redux/UserSlice.js";
 interface productListContextInterface {
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
   showFilter: boolean;
-
   setProducts: React.Dispatch<React.SetStateAction<ProductInterface[]>>;
-  products: any[];
+  products: ProductInterface[];
   categoryFilter: string | number;
   setCategoryFilter: React.Dispatch<React.SetStateAction<string | number>>;
   productFeatured: string | number;
@@ -64,6 +63,7 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
 
   const [RateChecked, setRateChecked] = useState<string | number>("");
   const { data: orderData } = useQuery(GET_ALL_ORDERS);
+
   useEffect(() => {
     if (orderData?.orders) {
       const ar = orderData?.orders.slice(0).reverse();

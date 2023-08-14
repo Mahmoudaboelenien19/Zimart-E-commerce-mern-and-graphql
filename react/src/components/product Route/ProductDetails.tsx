@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { BiCommentEdit, BiPurchaseTagAlt, BiShow } from "react-icons/bi";
+import { BiCommentEdit, BiShow } from "react-icons/bi";
 
 import { AiFillPlusSquare, AiOutlineCheck } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,14 +10,16 @@ import { productContext } from "./Product";
 import usePathAndId from "../../custom/usePathAndId";
 import ProductRate from "./ProductRate";
 import CartBtn from "../widgets/CartBtn";
-import AddReview from "./AddReview";
+import AddReview from "./Review/AddReview";
 import Title from "../widgets/Title";
 import { isAuthContext } from "../../context/isAuth";
-import useBuy from "../../custom/useBuy";
-import OpacityBtn from "../widgets/OpacityBtn";
+
 import CompareIcons from "../widgets/CompareIcons";
 import StyledPrice from "../widgets/StyledPrice";
 import { toast } from "react-hot-toast";
+
+import BuyBtn from "../payment/BuyBtn";
+import { reviewInterface } from "../../interfaces/product";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,7 +36,6 @@ const ProductDetails = ({ setShowPop }: Props) => {
     price,
     stock,
     reviews,
-    startHover,
   } = useContext(productContext);
   const parentVariant = {
     start: { x: 400, opacity: 0 },
@@ -58,7 +59,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
   const [userReview, setUserReview] = useState("");
   const toggleSHowAddRate = () => setShowAddRate(!showAddRate);
   useEffect(() => {
-    const check = cart.some((e) => e.productId === id);
+    const check = cart?.some((e) => e.productId === id);
     if (check) {
       setOnCart(true);
     } else {
@@ -66,16 +67,12 @@ const ProductDetails = ({ setShowPop }: Props) => {
     }
   }, [cart, id]);
 
-  const { handlePurchase, isPending } = useBuy([
-    { _id, productId: _id, parentId: "", price, path: "", title, count: 1 },
-  ]);
-
   const [hasReview, setHasReview] = useState(false);
   const { userId } = useContext(isAuthContext);
   const [rateIndex, setRateIndex] = useState(-1);
 
   useEffect(() => {
-    const check = reviews?.find((e: any) => e.userId === userId);
+    const check = reviews?.find((e: reviewInterface) => e.userId === userId);
     if (check) {
       setHasReview(true);
       setUserReview(check.review);
@@ -90,7 +87,6 @@ const ProductDetails = ({ setShowPop }: Props) => {
       variants={parentVariant}
       initial="start"
       animate="end"
-      style={{ position: "relative", zIndex: startHover ? -1 : 1 }}
     >
       <div className="details-top">
         <h3
@@ -130,7 +126,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
               reviews={reviews}
             />
           </div>
-          {reviews.length >= 1 && (
+          {reviews?.length >= 1 && (
             <Title title="show all reviews">
               <BiShow
                 fontSize={12}
@@ -174,14 +170,19 @@ const ProductDetails = ({ setShowPop }: Props) => {
         <div className="hr"></div>
 
         <div className="product-btn  ">
-          <OpacityBtn
-            cls="btn btn-buy center"
-            fn={handlePurchase}
-            Icon={BiPurchaseTagAlt}
-            btn="Buy Now"
-            isPending={isPending}
+          <BuyBtn
+            products={[
+              {
+                _id,
+                productId: _id,
+                parentId: "",
+                price,
+                path: "",
+                title,
+                count: 1,
+              },
+            ]}
           />
-
           {!onCart ? (
             <CartBtn id={_id} key={"add-to-cart"} btn="add to cart" />
           ) : (

@@ -14,7 +14,7 @@ export const GET_ALL_ORDERS = gql`
         price
       }
       userId
-      count
+
       createdAt
       deliveredAt
     }
@@ -35,7 +35,7 @@ export const GET_ORDER = gql`
         price
       }
       userId
-      count
+
       createdAt
       deliveredAt
     }

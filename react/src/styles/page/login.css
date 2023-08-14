@@ -62,8 +62,6 @@
 }
 .log-in form h2 {
   color: white;
-  font-family: Kyiv Sans;
-  font-variation-settings: "CONT" 600, "MIDL" -400;
 }
 .log-in form input {
   height: 30px;
@@ -83,7 +81,7 @@
   top: 10px;
 }
 .or span {
-  background-color: var(--secondary) !important;
+  background: #222222;
 }
 
 .inp-parent {

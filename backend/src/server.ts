@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { Client_Url, MongoDB_URL, SeSSion_Secret } from "./config.js";
 import { uploadRoute } from "./Upload/uploudRoute.js";
-import stripeRoutes from "./stripe/stripe.js";
 import passport from "passport";
 import "./oAuth/google.js";
 import { oAuthRouter } from "./routes/googleAuth.js";
@@ -23,6 +22,8 @@ import { blogResolver } from "./new Grapgql/Resolvers/blogResolver.js";
 import { BlogDefType } from "./new Grapgql/typeDefs/blogsType.js";
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 import path from "path";
+import { StripeTypes } from "./new Grapgql/typeDefs/stripeType.js";
+import { stripeResolver } from "./new Grapgql/Resolvers/stripeResolver.js";
 
 mongoose.connect(MongoDB_URL as unknown as string);
 
@@ -49,8 +50,20 @@ app.use(
 );
 
 const schema = makeExecutableSchema({
-  typeDefs: [productTypeDefs, orderDefType, userTypeDefs, BlogDefType],
-  resolvers: [productResolver, orderResolver, userResolver, blogResolver],
+  typeDefs: [
+    productTypeDefs,
+    orderDefType,
+    userTypeDefs,
+    BlogDefType,
+    StripeTypes,
+  ],
+  resolvers: [
+    productResolver,
+    orderResolver,
+    userResolver,
+    blogResolver,
+    stripeResolver,
+  ],
 });
 
 const schemaWithPermissions = applyMiddleware(schema, permissions);
@@ -64,21 +77,20 @@ const server = new ApolloServer({
   },
 });
 
-app.use(express.static(path.join(path.resolve(), "/react/dist")));
+// app.use(express.static(path.join(path.resolve(), "/react/dist")));
 app.get("/cookie", (req: Request, res) => {
   const { access_token, refresh_token, user_id } = req.cookies;
 
   res.json({ access_token, refresh_token, user_id });
 });
 app.use("/upload", uploadRoute);
-app.use("/stripe", stripeRoutes);
 
 app.use("/", oAuthRouter);
 app.use("/token", AuthRouter);
 
-app.get("*", (_, res) => {
-  res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
-});
+// app.get("*", (_, res) => {
+//   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
+// });
 (async () => {
   await server.start();
   server.applyMiddleware({

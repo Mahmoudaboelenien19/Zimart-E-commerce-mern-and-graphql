@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Price from "./Price";
-import OpacityBtn from "../../widgets/OpacityBtn";
-import { FaShoppingCart } from "react-icons/fa";
 import { useAppSelector } from "../../../custom/reduxTypes";
-import useBuy from "../../../custom/useBuy";
+import BuyBtn from "../../payment/BuyBtn";
 const TotalPrice = ({ subTotal }: { subTotal: number }) => {
   const [total, setTotal] = useState(0);
   const [freeShipping, setFreeShipping] = useState(false);
@@ -57,8 +55,6 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
     },
     exit: { width: 0, transition: { delay: 0.5, duration: 0.2 } },
   };
-
-  const { handlePurchase, isPending } = useBuy(cart);
 
   return (
     <div className="totel-price center between col box-shadow">
@@ -151,13 +147,7 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
           </span>
         </h3>
       </div>
-      <OpacityBtn
-        isPending={isPending}
-        btn="checkout now"
-        cls="btn btn-buy  center gap"
-        Icon={FaShoppingCart}
-        fn={handlePurchase}
-      />
+      <BuyBtn products={cart} />
     </div>
   );
 };

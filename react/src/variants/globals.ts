@@ -61,10 +61,10 @@ export const popVariant = {
 
 export const overleyVariant = {
   start: { opacity: 0 },
-  end: { opacity: 1, transition: { duration: 0.5, when: "beforeChildren" } },
+  end: { opacity: 1, transition: { duration: 0.2, when: "beforeChildren" } },
   exit: {
     opacity: 0,
-    transition: { duration: 0.5, when: "afterChildren", ease: "easeInOut" },
+    transition: { duration: 0.05, when: "afterChildren", ease: "easeInOut" },
   },
 };
 

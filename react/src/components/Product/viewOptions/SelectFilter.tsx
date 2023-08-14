@@ -36,7 +36,6 @@ const SelectFilter = () => {
   const [fnPrice] = useMutation(FILTER_BY_PRICE);
   const [fnRate] = useMutation(FILTER_BY_Rate);
   const [fnDate] = useMutation(FILTER_BY_Date);
-  console.log({ selectValue });
   useEffect(() => {
     if (!isPending && isOptSelected) {
       setIsOptSelected(false);

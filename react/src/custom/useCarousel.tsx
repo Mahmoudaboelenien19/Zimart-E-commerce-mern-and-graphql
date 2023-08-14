@@ -11,15 +11,15 @@ const useCarousel = (index: number, len: number) => {
 
   let direction = "";
 
-  if (tuple[0] !== null) {
+  if (tuple[0]) {
     direction = tuple[0] > tuple[1] ? "increase" : "decrease";
   }
 
-  if (tuple[0] !== null && tuple[0] === 0 && tuple[1] === len - 1) {
+  if (tuple[0] && tuple[0] === 0 && tuple[1] === len - 1) {
     direction = "increase";
   }
 
-  if (tuple[0] !== null && tuple[0] === len - 1 && tuple[1] === 0) {
+  if (tuple[0] && tuple[0] === len - 1 && tuple[1] === 0) {
     direction = "decrease";
   }
 

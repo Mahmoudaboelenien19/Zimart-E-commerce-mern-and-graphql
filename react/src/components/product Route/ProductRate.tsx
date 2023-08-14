@@ -40,7 +40,14 @@ const ProductRate = ({
         ({ratingLen >= 0 ? ratingLen : 0})
         <RatingDetails
           pos={pos}
-          arr={[...rating, ...reviews.map((e: reviewInterface) => e.rate)]}
+          arr={
+            reviews
+              ? [
+                  ...(Array.isArray(rating) ? rating : []),
+                  ...reviews.map((e: reviewInterface) => e.rate),
+                ]
+              : []
+          }
         />
       </span>
     </div>

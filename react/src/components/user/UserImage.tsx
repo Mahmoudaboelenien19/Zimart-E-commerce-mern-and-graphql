@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Avatar from "./Avatar";
 import Overley from "../widgets/Overley";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { isAuthContext } from "../../context/isAuth";
 import ProfileImg from "../widgets/ProfileImg";
 const UserImage = () => {
@@ -43,7 +43,7 @@ const UserImage = () => {
           onChange={changeImg}
         />
 
-        <OpacityBtn
+        <MainBtn
           btn="update your avatar"
           cls="user-img-btn btn"
           fn={chooseImgFn}

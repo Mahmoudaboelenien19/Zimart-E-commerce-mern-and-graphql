@@ -1,11 +1,8 @@
+import { getAmount } from "../../middlewares/getAmount";
 import { OrderCollection } from "../../mongoose/schema/order";
+import { userCollection } from "../../mongoose/schema/user";
 import { IdInterface } from "../interfaces/graqphInterfaces.js";
 
-interface updateOrderInrterface {
-  _id: string;
-  state: string;
-  deliveredAt: string;
-}
 interface delInterfaceOrder {
   _id: IdInterface[];
 }
@@ -13,12 +10,9 @@ interface delInterfaceOrder {
 export const orderResolver = {
   Query: {
     async order(_: any, args: IdInterface) {
-      console.log("order");
       return await OrderCollection.findById(args.id);
     },
     async orders() {
-      console.log("orders");
-
       return await OrderCollection.find({});
     },
   },
@@ -41,6 +35,48 @@ export const orderResolver = {
           length >= 2 ? "are" : "is"
         } successfully deleted`,
       };
+    },
+
+    async createOrder(_: unknown, { input }: any) {
+      const date = () => new Date();
+      try {
+        //order
+        const order = await OrderCollection.create({
+          createdAt: date(),
+          cost: getAmount(input.products) / 100,
+          userId: input.userId,
+          productId: input.products.map((e: any) => ({
+            id: e._id,
+            count: e.count,
+            title: e.title,
+            price: e.price,
+            image: e.path,
+          })),
+          state: "pending",
+          count: input.length,
+        });
+
+        const notificationObj = {
+          isRead: false,
+          content: `${input.email} created a new order`,
+          createdAt: new Date().toISOString(),
+        };
+        await userCollection.updateMany(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            $push: {
+              notifications: notificationObj,
+            },
+            $inc: {
+              notificationsCount: +1,
+            },
+          }
+        );
+        console.log({ orderId: order._id });
+        return { status: 200, orderId: order._id };
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

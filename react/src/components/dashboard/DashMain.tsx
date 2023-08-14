@@ -6,7 +6,6 @@ import useIsMobile from "../../custom/useIsMobile";
 import Animation from "../widgets/Animation";
 import DashboardAside from "./main/DashboardAside";
 import DashNav from "./main/DashNav";
-import FadeElement from "../widgets/FadeElement";
 import useNavTransition from "../../custom/useNavTransition";
 
 const DashMain = ({ children }: ChildrenInterFace) => {
@@ -26,20 +25,18 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         }}
       >
         <>
-          <FadeElement cls="">
-            <motion.nav
-              className="dash-nav w-100"
-              style={{
-                paddingLeft: showAsideDash && !isMobile ? 210 : 10,
-                boxShadow,
-                background: navClr,
-                color: LinkClr,
-              }}
-              ref={navRef}
-            >
-              <DashNav />
-            </motion.nav>
-          </FadeElement>
+          <motion.nav
+            className="dash-nav w-100"
+            style={{
+              paddingLeft: showAsideDash && !isMobile ? 210 : 10,
+              boxShadow,
+              background: navClr,
+              color: LinkClr,
+            }}
+            ref={navRef}
+          >
+            <DashNav />
+          </motion.nav>
 
           <Animation>
             <AnimatePresence initial={false} mode="wait">

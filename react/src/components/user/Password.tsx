@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { GrUpdate } from "react-icons/gr";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../widgets/Input";
@@ -80,7 +80,7 @@ const Password = () => {
 
           <span className="user-value value"> **********</span>
 
-          <OpacityBtn
+          <MainBtn
             key={"password"}
             btn="update"
             cls="btn update-user center gap"

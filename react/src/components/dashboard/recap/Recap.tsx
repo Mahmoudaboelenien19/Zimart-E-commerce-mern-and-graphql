@@ -14,7 +14,7 @@ const Recap = () => {
   const { user } = useAppSelector((st) => st.user);
 
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { order } = useAppSelector((st) => st.order);
+  const { order = [] } = useAppSelector((st) => st.order);
 
   const [productProgress] = useDashProgress(Allproducts);
   const [userProgress] = useDashProgress(user);
@@ -61,6 +61,7 @@ const Recap = () => {
     },
   ];
   const [ref, { width }] = useMeasure();
+  console.log(order);
   const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
   return (
     <DashMain>

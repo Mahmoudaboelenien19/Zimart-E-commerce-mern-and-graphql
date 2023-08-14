@@ -9,6 +9,7 @@ import { useAppSelector } from "../../../../custom/reduxTypes";
 import NoData from "../../../widgets/NoData";
 import useIsMobile from "../../../../custom/useIsMobile";
 import GridLoader from "../../../widgets/GridLoader";
+import { ProductInterface } from "../../../../interfaces/product";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
@@ -17,26 +18,26 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const [page, setPage] = useState(1);
   const { isMobile } = useIsMobile();
   const arr = isDash ? Allproducts || [] : products || [];
-  const [dataShown, numberOfPages] = usePagination(8, page, arr);
+  const [dataShown, numberOfPages] = usePagination(9, page, arr);
   const ref = useRef<HTMLDivElement | null>(null);
   return (
     <NoData
       length={dataShown.length >= 1}
       message="no products matched"
-      cls="h-80 center"
+      cls="loading-recap w-100"
     >
       <motion.div
         ref={ref}
-        className={`product-list-par ${!gridView ? "list" : "grid"} `}
-        animate={{
+        className={`product-list-par  ${!gridView ? "list" : "grid"} `}
+        style={{
           width: showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "90%",
         }}
       >
         {isPending ? (
-          <GridLoader cls={`h-80 center`} />
+          <GridLoader cls={`product-loader  center w-100`} />
         ) : (
           <>
-            {dataShown?.map((product: any, index: number) => {
+            {dataShown?.map((product: ProductInterface, index: number) => {
               return (
                 <Fragment key={`${product._id}-list`}>
                   <ProductFliter {...product} index={index} isDash={isDash} />

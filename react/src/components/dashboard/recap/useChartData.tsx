@@ -17,7 +17,7 @@ const useChartData = (
       acc[month] = (acc[month] || 0) + (type === "earn" ? product.cost : 1);
       return acc;
     }, {});
-
+  console.log(dataByMonth);
   const barChartData = {
     labels: Object.keys(dataByMonth || []),
     datasets: [

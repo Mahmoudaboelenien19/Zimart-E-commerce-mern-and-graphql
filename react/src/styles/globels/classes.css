@@ -1,5 +1,5 @@
 :root {
-  --green: #367e53;
+  --green: #237a44;
   --wheat: rgb(202, 170, 109);
   --white: rgb(247, 246, 246);
   --wheat-light: #c5af87c9;
@@ -120,7 +120,6 @@
   margin: 10px;
 }
 .or span {
-  background: #040404;
   position: relative;
   top: -4px;
   display: inline-block;
@@ -222,18 +221,16 @@
 }
 
 .header {
-  font-family: Kyiv Sans;
-  font-variation-settings: "CONT" 600, "MIDL" -400;
   filter: drop-shadow(var(--forth-shadow));
+  margin-top: 10px;
 }
 
 .underline {
   width: -moz-fit-content;
   width: fit-content;
-  height: 60px;
+  height: 40px;
   font-size: 2rem;
-  margin: 30px auto;
-  margin-bottom: 40px;
+  margin: 20px auto;
   text-transform: capitalize;
   letter-spacing: 0.8px;
   font-weight: 800;
@@ -242,19 +239,16 @@
 }
 .underline:before {
   content: "";
-  -webkit-clip-path: polygon(0 5%, 100% 37%, 100% 64%, 0 95%);
-          clip-path: polygon(0 5%, 100% 37%, 100% 64%, 0 95%);
   position: absolute;
-  top: 40px;
-  left: 0;
-  height: 6px;
-  width: 100%;
+  top: 35px;
+  left: 10%;
+  height: 1.5px;
+  width: 80%;
   background: linear-gradient(60deg, var(--wheat), var(--green));
 }
 
 .header-sm {
   font-size: 1.4rem;
-  position: relative;
 }
 .header-sm.underline-sm {
   width: -moz-fit-content;
@@ -266,8 +260,8 @@
   content: "";
   top: initial;
   bottom: -6px;
-  left: 0;
-  height: 2px;
+  left: 10%;
+  height: 1px;
 }
 
 .white {
@@ -392,14 +386,26 @@
   max-width: 700px;
 }
 
-.continue-shopping {
-  position: absolute;
-  top: 0px;
-  left: 5px;
-  background: linear-gradient(30deg, var(--wheat), var(--sale));
+.order-pop-btn {
   margin-top: 20px;
+  font-size: 0.8rem;
+  padding: 8px 5px;
+  gap: 2px;
 }
-.continue-shopping svg {
+.order-pop-btn.continue-shopping {
+  border: 1px solid var(--green);
+  background: var(--green);
+}
+.order-pop-btn.view-order-btn {
+  background: transparent;
+  border: 1px solid grey;
+  color: white;
+  transition: 0.3s;
+}
+.order-pop-btn.view-order-btn:hover {
+  background-color: grey;
+}
+.order-pop-btn svg {
   font-size: 1.4rem;
 }
 
@@ -420,11 +426,7 @@ form.hide textarea {
 
 .h-80 {
   width: 100%;
-  min-height: 80vh;
-}
-
-.nodata-w-80 {
-  width: 80%;
+  min-width: 70vw;
   min-height: 80vh;
 }
 
@@ -436,13 +438,6 @@ form.hide textarea {
 .h-50-w-65 {
   width: 65%;
   min-height: 50vh;
-}
-
-p,
-span,
-small {
-  font-family: Kyiv Sans;
-  font-variation-settings: "CONT" 600, "MIDL" -400;
 }
 
 .gmail {
@@ -486,4 +481,12 @@ small {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  color: var(--third);
+  transform: scale(0.3);
+  animation: slide-animation 10s linear forwards;
+  opacity: 0.7;
 }/*# sourceMappingURL=classes.css.map */

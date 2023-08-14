@@ -9,10 +9,12 @@ import OrderSummery from "./OrderSummery";
 import { motion } from "framer-motion";
 import { parentVariant, reverseVariant } from "../../../../variants/globals";
 import Animation from "../../../widgets/Animation";
+import { OrderInterface } from "../../../../interfaces/product";
 const OrderDetails = () => {
   const { id } = useParams();
 
   const { data, loading } = useQuery(GET_ORDER, { variables: { id } });
+  console.log({ data });
   useEffect(() => {
     setTimeout(() => {
       document.title = `Orders | ${data?.order._id || ""}`;
@@ -20,7 +22,7 @@ const OrderDetails = () => {
   }, [loading]);
 
   if (data?.order) {
-    const { _id, productId, cost, userId, state, createdAt, deliveredAt } =
+    const { productId, cost, userId, state, createdAt, deliveredAt } =
       data.order;
     return (
       <DashMain>
@@ -47,8 +49,8 @@ const OrderDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {productId.map((ob: any, i: number) => {
-                  return <OrderDetailTr OrderDetailTr key={ob.title} {...ob} />;
+                {productId?.map((ob: OrderInterface) => {
+                  return <OrderDetailTr key={ob._id} {...ob} />;
                 })}
               </tbody>
             </motion.table>

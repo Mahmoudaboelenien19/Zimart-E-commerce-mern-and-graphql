@@ -4,7 +4,9 @@ exports.permissions = void 0;
 const graphql_shield_1 = require("graphql-shield");
 const rules_1 = require("./rules");
 exports.permissions = (0, graphql_shield_1.shield)({
-    Query: {},
+    Query: {
+        getPublickKey: rules_1.isUser,
+    },
     Mutation: {
         addToFav: rules_1.isUser,
         removeFromFav: rules_1.isUser,
@@ -14,5 +16,7 @@ exports.permissions = (0, graphql_shield_1.shield)({
         addToCart: rules_1.isUser,
         updateOrder: rules_1.isUser,
         deleteOrder: rules_1.isUser,
+        getKey: rules_1.isUser,
+        createOrder: rules_1.isUser,
     },
 });

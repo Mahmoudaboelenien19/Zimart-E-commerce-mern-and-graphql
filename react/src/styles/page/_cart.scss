@@ -6,7 +6,8 @@
   margin-top: 50px;
   gap: 4px;
   padding: 8px;
-  max-width: 1050px;
+  max-width: 950px;
+  min-height: calc(100vh - 50px);
   .carts-par {
     width: 65%;
     gap: 4px;
@@ -34,7 +35,6 @@
       }
       .cart-value {
         display: inline-flex;
-
         letter-spacing: 0.7;
         color: var(--wheat);
         width: 60%;
@@ -79,11 +79,11 @@
   padding: 25px 0;
   background: var(--sale);
   width: 30%;
-
   align-self: flex-start;
   border-start-start-radius: 5px;
   color: var(--main);
   letter-spacing: 0.8px;
+
   > * {
     font-weight: bold;
   }
@@ -91,9 +91,8 @@
     text-transform: capitalize;
     font-size: 1.2rem;
     margin-top: 5px;
-    font-weight: cold;
     color: white;
-    margin-bottom: -8px;
+    margin-bottom: -14px;
   }
 }
 
@@ -112,9 +111,9 @@
 
 .order-details {
   gap: 10px;
-  padding: 2vw;
+  padding: 10px;
   color: var(--white);
-  margin: 10px auto !important;
+  margin-bottom: 5px;
 }
 
 .free-par {

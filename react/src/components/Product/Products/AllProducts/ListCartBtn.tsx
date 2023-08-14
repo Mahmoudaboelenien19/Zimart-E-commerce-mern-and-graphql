@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import OpacityBtn from "../../../widgets/OpacityBtn";
+import MainBtn from "../../../widgets/MainBtn";
 import { BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
 import { useAppSelector } from "../../../../custom/reduxTypes";
 import { imagesInterface } from "../../../../interfaces/user";
@@ -59,7 +59,7 @@ const ListCartBtn = ({
     });
 
   return (
-    <OpacityBtn
+    <MainBtn
       isPending={isPending || isPendingRemove}
       cls={`btn center gap ${btn === "add to cart" ? "main" : "remove"}`}
       btn={btn}

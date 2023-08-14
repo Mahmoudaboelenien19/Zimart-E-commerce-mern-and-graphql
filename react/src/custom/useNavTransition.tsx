@@ -7,6 +7,7 @@ const useNavTransition = <T extends HTMLElement>() => {
   const navRef = useRef<T | null>(null);
   const { scrollY } = useScroll({
     target: navRef,
+    layoutEffect: false,
   });
   const navClr = useTransform(
     scrollY,

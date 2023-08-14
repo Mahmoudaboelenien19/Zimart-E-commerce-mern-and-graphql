@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, stagger, useInView } from "framer-motion";
 import { BlogInterface } from "../../interfaces/blog";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowAlt } from "react-icons/bi";
@@ -56,7 +56,7 @@ const Blog = ({
       <div className="main-blog-content">
         <h3 className="blog-head">{head}</h3>
         <p>{intro.split(" ").slice(0, 50).join(" ")} ...</p>
-        <OpacityBtn
+        <MainBtn
           Icon={BiRightArrowAlt}
           btn="see more"
           cls="btn main center gap blog-btn"

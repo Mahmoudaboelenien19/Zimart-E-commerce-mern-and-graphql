@@ -2,15 +2,15 @@ import React, { useContext, useState } from "react";
 
 import Review from "./Review";
 import { FaGreaterThan, FaLessThan } from "react-icons/fa";
-import useCarousel from "../../custom/useCarousel";
+import useCarousel from "../../../custom/useCarousel";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import useIndex from "../../custom/useIndex";
-import { btnHover } from "../../variants/globals";
-import { productContext } from "./Product";
+import useIndex from "../../../custom/useIndex";
+import { btnHover } from "../../../variants/globals";
+import { productContext } from "../Product";
 import useMeasure from "react-use-measure";
-import Overley from "../widgets/Overley";
-import useIsMobile from "../../custom/useIsMobile";
-import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
+import Overley from "../../widgets/Overley";
+import useIsMobile from "../../../custom/useIsMobile";
+import MobileCloseDropDown from "../../widgets/MobileCloseDropDown";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;

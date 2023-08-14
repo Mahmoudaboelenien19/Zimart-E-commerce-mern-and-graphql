@@ -7,6 +7,7 @@ import useDeleteOrder from "../../../../custom/useDeleteOrder";
 import FadeElement from "../../../widgets/FadeElement";
 import { checkContext } from "../Orders";
 import Order from "./Order";
+import { OrderInterface } from "../../../../interfaces/product";
 
 const OrderTable = () => {
   const { arrOfOrders, setarrOfOrders, selectALl, setSlectALl, dataShown } =
@@ -66,7 +67,7 @@ const OrderTable = () => {
           </thead>
           <tbody style={{ overflow: "hidden" }}>
             <AnimatePresence mode="wait">
-              {dataShown.map((order: any, i: number) => {
+              {dataShown.map((order: OrderInterface, i: number) => {
                 return <Order key={order._id} index={i} {...order} />;
               })}
             </AnimatePresence>

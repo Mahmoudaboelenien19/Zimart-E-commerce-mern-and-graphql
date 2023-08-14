@@ -9,7 +9,7 @@ import {
   FeaturedProductsArr,
   categoriesArr,
 } from "../../../../assets/arries/arries.js";
-import OpacityBtn from "../../../widgets/OpacityBtn";
+import MainBtn from "../../../widgets/MainBtn";
 import { MdFilterListAlt } from "react-icons/md";
 import { FiRefreshCcw } from "react-icons/fi";
 import { productListContext } from "../../../../context/FilterData";
@@ -45,7 +45,7 @@ const Aside = ({ startFiltering }: Props) => {
   const [isPending, setIsPending] = useState(false);
   const handleFiltering = async () => {
     setIsPending(true);
-    const res: any = await filterAllFn({
+    const res = await filterAllFn({
       variables: {
         input: {
           price: priceFilter === 0 ? 10000 : priceFilter,
@@ -94,7 +94,7 @@ const Aside = ({ startFiltering }: Props) => {
         <div className="collapse-par center">
           <AnimatePresence>
             {startFiltering && (
-              <OpacityBtn
+              <MainBtn
                 key={"apply-btn"}
                 cls={"btn shadow main center  gap"}
                 btn={"apply"}
@@ -114,7 +114,7 @@ const Aside = ({ startFiltering }: Props) => {
       <Price />
       <AnimatePresence>
         {startFiltering && (
-          <OpacityBtn
+          <MainBtn
             key={"reset-filter-btn"}
             cls={"btn w-100 reset-filter center  gap"}
             btn={"            reset filters"}

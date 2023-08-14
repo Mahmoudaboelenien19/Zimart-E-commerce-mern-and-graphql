@@ -1,29 +1,29 @@
 import React, { createContext, useEffect, useState } from "react";
-import ProductImages from "./images";
+import ProductImages from "./images/images";
 import ProductDetails from "./ProductDetails";
-import Reviews from "./Reviews";
+import Reviews from "./Review/Reviews";
 import { ProductInterface, reviewInterface } from "../../interfaces/product";
 import { AnimatePresence } from "framer-motion";
 import { useParams } from "react-router-dom";
 import Animation from "../widgets/Animation";
 import { useAppSelector } from "../../custom/reduxTypes";
-import ContinueShopping from "../widgets/ContinueShopping";
-import SLiderComponent from "../widgets/SLider";
+
+import GridLoader from "../widgets/GridLoader";
 
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
   bigImgInd: number;
-  startHover: boolean;
-  setStartHover: React.Dispatch<React.SetStateAction<boolean>>;
+  setBigImgInd: React.Dispatch<React.SetStateAction<number>>;
 }
 export const productContext = createContext({} as productContextInterface);
 
 const Product = () => {
   const { id } = useParams();
   const [bigImgInd, setBigImgInd] = useState(0);
-  const [startHover, setStartHover] = useState(false);
 
-  const [singleProduct, setSingleProduct] = useState<any>({ _id: "" });
+  const [singleProduct, setSingleProduct] = useState<ProductInterface>(
+    {} as ProductInterface
+  );
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
 
   useEffect(() => {
@@ -33,8 +33,10 @@ const Product = () => {
   }, [singleProduct._id]);
   useEffect(() => {
     if (Allproducts?.length >= 1) {
-      const pro = Allproducts.find((product: any) => product._id === id);
-      setSingleProduct(pro);
+      const pro = Allproducts.find(
+        (product: ProductInterface) => product._id === id
+      );
+      setSingleProduct(pro as ProductInterface);
     }
   }, [Allproducts]);
 
@@ -46,6 +48,7 @@ const Product = () => {
       _id,
       title,
       description,
+      state,
       category,
       stock,
       price,
@@ -59,6 +62,7 @@ const Product = () => {
         {singleProduct && (
           <productContext.Provider
             value={{
+              setBigImgInd,
               _id,
               title,
               rating,
@@ -69,21 +73,12 @@ const Product = () => {
               description,
               category,
               stock,
-              startHover,
-              setStartHover,
               createdAt,
+              state,
             }}
           >
-            <ContinueShopping />
             <section className="product-page">
-              <ProductImages
-                key={_id}
-                data={{
-                  images,
-                  bigImgInd,
-                  setBigImgInd,
-                }}
-              />
+              <ProductImages key={_id} />
 
               <ProductDetails key={`product-${_id}`} setShowPop={setShowPop} />
               <AnimatePresence mode="wait">
@@ -94,11 +89,10 @@ const Product = () => {
             </section>
           </productContext.Provider>
         )}
-        <SLiderComponent />
       </Animation>
     );
   } else {
-    return <> loading</>;
+    return <GridLoader cls="loading center" />;
   }
 };
 

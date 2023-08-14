@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useState, useContext } from "react";
 import axios from "axios";
 
 import AvatarEditor from "react-avatar-editor";
 import { isAuthContext } from "../../context/isAuth";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { updateUserImg } from "../../assets/routes";
 import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
 interface Props {
@@ -27,9 +26,8 @@ const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
   };
 
   const { userId } = useContext(isAuthContext);
-  const uploadFn = async (dataa: any) => {
-    const data = await axios.patch(updateUserImg(userId), dataa);
-    console.log(data);
+  const uploadFn = async (dataa: FormData) => {
+    await axios.patch(updateUserImg(userId), dataa);
   };
 
   async function handleSaveButtonClick() {
@@ -68,7 +66,7 @@ const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
       <AvatarEditor
         style={{ backgroundColor: "white", border: "0" }}
         ref={editorRef}
-        image={newImg ? URL.createObjectURL(newImg as any) : ""}
+        image={newImg ? URL.createObjectURL(newImg as File) : ""}
         width={200}
         height={200}
         border={2}
@@ -95,12 +93,8 @@ const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
         />
       </div>
       <div className=" center gap " style={{ gap: 30, marginTop: 6 }}>
-        <OpacityBtn
-          fn={handleSaveButtonClick}
-          btn="Save"
-          cls="btn main border"
-        />
-        <OpacityBtn fn={handleCancel} btn="cancel" cls="btn cancel-outline" />
+        <MainBtn fn={handleSaveButtonClick} btn="Save" cls="btn main border" />
+        <MainBtn fn={handleCancel} btn="cancel" cls="btn cancel-outline" />
       </div>
     </>
   );

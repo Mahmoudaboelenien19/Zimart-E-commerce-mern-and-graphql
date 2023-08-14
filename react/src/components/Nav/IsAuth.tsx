@@ -18,21 +18,17 @@ const IsAuth = ({ color }: Props) => {
       {isAuth ? (
         <FadeElement
           cls="nav-is-auth center"
-          delay={0.1}
+          // delay={0.1}
           key={"user-is-autherized"}
         >
           <ProdouctFeaturesLinks LinkClr={color} />
           <NavImg />
         </FadeElement>
       ) : (
-        <FadeElement
-          cls="nav-is-auth center"
-          delay={0.5}
-          key={"user-isn't-autherized"}
-        >
+        <FadeElement cls="nav-is-auth center" key={"user-isn't-autherized"}>
           <motion.button
             style={{ color }}
-            className="btn main-outline"
+            className="btn main-outline "
             onClick={() => navigate("/login")}
           >
             join now

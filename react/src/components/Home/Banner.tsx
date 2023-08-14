@@ -106,18 +106,7 @@ const Banner = () => {
   };
   return (
     <>
-      <Swiper
-        className="banner-par "
-        // loop={true}
-        // spaceBetween={5}
-        // slidesPerView={1}
-        // direction="horizontal"
-        // pagination={{ clickable: true }}
-        // modules={[Pagination, Navigation]}
-        // navigation={showArrow ? true : false}
-        // onSlideChange={(e: any) => setInd(e.realIndex)}
-        {...options}
-      >
+      <Swiper className="banner-par " {...options}>
         <FadeElement cls="" delay={0.6}>
           <div className="custom-shape-divider-top-1691782077">
             <svg

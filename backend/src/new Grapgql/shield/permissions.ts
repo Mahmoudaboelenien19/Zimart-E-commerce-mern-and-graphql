@@ -2,7 +2,9 @@ import { shield } from "graphql-shield";
 import { isUser } from "./rules";
 
 export const permissions = shield({
-  Query: {},
+  Query: {
+    getPublickKey: isUser,
+  },
   Mutation: {
     addToFav: isUser,
     removeFromFav: isUser,
@@ -12,5 +14,7 @@ export const permissions = shield({
     addToCart: isUser,
     updateOrder: isUser,
     deleteOrder: isUser,
+    getKey: isUser,
+    createOrder: isUser,
   },
 });

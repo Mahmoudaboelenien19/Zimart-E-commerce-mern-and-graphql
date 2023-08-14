@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import Title from "../../../widgets/Title";
-import { AnimatePresence, useInView, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import FadeElement from "../../../widgets/FadeElement";
 import StyledPrice from "../../../widgets/StyledPrice";
 import { AiTwotoneDelete } from "react-icons/ai";
@@ -15,19 +15,10 @@ interface Props {
   _id: string;
   cost: number;
   count: number;
-  index: number;
   createdAt: string;
   deliveredAt: string;
 }
-const MobileOrder = ({
-  deliveredAt,
-  state,
-  _id,
-  cost,
-  count,
-  index,
-  createdAt,
-}: Props) => {
+const MobileOrder = ({ deliveredAt, state, _id, cost, createdAt }: Props) => {
   const { setarrOfOrders } = useContext(checkContext);
   const { handleDeleteOrder } = useDeleteOrder([_id]);
   const [orderState, setOrderState] = useState(state);

@@ -16,15 +16,18 @@ const Nav = () => {
   const { isAuth } = useContext(isAuthContext);
   const { LinkClr, boxShadow, navClr, navRef } =
     useNavTransition<HTMLElement>();
-  const location = useLocation();
   const [showNav, setShowNav] = useState(false);
+
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    if (location.pathname.startsWith("/dashboard") && isAuth) {
+    if (pathname.startsWith("/dashboard") && isAuth) {
       setShowNav(false);
     } else {
       setShowNav(true);
     }
-  }, [location, isAuth]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const { isMobile } = useIsMobile();
 

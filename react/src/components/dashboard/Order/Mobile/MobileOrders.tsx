@@ -2,12 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { checkContext } from "../Orders";
 import { AnimatePresence, motion } from "framer-motion";
 import { opacityVariant } from "../../../../variants/globals";
-import useDeleteOrder from "../../../../custom/useDeleteOrder";
 import MobileOrder from "./MobileOrder";
 import { Outlet } from "react-router-dom";
+import { OrderInterface } from "../../../../interfaces/product";
 const MobileOrders = () => {
-  const { arrOfOrders, setarrOfOrders, selectALl, setSlectALl, dataShown } =
-    useContext(checkContext);
+  const { setSlectALl, dataShown } = useContext(checkContext);
 
   // const { handleDeleteOrder } = useDeleteOrder(arrOfOrders);
 
@@ -18,7 +17,7 @@ const MobileOrders = () => {
   return (
     <div className="">
       <AnimatePresence>
-        {dataShown.map((order: any, i: number) => {
+        {dataShown.map((order: OrderInterface) => {
           return (
             <motion.div
               key={order._id}
@@ -29,7 +28,7 @@ const MobileOrders = () => {
               transition={{ duration: 0.5 }}
               className=" mobile-order-par"
             >
-              <MobileOrder index={order._id} {...order} />
+              <MobileOrder {...order} />
             </motion.div>
           );
         })}

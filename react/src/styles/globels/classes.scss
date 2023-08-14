@@ -194,13 +194,13 @@
 .header {
   // @include kyiv(600, -400);
   filter: drop-shadow(var(--forth-shadow));
+  margin-top: 10px;
 }
 .underline {
   width: fit-content;
-  height: 60px;
+  height: 40px;
   font-size: 2rem;
-  margin: 30px auto;
-  margin-bottom: 40px;
+  margin: 20px auto;
   text-transform: capitalize;
   letter-spacing: 0.8px;
   font-weight: 800;
@@ -208,20 +208,20 @@
   color: var(--third);
   &:before {
     content: "";
-    clip-path: polygon(0 5%, 100% 37%, 100% 64%, 0 95%);
+    // clip-path: polygon(0 5%, 100% 37%, 100% 64%, 0 95%);
+
     position: absolute;
 
-    top: 40px;
-    left: 0;
-    height: 6px;
-    width: 100%;
+    top: 35px;
+    left: 10%;
+    height: 1.5px;
+    width: 80%;
     background: linear-gradient(60deg, var(--wheat), var(--green));
   }
 }
 
 .header-sm {
   font-size: 1.4rem;
-  position: relative;
   &.underline-sm {
     width: fit-content;
     height: fit-content;
@@ -230,8 +230,8 @@
       content: "";
       top: initial;
       bottom: -6px;
-      left: 0;
-      height: 2px;
+      left: 10%;
+      height: 1px;
     }
   }
 }
@@ -354,15 +354,27 @@
   }
 }
 
-.continue-shopping {
-  position: absolute;
-  top: 25px;
-  right: 5px;
-  background: var(--sale);
+.order-pop-btn {
   margin-top: 20px;
   font-size: 0.8rem;
-  padding: 8px 5px;
+  padding: 0 8px;
+  height: 30px;
+
   gap: 2px;
+  &.continue-shopping {
+    background: var(--green);
+  }
+  &.view-order-btn {
+    background: transparent;
+    border: 1px solid grey;
+    color: var(--third) !important;
+    transition: 0.3s;
+    &:hover {
+      color: var(--white) !important;
+
+      background-color: grey;
+    }
+  }
   svg {
     font-size: 1.4rem;
   }
@@ -386,6 +398,7 @@ form {
 }
 .h-80 {
   width: 100%;
+  min-width: 70vw;
   min-height: 80vh;
 }
 

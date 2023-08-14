@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { OrderInterface } from "../interfaces/product";
 
-const initialState: { order: { createdAt: string }[] } = {
+const initialState: { order: OrderInterface[] } = {
   order: [],
 };
 
@@ -19,12 +20,12 @@ const orderSlice = createSlice({
     removeFromOrderRedux(state, action) {
       const arr = action.payload;
       for (const el of arr) {
-        state.order = state.order.filter((st: any) => st._id !== el);
+        state.order = state.order.filter((st: OrderInterface) => st._id !== el);
       }
     },
 
     updateOrderRedux(state, action) {
-      state.order = state.order.map((order: any) =>
+      state.order = state.order.map((order: OrderInterface) =>
         action.payload.id === order._id
           ? {
               ...order,

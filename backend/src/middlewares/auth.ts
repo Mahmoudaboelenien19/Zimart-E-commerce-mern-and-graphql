@@ -30,7 +30,6 @@ export const RestfullAuth = (
 ) => {
   try {
     const authHearders = req.headers.authorization;
-    console.log(authHearders);
     if (authHearders) {
       const token = authHearders!.split(" ")[1];
       const decode = Jwt.verify(
@@ -39,7 +38,6 @@ export const RestfullAuth = (
       );
 
       if (decode) {
-        console.log(decode);
         next();
       } else {
         res.status(401).send("Invalid token");

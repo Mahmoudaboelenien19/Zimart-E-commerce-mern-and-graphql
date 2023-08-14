@@ -1,0 +1,148 @@
+@import "../variables.scss";
+
+.payment {
+  display: flex;
+  width: 95vw;
+  max-width: 950px;
+  min-height: calc(100vh - 90px);
+  justify-content: space-between;
+  align-items: flex-start;
+  color: var(--third) !important;
+  gap: 50px;
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 10px;
+  padding: 0 20px;
+  .ordered-products {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 30px;
+    h2 {
+      margin: 0;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
+    .ordered-product {
+      width: 100%;
+      text-transform: capitalize;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 5px;
+      .detail {
+        color: var(--third);
+        padding: 0;
+        font-weight: 600;
+      }
+      .value {
+        padding: 0;
+        text-shadow: var(--forth-shadow);
+
+        color: var(--wheat);
+        .price-top {
+          bottom: -2px;
+        }
+        .price-product {
+          font-size: 1.2rem !important;
+          margin-top: 0;
+        }
+      }
+      h3 {
+        text-transform: capitalize;
+        margin: 10px 0;
+      }
+      .or {
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+form#payment-form {
+  background: #222222;
+
+  align-self: center;
+  height: fit-content;
+  padding: 20px;
+  border-radius: 5px;
+  flex-direction: column;
+  box-shadow: 0.5px 0.5px 2px black;
+  padding-bottom: 40px;
+  gap: 30px;
+  overflow: hidden;
+
+  h3 {
+    text-transform: capitalize;
+    margin: 10px 0;
+    &.underline:before {
+      margin: 0 !important;
+    }
+  }
+  h2 {
+    color: white;
+  }
+
+  input {
+    width: 80%;
+    height: 30px;
+    padding: 0;
+    padding-right: 20px;
+    background-color: var(--main);
+    box-shadow: var(--third-shadow);
+    border-radius: 5px;
+    color: var(--third);
+  }
+  button {
+    border-radius: 5px;
+    height: 40px;
+    margin: 0 auto;
+    width: 120px;
+  }
+}
+.order-confirmed {
+  color: var(--third);
+  gap: 5px;
+  height: 250px;
+  h1 {
+    font-size: 2rem;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+  }
+  p {
+    width: 90%;
+    color: grey;
+    text-align: center;
+    &::first-letter {
+      margin: 0;
+      color: grey;
+    }
+  }
+}
+@media (max-width: 650px) {
+  .order-confirmed {
+    height: 100vh;
+  }
+  .payment {
+    width: 95%;
+    flex-direction: column;
+
+    .ordered-products {
+      width: 100%;
+      justify-content: flex-start;
+      .ordered-product {
+        width: 100%;
+      }
+    }
+  }
+}
+
+#cardNumber,
+#expiry,
+#cvc {
+  width: 80%;
+  height: 30px;
+  background-color: green;
+}

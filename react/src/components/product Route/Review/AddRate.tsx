@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Star from "../Product/Products/Aside/Star";
+import Star from "../../Product/Products/Aside/Star";
 import { motion } from "framer-motion";
 
 interface Props {

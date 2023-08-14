@@ -5,7 +5,7 @@ import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import Input from "../widgets/Input";
 import { useMutation } from "@apollo/client";
 import { Authenticate_Query } from "../../graphql/mutations/user";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { toast } from "react-hot-toast";
 import { isAuthContext } from "../../context/isAuth";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
@@ -92,7 +92,7 @@ const Login = () => {
               type={"password"}
             />
 
-            <OpacityBtn
+            <MainBtn
               cls="btn main w-80"
               parCls="w-100"
               fn={() => null}

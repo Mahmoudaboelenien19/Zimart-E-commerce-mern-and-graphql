@@ -18,6 +18,7 @@ import NoData from "../../widgets/NoData";
 import useMessure from "react-use-measure";
 import { showAsideContext } from "../Dashboard";
 import { mergeRefs } from "react-merge-refs";
+import { OrderInterface } from "../../../interfaces/product";
 
 interface contextInterface {
   setarrOfOrders: React.Dispatch<React.SetStateAction<string[]>>;
@@ -25,7 +26,7 @@ interface contextInterface {
 
   setSlectALl: React.Dispatch<React.SetStateAction<string | number>>;
   selectALl: string | number;
-  dataShown: any[];
+  dataShown: OrderInterface[];
 }
 export const checkContext = createContext({} as contextInterface);
 const Orders = () => {

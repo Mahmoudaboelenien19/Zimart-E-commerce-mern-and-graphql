@@ -6,7 +6,6 @@ interface Props {
   err: string | undefined;
 }
 const InpErr = ({ err }: Props) => {
-  console.log({ err });
   return (
     <AnimatePresence mode="wait">
       {err && (

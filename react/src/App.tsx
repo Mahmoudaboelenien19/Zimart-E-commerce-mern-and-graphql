@@ -9,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 import GridViewContext from "./context/gridView";
 import FilterDataContext from "./context/FilterData";
 import ThemeContext from "./context/ThemContext";
-
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -17,6 +16,7 @@ const App = () => {
       setIsLoading(false);
     }, 3000);
   }, []);
+
   return (
     <ThemeContext>
       <IsAuthContextComponent>

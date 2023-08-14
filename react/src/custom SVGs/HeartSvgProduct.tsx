@@ -16,7 +16,7 @@ const HeartSvgProduct = ({ isFavoraited, setIsFavorited }: Props) => {
   const {
     _id: parentId,
     bigImgInd,
-    images,
+    images = [],
     price,
     title,
   } = useContext(productContext);
@@ -27,11 +27,11 @@ const HeartSvgProduct = ({ isFavoraited, setIsFavorited }: Props) => {
   const [path, setPath] = useState("");
 
   useEffect(() => {
-    setId(images[bigImgInd]._id);
+    setId(images[bigImgInd]?._id);
   }, [bigImgInd]);
 
   useEffect(() => {
-    images.map((e) => (e._id === id ? setPath(e.productPath) : null));
+    images?.map((e) => (e._id === id ? setPath(e.productPath) : null));
   }, [id]);
 
   useEffect(() => {

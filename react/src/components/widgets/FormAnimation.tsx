@@ -31,7 +31,12 @@ const FormAnimation = ({ children, fn, cls }: Props) => {
   }, [inView]);
 
   return (
-    <motion.form className={`hide ${cls}`} onSubmit={fn} ref={ref}>
+    <motion.form
+      className={`hide ${cls}`}
+      onSubmit={fn}
+      ref={ref}
+      autoComplete="off"
+    >
       {children}
     </motion.form>
   );

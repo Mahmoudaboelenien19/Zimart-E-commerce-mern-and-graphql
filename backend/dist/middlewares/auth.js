@@ -30,12 +30,10 @@ exports.auth = auth;
 const RestfullAuth = (req, res, next) => {
     try {
         const authHearders = req.headers.authorization;
-        console.log(authHearders);
         if (authHearders) {
             const token = authHearders.split(" ")[1];
             const decode = jsonwebtoken_1.default.verify(token, config_js_1.ACCESS_TOKEN_SECRET);
             if (decode) {
-                console.log(decode);
                 next();
             }
             else {

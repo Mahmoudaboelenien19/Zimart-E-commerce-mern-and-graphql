@@ -15,3 +15,12 @@ export const update_Order = gql`
     }
   }
 `;
+
+export const create_Order = gql`
+  mutation ($input: createdOrderInput) {
+    createOrder(input: $input) {
+      orderId
+      status
+    }
+  }
+`;

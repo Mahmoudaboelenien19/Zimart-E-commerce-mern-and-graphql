@@ -16,13 +16,6 @@ const userSlice = createSlice({
       }
     },
 
-    removeFromUserRedux(state, action) {
-      const arr = action.payload;
-      for (const el of arr) {
-        state.user = state.user.filter((st: any) => st._id !== el);
-      }
-    },
-
     updateUserRedux(state, action) {
       state.user = state.user.map((user: any) =>
         action.payload._id === user._id
@@ -36,6 +29,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { addToUserRedux, removeFromUserRedux, updateUserRedux } =
-  userSlice.actions;
+export const { addToUserRedux, updateUserRedux } = userSlice.actions;
 export default userSlice.reducer;

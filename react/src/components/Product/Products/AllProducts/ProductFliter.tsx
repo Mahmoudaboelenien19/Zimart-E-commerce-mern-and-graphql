@@ -4,7 +4,6 @@ import useAvg from "../../../../custom/useAvg";
 import ProductListHeart from "../../../widgets/ProductListHeart";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { imagesInterface } from "../../../../interfaces/user";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import useMeasure from "react-use-measure";
 import { viewContext } from "../../../../context/gridView";
@@ -12,28 +11,16 @@ import { productListContext } from "../../../../context/FilterData";
 import ListCartBtn from "./ListCartBtn";
 import DetailsBtn from "../../../widgets/DetailsBtn";
 import { AiOutlineCheck } from "react-icons/ai";
-import { reviewInterface } from "../../../../interfaces/product";
+import { ProductInterface } from "../../../../interfaces/product";
 import Title from "../../../widgets/Title";
 import { RiEditLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BsInfoCircleFill } from "react-icons/bs";
 import CompareIcons from "../../../widgets/CompareIcons";
 import StyledPrice from "../../../widgets/StyledPrice";
-type Props = {
-  _id: string;
-  price: number;
-  stock: number;
-  title: string;
-  state: string;
-  category: string;
-  images: imagesInterface[];
+interface Props extends ProductInterface {
   isDash?: boolean;
-  description: string;
-  rating: number[];
   index: number;
-  isPending: boolean;
-  reviews: reviewInterface[];
-};
+}
 
 const ProductFliter = ({
   isDash,
@@ -48,7 +35,6 @@ const ProductFliter = ({
   index,
   description,
   reviews,
-  isPending,
 }: Props) => {
   const { avgRate, reviewLength } = useAvg(rating, reviews);
   const [isFavoraited, setIsFavorited] = useState(false);

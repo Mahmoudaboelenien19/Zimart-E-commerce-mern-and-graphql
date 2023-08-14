@@ -18,37 +18,33 @@ const stripeData = require("stripe")(config_js_1.Stripe_key);
 let orderData;
 let session;
 let email;
+const getAmount = (ar) => ar.reduce((acc, cur) => acc + cur.price * cur.count, 0) * 100;
 const stripeFn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { products } = req.body;
+        orderData = products;
+        const paymentIntent = yield stripeData.paymentIntents.create({
+            amount: getAmount(products),
+            automatic_payment_methods: { enabled: true },
+            currency: "usd",
+        });
+        res.json({
+            clientSecret: paymentIntent.client_secret,
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const date = () => new Date();
         const userId = req.params.userid;
         const { products, email } = req.body;
-        orderData = products;
-        const lineItems = yield Promise.all(products.map((item) => {
-            return {
-                price_data: {
-                    currency: "usd",
-                    product_data: {
-                        name: item.title,
-                    },
-                    unit_amount: item.price * 100,
-                },
-                quantity: item.count,
-            };
-        }));
-        session = yield stripeData.checkout.sessions.create({
-            line_items: lineItems,
-            mode: "payment",
-            success_url: `${config_js_1.Client_Url}?success=true`,
-            cancel_url: `${config_js_1.Client_Url}?success=false`,
-            payment_method_types: ["card"],
-            customer_email: email,
-        });
-        const date = () => new Date();
-        res.json(session);
-        console.log(session);
-        yield order_js_1.OrderCollection.create({
+        //order
+        const order = yield order_js_1.OrderCollection.create({
             createdAt: date(),
-            cost: session.amount_total / 100,
+            cost: getAmount(products) / 100,
             userId,
             productId: products.map((e) => ({
                 id: e._id,
@@ -73,41 +69,11 @@ const stripeFn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 notificationsCount: +1,
             },
         });
+        res.json({ status: 200, orderId: order._id });
     }
     catch (err) {
         console.log(err);
     }
-});
-const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const date = () => new Date();
-    const userId = req.params.userid;
-    yield order_js_1.OrderCollection.create({
-        createdAt: date(),
-        cost: session.amount_total / 100,
-        userId,
-        productId: orderData.map((e) => ({
-            id: e._id,
-            count: e.count,
-            title: e.title,
-            price: e.price,
-            image: e.path,
-        })),
-        state: "pending",
-        count: orderData.length,
-    });
-    const notificationObj = {
-        isRead: false,
-        content: `${email} created a new order`,
-        createdAt: new Date().toISOString(),
-    };
-    yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-        $push: {
-            notifications: notificationObj,
-        },
-        $inc: {
-            notificationsCount: +1,
-        },
-    });
 });
 const getStripeublicKey = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -118,9 +84,7 @@ const getStripeublicKey = (_, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 const stripeRoutes = (0, express_1.Router)();
+stripeRoutes.route("/order/create/:userid").post(auth_js_1.RestfullAuth, createOrder);
 stripeRoutes.route("/checkout/:userid").post(auth_js_1.RestfullAuth, stripeFn);
-stripeRoutes
-    .route("/checkout/order/create/:userid")
-    .post(auth_js_1.RestfullAuth, createOrder);
 stripeRoutes.route("/getkey").get(auth_js_1.RestfullAuth, getStripeublicKey);
 exports.default = stripeRoutes;

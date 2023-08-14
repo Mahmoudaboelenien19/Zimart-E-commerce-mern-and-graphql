@@ -19,7 +19,7 @@ export interface userDataInterface {
 }
 
 const UserInfo = () => {
-  const { name, email, userId, country, phone } = useContext(isAuthContext);
+  const { name, email, country, phone } = useContext(isAuthContext);
   const [updateName, setUpdateName] = useState(false);
   const [updateCountry, setUpdateCountry] = useState(false);
   const [updateEmail, setUpdateEmail] = useState(false);
@@ -74,7 +74,7 @@ const UserInfo = () => {
     <div>
       <h2 className="underline header user-head">User Info</h2>
 
-      {userArr.map(({ detail, value, fn, setter, bool }, i) => {
+      {userArr.map(({ detail, value, fn, setter, bool }) => {
         return (
           <Fragment key={detail}>
             <Detail
@@ -101,5 +101,3 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
-
-//>npm i yup  @hookform/resolvers

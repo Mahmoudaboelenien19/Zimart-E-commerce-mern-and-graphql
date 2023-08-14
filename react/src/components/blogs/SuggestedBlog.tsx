@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import OpacityBtn from "../widgets/OpacityBtn";
+import MainBtn from "../widgets/MainBtn";
 import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   head: string;
@@ -25,7 +25,7 @@ const SuggestedBlog = ({ head, intro, image, _id }: Props) => {
         {head.split(" ").slice(0, 7).join(" ").slice(0, 30)} ...
       </h4>
       <p>{intro.split(" ").slice(0, 10).join(" ")} ...</p>
-      <OpacityBtn
+      <MainBtn
         Icon={BiRightArrowAlt}
         btn="see more"
         cls="btn main center gap suggested-btn"

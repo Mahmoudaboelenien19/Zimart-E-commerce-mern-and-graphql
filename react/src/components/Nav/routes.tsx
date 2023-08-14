@@ -23,6 +23,7 @@ import FaqComponent from "../user/Faq";
 import Blogs from "../blogs/Blogs";
 import Blog from "../blogs/Blog";
 import ContactUs from "../contactUs/ContactUs";
+import Payment from "../payment/Payment";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -102,6 +103,7 @@ const AppRoutes = () => {
         <Route path="/faq" element={<FaqComponent />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/user" element={<User />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/compare" element={<CompareProducts />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="" element={<Recap />} />

@@ -38,8 +38,31 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
     state: String
     deliveredAt: Date
   }
+
+  input ProductOrderinput {
+    _id: ID
+    productId: ID
+    parentId: ID
+    price: Float
+    path: String
+    title: String
+    count: Int
+  }
+
+  input createdOrderInput {
+    products: [ProductOrderinput]
+    email: String
+    userId: String
+  }
+
+  type orderReturn {
+    orderId: ID
+    status: Int
+  }
+
   type Mutation {
     updateOrder(input: updateOrderInput): Order
     deleteOrder(_id: [ID!]): Order
+    createOrder(input: createdOrderInput): orderReturn
   }
 `;

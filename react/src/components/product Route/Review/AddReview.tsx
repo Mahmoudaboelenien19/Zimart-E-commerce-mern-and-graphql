@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import SlideButton from "../widgets/SlideButton";
+import SlideButton from "../../widgets/SlideButton";
 import AddRate from "./AddRate";
-import useAddReview from "../../custom/useAddReview";
-import { isAuthContext } from "../../context/isAuth";
-import { useAppDispatch } from "../../custom/reduxTypes";
-import { addReviewRedux, updateReviewRedux } from "../../redux/productSlice";
+import useAddReview from "../../../custom/useAddReview";
+import { isAuthContext } from "../../../context/isAuth";
+import { useAppDispatch } from "../../../custom/reduxTypes";
+import { addReviewRedux, updateReviewRedux } from "../../../redux/productSlice";
 import { useMutation } from "@apollo/client";
-import { update_Review } from "../../graphql/mutations/user";
+import { update_Review } from "../../../graphql/mutations/user";
 
 interface Props {
   setShowAddRate: React.Dispatch<React.SetStateAction<boolean>>;

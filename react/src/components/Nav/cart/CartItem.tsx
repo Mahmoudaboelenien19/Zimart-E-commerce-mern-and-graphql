@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { cartInterface } from "../../../interfaces/user.js";
 import Counter from "./Counter.js";
-import OpacityBtn from "../../widgets/OpacityBtn.js";
 import useRemoveFromCart from "../../../custom/useRemoveFromCart.js";
 import { isAuthContext } from "../../../context/isAuth.js";
 import { BsFillCartXFill } from "react-icons/bs";
 import DetailsBtn from "../../widgets/DetailsBtn.js";
 
 import { useAppSelector } from "../../../custom/reduxTypes.js";
-import useBuy from "../../../custom/useBuy.js";
+
 import Title from "../../widgets/Title.js";
+import BuyBtn from "../../payment/BuyBtn.js";
 
 const CartItem = ({
   _id,
@@ -31,10 +31,9 @@ const CartItem = ({
     userId,
     productId: [productId],
   });
-  const obj = cart.find((item: cartInterface) => item._id === _id);
-  const { handlePurchase, isPending } = useBuy([
-    obj,
-  ] as unknown as cartInterface[]);
+  const obj = cart.find(
+    (item: cartInterface) => item._id === _id
+  ) as cartInterface;
 
   return (
     <div className="cart-item center ">
@@ -52,12 +51,7 @@ const CartItem = ({
           );
         })}
         <div style={{ alignSelf: "center" }}>
-          <OpacityBtn
-            isPending={isPending}
-            btn="purchase"
-            fn={handlePurchase}
-            cls="btn btn-buy "
-          />
+          <BuyBtn products={[obj]} />
         </div>
       </div>
       <div className="cart-btns center  ">

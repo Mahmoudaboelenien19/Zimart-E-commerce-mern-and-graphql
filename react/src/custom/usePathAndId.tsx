@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { imagesInterface } from "../interfaces/user";
 
-const usePathAndId = (arr: imagesInterface[], index: number) => {
+const usePathAndId = (arr: imagesInterface[] = [], index: number) => {
   const [id, setId] = useState("");
   const [path, setPath] = useState("");
   useEffect(() => {
-    setId(arr[index]._id);
+    setId(arr[index]?._id);
   }, [index]);
   useEffect(() => {
     arr.map((e) => (e._id === id ? setPath(e.productPath) : null));

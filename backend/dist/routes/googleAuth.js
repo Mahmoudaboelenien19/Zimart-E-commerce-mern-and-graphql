@@ -25,15 +25,11 @@ const successLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const email = (_a = user === null || user === void 0 ? void 0 : user.emails[0]) === null || _a === void 0 ? void 0 : _a.value;
     if (email) {
         const result = yield user_1.userCollection.findOne({ email });
-        console.log(result);
         if (result) {
             const expire = { expiresIn: "15s" };
             const accessToken = jsonwebtoken_1.default.sign({ result }, config_js_1.ACCESS_TOKEN_SECRET, expire);
             const refToken = jsonwebtoken_1.default.sign({ result }, config_js_1.REFRESH_TOKEN_SECRET);
-            console.log("google");
-            console.log(result);
             const id = result._id.toString();
-            console.log(id);
             res.cookie("user_email", result.email);
             res.cookie("user_id", id);
             res.cookie("access_token", accessToken);

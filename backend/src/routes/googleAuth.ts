@@ -14,7 +14,7 @@ const successLogin = async (req: Request, res: Response) => {
   const email = user?.emails[0]?.value;
   if (email) {
     const result: any = await userCollection.findOne({ email });
-    console.log(result);
+
     if (result) {
       const expire = { expiresIn: "15s" };
       const accessToken = jwt.sign(
@@ -26,10 +26,8 @@ const successLogin = async (req: Request, res: Response) => {
         { result },
         REFRESH_TOKEN_SECRET as unknown as string
       );
-      console.log("google");
-      console.log(result);
+
       const id = result._id.toString();
-      console.log(id);
       res.cookie("user_email", result.email as unknown as string);
       res.cookie("user_id", id as unknown as string);
       res.cookie("access_token", accessToken);
