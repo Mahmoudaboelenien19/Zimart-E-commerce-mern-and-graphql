@@ -8,7 +8,7 @@ interface Props {
   dimension: number;
 }
 const ProfileImg = ({ dimension }: Props) => {
-  const { profile, name = "guest" } = useContext(isAuthContext);
+  const { profile } = useContext(isAuthContext);
 
   return (
     <>

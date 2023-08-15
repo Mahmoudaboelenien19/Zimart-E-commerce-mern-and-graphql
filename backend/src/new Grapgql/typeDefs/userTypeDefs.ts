@@ -59,6 +59,7 @@ export const userTypeDefs = gql`
     notificationsCount: Int
     notifications: [Notification]
   }
+
   input AddUserInput {
     name: String!
     email: String!

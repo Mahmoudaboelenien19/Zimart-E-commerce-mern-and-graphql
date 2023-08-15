@@ -19,7 +19,6 @@ const SuggestedBlogs = ({ id }: { id: string }) => {
   useEffect(() => {
     if (!blogs?.length) {
       getAllQueries().then(({ data }) => {
-        console.log(data);
         dispatch(addToBlogsRedux(data?.blogs));
       });
     }

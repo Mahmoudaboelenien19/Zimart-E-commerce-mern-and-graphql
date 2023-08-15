@@ -62,6 +62,7 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     notificationsCount: Int
     notifications: [Notification]
   }
+
   input AddUserInput {
     name: String!
     email: String!

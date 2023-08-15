@@ -26,11 +26,7 @@ const AddReview = ({
   defaultVal,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const {
-    userId,
-    name,
-    userData: { image },
-  } = useContext(isAuthContext);
+  const { userId, name, image } = useContext(isAuthContext);
   const [inpVal, setInpVal] = useState("");
   const obj = {
     userId,

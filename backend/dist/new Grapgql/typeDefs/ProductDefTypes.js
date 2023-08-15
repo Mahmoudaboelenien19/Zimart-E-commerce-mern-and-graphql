@@ -112,4 +112,8 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     addReview(input: CreateReviewInput): Review
     updateReview(input: updateReviewInput): StatusMsg
   }
+
+  type Subscription {
+    productUpdated: Product
+  }
 `;

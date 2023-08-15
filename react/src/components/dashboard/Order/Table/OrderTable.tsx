@@ -21,6 +21,7 @@ const OrderTable = () => {
         onClick={() => {
           handleDeleteOrder();
           setarrOfOrders([]);
+          setSlectALl("");
         }}
         className="order-del-par"
       >

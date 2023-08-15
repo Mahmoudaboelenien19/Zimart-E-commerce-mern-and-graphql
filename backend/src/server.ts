@@ -20,11 +20,16 @@ import { AuthRouter } from "./routes/tokensRoutes.js";
 import { permissions } from "./new Grapgql/shield/permissions.js";
 import { blogResolver } from "./new Grapgql/Resolvers/blogResolver.js";
 import { BlogDefType } from "./new Grapgql/typeDefs/blogsType.js";
+import { context } from "./new Grapgql/context.js";
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 import path from "path";
 import { StripeTypes } from "./new Grapgql/typeDefs/stripeType.js";
 import { stripeResolver } from "./new Grapgql/Resolvers/stripeResolver.js";
+import { createServer } from "http";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
 mongoose.connect(MongoDB_URL as unknown as string);
 
 const app = express();
@@ -36,7 +41,6 @@ app.use(
     // maxAge: 24 * 60,
   })
 );
-
 app.use(passport.initialize());
 app.use(cookieParser());
 app.use(passport.session());
@@ -49,7 +53,7 @@ app.use(
   })
 );
 
-const schema = makeExecutableSchema({
+const schema: any = makeExecutableSchema({
   typeDefs: [
     productTypeDefs,
     orderDefType,
@@ -67,14 +71,33 @@ const schema = makeExecutableSchema({
 });
 
 const schemaWithPermissions = applyMiddleware(schema, permissions);
+const httpServer = createServer(app);
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/graphql",
+});
+
+const serverCleanup = useServer({ schema: schemaWithPermissions }, wsServer);
 
 app.use(express.json());
 
 const server = new ApolloServer({
   schema: schemaWithPermissions,
-  context: ({ req, res }) => {
-    return { req, res };
-  },
+  context,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
 });
 
 // app.use(express.static(path.join(path.resolve(), "/react/dist")));
@@ -91,6 +114,7 @@ app.use("/token", AuthRouter);
 // app.get("*", (_, res) => {
 //   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
 // });
+
 (async () => {
   await server.start();
   server.applyMiddleware({
@@ -102,8 +126,7 @@ app.use("/token", AuthRouter);
     },
   });
 
-  //change port
-  app.listen({ port: 3000 }, () => {
+  httpServer.listen({ port: 3000 }, () => {
     console.log("server-runs");
   });
 })();

@@ -34,9 +34,14 @@ const tokensRoutes_js_1 = require("./routes/tokensRoutes.js");
 const permissions_js_1 = require("./new Grapgql/shield/permissions.js");
 const blogResolver_js_1 = require("./new Grapgql/Resolvers/blogResolver.js");
 const blogsType_js_1 = require("./new Grapgql/typeDefs/blogsType.js");
+const context_js_1 = require("./new Grapgql/context.js");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const stripeType_js_1 = require("./new Grapgql/typeDefs/stripeType.js");
 const stripeResolver_js_1 = require("./new Grapgql/Resolvers/stripeResolver.js");
+const http_1 = require("http");
+const apollo_server_core_1 = require("apollo-server-core");
+const ws_1 = require("ws");
+const ws_2 = require("graphql-ws/lib/use/ws");
 mongoose_1.default.connect(config_js_1.MongoDB_URL);
 const app = (0, express_1.default)();
 app.use(cookieSession({
@@ -71,12 +76,32 @@ const schema = makeExecutableSchema({
     ],
 });
 const schemaWithPermissions = (0, graphql_middleware_1.applyMiddleware)(schema, permissions_js_1.permissions);
+const httpServer = (0, http_1.createServer)(app);
+const wsServer = new ws_1.WebSocketServer({
+    server: httpServer,
+    path: "/graphql",
+});
+const serverCleanup = (0, ws_2.useServer)({ schema: schemaWithPermissions }, wsServer);
 app.use(express_1.default.json());
 const server = new apollo_server_express_1.ApolloServer({
     schema: schemaWithPermissions,
-    context: ({ req, res }) => {
-        return { req, res };
-    },
+    context: context_js_1.context,
+    plugins: [
+        (0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer }),
+        {
+            serverWillStart() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return {
+                        drainServer() {
+                            return __awaiter(this, void 0, void 0, function* () {
+                                yield serverCleanup.dispose();
+                            });
+                        },
+                    };
+                });
+            },
+        },
+    ],
 });
 // app.use(express.static(path.join(path.resolve(), "/react/dist")));
 app.get("/cookie", (req, res) => {
@@ -99,8 +124,7 @@ app.use("/token", tokensRoutes_js_1.AuthRouter);
             origin: config_js_1.Client_Url,
         },
     });
-    //change port
-    app.listen({ port: 3000 }, () => {
+    httpServer.listen({ port: 3000 }, () => {
         console.log("server-runs");
     });
 }))();

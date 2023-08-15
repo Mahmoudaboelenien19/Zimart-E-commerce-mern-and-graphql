@@ -5,6 +5,7 @@ import StripeSuccess from "../payment/StripeSuccess";
 import Footer from "../Footer/Footer";
 import NewsLetter from "../NewsLetter/NewsLetter";
 import Animation from "../widgets/Animation";
+
 const Home = () => {
   useEffect(() => {
     document.title = "Zimart";

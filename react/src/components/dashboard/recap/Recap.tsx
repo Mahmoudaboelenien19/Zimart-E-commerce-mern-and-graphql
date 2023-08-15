@@ -61,7 +61,6 @@ const Recap = () => {
     },
   ];
   const [ref, { width }] = useMeasure();
-  console.log(order);
   const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
   return (
     <DashMain>

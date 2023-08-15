@@ -225,3 +225,30 @@ export const FILTER_All = gql`
     }
   }
 `;
+
+export const Updated_Product_Subscription = gql`
+  subscription productUpdated {
+    productUpdated {
+      reviews {
+        image
+        user
+        review
+        rate
+        _id
+      }
+      _id
+      price
+      stock
+      title
+      description
+      rating
+      category
+      state
+
+      images {
+        productPath
+        _id
+      }
+    }
+  }
+`;

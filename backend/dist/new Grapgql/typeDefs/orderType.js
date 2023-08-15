@@ -65,4 +65,16 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
     deleteOrder(_id: [ID!]): Order
     createOrder(input: createdOrderInput): orderReturn
   }
+
+  type Notification {
+    _id: ID
+    isRead: Boolean
+    content: String
+    createdAt: Date
+  }
+
+  type Subscription {
+    OrderCreated: Order
+    NotificationAdded: Notification
+  }
 `;

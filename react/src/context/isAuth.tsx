@@ -1,6 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
-import { cartInterface, favInterface } from "../interfaces/user";
-import { useMutation } from "@apollo/client";
+import {
+  cartInterface,
+  compareInterface,
+  favInterface,
+} from "../interfaces/user";
+import { OnDataOptions, useMutation, useSubscription } from "@apollo/client";
 import { GET_USER_DATA } from "../graphql/mutations/user";
 import { useAppDispatch, useAppSelector } from "../custom/reduxTypes";
 import { addToFavRedux } from "../redux/favSlice";
@@ -10,30 +14,20 @@ import { addToCompareRedux } from "../redux/compareSlice";
 import {
   addToNotificatinsRedux,
   changeNotificationCount,
+  notificationInterface,
 } from "../redux/notificationsSlice";
 import { backendRoute } from "../assets/routes";
 import axios from "axios";
+import { New_Notification_Subscription } from "../graphql/mutations/order";
 
-export interface favArrInterface {
-  productId: string;
-  parentId?: string;
-  price: number;
-  title: string;
-  path: string;
-  _id: string;
-}
-export interface compareInterface {
-  productId: string;
-  title: string;
-}
 interface userDataState {
   email: string;
   name: string;
   country: string;
   phone: string;
-  fav: favInterface[];
-  cart: cartInterface[];
-  compare: compareInterface[];
+  fav?: favInterface[];
+  cart?: cartInterface[];
+  compare?: compareInterface[];
   //-imp to use braket notation wuth variables
   [key: string]: any;
 }
@@ -44,7 +38,6 @@ interface authContextInterface extends userDataState {
   userId: string;
   profile: string;
   setProfile: React.Dispatch<React.SetStateAction<string>>;
-  userData: userDataState;
 }
 
 export const isAuthContext = createContext({} as authContextInterface);
@@ -65,10 +58,9 @@ const IsAuthContextComponent = ({ children }: ChildrenInterFace) => {
     role: "",
   } as userDataState);
   const [getData, { data }] = useMutation(GET_USER_DATA);
-
   const dispatch = useAppDispatch();
   const { fav } = useAppSelector((st) => st.fav);
-  const { notificatins } = useAppSelector((st) => st.notification);
+  const { notificatins, count } = useAppSelector((st) => st.notification);
   const { cart } = useAppSelector((st) => st.cart);
   const { compare } = useAppSelector((st) => st.compare);
 
@@ -112,18 +104,24 @@ const IsAuthContextComponent = ({ children }: ChildrenInterFace) => {
     }
   }, [data?.getUserData?.name]);
 
+  useSubscription(New_Notification_Subscription, {
+    onData: (
+      data: OnDataOptions<{ NotificationAdded: notificationInterface }>
+    ) => {
+      dispatch(addToNotificatinsRedux(data?.data?.data?.NotificationAdded));
+      dispatch(changeNotificationCount(count + 1));
+    },
+  });
+
   return (
     <isAuthContext.Provider
       value={{
-        userData,
         isAuth,
-        fav: userData.fav,
-        cart: userData.cart,
-        compare: userData.compare,
         email: userData.email,
         name: userData.name,
         country: userData.country,
         phone: userData.phone,
+        image: userData.image,
         setIsAuth,
         userId,
         profile,

@@ -10,16 +10,14 @@ import { Get_All_Products } from "../graphql/general.js";
 import { addToProductRedux } from "../redux/productSlice.js";
 import { useAppDispatch } from "../custom/reduxTypes.js";
 import { ProductInterface } from "../interfaces/product.js";
-import { GET_ALL_ORDERS } from "../graphql/queries.js";
-import { addToOrderRedux } from "../redux/OrderSlice.js";
-import { GET_ALL_USERS } from "../graphql/mutations/user.js";
-import { addToUserRedux } from "../redux/UserSlice.js";
 
 interface productListContextInterface {
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
   showFilter: boolean;
   setProducts: React.Dispatch<React.SetStateAction<ProductInterface[]>>;
   products: ProductInterface[];
+  isPending: boolean;
+  startTransition: React.TransitionStartFunction;
   categoryFilter: string | number;
   setCategoryFilter: React.Dispatch<React.SetStateAction<string | number>>;
   productFeatured: string | number;
@@ -30,8 +28,6 @@ interface productListContextInterface {
   setRateChecked: React.Dispatch<React.SetStateAction<number | string>>;
   productSearchWord: string;
   setroductSearchWord: React.Dispatch<React.SetStateAction<string>>;
-  isPending: boolean;
-  startTransition: React.TransitionStartFunction;
 }
 
 export const productListContext = createContext(
@@ -60,24 +56,7 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
   const [productFeatured, setProductFeatured] = useState<string | number>("");
   const [priceFilter, setPriceFilter] = useState<string | number>(0);
   const [productSearchWord, setroductSearchWord] = useState<string>("");
-
   const [RateChecked, setRateChecked] = useState<string | number>("");
-  const { data: orderData } = useQuery(GET_ALL_ORDERS);
-
-  useEffect(() => {
-    if (orderData?.orders) {
-      const ar = orderData?.orders.slice(0).reverse();
-      dispatch(addToOrderRedux(ar));
-    }
-  }, [orderData?.orders]);
-
-  const { data: userData, loading: usersLoading } = useQuery(GET_ALL_USERS);
-  useEffect(() => {
-    if (userData?.users && !usersLoading) {
-      const ar = userData?.users.slice(0).reverse();
-      dispatch(addToUserRedux(ar));
-    }
-  }, [usersLoading]);
 
   return (
     <productListContext.Provider

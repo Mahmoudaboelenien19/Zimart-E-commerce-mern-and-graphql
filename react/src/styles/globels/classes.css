@@ -389,20 +389,21 @@
 .order-pop-btn {
   margin-top: 20px;
   font-size: 0.8rem;
-  padding: 8px 5px;
+  padding: 0 8px;
+  height: 30px;
   gap: 2px;
 }
 .order-pop-btn.continue-shopping {
-  border: 1px solid var(--green);
   background: var(--green);
 }
 .order-pop-btn.view-order-btn {
   background: transparent;
   border: 1px solid grey;
-  color: white;
+  color: var(--third) !important;
   transition: 0.3s;
 }
 .order-pop-btn.view-order-btn:hover {
+  color: var(--white) !important;
   background-color: grey;
 }
 .order-pop-btn svg {

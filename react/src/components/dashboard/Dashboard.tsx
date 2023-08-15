@@ -2,8 +2,14 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 import { isAuthContext } from "../../context/isAuth";
-import { useAppSelector } from "../../custom/reduxTypes";
-
+import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
+import { OnDataOptions, useQuery, useSubscription } from "@apollo/client";
+import { Order_Created_Subscription } from "../../graphql/mutations/order";
+import { GET_ALL_ORDERS } from "../../graphql/queries";
+import { addToOrderRedux } from "../../redux/OrderSlice";
+import { GET_ALL_USERS } from "../../graphql/mutations/user";
+import { addToUserRedux } from "../../redux/UserSlice";
+import { OrderInterface } from "../../interfaces/order";
 interface contextInterface {
   showAsideDash: boolean;
   setShowAsideDash: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,6 +31,28 @@ const Dashboard = () => {
   if (!isAuth) {
     return <Navigate to={"/login"} />;
   }
+  const { data: orderData } = useQuery(GET_ALL_ORDERS);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (orderData?.orders) {
+      const ar = orderData?.orders.slice(0).reverse();
+      dispatch(addToOrderRedux(ar));
+    }
+  }, [orderData?.orders]);
+  useSubscription(Order_Created_Subscription, {
+    onData: (data: OnDataOptions<{ OrderCreated: OrderInterface }>) => {
+      dispatch(addToOrderRedux(data?.data?.data?.OrderCreated));
+    },
+  });
+
+  const { data: userData, loading: usersLoading } = useQuery(GET_ALL_USERS);
+  useEffect(() => {
+    if (userData?.users && !usersLoading) {
+      const ar = userData?.users.slice(0).reverse();
+      dispatch(addToUserRedux(ar));
+    }
+  }, [usersLoading]);
+
   return (
     <showAsideContext.Provider value={{ showAsideDash, setShowAsideDash }}>
       <div className="dashboard-par ">

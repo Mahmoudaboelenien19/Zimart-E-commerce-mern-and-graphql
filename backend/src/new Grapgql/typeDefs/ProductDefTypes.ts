@@ -110,4 +110,8 @@ export const productTypeDefs = gql`
     addReview(input: CreateReviewInput): Review
     updateReview(input: updateReviewInput): StatusMsg
   }
+
+  type Subscription {
+    productUpdated: Product
+  }
 `;

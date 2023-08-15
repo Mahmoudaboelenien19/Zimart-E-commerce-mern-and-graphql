@@ -119,21 +119,14 @@
   position: absolute;
   right: 5px;
   top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
-  flex-direction: row-reverse;
 }
-.inp-parent .inp-controls .x-inp {
+.inp-parent .inp-controls svg {
   font-size: 1.2rem;
-  color: var(--gmail);
   cursor: pointer;
+  color: var(--gmail);
 }
-.inp-parent .inp-controls .pass-inp {
-  font-size: 1.2rem;
-}
-.inp-parent .inp-controls .pass-inp svg {
+.inp-parent .inp-controls svg.pass-icon {
   position: relative;
   z-index: 4;
   color: var(--wheat-light);

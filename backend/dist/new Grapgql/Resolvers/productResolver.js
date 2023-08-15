@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productResolver = void 0;
 const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
+const context_js_1 = require("../context.js");
 exports.productResolver = {
     Query: {
         products() {
@@ -30,7 +31,6 @@ exports.productResolver = {
     Mutation: {
         filterByPrice(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log(args);
                 if (args.price === 1) {
                     return product_js_1.default.find({}).sort({ price: 1 });
                 }
@@ -38,7 +38,6 @@ exports.productResolver = {
                     return product_js_1.default.find({}).sort({ price: -1 });
                 }
                 else {
-                    console.log("by price");
                     return product_js_1.default.find({ price: { $lte: args.price } });
                 }
             });
@@ -122,7 +121,6 @@ exports.productResolver = {
         },
         searchProducts(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log(args);
                 return yield product_js_1.default.find({
                     $or: [
                         { category: { $regex: args.word, $options: "i" } },
@@ -133,7 +131,11 @@ exports.productResolver = {
         },
         updateProduct(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
-                yield product_js_1.default.findByIdAndUpdate(input._id, input);
+                const updatedProduct = yield product_js_1.default.findByIdAndUpdate(input._id, input, { returnDocument: "after" });
+                console.log(updatedProduct);
+                context_js_1.pubsub.publish("Product_Updated", {
+                    productUpdated: updatedProduct,
+                });
                 return { msg: "product updated successfully", status: 200 };
             });
         },
@@ -167,7 +169,6 @@ exports.productResolver = {
         },
         updateReview(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log(input);
                 try {
                     const { rate, review } = input;
                     const data = yield product_js_1.default.findOneAndUpdate({
@@ -185,6 +186,15 @@ exports.productResolver = {
                     return err.message;
                 }
             });
+        },
+    },
+    Subscription: {
+        productUpdated: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_js_1.pubsub.asyncIterator("Product_Updated");
+                });
+            },
         },
     },
 };

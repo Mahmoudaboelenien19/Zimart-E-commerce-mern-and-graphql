@@ -14,10 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { opacityVariant } from "../../../variants/globals";
 import MainBtn from "../../widgets/MainBtn";
 import DashMain from "../DashMain";
-import {
-  addToProductRedux,
-  updateProductRedux,
-} from "../../../redux/productSlice";
+import { addToProductRedux } from "../../../redux/productSlice";
 import { useAppDispatch } from "../../../custom/reduxTypes";
 import FormAnimation from "../../widgets/FormAnimation";
 import { uploadImagesRoute } from "../../../assets/routes.js";
@@ -36,6 +33,8 @@ interface Props {
 }
 
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
+  const [isPending, setIsPending] = useState(false);
+
   const dispatch = useAppDispatch();
 
   const date = () => new Date();
@@ -94,6 +93,8 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   ];
 
   const onSubmit = async (data: FieldValues) => {
+    setIsPending(true);
+
     const obj = {
       ...data,
       stock: Number(data.stock),
@@ -109,17 +110,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
         },
       });
       toast.success(res.updateProduct.msg);
-      dispatch(
-        updateProductRedux({
-          _id: id,
-          obj: {
-            ...data,
-            stock: Number(data.stock),
-            price: Number(data.price),
-            description: data.description,
-          },
-        })
-      );
+      setIsPending(false);
     } else {
       const addObj = { ...obj, createdAt: date() };
       const { data: res } = await fn({
@@ -142,8 +133,10 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             },
           }
         );
+
         dispatch(addToProductRedux(addedDocument.data));
         toast.success(addedDocument.msg);
+        setIsPending(false);
       }
     }
   };
@@ -197,6 +190,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             fn={() => null}
             parCls="w-80"
             type="submit"
+            isPending={isPending}
           />
         </FormAnimation>
         <AnimatePresence>

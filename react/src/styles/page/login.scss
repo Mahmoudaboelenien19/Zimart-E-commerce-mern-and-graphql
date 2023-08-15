@@ -121,20 +121,14 @@
     position: absolute;
     right: 5px;
     top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100%;
-    flex-direction: row-reverse;
-    .x-inp {
+    svg {
       font-size: 1.2rem;
-      color: var(--gmail);
       cursor: pointer;
-    }
-    .pass-inp {
-      font-size: 1.2rem;
 
-      svg {
+      color: var(--gmail);
+
+      &.pass-icon {
         position: relative;
         z-index: 4;
         color: var(--wheat-light);

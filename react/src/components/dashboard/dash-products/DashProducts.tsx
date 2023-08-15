@@ -3,9 +3,11 @@ import ProductList from "../../Product/Products/AllProducts/ProductList";
 import { viewContext } from "../../../context/gridView";
 import DashMain from "../DashMain";
 import { Outlet } from "react-router-dom";
+import useProductsSubscription from "../../../custom/useProductsSubscription";
 
 const DashProducts = () => {
   const { setGridView } = useContext(viewContext);
+  useProductsSubscription();
 
   useEffect(() => {
     setGridView(true);

@@ -13,12 +13,12 @@ import { ProductInterface } from "../../../../interfaces/product";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { showFilter, products, isPending } = useContext(productListContext);
+  const { showFilter, isPending } = useContext(productListContext);
   const { gridView } = useContext(viewContext);
   const [page, setPage] = useState(1);
   const { isMobile } = useIsMobile();
-  const arr = isDash ? Allproducts || [] : products || [];
-  const [dataShown, numberOfPages] = usePagination(9, page, arr);
+  // const arr = isDash ? Allproducts || [] : products || [];
+  const [dataShown, numberOfPages] = usePagination(9, page, Allproducts);
   const ref = useRef<HTMLDivElement | null>(null);
   return (
     <NoData

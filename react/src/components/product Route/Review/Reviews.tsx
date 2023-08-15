@@ -5,11 +5,10 @@ import { FaGreaterThan, FaLessThan } from "react-icons/fa";
 import useCarousel from "../../../custom/useCarousel";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import useIndex from "../../../custom/useIndex";
-import { btnHover } from "../../../variants/globals";
+
 import { productContext } from "../Product";
 import useMeasure from "react-use-measure";
 import Overley from "../../widgets/Overley";
-import useIsMobile from "../../../custom/useIsMobile";
 import MobileCloseDropDown from "../../widgets/MobileCloseDropDown";
 
 interface Props {
@@ -52,7 +51,6 @@ const Reviews = ({ setShowPop }: Props) => {
       </AnimatePresence>
       <div className="btn-review center">
         <motion.button
-          whileHover={btnHover}
           className="center "
           style={{ background: "var(--delete)", color: "var(--white)" }}
           onClick={() =>
@@ -62,7 +60,6 @@ const Reviews = ({ setShowPop }: Props) => {
           <FaLessThan />
         </motion.button>
         <motion.button
-          whileHover={btnHover}
           className="center "
           style={{ background: "var(--green)", color: "var(--white)" }}
           onClick={() =>

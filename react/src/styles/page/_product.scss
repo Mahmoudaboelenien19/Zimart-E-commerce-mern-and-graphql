@@ -239,7 +239,6 @@ p {
 @media (max-width: 800px) {
   .product-page {
     min-height: 100vh;
-
     flex-direction: column;
     justify-content: center;
 
@@ -249,8 +248,12 @@ p {
     .images {
       width: 100%;
       margin: 0 auto;
+
       .small-img-par {
+        max-width: initial;
         align-self: center;
+        overflow: hidden;
+        align-items: center;
       }
     }
   }
@@ -259,12 +262,4 @@ p {
   width: 100vw !important;
   height: 50vh;
   position: relative;
-  .zoom {
-    div:nth-child(2) {
-      background-color: var(--main);
-      position: fixed !important;
-      top: 0;
-      left: 0;
-    }
-  }
 }

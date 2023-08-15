@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Overley from "../widgets/Overley";
 import CircleCheckSvg from "../../custom SVGs/CircleCheckSvg";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import ContinueShopping from "./ContinueShopping";
 
 import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
@@ -43,11 +43,13 @@ const StripeSuccess = () => {
               <CircleCheckSvg check={true} />
             </div>
             <MobileCloseDropDown setter={setShow} title="close" />
-            <motion.h1>your order is confirmed</motion.h1>
-            <p>
-              we&apos;ll send you a shipping confirmation email as soon as your
-              order ships
-            </p>
+            <div className="center col ">
+              <h1>your order is confirmed</h1>
+              <p>
+                we&apos;ll send you a shipping confirmation email as soon as
+                your order ships
+              </p>
+            </div>
             <div className="center between" style={{ width: 250 }}>
               <MainBtn
                 btn="view order"

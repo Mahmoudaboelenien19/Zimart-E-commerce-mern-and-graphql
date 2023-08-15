@@ -7,9 +7,11 @@ import { productListContext } from "../../../context/FilterData";
 import MainProductAnimation from "./MainProductAnimation";
 import { useAppSelector } from "../../../custom/reduxTypes";
 import useIsMobile from "../../../custom/useIsMobile";
+import useProductsSubscription from "../../../custom/useProductsSubscription";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
+  useProductsSubscription();
   const { isMobile } = useIsMobile();
   const {
     RateChecked,

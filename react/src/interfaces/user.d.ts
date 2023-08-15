@@ -4,6 +4,11 @@ export interface favInterface {
   productId: string;
   path: string;
   _id: string;
+  parentId?: string;
+}
+export interface compareInterface {
+  productId: string;
+  title: string;
 }
 
 export interface cartInterface extends favInterface {

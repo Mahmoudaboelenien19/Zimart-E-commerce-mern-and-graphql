@@ -98,21 +98,13 @@ const Input = ({
                 ? `${placeholder} password`
                 : placeholder}
             </motion.span>
-            <div className="inp-controls">
+            <div className="inp-controls center">
               <AnimatePresence>
                 {inpVal && type !== "password" && (
                   <Title title={`clear ${placeholder} field`} abs={true}>
-                    <motion.span
-                      className="x-inp"
-                      onClick={handleInFocus}
-                      variants={opacityVariant}
-                      initial="start"
-                      animate="end"
-                      exit="exit"
-                      transition={{ duration: 0.4 }}
-                    >
-                      <MdOutlineClear />
-                    </motion.span>
+                    <FadeElement cls="">
+                      <MdOutlineClear onClick={handleInFocus} />
+                    </FadeElement>
                   </Title>
                 )}
               </AnimatePresence>
@@ -126,9 +118,12 @@ const Input = ({
                           : "hide password"
                       }
                     >
-                      <motion.span className="pass-inp" onClick={handlePass}>
-                        <AiTwotoneEye />
-                      </motion.span>
+                      <FadeElement cls="">
+                        <AiTwotoneEye
+                          className="pass-icon"
+                          onClick={handlePass}
+                        />
+                      </FadeElement>
                     </Title>
                   </FadeElement>
                 )}

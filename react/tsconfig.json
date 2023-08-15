@@ -17,5 +17,6 @@
     "jsx": "react-jsx"
   },
   "include": ["src", "src/custom/.tsx", "lib/variants"],
+  "exclude": ["node_modules", "**/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

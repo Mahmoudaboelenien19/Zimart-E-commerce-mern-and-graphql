@@ -10,7 +10,6 @@ import { isAuthContext } from "../../context/isAuth";
 import { FiMinusSquare } from "react-icons/fi";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Title from "../widgets/Title";
-import { useAppSelector } from "../../custom/reduxTypes";
 
 interface Props {
   setProduct: React.Dispatch<React.SetStateAction<string>>;
@@ -55,7 +54,7 @@ const SelectedProductData = ({
         {title}
       </span>
       <span onClick={() => setProduct("")} className="unselect-par">
-        <Title title="unselect this product">
+        <Title title="unselect this product" cancelTap>
           <AiFillCloseCircle className="icon unselect-icon" />
         </Title>
       </span>

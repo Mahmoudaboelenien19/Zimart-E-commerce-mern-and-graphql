@@ -1,4 +1,5 @@
 import productCollection from "../../mongoose/schema/product.js";
+import { pubsub } from "../context.js";
 
 interface filterAllInterface {
   input: {
@@ -40,13 +41,11 @@ export const productResolver = {
   },
   Mutation: {
     async filterByPrice(_: any, args: { price: number }) {
-      console.log(args);
       if (args.price === 1) {
         return productCollection.find({}).sort({ price: 1 });
       } else if (args.price === -1) {
         return productCollection.find({}).sort({ price: -1 });
       } else {
-        console.log("by price");
         return productCollection.find({ price: { $lte: args.price } });
       }
     },
@@ -121,7 +120,6 @@ export const productResolver = {
       }
     },
     async searchProducts(_: any, args: { word: string }) {
-      console.log(args);
       return await productCollection.find({
         $or: [
           { category: { $regex: args.word, $options: "i" } },
@@ -131,7 +129,15 @@ export const productResolver = {
     },
 
     async updateProduct(_: any, { input }: { input: productInterface }) {
-      await productCollection.findByIdAndUpdate(input._id, input);
+      const updatedProduct = await productCollection.findByIdAndUpdate(
+        input._id,
+        input,
+        { returnDocument: "after" }
+      );
+      console.log(updatedProduct);
+      pubsub.publish("Product_Updated", {
+        productUpdated: updatedProduct,
+      });
       return { msg: "product updated successfully", status: 200 };
     },
     async addProduct(
@@ -166,7 +172,6 @@ export const productResolver = {
       }
     },
     async updateReview(_: any, { input }: any) {
-      console.log(input);
       try {
         const { rate, review } = input;
         const data = await productCollection.findOneAndUpdate(
@@ -185,6 +190,13 @@ export const productResolver = {
       } catch (err) {
         return (err as Error).message;
       }
+    },
+  },
+  Subscription: {
+    productUpdated: {
+      async subscribe() {
+        return pubsub.asyncIterator("Product_Updated");
+      },
     },
   },
 };

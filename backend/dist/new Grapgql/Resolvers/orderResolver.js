@@ -13,6 +13,7 @@ exports.orderResolver = void 0;
 const getAmount_1 = require("../../middlewares/getAmount");
 const order_1 = require("../../mongoose/schema/order");
 const user_1 = require("../../mongoose/schema/user");
+const context_1 = require("../context");
 exports.orderResolver = {
     Query: {
         order(_, args) {
@@ -26,11 +27,26 @@ exports.orderResolver = {
             });
         },
     },
+    Subscription: {
+        OrderCreated: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_1.pubsub.asyncIterator("Order_Created");
+                });
+            },
+        },
+        NotificationAdded: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_1.pubsub.asyncIterator("Notification_Created");
+                });
+            },
+        },
+    },
     Mutation: {
         updateOrder(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log(args);
-                const res = yield order_1.OrderCollection.findByIdAndUpdate(args.input._id, {
+                yield order_1.OrderCollection.findByIdAndUpdate(args.input._id, {
                     state: args.input.state,
                     deliveredAt: args.input.deliveredAt,
                 });
@@ -50,7 +66,6 @@ exports.orderResolver = {
             return __awaiter(this, void 0, void 0, function* () {
                 const date = () => new Date();
                 try {
-                    //order
                     const order = yield order_1.OrderCollection.create({
                         createdAt: date(),
                         cost: (0, getAmount_1.getAmount)(input.products) / 100,
@@ -65,6 +80,9 @@ exports.orderResolver = {
                         state: "pending",
                         count: input.length,
                     });
+                    context_1.pubsub.publish("Order_Created", {
+                        OrderCreated: order,
+                    });
                     const notificationObj = {
                         isRead: false,
                         content: `${input.email} created a new order`,
@@ -78,7 +96,12 @@ exports.orderResolver = {
                             notificationsCount: +1,
                         },
                     });
-                    console.log({ orderId: order._id });
+                    const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                        notifications: { $slice: [-1, 1] },
+                    });
+                    context_1.pubsub.publish("Notification_Created", {
+                        NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
+                    });
                     return { status: 200, orderId: order._id };
                 }
                 catch (err) {

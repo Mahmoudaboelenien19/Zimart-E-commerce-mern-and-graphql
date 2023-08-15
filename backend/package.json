@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@graphql-tools/schema": "^9.0.19",
+    "apollo-server-core": "^3.12.0",
     "apollo-server-express": "^3.12.0",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.36.2",
@@ -25,7 +26,9 @@
     "graphql": "^15.8.0",
     "graphql-middleware": "^6.1.33",
     "graphql-shield": "^7.6.5",
+    "graphql-subscriptions": "^2.0.0",
     "graphql-tools": "^8.3.19",
+    "graphql-ws": "^5.14.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "multer": "^1.4.5-lts.1",
@@ -33,7 +36,8 @@
     "passport": "^0.5.3",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
-    "stripe": "^12.3.0"
+    "stripe": "^12.3.0",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -46,6 +50,7 @@
     "@types/passport": "^1.0.12",
     "@types/passport-facebook": "^2.1.11",
     "@types/passport-google-oauth20": "^2.0.11",
+    "@types/ws": "^8.5.5",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",

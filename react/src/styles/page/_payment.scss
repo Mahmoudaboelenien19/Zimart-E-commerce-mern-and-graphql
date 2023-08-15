@@ -115,6 +115,7 @@ form#payment-form {
     width: 90%;
     color: grey;
     text-align: center;
+    margin: 0px;
     &::first-letter {
       margin: 0;
       color: grey;
@@ -122,9 +123,9 @@ form#payment-form {
   }
 }
 @media (max-width: 650px) {
-  .order-confirmed {
-    height: 100vh;
-  }
+  // .order-confirmed {
+  //   height: 100vh;
+  // }
   .payment {
     width: 95%;
     flex-direction: column;

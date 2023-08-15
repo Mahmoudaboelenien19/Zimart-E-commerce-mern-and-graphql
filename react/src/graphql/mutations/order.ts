@@ -24,3 +24,35 @@ export const create_Order = gql`
     }
   }
 `;
+
+export const Order_Created_Subscription = gql`
+  subscription OrderCreated {
+    OrderCreated {
+      _id
+      state
+      cost
+      productId {
+        id
+        count
+        image
+        title
+        price
+      }
+      userId
+
+      createdAt
+      deliveredAt
+    }
+  }
+`;
+
+export const New_Notification_Subscription = gql`
+  subscription NotificationAdded {
+    NotificationAdded {
+      isRead
+      createdAt
+      content
+      _id
+    }
+  }
+`;

@@ -2,6 +2,7 @@ import { getAmount } from "../../middlewares/getAmount";
 import { OrderCollection } from "../../mongoose/schema/order";
 import { userCollection } from "../../mongoose/schema/user";
 import { IdInterface } from "../interfaces/graqphInterfaces.js";
+import { pubsub } from "../context";
 
 interface delInterfaceOrder {
   _id: IdInterface[];
@@ -16,10 +17,21 @@ export const orderResolver = {
       return await OrderCollection.find({});
     },
   },
+  Subscription: {
+    OrderCreated: {
+      async subscribe() {
+        return pubsub.asyncIterator("Order_Created");
+      },
+    },
+    NotificationAdded: {
+      async subscribe() {
+        return pubsub.asyncIterator("Notification_Created");
+      },
+    },
+  },
   Mutation: {
     async updateOrder(_: any, args: any) {
-      console.log(args);
-      const res = await OrderCollection.findByIdAndUpdate(args.input._id, {
+      await OrderCollection.findByIdAndUpdate(args.input._id, {
         state: args.input.state,
         deliveredAt: args.input.deliveredAt,
       });
@@ -40,7 +52,6 @@ export const orderResolver = {
     async createOrder(_: unknown, { input }: any) {
       const date = () => new Date();
       try {
-        //order
         const order = await OrderCollection.create({
           createdAt: date(),
           cost: getAmount(input.products) / 100,
@@ -55,7 +66,9 @@ export const orderResolver = {
           state: "pending",
           count: input.length,
         });
-
+        pubsub.publish("Order_Created", {
+          OrderCreated: order,
+        });
         const notificationObj = {
           isRead: false,
           content: `${input.email} created a new order`,
@@ -72,7 +85,16 @@ export const orderResolver = {
             },
           }
         );
-        console.log({ orderId: order._id });
+
+        const newNotification = await userCollection.findOne(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            notifications: { $slice: [-1, 1] },
+          }
+        );
+        pubsub.publish("Notification_Created", {
+          NotificationAdded: newNotification?.notifications[0],
+        });
         return { status: 200, orderId: order._id };
       } catch (err) {
         console.log(err);

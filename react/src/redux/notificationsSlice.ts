@@ -30,8 +30,6 @@ const notificatinsSlice = createSlice({
     },
 
     changeNotificationCount(state, action) {
-      console.log(action.payload);
-
       state.count = action.payload;
     },
 

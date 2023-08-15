@@ -32,7 +32,6 @@ const productSlice = createSlice({
     },
 
     addReviewRedux(state, action) {
-      console.log(action.payload);
       state.Allproducts = state.Allproducts.map((product) =>
         product._id === action.payload._id
           ? {

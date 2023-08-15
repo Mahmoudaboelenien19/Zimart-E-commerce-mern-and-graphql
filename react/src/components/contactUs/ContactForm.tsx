@@ -23,7 +23,7 @@ const ContactForm = () => {
   } = methods;
 
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
+
     if (isValid) {
       toast.success("message is successfully sent ");
       reset();
