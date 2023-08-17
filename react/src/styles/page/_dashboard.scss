@@ -97,17 +97,6 @@ textarea.update-product {
   color: var(--third);
 }
 
-.progressbar {
-  width: 40px;
-  height: 40px;
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-}
-.CircularProgressbar {
-  width: fit-content !important;
-}
-
 .dash-products {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));

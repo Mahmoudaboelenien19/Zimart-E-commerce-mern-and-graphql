@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productResolver = void 0;
+const cloudinary_1 = __importDefault(require("cloudinary"));
 const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
 const context_js_1 = require("../context.js");
 exports.productResolver = {
@@ -139,13 +140,44 @@ exports.productResolver = {
                 return { msg: "product updated successfully", status: 200 };
             });
         },
-        addProduct(_, { createInput }) {
+        addNewProduct(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    return yield product_js_1.default.create(createInput);
+                    const urls = yield Promise.all(input.images.map((f) => __awaiter(this, void 0, void 0, function* () {
+                        const file = yield f.promise;
+                        return new Promise((resolve, reject) => {
+                            const stream = file.createReadStream();
+                            const uploadStream = cloudinary_1.default.v2.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
+                                if (error) {
+                                    reject(error);
+                                }
+                                else {
+                                    resolve({
+                                        productPath: result.secure_url,
+                                        productName: result.original_filename,
+                                    });
+                                }
+                            });
+                            stream.pipe(uploadStream);
+                        });
+                    })));
+                    if (urls.length >= 1) {
+                        const newProduct = yield product_js_1.default.create(Object.assign(Object.assign({}, input), { images: urls }));
+                        context_js_1.pubsub.publish("Product_Added", {
+                            productAdded: newProduct,
+                        });
+                        return {
+                            status: 200,
+                            msg: "your product is successfully added",
+                        };
+                    }
+                    else {
+                        return { status: 404, msg: "Failed to upload images" };
+                    }
                 }
                 catch (err) {
                     console.log(err);
+                    return { status: 404, msg: "Failed to upload images" };
                 }
             });
         },
@@ -193,6 +225,13 @@ exports.productResolver = {
             subscribe() {
                 return __awaiter(this, void 0, void 0, function* () {
                     return context_js_1.pubsub.asyncIterator("Product_Updated");
+                });
+            },
+        },
+        productAdded: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_js_1.pubsub.asyncIterator("Product_Added");
                 });
             },
         },

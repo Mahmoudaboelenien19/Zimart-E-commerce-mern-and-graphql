@@ -1,18 +1,22 @@
 import React, { useRef, useState, useContext } from "react";
-import axios from "axios";
 
 import AvatarEditor from "react-avatar-editor";
 import { isAuthContext } from "../../context/isAuth";
 import MainBtn from "../widgets/MainBtn";
-import { updateUserImg } from "../../assets/routes";
 import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
+import { useMutation } from "@apollo/client";
+import { Update_Profile_Img } from "../../graphql/mutations/user";
+import { toast } from "react-hot-toast";
+import UploadingLoader from "../widgets/UploadingLoader";
 interface Props {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   setnewImg: React.Dispatch<React.SetStateAction<File | undefined>>;
   newImg: File | undefined;
   handleCancel: () => void;
+  setFileKey: React.Dispatch<React.SetStateAction<number>>;
 }
-const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
+const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
+  const [isUpdating, setIsUpdating] = useState(false);
   const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
   const editorRef = useRef<AvatarEditor | null>(null);
   const { setProfile } = useContext(isAuthContext);
@@ -26,29 +30,36 @@ const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
   };
 
   const { userId } = useContext(isAuthContext);
-  const uploadFn = async (dataa: FormData) => {
-    await axios.patch(updateUserImg(userId), dataa);
-  };
+
+  const [uploadImgFn] = useMutation(Update_Profile_Img, {});
 
   async function handleSaveButtonClick() {
+    setFileKey((prev) => prev + 1);
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas();
       const croppedImage = canvas.toDataURL();
-      setEdit(false);
-      setProfile(croppedImage as string);
-
-      const formData = new FormData();
+      setIsUpdating(true);
 
       if (croppedImage) {
         const blob = await fetch(croppedImage).then((res) => res.blob());
-        formData.append(
-          "image",
-          new File(
-            [blob],
-            `cropped Image-${Date.now()}-${Math.random().toString(16)}`
-          )
+
+        const file = new File(
+          [blob],
+          `cropped Image-${Date.now()}-${Math.random().toString(16)}`
         );
-        uploadFn(formData);
+
+        const res = await uploadImgFn({
+          variables: {
+            _id: userId,
+            image: file,
+          },
+        });
+        if (res.data.updateUserImage.status === 200) {
+          toast.success(res.data.updateUserImage.msg);
+          setEdit(false);
+          setProfile(croppedImage as string);
+          setIsUpdating(false);
+        }
       }
     }
   }
@@ -96,6 +107,8 @@ const Avatar = ({ setEdit, newImg, handleCancel }: Props) => {
         <MainBtn fn={handleSaveButtonClick} btn="Save" cls="btn main border" />
         <MainBtn fn={handleCancel} btn="cancel" cls="btn cancel-outline" />
       </div>
+
+      <UploadingLoader bool={isUpdating} />
     </>
   );
 };

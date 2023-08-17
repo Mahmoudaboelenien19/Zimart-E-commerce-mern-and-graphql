@@ -1,9 +1,8 @@
-import React, { useRef, useState, useContext } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import Avatar from "./Avatar";
 import Overley from "../widgets/Overley";
 import MainBtn from "../widgets/MainBtn";
-import { isAuthContext } from "../../context/isAuth";
 import ProfileImg from "../widgets/ProfileImg";
 const UserImage = () => {
   const inpFile = useRef<HTMLInputElement | null>(null);
@@ -12,7 +11,7 @@ const UserImage = () => {
 
   const [edit, setEdit] = useState(false);
   const [fileKey, setFileKey] = useState<number>(0);
-  const { profile } = useContext(isAuthContext);
+
   const chooseImgFn = () => {
     inpFile?.current?.click();
   };
@@ -34,13 +33,13 @@ const UserImage = () => {
       </div>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
-          key={fileKey}
           type="file"
           name=""
           id="user-upload"
           ref={inpFile}
           className="file-inp"
           onChange={changeImg}
+          key={fileKey}
         />
 
         <MainBtn
@@ -57,6 +56,7 @@ const UserImage = () => {
               setnewImg={setnewImg}
               newImg={newImg}
               handleCancel={handleCancel}
+              setFileKey={setFileKey}
             />
           </Overley>
         )}

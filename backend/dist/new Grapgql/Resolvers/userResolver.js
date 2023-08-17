@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userResolver = void 0;
+const graphql_upload_1 = __importDefault(require("graphql-upload"));
+const cloudinary_1 = __importDefault(require("cloudinary"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_js_1 = require("../../config.js");
 const authenticate_js_1 = require("../../middlewares/authenticate.js");
@@ -26,6 +28,7 @@ exports.userResolver = {
             });
         },
     },
+    Upload: graphql_upload_1.default,
     Mutation: {
         addUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             const check = yield user_js_1.userCollection.find({ email: input.email });
@@ -290,6 +293,32 @@ exports.userResolver = {
                 }
                 else {
                     return { msg: "enter your correct old password", status: 404 };
+                }
+            });
+        },
+        updateUserImage(_, args) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const result = yield new Promise((resolve, reject) => {
+                    const stream = args.image.file.createReadStream();
+                    const uploadStream = cloudinary_1.default.v2.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
+                        if (error) {
+                            reject(error);
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                    stream.pipe(uploadStream);
+                });
+                const url = result.secure_url;
+                if (url) {
+                    yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
+                        image: url,
+                    });
+                    return { status: 200, msg: "you profile successfully updated" };
+                }
+                else {
+                    return { status: 404, msg: "faild to upload" };
                 }
             });
         },

@@ -19,6 +19,7 @@ export const showAsideContext = createContext({} as contextInterface);
 
 const Dashboard = () => {
   const { count } = useAppSelector((st) => st.notification);
+  const { order } = useAppSelector((st) => st.order);
 
   const { isAuth } = useContext(isAuthContext);
   useEffect(() => {
@@ -34,7 +35,7 @@ const Dashboard = () => {
   const { data: orderData } = useQuery(GET_ALL_ORDERS);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (orderData?.orders) {
+    if (orderData?.orders && order.length === 0) {
       const ar = orderData?.orders.slice(0).reverse();
       dispatch(addToOrderRedux(ar));
     }

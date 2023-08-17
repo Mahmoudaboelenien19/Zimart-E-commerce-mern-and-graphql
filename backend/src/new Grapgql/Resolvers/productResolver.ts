@@ -1,3 +1,4 @@
+import cloudinary from "cloudinary";
 import productCollection from "../../mongoose/schema/product.js";
 import { pubsub } from "../context.js";
 
@@ -140,14 +141,52 @@ export const productResolver = {
       });
       return { msg: "product updated successfully", status: 200 };
     },
-    async addProduct(
-      _: any,
-      { createInput }: { createInput: productInterface }
-    ) {
+    async addNewProduct(_: unknown, { input }: { input: any }) {
       try {
-        return await productCollection.create(createInput);
+        const urls = await Promise.all(
+          input.images.map(async (f: any) => {
+            const file = await f.promise;
+            return new Promise((resolve, reject) => {
+              const stream = file.createReadStream();
+
+              const uploadStream = cloudinary.v2.uploader.upload_stream(
+                { resource_type: "auto" },
+                (error: any, result: any) => {
+                  if (error) {
+                    reject(error);
+                  } else {
+                    resolve({
+                      productPath: result.secure_url,
+                      productName: result.original_filename,
+                    });
+                  }
+                }
+              );
+
+              stream.pipe(uploadStream);
+            });
+          })
+        );
+
+        if (urls.length >= 1) {
+          const newProduct = await productCollection.create({
+            ...input,
+            images: urls,
+          });
+          pubsub.publish("Product_Added", {
+            productAdded: newProduct,
+          });
+
+          return {
+            status: 200,
+            msg: "your product is successfully added",
+          };
+        } else {
+          return { status: 404, msg: "Failed to upload images" };
+        }
       } catch (err) {
         console.log(err);
+        return { status: 404, msg: "Failed to upload images" };
       }
     },
 
@@ -196,6 +235,11 @@ export const productResolver = {
     productUpdated: {
       async subscribe() {
         return pubsub.asyncIterator("Product_Updated");
+      },
+    },
+    productAdded: {
+      async subscribe() {
+        return pubsub.asyncIterator("Product_Added");
       },
     },
   },

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 
 import DashForm from "./DashForm";
 import { useMutation } from "@apollo/client";
-import { Add_Product } from "../../../graphql/mutations/product.js";
+import { Add_Product } from "../../../graphql/mutations/product";
 
 const DashAddProduct = () => {
   const [addProductFn] = useMutation(Add_Product);

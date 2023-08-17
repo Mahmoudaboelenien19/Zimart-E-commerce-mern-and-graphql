@@ -172,29 +172,10 @@ export const update_Product = gql`
 `;
 
 export const Add_Product = gql`
-  mutation ($createInput: createProductInput) {
-    addProduct(createInput: $createInput) {
-      _id
-      price
-      stock
-      title
-      state
-      rating
-      category
-      createdAt
-      reviews {
-        image
-        user
-        userId
-        review
-        rate
-        _id
-      }
-      description
-      images {
-        productPath
-        _id
-      }
+  mutation ($input: NewProductInput) {
+    addNewProduct(input: $input) {
+      status
+      msg
     }
   }
 `;
@@ -229,6 +210,33 @@ export const FILTER_All = gql`
 export const Updated_Product_Subscription = gql`
   subscription productUpdated {
     productUpdated {
+      reviews {
+        image
+        user
+        review
+        rate
+        _id
+      }
+      _id
+      price
+      stock
+      title
+      description
+      rating
+      category
+      state
+
+      images {
+        productPath
+        _id
+      }
+    }
+  }
+`;
+
+export const Added_Product_Subscription = gql`
+  subscription productAdded {
+    productAdded {
       reviews {
         image
         user

@@ -45,6 +45,7 @@ const userSchema = new mongoose_1.default.Schema({
         {
             isRead: Boolean,
             content: String,
+            link: String,
             createdAt: Date,
         },
     ],

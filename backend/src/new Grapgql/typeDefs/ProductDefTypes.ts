@@ -4,6 +4,8 @@ import "../types/Date.js";
 
 export const productTypeDefs = gql`
   scalar Date
+  scalar Upload
+
   ${StatusMsg}
   type Image {
     productPath: String
@@ -60,28 +62,6 @@ export const productTypeDefs = gql`
     createdAt: Date
   }
 
-  input createProductInput {
-    title: String
-    state: String
-    _id: ID
-    stock: Int
-    price: Float
-    description: String
-    category: String
-    createdAt: Date
-    images: String
-  }
-
-  input createProductInput {
-    title: String
-    state: String
-    _id: ID
-    stock: Int
-    price: Float
-    description: String
-    category: String
-    createdAt: Date
-  }
   input CreateReviewInput {
     userId: ID
     _id: ID
@@ -97,6 +77,17 @@ export const productTypeDefs = gql`
     rate: Int
     review: String
   }
+
+  input NewProductInput {
+    title: String
+    state: String
+    images: [Upload!]!
+    stock: Int
+    price: Float
+    description: String
+    category: String
+    createdAt: Date
+  }
   type Mutation {
     filterByPrice(price: Float!): [Product]
     filterByDate(date: Int!): [Product]
@@ -106,12 +97,13 @@ export const productTypeDefs = gql`
     filterAllTypes(input: filterAllInput): [Product]
     searchProducts(word: String!): [Product]
     updateProduct(input: productInput): StatusMsg
-    addProduct(createInput: createProductInput): Product
     addReview(input: CreateReviewInput): Review
     updateReview(input: updateReviewInput): StatusMsg
+    addNewProduct(input: NewProductInput): StatusMsg
   }
 
   type Subscription {
     productUpdated: Product
+    productAdded: Product
   }
 `;

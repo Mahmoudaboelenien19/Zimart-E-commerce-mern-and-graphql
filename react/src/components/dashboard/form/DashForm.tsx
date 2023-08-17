@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../../widgets/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,17 +7,13 @@ import { toast } from "react-hot-toast";
 import InpErr from "../../widgets/InpErr";
 import { ProductInterface } from "../../../interfaces/product";
 import CustomFIleInput from "./CustomFIleInput";
-import axios from "axios";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { opacityVariant } from "../../../variants/globals";
 import MainBtn from "../../widgets/MainBtn";
 import DashMain from "../DashMain";
-import { addToProductRedux } from "../../../redux/productSlice";
-import { useAppDispatch } from "../../../custom/reduxTypes";
 import FormAnimation from "../../widgets/FormAnimation";
-import { uploadImagesRoute } from "../../../assets/routes.js";
+import UploadingLoader from "../../widgets/UploadingLoader";
 
 interface keyedProduct extends ProductInterface {
   [key: string]: any;
@@ -35,27 +31,7 @@ interface Props {
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   const [isPending, setIsPending] = useState(false);
 
-  const dispatch = useAppDispatch();
-
   const date = () => new Date();
-  const [percentage, setPercentage] = useState(-1);
-  useEffect(() => {
-    if (percentage >= 100) {
-      setTimeout(() => {
-        setPercentage(-1);
-      }, 2000);
-    }
-  }, [percentage]);
-
-  useEffect(() => {
-    let interval: number;
-    if (percentage < 100 && percentage != -1) {
-      interval = setInterval(() => {
-        setPercentage((cur) => cur + 10);
-      }, 400);
-    }
-    return () => clearInterval(interval);
-  }, [percentage]);
 
   const fileSchema = yup
     .mixed()
@@ -113,30 +89,13 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
       setIsPending(false);
     } else {
       const addObj = { ...obj, createdAt: date() };
-      const { data: res } = await fn({
-        variables: {
-          createInput: { ...addObj, images: null },
-        },
-      });
-      if (res?.addProduct?._id) {
-        setPercentage(0);
-        const formData = new FormData();
-        for (const file of data.images) {
-          formData.append("images", file);
-        }
-        const { data: addedDocument } = await axios.patch(
-          uploadImagesRoute(res.addProduct._id),
-          formData,
-          {
-            onUploadProgress: (data: any) => {
-              console.log(data);
-            },
-          }
-        );
 
-        dispatch(addToProductRedux(addedDocument.data));
-        toast.success(addedDocument.msg);
+      const { data } = await fn({
+        variables: { input: addObj },
+      });
+      if (data.addNewProduct.status) {
         setIsPending(false);
+        toast.success(data.addNewProduct.msg);
       }
     }
   };
@@ -161,7 +120,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
                   placeholder={placeholder}
                   defaultVal={obj?.category ? obj[placeholder] : ""}
                   type={inptype}
-                  err={(errors as { [key: string]: any })[
+                  err={(errors as { [key: string]: { message: string } })[
                     placeholder
                   ]?.message.toString()}
                   inptype="input"
@@ -190,7 +149,6 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             fn={() => null}
             parCls="w-80"
             type="submit"
-            isPending={isPending}
           />
         </FormAnimation>
         <AnimatePresence>
@@ -201,17 +159,10 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             animate="end"
             exit="exit"
             key={"prograssbar"}
-          >
-            {percentage > -1 && (
-              <CircularProgressbar
-                text={String(percentage)}
-                value={percentage}
-                className="progressbar"
-              />
-            )}
-          </motion.span>
+          ></motion.span>
         </AnimatePresence>
       </FormProvider>
+      <UploadingLoader bool={isPending} />
     </DashMain>
   );
 };

@@ -1,8 +1,10 @@
 import { StatusMsg } from "./../types/statusMsg";
 import { gql } from "apollo-server-express";
 import "../types/Date.js";
+
 export const userTypeDefs = gql`
   ${StatusMsg}
+  scalar Upload
   scalar Date
   type Fav {
     productId: ID
@@ -37,6 +39,7 @@ export const userTypeDefs = gql`
     _id: ID
     isRead: Boolean
     content: String
+    link: String
     createdAt: Date
   }
 
@@ -99,6 +102,10 @@ export const userTypeDefs = gql`
     productId: ID
   }
 
+  input updateImgInput {
+    _id: ID!
+    image: Upload
+  }
   input AddToFavInput {
     productId: ID
     parentId: ID
@@ -116,6 +123,7 @@ export const userTypeDefs = gql`
   type Query {
     users: [User]
   }
+
   type Mutation {
     addUser(input: AddUserInput): User
     authenticate(password: String!, email: String!): StatusMsg
@@ -144,5 +152,6 @@ export const userTypeDefs = gql`
       oldPassword: String!
       newPassword: String!
     ): StatusMsg
+    updateUserImage(_id: ID, image: Upload): StatusMsg
   }
 `;

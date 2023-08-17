@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { cartInitialState } from "../interfaces/user";
 
 export interface notificationInterface {
   isRead: boolean;
   content: string;
   createdAt: string;
+  link: string;
   _id: string;
 }
 

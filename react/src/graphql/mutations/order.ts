@@ -52,6 +52,7 @@ export const New_Notification_Subscription = gql`
       isRead
       createdAt
       content
+      link
       _id
     }
   }

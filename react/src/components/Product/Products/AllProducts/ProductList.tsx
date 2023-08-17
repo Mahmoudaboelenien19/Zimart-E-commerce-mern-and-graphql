@@ -17,7 +17,6 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { gridView } = useContext(viewContext);
   const [page, setPage] = useState(1);
   const { isMobile } = useIsMobile();
-  // const arr = isDash ? Allproducts || [] : products || [];
   const [dataShown, numberOfPages] = usePagination(9, page, Allproducts);
   const ref = useRef<HTMLDivElement | null>(null);
   return (

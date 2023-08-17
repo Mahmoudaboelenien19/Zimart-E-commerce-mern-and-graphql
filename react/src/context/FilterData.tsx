@@ -43,9 +43,9 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
 
   useEffect(() => {
     if (data?.products) {
-      dispatch(addToProductRedux(data?.products));
+      dispatch(addToProductRedux(data?.products.slice(0).reverse()));
 
-      setProducts(data?.products);
+      setProducts(data?.products.slice(0).reverse());
     }
   }, [loading]);
 

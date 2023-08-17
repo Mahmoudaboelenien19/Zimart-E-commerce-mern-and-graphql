@@ -90,5 +90,5 @@ oAuthRouter.route("/auth/google/callback").get((req: any, res: any, next) => {
 });
 
 oAuthRouter.route("/auth/success/login").get(successLogin);
-// oAuthRouter.route("/auth/failure/login").get(failLogin);
+
 oAuthRouter.route("/auth/success/signup").get(successSignup);

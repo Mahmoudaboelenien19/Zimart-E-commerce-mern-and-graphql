@@ -8,6 +8,5 @@ export const newRefToken = `${backendRoute}token/auth/newRefToken`;
 export const uploadImagesRoute = (id: string) =>
   `${backendRoute}upload/products/images/upload/${id}`;
 
-export const updateUserImg = (id: string) => `${backendRoute}upload/${id}`;
 export const signUpWithGoogle = `${backendRoute}auth/signup/google`;
 export const logInWithGoogle = `${backendRoute}auth/login/google`;

@@ -9,11 +9,6 @@ import { Toaster } from "react-hot-toast";
 import GridViewContext from "./context/gridView";
 import FilterDataContext from "./context/FilterData";
 import ThemeContext from "./context/ThemContext";
-import { useSubscription, OnDataOptions } from "@apollo/client";
-import { Updated_Product_Subscription } from "./graphql/mutations/product";
-import { ProductInterface } from "./interfaces/product";
-import { updateProductRedux } from "./redux/productSlice";
-import { useAppDispatch } from "./custom/reduxTypes";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +17,6 @@ const App = () => {
       setIsLoading(false);
     }, 3000);
   }, []);
-  const [updatedProduct, setUpdatedProduct] = useState({} as ProductInterface);
 
   return (
     <ThemeContext>

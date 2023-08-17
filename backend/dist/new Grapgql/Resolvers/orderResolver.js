@@ -87,6 +87,7 @@ exports.orderResolver = {
                         isRead: false,
                         content: `${input.email} created a new order`,
                         createdAt: new Date().toISOString(),
+                        link: `/dashboard/orders/${order._id}`,
                     };
                     yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
                         $push: {

@@ -7,8 +7,9 @@ interface Props extends ChildrenInterFace {
   cls: string;
   transition?: number;
   delay?: number;
+  fn?: () => void;
 }
-const FadeElement = ({ children, cls, transition, delay }: Props) => {
+const FadeElement = ({ children, cls, transition, delay, fn }: Props) => {
   return (
     <motion.div
       className={cls}
@@ -17,6 +18,7 @@ const FadeElement = ({ children, cls, transition, delay }: Props) => {
       animate="end"
       exit="exit"
       transition={{ duration: transition || 0.5, delay: delay || 0 }}
+      onClick={fn ? fn : () => null}
     >
       {children}
     </motion.div>

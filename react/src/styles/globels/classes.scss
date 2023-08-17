@@ -410,11 +410,6 @@ form {
   width: 65%;
   min-height: 50vh;
 }
-// p,
-// span,
-// small {
-//   @include kyiv(600, -400);
-// }
 
 .gmail {
   color: var(--gmail);
@@ -461,4 +456,13 @@ form {
   animation: slide-animation 10s linear forwards;
 
   opacity: 0.7;
+}
+.updating {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
 }

@@ -106,6 +106,7 @@ export const GET_USER_DATA = gql`
         isRead
         createdAt
         content
+        link
         _id
       }
       fav {
@@ -278,6 +279,15 @@ export const Mark_All_as_Notification = gql`
   mutation ($userId: ID!) {
     MarkAllAsReadNotification(userId: $userId) {
       status
+    }
+  }
+`;
+
+export const Update_Profile_Img = gql`
+  mutation ($image: Upload, $_id: ID) {
+    updateUserImage(_id: $_id, image: $image) {
+      status
+      msg
     }
   }
 `;

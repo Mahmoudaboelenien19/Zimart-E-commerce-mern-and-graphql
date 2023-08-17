@@ -73,6 +73,7 @@ export const orderResolver = {
           isRead: false,
           content: `${input.email} created a new order`,
           createdAt: new Date().toISOString(),
+          link: `/dashboard/orders/${order._id}`,
         };
         await userCollection.updateMany(
           { role: { $in: ["admin", "moderator", "owner", "user"] } },

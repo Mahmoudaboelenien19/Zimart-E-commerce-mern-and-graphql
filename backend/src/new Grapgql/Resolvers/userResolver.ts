@@ -1,4 +1,6 @@
-import { Request, Response } from "express";
+import GraphQLUpload from "graphql-upload";
+import cloudinary from "cloudinary";
+import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../../config.js";
 import {
@@ -33,6 +35,7 @@ export const userResolver = {
       return await userCollection.find();
     },
   },
+  Upload: GraphQLUpload,
   Mutation: {
     addUser: async (_: unknown, { input }: any) => {
       const check = await userCollection.find({ email: input.email });
@@ -357,6 +360,35 @@ export const userResolver = {
         return { msg: "your password successfully updated", status: 200 };
       } else {
         return { msg: "enter your correct old password", status: 404 };
+      }
+    },
+
+    async updateUserImage(_: unknown, args: any) {
+      const result = await new Promise((resolve, reject) => {
+        const stream = args.image.file.createReadStream();
+
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { resource_type: "auto" },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+
+        stream.pipe(uploadStream);
+      });
+
+      const url = (result as any).secure_url;
+      if (url) {
+        await userCollection.findByIdAndUpdate(args._id, {
+          image: url,
+        });
+        return { status: 200, msg: "you profile successfully updated" };
+      } else {
+        return { status: 404, msg: "faild to upload" };
       }
     },
   },

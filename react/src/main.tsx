@@ -26,6 +26,8 @@ import {
 } from "./assets/routes.js";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { createUploadLink } from "apollo-upload-client";
+
 const getrefToken = async () => {
   const {
     data: { refresh_token },
@@ -52,7 +54,7 @@ const wsLink = new GraphQLWsLink(
   })
 );
 
-const httpLink = new HttpLink({ uri: graphQLRoute });
+// const httpLink = new HttpLink({ uri: graphQLRoute });
 
 const splitLink = split(
   ({ query }) => {
@@ -63,7 +65,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  createUploadLink({ uri: graphQLRoute })
 );
 const middleware: unknown = setContext(async (_, { headers }) => {
   const token = await getnewAccess();

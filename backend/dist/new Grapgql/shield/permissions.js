@@ -18,5 +18,7 @@ exports.permissions = (0, graphql_shield_1.shield)({
         deleteOrder: rules_1.isUser,
         getKey: rules_1.isUser,
         createOrder: rules_1.isUser,
+        updateUserImage: rules_1.isUser,
+        addNewProduct: rules_1.isUser,
     },
 });

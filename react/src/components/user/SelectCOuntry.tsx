@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
-import { AnimatePresence, motion, useInView } from "framer-motion";
-import { opacityVariant, selectDropDownVariants } from "../../variants/globals";
+import { AnimatePresence, motion } from "framer-motion";
+import { opacityVariant } from "../../variants/globals";
 import useClickOutside from "../../custom/useClickOutside";
 interface Props {
   setCountry: React.Dispatch<React.SetStateAction<string>>;
   country: string;
-  bottom?: boolean;
 }
 
 interface countryInterface {
@@ -14,10 +13,10 @@ interface countryInterface {
   flags: { png: string };
 }
 
-const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
+const SelectCOuntry = ({ setCountry, country }: Props) => {
   const [countries, setCountries] = useState([]);
   const [flag, setFlag] = useState("https://flagcdn.com/w320/eg.png");
-  // const [flag, setFlag] = useState("");
+
   const [showDropSelect, setShowSelectDrop] = useState(false);
   const selectRef = useClickOutside<HTMLDivElement>(() => {
     setShowSelectDrop(false);
@@ -25,7 +24,6 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
-      //   .then((data) => data.json())
       .then((data) => data.json())
       .then((data) => setCountries(data));
   }, []);
@@ -35,7 +33,7 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
       const obj = countries.find(
         (e: countryInterface) => e.name.common === country
       ) as unknown as countryInterface;
-      console.log(obj);
+
       if (obj?.flags) {
         setFlag((obj as { flags: { png: string } }).flags.png);
       }
@@ -57,8 +55,6 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
     end: { opacity: 1, rotate: [0, 20, -20, 0], transition: { duration: 0.4 } },
   };
 
-  const ref = useRef<HTMLDivElement | null>(null);
-  const view = useInView(ref);
   return (
     <div
       className="select-country-par relative center start "
@@ -86,18 +82,13 @@ const SelectCOuntry = ({ setCountry, country, bottom }: Props) => {
       <BiDownArrow className="icon select-icon arrow" />
       <AnimatePresence>
         {showDropSelect && (
-          <motion.div
-            className={`select-dropdown gap drop-country ${
-              bottom ? "bottom" : ""
-            }`}
-          >
+          <motion.div className={`select-dropdown gap drop-country `}>
             {countries.map((obj: countryInterface, i) => {
               const flag = obj.flags.png;
               const country = obj.name.common;
               return (
                 <motion.div
                   variants={opacityVariant}
-                  ref={ref}
                   initial="start"
                   animate="end"
                   exit="exit"

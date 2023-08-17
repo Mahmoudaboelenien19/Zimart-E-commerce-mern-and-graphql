@@ -16,5 +16,7 @@ export const permissions = shield({
     deleteOrder: isUser,
     getKey: isUser,
     createOrder: isUser,
+    updateUserImage: isUser,
+    addNewProduct: isUser,
   },
 });

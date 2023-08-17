@@ -6,6 +6,7 @@ const apollo_server_express_1 = require("apollo-server-express");
 require("../types/Date.js");
 exports.userTypeDefs = (0, apollo_server_express_1.gql) `
   ${statusMsg_1.StatusMsg}
+  scalar Upload
   scalar Date
   type Fav {
     productId: ID
@@ -40,6 +41,7 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     _id: ID
     isRead: Boolean
     content: String
+    link: String
     createdAt: Date
   }
 
@@ -102,6 +104,10 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     productId: ID
   }
 
+  input updateImgInput {
+    _id: ID!
+    image: Upload
+  }
   input AddToFavInput {
     productId: ID
     parentId: ID
@@ -119,6 +125,7 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
   type Query {
     users: [User]
   }
+
   type Mutation {
     addUser(input: AddUserInput): User
     authenticate(password: String!, email: String!): StatusMsg
@@ -147,5 +154,6 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
       oldPassword: String!
       newPassword: String!
     ): StatusMsg
+    updateUserImage(_id: ID, image: Upload): StatusMsg
   }
 `;

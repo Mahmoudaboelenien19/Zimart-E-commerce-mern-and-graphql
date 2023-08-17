@@ -5,6 +5,7 @@ import NotificationActionsDropDown from "./NotificationActionsDropDown";
 import { AnimatePresence } from "framer-motion";
 import Title from "../../widgets/Title";
 import FadeElement from "../../widgets/FadeElement";
+import { useNavigate } from "react-router-dom";
 
 interface Props extends notificationInterface {
   isScrolling: boolean;
@@ -14,23 +15,29 @@ const Notificatin = ({
   isRead,
   content,
   createdAt,
-
   isScrolling,
+  link = "/",
 }: Props) => {
   const [showActions, setShowActions] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState({ top: 0, right: 0 });
+  const nvaigate = useNavigate();
   useEffect(() => {
     if (isScrolling) {
       setShowActions(false);
     }
   }, [isScrolling]);
   return (
-    <FadeElement cls="notification relative" key={createdAt}>
+    <FadeElement
+      cls="notification relative"
+      key={createdAt}
+      fn={() => nvaigate(link)}
+    >
       <span
         ref={ref}
         className="dots"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setShowActions(!showActions);
           setPos({
             right: ref.current?.getBoundingClientRect().right || 0,
