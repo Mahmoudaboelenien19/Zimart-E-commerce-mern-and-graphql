@@ -22,22 +22,20 @@ const verfiyRefToken = (refToken) => __awaiter(void 0, void 0, void 0, function*
         return decode;
     }
     catch (err) {
-        const error = new Error("wrong ref token");
-        throw error;
+        return "wrong ref token";
     }
 });
 exports.verfiyRefToken = verfiyRefToken;
 const getNewRefToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const { refToken } = req.body;
-    if (!refToken) {
+    const { refresh_token } = req.cookies;
+    if (!refresh_token) {
         res.json({});
     }
     else {
-        let { result } = (yield (0, exports.verfiyRefToken)(refToken));
-        if (((_a = result[0]) === null || _a === void 0 ? void 0 : _a._id) || (result === null || result === void 0 ? void 0 : result._id)) {
-            const accessToken = jsonwebtoken_1.default.sign({ result }, config_1.ACCESS_TOKEN_SECRET);
-            const refreshToken = jsonwebtoken_1.default.sign({ result }, config_1.REFRESH_TOKEN_SECRET);
+        let result = (yield (0, exports.verfiyRefToken)(refresh_token));
+        if (result === null || result === void 0 ? void 0 : result.email) {
+            const accessToken = jsonwebtoken_1.default.sign({ email: result.email }, config_1.ACCESS_TOKEN_SECRET);
+            const refreshToken = jsonwebtoken_1.default.sign({ email: result.email }, config_1.REFRESH_TOKEN_SECRET);
             res.cookie("access_token", accessToken);
             res.cookie("refresh_token", refreshToken);
             res.json({ accessToken });

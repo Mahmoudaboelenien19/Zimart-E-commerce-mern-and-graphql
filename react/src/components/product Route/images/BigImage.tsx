@@ -5,19 +5,22 @@ import Hint from "./Hint";
 import { productContext } from "../Product";
 import useIsMobile from "../../../custom/useIsMobile";
 import useCarousel from "../../../custom/useCarousel";
+import useModifyUrl from "../../../custom/useModifyUrl";
 
 const BigImage = () => {
-  const { images = [], bigImgInd } = useContext(productContext);
+  const { images = [], bigImgInd, category } = useContext(productContext);
 
   const [changeImage, setChangeImage] = useState(false);
   const { isMobile } = useIsMobile();
 
   const [variant, dir] = useCarousel(bigImgInd, images.length);
+  const modifiedUrl = useModifyUrl(images[bigImgInd]?.productPath, category);
+
   return (
     <AnimatePresence mode="wait" custom={dir} initial={false}>
       <motion.div
         className="big-img-par"
-        key={images[bigImgInd]?.productPath}
+        key={modifiedUrl}
         custom={{ dir, width: 100 }}
         variants={variant as Variants}
         onAnimationStart={() => setChangeImage(true)}
@@ -25,10 +28,10 @@ const BigImage = () => {
       >
         <>
           <SideBySideMagnifier
-            imageSrc={images[bigImgInd]?.productPath}
+            imageSrc={modifiedUrl}
             style={{
               objectFit: "contain",
-              width: !isMobile ? 240 : "60%",
+              width: !isMobile ? 300 : "60%",
               height: 300,
               display: "flex",
               alignItems: "flex-end",

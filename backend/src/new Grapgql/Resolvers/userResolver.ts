@@ -90,23 +90,18 @@ export const userResolver = {
 
           if (Array.isArray(result)) {
             if (result.length >= 1) {
-              const expire = { expiresIn: "15s" };
               const accessToken = jwt.sign(
-                { result },
+                { email: args.email },
                 ACCESS_TOKEN_SECRET as unknown as string,
-                expire
+                { expiresIn: "15s" }
               );
               const refToken = jwt.sign(
-                { result },
-                REFRESH_TOKEN_SECRET as unknown as string,
-                expire
+                { email: args.email },
+
+                REFRESH_TOKEN_SECRET as unknown as string
               );
-
+              console.log(refToken.length);
               const id = result[0]._id.toString();
-
-              res.cookie("user_email", result[0].email as unknown as string, {
-                httpOnly: true,
-              });
               res.cookie("user_id", id as unknown as string, {
                 httpOnly: true,
                 secure: true,

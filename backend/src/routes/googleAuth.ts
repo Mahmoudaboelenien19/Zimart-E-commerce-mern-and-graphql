@@ -18,12 +18,12 @@ const successLogin = async (req: Request, res: Response) => {
     if (result) {
       const expire = { expiresIn: "15s" };
       const accessToken = jwt.sign(
-        { result },
+        { email },
         ACCESS_TOKEN_SECRET as unknown as string,
         expire
       );
       const refToken = jwt.sign(
-        { result },
+        { email },
         REFRESH_TOKEN_SECRET as unknown as string
       );
 

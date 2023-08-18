@@ -27,8 +27,8 @@ const successLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const result = yield user_1.userCollection.findOne({ email });
         if (result) {
             const expire = { expiresIn: "15s" };
-            const accessToken = jsonwebtoken_1.default.sign({ result }, config_js_1.ACCESS_TOKEN_SECRET, expire);
-            const refToken = jsonwebtoken_1.default.sign({ result }, config_js_1.REFRESH_TOKEN_SECRET);
+            const accessToken = jsonwebtoken_1.default.sign({ email }, config_js_1.ACCESS_TOKEN_SECRET, expire);
+            const refToken = jsonwebtoken_1.default.sign({ email }, config_js_1.REFRESH_TOKEN_SECRET);
             const id = result._id.toString();
             res.cookie("user_email", result.email);
             res.cookie("user_id", id);

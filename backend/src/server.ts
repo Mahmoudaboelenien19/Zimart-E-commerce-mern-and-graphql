@@ -40,8 +40,8 @@ app.use(
   cookieSession({
     name: "session",
     keys: [SeSSion_Secret as unknown as string],
-    maxAge: 24 * 60 * 60 * 100,
-    // maxAge: 24 * 60,
+    // maxAge: 24 * 60 * 60 * 100,
+    maxAge: 24 * 60,
   })
 );
 app.use(
@@ -57,7 +57,6 @@ app.use(passport.session());
 app.use(
   cors({
     credentials: true,
-    // origin: `${Client_Url}/`, // deployment
     origin: `${Client_Url}`,
     methods: ["GET", "POST", "PATCH", "DELETE"],
   })

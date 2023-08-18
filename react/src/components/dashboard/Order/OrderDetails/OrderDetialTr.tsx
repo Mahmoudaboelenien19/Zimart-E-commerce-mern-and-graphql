@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 interface Props {
   image: string;
   title: string;
@@ -6,6 +6,11 @@ interface Props {
   count: number;
 }
 const OrderDetailTr = ({ image, title, price, count }: Props) => {
+  useEffect(() => {
+    if (title) {
+      document.title = `Orders | ${title || ""}`;
+    }
+  }, [title]);
   return (
     <tr>
       <td className=" ">

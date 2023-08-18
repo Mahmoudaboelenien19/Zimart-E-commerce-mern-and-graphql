@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ProductFliter from "./ProductFliter";
 import Pages from "../Pages";
 import { motion } from "framer-motion";
@@ -13,12 +19,17 @@ import { ProductInterface } from "../../../../interfaces/product";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { showFilter, isPending } = useContext(productListContext);
+  const { showFilter, isPending, products, setProducts } =
+    useContext(productListContext);
+  const ar = isDash ? Allproducts : products || [];
   const { gridView } = useContext(viewContext);
   const [page, setPage] = useState(1);
   const { isMobile } = useIsMobile();
-  const [dataShown, numberOfPages] = usePagination(9, page, Allproducts);
+  const [dataShown, numberOfPages] = usePagination(9, page, ar);
   const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setProducts(Allproducts);
+  }, [Allproducts]);
   return (
     <NoData
       length={dataShown.length >= 1}

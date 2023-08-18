@@ -52,11 +52,10 @@
       align-self: center;
 
       height: 80px;
-      max-width: 250px;
+      width: 250px;
       justify-content: space-between;
 
-      width: 100%;
-      gap: 3px;
+      gap: 4px;
 
       .small-img {
         padding: 5px;
@@ -248,11 +247,10 @@ p {
     .images {
       width: 100%;
       margin: 0 auto;
+      overflow: hidden;
 
       .small-img-par {
-        max-width: initial;
         align-self: center;
-        overflow: hidden;
         align-items: center;
       }
     }

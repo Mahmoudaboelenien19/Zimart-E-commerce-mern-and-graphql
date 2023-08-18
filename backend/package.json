@@ -30,7 +30,7 @@
     "graphql-tools": "^8.3.19",
     "graphql-upload": "^10.0.0",
     "graphql-ws": "^5.14.0",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.0.3",
     "passport": "^0.5.3",
     "passport-google-oauth20": "^2.0.0",

@@ -1,5 +1,5 @@
-import { compareInterface } from "./../context/isAuth";
 import { createSlice } from "@reduxjs/toolkit";
+import { compareInterface } from "../interfaces/user";
 
 const initialState: { compare: compareInterface[] } = {
   compare: [],

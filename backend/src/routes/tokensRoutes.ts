@@ -8,28 +8,32 @@ export const verfiyRefToken = async (refToken: string) => {
       refToken,
       REFRESH_TOKEN_SECRET as unknown as string
     );
+
     return decode;
   } catch (err) {
-    const error: Error = new Error("wrong ref token");
-    throw error;
+    return "wrong ref token";
   }
 };
 
 export const getNewRefToken = async (req: Request, res: Response) => {
-  const { refToken } = req.body;
-  if (!refToken) {
+  const { refresh_token } = req.cookies;
+
+  if (!refresh_token) {
     res.json({});
   } else {
-    let { result } = (await verfiyRefToken(refToken)) as any;
-    if (result[0]?._id || result?._id) {
+    let result = (await verfiyRefToken(refresh_token)) as any;
+
+    if (result?.email) {
       const accessToken = Jwt.sign(
-        { result },
+        { email: result.email },
         ACCESS_TOKEN_SECRET as unknown as string
       );
       const refreshToken = Jwt.sign(
-        { result },
+        { email: result.email },
+
         REFRESH_TOKEN_SECRET as unknown as string
       );
+
       res.cookie("access_token", accessToken);
       res.cookie("refresh_token", refreshToken);
       res.json({ accessToken });

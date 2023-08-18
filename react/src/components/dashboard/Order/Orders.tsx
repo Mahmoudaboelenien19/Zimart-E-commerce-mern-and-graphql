@@ -18,7 +18,7 @@ import NoData from "../../widgets/NoData";
 import useMessure from "react-use-measure";
 import { showAsideContext } from "../Dashboard";
 import { mergeRefs } from "react-merge-refs";
-import { OrderInterface } from "../../../interfaces/product";
+import { OrderInterface } from "../../../interfaces/order";
 
 interface contextInterface {
   setarrOfOrders: React.Dispatch<React.SetStateAction<string[]>>;

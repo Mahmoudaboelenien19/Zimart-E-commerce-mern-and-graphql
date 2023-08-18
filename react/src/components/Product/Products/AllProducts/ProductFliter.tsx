@@ -91,7 +91,7 @@ const ProductFliter = ({
 
           <div className="center col product-data">
             <h5 className="product-head-underline" style={{ marginBottom: 12 }}>
-              {productSearchWord
+              {productSearchWord && !isDash
                 ? category
                     .split(new RegExp(`(${productSearchWord})`, "gi"))
                     .map((part, index) => {
@@ -111,7 +111,7 @@ const ProductFliter = ({
             </h5>
             <span className="title-product">
               {" "}
-              {productSearchWord
+              {productSearchWord && !isDash
                 ? title
                     .split(new RegExp(`(${productSearchWord})`, "gi"))
                     .map((part, index) => {

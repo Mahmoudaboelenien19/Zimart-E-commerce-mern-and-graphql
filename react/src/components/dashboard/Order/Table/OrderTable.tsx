@@ -7,7 +7,7 @@ import useDeleteOrder from "../../../../custom/useDeleteOrder";
 import FadeElement from "../../../widgets/FadeElement";
 import { checkContext } from "../Orders";
 import Order from "./Order";
-import { OrderInterface } from "../../../../interfaces/product";
+import { OrderInterface } from "../../../../interfaces/order";
 
 const OrderTable = () => {
   const { arrOfOrders, setarrOfOrders, selectALl, setSlectALl, dataShown } =

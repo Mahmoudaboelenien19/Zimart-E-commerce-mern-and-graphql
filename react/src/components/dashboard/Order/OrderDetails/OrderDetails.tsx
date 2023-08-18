@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { GET_ORDER } from "../../../../graphql/queries";
 import DashMain from "../../DashMain";
@@ -9,17 +9,11 @@ import OrderSummery from "./OrderSummery";
 import { motion } from "framer-motion";
 import { parentVariant, reverseVariant } from "../../../../variants/globals";
 import Animation from "../../../widgets/Animation";
-import { OrderInterface } from "../../../../interfaces/product";
+import { OrderInterface } from "../../../../interfaces/order";
 const OrderDetails = () => {
   const { id } = useParams();
 
-  const { data, loading } = useQuery(GET_ORDER, { variables: { id } });
-  console.log({ data });
-  useEffect(() => {
-    setTimeout(() => {
-      document.title = `Orders | ${data?.order._id || ""}`;
-    }, 400);
-  }, [loading]);
+  const { data } = useQuery(GET_ORDER, { variables: { id } });
 
   if (data?.order) {
     const { productId, cost, userId, state, createdAt, deliveredAt } =

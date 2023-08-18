@@ -8,9 +8,9 @@ import GridLoader from "../widgets/GridLoader";
 import { themeContext } from "../../context/ThemContext";
 import FadeElement from "../widgets/FadeElement";
 import OrderedProductDetail from "./OrderedProductDetail";
-import { OrderInterface } from "../../interfaces/product";
 import { useQuery } from "@apollo/client";
 import { get_Stripe_PublicKey } from "../../graphql/stripe";
+import { OrderInterface } from "../../interfaces/order";
 const Payment = () => {
   const location = useLocation();
 

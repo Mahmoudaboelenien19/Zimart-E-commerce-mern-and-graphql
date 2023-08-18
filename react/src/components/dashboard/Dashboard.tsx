@@ -20,6 +20,7 @@ export const showAsideContext = createContext({} as contextInterface);
 const Dashboard = () => {
   const { count } = useAppSelector((st) => st.notification);
   const { order } = useAppSelector((st) => st.order);
+  const { user } = useAppSelector((st) => st.user);
 
   const { isAuth } = useContext(isAuthContext);
   useEffect(() => {
@@ -48,7 +49,7 @@ const Dashboard = () => {
 
   const { data: userData, loading: usersLoading } = useQuery(GET_ALL_USERS);
   useEffect(() => {
-    if (userData?.users && !usersLoading) {
+    if (userData?.users && !usersLoading && user.length === 0) {
       const ar = userData?.users.slice(0).reverse();
       dispatch(addToUserRedux(ar));
     }

@@ -71,8 +71,8 @@ const app = (0, express_1.default)();
 app.use((0, cookie_session_1.default)({
     name: "session",
     keys: [config_js_1.SeSSion_Secret],
-    maxAge: 24 * 60 * 60 * 100,
-    // maxAge: 24 * 60,
+    // maxAge: 24 * 60 * 60 * 100,
+    maxAge: 24 * 60,
 }));
 app.use(
 // @ts-ignore
@@ -85,7 +85,6 @@ app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.session());
 app.use((0, cors_1.default)({
     credentials: true,
-    // origin: `${Client_Url}/`, // deployment
     origin: `${config_js_1.Client_Url}`,
     methods: ["GET", "POST", "PATCH", "DELETE"],
 }));

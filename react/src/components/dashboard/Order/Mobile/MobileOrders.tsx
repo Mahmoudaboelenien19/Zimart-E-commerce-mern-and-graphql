@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { opacityVariant } from "../../../../variants/globals";
 import MobileOrder from "./MobileOrder";
 import { Outlet } from "react-router-dom";
-import { OrderInterface } from "../../../../interfaces/product";
+import { OrderInterface } from "../../../../interfaces/order";
 const MobileOrders = () => {
   const { setSlectALl, dataShown } = useContext(checkContext);
 

@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { favArrInterface, isAuthContext } from "../../context/isAuth";
 import { opacityVariant } from "../../variants/globals";
 import { useNavigate } from "react-router-dom";
 import useRemoveFromFav from "../../custom/useRemoveFeomFav";
 import useIsMobile from "../../custom/useIsMobile";
+import { isAuthContext } from "../../context/isAuth";
+import { favInterface } from "../../interfaces/user";
 
-interface Props extends favArrInterface {
+interface Props extends favInterface {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Favorite = ({

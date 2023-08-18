@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { OrderInterface } from "../interfaces/product";
+import { OrderInterface } from "../interfaces/order";
 
 const initialState: { order: OrderInterface[] } = {
   order: [],

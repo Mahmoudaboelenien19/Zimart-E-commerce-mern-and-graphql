@@ -6,7 +6,6 @@ import {
   ApolloClient,
   ApolloProvider,
   InMemoryCache,
-  HttpLink,
   from,
   ApolloLink,
   split,
@@ -19,31 +18,23 @@ import { createClient } from "graphql-ws";
 
 import { setContext } from "apollo-link-context";
 import {
-  backendRoute,
   graphQLRoute,
-  newRefToken,
+  newRefTokenRoute,
   webSocketGraphQLRoute,
 } from "./assets/routes.js";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 
-const getrefToken = async () => {
-  const {
-    data: { refresh_token },
-  } = await axios.get(`${backendRoute}cookie`, { withCredentials: true });
-  return refresh_token;
-};
 export const getnewAccess = async () => {
-  const refToken = await getrefToken();
   const {
     data: { accessToken },
   } = await axios.post(
-    newRefToken,
+    newRefTokenRoute,
+    {},
     {
-      refToken,
-    },
-    { withCredentials: true }
+      withCredentials: true,
+    }
   );
   return accessToken;
 };
