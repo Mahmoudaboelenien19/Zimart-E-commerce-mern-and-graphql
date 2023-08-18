@@ -1,6 +1,6 @@
 :root {
   --green: #237a44;
-  --wheat: rgb(202, 170, 109);
+  --wheat: rgb(161, 137, 92);
   --white: rgb(247, 246, 246);
   --wheat-light: #c5af87c9;
   --wheat-lighter: #dcccaec9;
@@ -30,4 +30,4 @@
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
   --forth-shadow: 0.3px 0.3px 0.2px black;
-}/*# sourceMappingURL=variables.css.map */
+} /*# sourceMappingURL=variables.css.map */

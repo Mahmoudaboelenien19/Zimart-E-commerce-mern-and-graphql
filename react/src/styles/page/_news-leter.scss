@@ -1,5 +1,5 @@
 @import "../variables.scss";
-@import "../globels/mixins";
+
 .newsletter {
   width: 100%;
   background: rgb(153, 136, 104);
@@ -66,12 +66,12 @@
     h2 {
       text-transform: capitalize;
       color: var(--white);
-      @include fexien(120);
+
       font-weight: 800;
     }
     span {
       font-weight: 700;
-      @include fexien(115);
+
       font-weight: 700;
       letter-spacing: 0.8px;
       &.news-spaecial {

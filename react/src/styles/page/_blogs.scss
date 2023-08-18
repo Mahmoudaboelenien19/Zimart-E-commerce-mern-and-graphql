@@ -1,5 +1,4 @@
 @import "../variables.scss";
-@import "./../globels/mixins";
 
 .blogs {
   display: flex;
@@ -85,7 +84,6 @@
   gap: 20px;
 
   h1 {
-    @include fexien(105);
     padding: 5px;
     margin: 20px;
     text-transform: capitalize;
@@ -113,7 +111,7 @@
     width: 100%;
     h4 {
       letter-spacing: 1px;
-      @include fexien(120);
+
       margin-bottom: 10px;
     }
   }

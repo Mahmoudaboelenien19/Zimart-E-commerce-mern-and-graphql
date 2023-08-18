@@ -26,7 +26,7 @@ interface Props {
 }
 const ProductDetails = ({ setShowPop }: Props) => {
   const {
-    images,
+    images = [],
     bigImgInd,
     _id,
     rating,
@@ -174,11 +174,11 @@ const ProductDetails = ({ setShowPop }: Props) => {
             products={[
               {
                 _id,
+                title,
                 productId: _id,
                 parentId: "",
                 price,
-                path: "",
-                title,
+                path: images[bigImgInd]?.productPath || "",
                 count: 1,
               },
             ]}

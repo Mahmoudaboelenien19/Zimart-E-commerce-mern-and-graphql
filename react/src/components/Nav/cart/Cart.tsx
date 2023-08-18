@@ -42,7 +42,7 @@ const Cart = () => {
   }
   return (
     <Animation>
-      <div className="cart-cont center col">
+      <div className="cart-cont ">
         <div className="offer-cart center col">
           {offerArr.map(({ offer, money }, i) => {
             return (
@@ -80,7 +80,7 @@ const Cart = () => {
           <TotalPrice subTotal={subTotal} key={"TotalPrice"} />
         </div>
       </div>
-      <SLiderComponent key={"cart-slider"} />
+      {/* <SLiderComponent key={"cart-slider"} /> */}
     </Animation>
   );
 };

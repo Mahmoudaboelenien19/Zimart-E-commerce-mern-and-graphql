@@ -31,8 +31,6 @@ nav {
         letter-spacing: 1px;
         text-transform: capitalize;
         font-size: 1rem;
-        // @include kyiv(600, -400);
-        font-family: "PT Sans", sans-serif !important;
 
         &.cart-active-link.active {
           color: var(--green);
@@ -62,7 +60,6 @@ nav {
           &:hover:not(&.active) {
             color: var(--green);
             opacity: 0.9;
-            @include kyiv(400, -1000);
           }
           &.active:before {
             border-bottom-right-radius: 3px;

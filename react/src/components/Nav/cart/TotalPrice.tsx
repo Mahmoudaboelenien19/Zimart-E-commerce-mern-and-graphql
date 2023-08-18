@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Price from "./Price";
 import { useAppSelector } from "../../../custom/reduxTypes";
 import BuyBtn from "../../payment/BuyBtn";
+import { cartInterface } from "../../../interfaces/user";
 const TotalPrice = ({ subTotal }: { subTotal: number }) => {
   const [total, setTotal] = useState(0);
   const [freeShipping, setFreeShipping] = useState(false);
@@ -55,6 +56,17 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
     },
     exit: { width: 0, transition: { delay: 0.5, duration: 0.2 } },
   };
+  const ar = cart?.map(
+    ({ _id, productId, parentId, price, path, title, count }) => ({
+      _id,
+      productId,
+      parentId,
+      price,
+      path,
+      title,
+      count,
+    })
+  );
 
   return (
     <div className="totel-price center between col box-shadow">
@@ -147,7 +159,7 @@ const TotalPrice = ({ subTotal }: { subTotal: number }) => {
           </span>
         </h3>
       </div>
-      <BuyBtn products={cart} />
+      <BuyBtn products={ar} />
     </div>
   );
 };

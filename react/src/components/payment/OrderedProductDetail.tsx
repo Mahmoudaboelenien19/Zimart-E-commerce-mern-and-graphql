@@ -7,17 +7,15 @@ interface Props {
 }
 const OrderedProductDetail = ({ detail, value }: Props) => {
   return (
-    <div style={{ fontSize: "1.2rem" }}>
-      <div className="center gap">
-        <span className="detail">{detail}</span>
-        <span className="value">
-          {detail === "price :" || detail === "Total :" ? (
-            <StyledPrice price={Number(value)} />
-          ) : (
-            value
-          )}
-        </span>
-      </div>
+    <div style={{ fontSize: "1.2rem" }} className="center gap total-pay">
+      <span className="detail">{detail}</span>
+      <span className="value">
+        {detail === "price :" || detail === "Total :" ? (
+          <StyledPrice price={Number(value)} />
+        ) : (
+          value
+        )}
+      </span>
     </div>
   );
 };

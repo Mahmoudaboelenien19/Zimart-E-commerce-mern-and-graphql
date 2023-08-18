@@ -44,7 +44,7 @@ const OrderDetails = () => {
               </thead>
               <tbody>
                 {productId?.map((ob: OrderInterface) => {
-                  return <OrderDetailTr key={ob._id} {...ob} />;
+                  return <OrderDetailTr key={ob.image} {...ob} />;
                 })}
               </tbody>
             </motion.table>

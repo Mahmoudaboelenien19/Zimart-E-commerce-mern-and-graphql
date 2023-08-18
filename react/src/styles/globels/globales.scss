@@ -1,19 +1,4 @@
 @import "../variables.scss";
-@import "../globels/mixins";
-
-@font-face {
-  font-family: "Fexien Sans";
-  src: url("/fonts/studio-feixen-sans-variable.woff2") format("woff2");
-  font-weight: 400 1000;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Kyiv Sans";
-  src: url("/fonts/Kyiv-sans.woff2") format("woff2-variations");
-  font-weight: 100 1000;
-  font-display: swap;
-}
 
 * {
   margin: 0;
@@ -22,7 +7,8 @@
 }
 
 body {
-  font-family: "PT Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
+
   overflow-x: hidden;
   background: linear-gradient(120deg, var(--forth), var(--main));
 }
@@ -51,8 +37,4 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-p {
-  font-family: "PT Sans", sans-serif;
 }

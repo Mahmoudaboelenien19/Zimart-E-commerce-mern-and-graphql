@@ -18,6 +18,7 @@ interface Props {
   }[];
 }
 const BuyBtn = ({ products }: Props) => {
+  console.log(products);
   const [clientSecret, setClientSecret] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [fn] = useMutation(get_Stripe_Secret, {

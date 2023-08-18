@@ -15,8 +15,6 @@ const OrderedProduct = ({ title, price, i, count }: Props) => {
         <OrderedProductDetail detail="product :" value={title} />
         <OrderedProductDetail detail="count :" value={count} />
         <OrderedProductDetail detail="price :" value={price} />
-
-        <div className="or"></div>
       </div>
     </>
   );

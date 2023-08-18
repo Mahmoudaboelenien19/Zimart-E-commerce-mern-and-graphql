@@ -6,8 +6,6 @@ import { isAuthContext } from "../../../context/isAuth.js";
 import { BsFillCartXFill } from "react-icons/bs";
 import DetailsBtn from "../../widgets/DetailsBtn.js";
 
-import { useAppSelector } from "../../../custom/reduxTypes.js";
-
 import Title from "../../widgets/Title.js";
 import BuyBtn from "../../payment/BuyBtn.js";
 
@@ -26,18 +24,16 @@ const CartItem = ({
     { detail: "price", value: `$ ${price.toFixed(2)}` },
   ];
   const { userId } = useContext(isAuthContext);
-  const { cart } = useAppSelector((state) => state.cart);
   const { handleRemoveFromCart } = useRemoveFromCart({
     userId,
     productId: [productId],
   });
-  const obj = cart.find(
-    (item: cartInterface) => item._id === _id
-  ) as cartInterface;
 
   return (
     <div className="cart-item center ">
-      <img className="cart-img" src={path} alt="" />
+      <div className="cart-img-par center">
+        <img className="cart-img" src={path} alt="" />
+      </div>
       <div className=" cart-content ">
         <div style={{ alignSelf: "center" }}>
           <Counter count={count} productId={productId} key={_id} />
@@ -51,7 +47,19 @@ const CartItem = ({
           );
         })}
         <div style={{ alignSelf: "center" }}>
-          <BuyBtn products={[obj]} />
+          <BuyBtn
+            products={[
+              {
+                _id,
+                productId,
+                parentId,
+                price,
+                path,
+                title,
+                count,
+              },
+            ]}
+          />
         </div>
       </div>
       <div className="cart-btns center  ">

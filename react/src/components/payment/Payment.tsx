@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { Stripe, loadStripe } from "@stripe/stripe-js";
@@ -45,7 +45,12 @@ const Payment = () => {
                 ar: { title: string; price: number; count: number },
                 i: number
               ) => {
-                return <OrderedProduct key={ar.title} {...ar} i={i + 1} />;
+                return (
+                  <Fragment key={ar.title}>
+                    <OrderedProduct {...ar} i={i + 1} />
+                    <div className="pay-or"></div>
+                  </Fragment>
+                );
               }
             )}
             <OrderedProductDetail detail="Total :" value={totalOrderCost} />

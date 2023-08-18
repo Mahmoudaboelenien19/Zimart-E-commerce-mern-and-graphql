@@ -57,9 +57,11 @@ const Counter = ({
 
       changeCartCuntDB({
         variables: {
-          userId,
-          productId,
-          count: count - 1,
+          input: {
+            userId,
+            productId,
+            count: count - 1,
+          },
         },
       });
     }
