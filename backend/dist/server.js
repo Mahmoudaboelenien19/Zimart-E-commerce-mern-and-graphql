@@ -59,6 +59,7 @@ const blogResolver_js_1 = require("./new Grapgql/Resolvers/blogResolver.js");
 const blogsType_js_1 = require("./new Grapgql/typeDefs/blogsType.js");
 const context_js_1 = require("./new Grapgql/context.js");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
+const path_1 = __importDefault(require("path"));
 const stripeType_js_1 = require("./new Grapgql/typeDefs/stripeType.js");
 const stripeResolver_js_1 = require("./new Grapgql/Resolvers/stripeResolver.js");
 const http_1 = require("http");
@@ -132,16 +133,16 @@ const server = new apollo_server_express_1.ApolloServer({
         },
     ],
 });
-// app.use(express.static(path.join(path.resolve(), "/react/dist")));
+app.use(express_1.default.static(path_1.default.join(path_1.default.resolve(), "/react/dist")));
 app.get("/cookie", (req, res) => {
     const { access_token, refresh_token, user_id } = req.cookies;
     res.json({ access_token, refresh_token, user_id });
 });
 app.use("/", googleAuth_js_1.oAuthRouter);
 app.use("/token", tokensRoutes_js_1.AuthRouter);
-// app.get("*", (_, res) => {
-//   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
-// });
+app.get("*", (_, res) => {
+    res.sendFile(path_1.default.join(path_1.default.resolve(), "/react/dist/index.html"));
+});
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield server.start();
     server.applyMiddleware({

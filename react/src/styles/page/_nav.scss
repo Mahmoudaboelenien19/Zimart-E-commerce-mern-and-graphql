@@ -143,9 +143,9 @@ nav {
   }
   .aside-links {
     position: fixed;
-    top: 40px;
+    top: 0;
     width: 100%;
-    height: calc(100vh - 40px);
+    height: calc(100vh);
     right: 0;
     background-color: var(--secondary);
     z-index: 5;

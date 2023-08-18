@@ -53,7 +53,9 @@ const Input = ({
             },
           })}
           defaultValue={defaultVal}
-          step={type === "number" ? ".01" : "any"}
+          step={
+            type === "number" ? (placeholder === "stock" ? "1" : ".01") : "any"
+          }
         />
       ) : (
         <textarea

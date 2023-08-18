@@ -4,6 +4,7 @@ import NavLinks from "./NavLinks";
 import { mobileDropDownVariant } from "../../variants/globals.js";
 import MenuTogglar from "../widgets/MenuTogglar";
 import ThemeToggle from "../widgets/ThemeToggle";
+import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
 
 const LinksAside = () => {
   const [showAside, setShowAside] = useState(false);
@@ -32,6 +33,8 @@ const LinksAside = () => {
             exit="exit"
             className="aside-links"
           >
+            <MobileCloseDropDown setter={setShowAside} title="close nav" />
+
             <ThemeToggle />
 
             <NavLinks setShowAside={setShowAside} />

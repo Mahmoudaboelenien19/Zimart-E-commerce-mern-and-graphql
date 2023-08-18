@@ -372,7 +372,13 @@ svg.svg-star {
   box-shadow: 0.5px 0.5px 2.5px black;
   z-index: 10;
 }
+.search-close {
+  color: var(--delete);
+  font-weight: bold;
+  position: relative;
 
+  right: 5px;
+}
 @media (max-width: 649px) {
   aside.aside-products {
     position: fixed;

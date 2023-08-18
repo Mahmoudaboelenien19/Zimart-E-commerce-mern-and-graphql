@@ -13,6 +13,9 @@ import { useAppSelector } from "../../../custom/reduxTypes";
 import useIsMobile from "../../../custom/useIsMobile";
 import { viewContext } from "../../../context/gridView";
 import { mergeRefs } from "react-merge-refs";
+import { MdOutlineClear } from "react-icons/md";
+import FadeElement from "../../widgets/FadeElement";
+import Title from "../../widgets/Title";
 
 const Search = () => {
   const { isMobile } = useIsMobile();
@@ -32,11 +35,7 @@ const Search = () => {
   };
   const formRef = useClickOutside<HTMLFormElement>(() => {
     setShowRes(false);
-    handleInputValue("");
-    if (productSearchWord !== "") {
-      setProducts(Allproducts);
-    }
-    setroductSearchWord("");
+
     if (isMobile) {
       setShowSearch(false);
     }
@@ -171,8 +170,8 @@ const Search = () => {
         >
           <AiOutlineSearch className="search-icon" />
         </button>
+
         <AnimatePresence>
-          {/* {showSearch && ( */}
           <motion.input
             key={"search-input"}
             ref={inpRef}
@@ -182,13 +181,24 @@ const Search = () => {
             // variants={isMobile ? mobileSeachVariant : {}}
             animate={{ display: showSearch ? "block" : "none" }}
             transition={{ delay: isMobile ? 0.3 : 0 }}
-
-            //
-            // exit={{ width: 0 }}
-            // initial={{ width: 0 }}
-            // animate={{ width: "calc(100% - 30px) " }}
           />
-          {/* )} */}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {productSearchWord !== "" && (
+            <Title title="empty search bar" abs={true}>
+              <FadeElement cls="search-close">
+                <MdOutlineClear
+                  onClick={() => {
+                    setProducts(Allproducts);
+
+                    setroductSearchWord("");
+                    handleInputValue("");
+                  }}
+                />
+              </FadeElement>
+            </Title>
+          )}
         </AnimatePresence>
 
         {productSearchWord !== "" && (

@@ -64,7 +64,8 @@
   height: 30px;
   width: 80%;
   margin: 0 auto;
-  background: var(--wheat-light);
+  background-color: var(--main);
+  color: var(--third);
   flex-direction: column;
   padding: 3px 10px;
   text-transform: capitalize;
@@ -75,7 +76,8 @@
   color: var(--third);
   .drop-country {
     background: var(--green);
-    height: 200px;
+    height: fit-content;
+    max-height: 200px;
     overflow-y: auto;
     overflow-x: hidden;
   }

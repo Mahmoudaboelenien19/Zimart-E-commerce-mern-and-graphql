@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import DashForm from "./DashForm";
 import { useMutation } from "@apollo/client";
@@ -12,15 +12,13 @@ const DashAddProduct = () => {
     }, 1000);
   }, []);
   return (
-    <Fragment>
-      <DashForm
-        key={"addProduct"}
-        head="add product"
-        fn={addProductFn}
-        btn="add"
-        type="add"
-      />
-    </Fragment>
+    <DashForm
+      key={"addProduct"}
+      head="add product"
+      fn={addProductFn}
+      btn="add"
+      type="add"
+    />
   );
 };
 

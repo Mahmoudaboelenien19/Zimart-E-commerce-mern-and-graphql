@@ -14,7 +14,7 @@ import MainBtn from "../../widgets/MainBtn";
 import DashMain from "../DashMain";
 import FormAnimation from "../../widgets/FormAnimation";
 import UploadingLoader from "../../widgets/UploadingLoader";
-
+import Select from "./Select";
 interface keyedProduct extends ProductInterface {
   [key: string]: any;
 }
@@ -30,6 +30,9 @@ interface Props {
 
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   const [isPending, setIsPending] = useState(false);
+  const [isSubmited, setIsSubmitted] = useState(false);
+  const [stateValue, setStateValue] = useState(obj?.state || "");
+  const [categoryValue, setCategoryValue] = useState(obj?.category || "");
 
   const date = () => new Date();
 
@@ -45,10 +48,8 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
 
   const notRequired = yup.mixed().notRequired();
   const schema = yup.object().shape({
-    state: yup.string().min(3).max(10).required(),
-    category: yup.string().min(3).max(10).required(),
     title: yup.string().min(12).max(30).required(),
-    stock: yup.number().min(1).max(100).required(),
+    stock: yup.number().integer().min(1).max(100).required(),
     price: yup.number().min(1).max(1000).required(),
     description: yup.string().trim().min(50).required(),
     images: type === "update" ? notRequired : fileSchema,
@@ -62,40 +63,45 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
 
   const inpArr = [
     { type: "text", placeholder: "title" },
-    { type: "text", placeholder: "category" },
+    // { type: "text", placeholder: "category" },
     { type: "number", placeholder: "stock" },
-    { type: "text", placeholder: "state" },
+    // { type: "text", placeholder: "state" },
     { type: "number", placeholder: "price" },
   ];
 
   const onSubmit = async (data: FieldValues) => {
-    setIsPending(true);
+    if (stateValue && categoryValue) {
+      setIsPending(true);
 
-    const obj = {
-      ...data,
-      stock: Number(data.stock),
-      price: Number(data.price),
-    };
-    if (type === "update") {
-      const { data: res } = await fn({
-        variables: {
-          input: {
-            ...obj,
-            _id: id,
+      const obj = {
+        ...data,
+        stock: Number(data.stock),
+        price: Number(data.price),
+        state: stateValue,
+        category: categoryValue,
+      };
+
+      if (type === "update") {
+        const { data: res } = await fn({
+          variables: {
+            input: {
+              ...obj,
+              _id: id,
+            },
           },
-        },
-      });
-      toast.success(res.updateProduct.msg);
-      setIsPending(false);
-    } else {
-      const addObj = { ...obj, createdAt: date() };
-
-      const { data } = await fn({
-        variables: { input: addObj },
-      });
-      if (data.addNewProduct.status) {
+        });
+        toast.success(res.updateProduct.msg);
         setIsPending(false);
-        toast.success(data.addNewProduct.msg);
+      } else {
+        const addObj = { ...obj, createdAt: date() };
+
+        const { data } = await fn({
+          variables: { input: addObj },
+        });
+        if (data.addNewProduct.status) {
+          setIsPending(false);
+          toast.success(data.addNewProduct.msg);
+        }
       }
     }
   };
@@ -128,6 +134,26 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
                 {placeholder === "title" && type !== "update" && (
                   <CustomFIleInput err="" key="custom-input" />
                 )}
+                {placeholder === "price" && (
+                  <Fragment key={"state&&title" + type}>
+                    <Select
+                      setter={setStateValue}
+                      val={stateValue}
+                      ar={["new", "sale", "trending", "exclusive", "limited"]}
+                      noVal="Select Product State"
+                      isSubmited={isSubmited}
+                    />
+                    <Select
+                      isSubmited={isSubmited}
+                      setter={setCategoryValue}
+                      val={categoryValue}
+                      ar={["phone", "laptops", "fashion"]}
+                      noVal="Select Product Category"
+                    />
+                  </Fragment>
+                )}
+
+                <Fragment key="state-add-file"></Fragment>
               </Fragment>
             );
           })}
@@ -146,7 +172,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
           <MainBtn
             btn={btn}
             cls="main btn center gap w-100"
-            fn={() => null}
+            fn={() => setIsSubmitted(true)}
             parCls="w-80"
             type="submit"
           />

@@ -43,22 +43,24 @@ const CustomFIleInput = ({ err }: Props) => {
           }
         }}
       >
-        upload 4 images
+        upload
       </button>
       <AnimatePresence>
-        {watchfiles?.length && (
-          <motion.div
-            key={"number of files"}
-            variants={opacityVariant}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            initial="start"
-            animate="end"
-            exit="exit"
-            className="span-file"
-          >
-            {watchfiles?.length} file selected
-          </motion.div>
-        )}
+        <motion.div
+          key={"number of files"}
+          variants={opacityVariant}
+          transition={{ duration: 0.4, delay: 0.4 }}
+          initial="start"
+          animate="end"
+          exit="exit"
+          className="span-file"
+        >
+          {watchfiles?.length >= 1 ? (
+            watchfiles?.length + " file selected"
+          ) : (
+            <span style={{ color: "var(--wheat)" }}>upload 4 images</span>
+          )}
+        </motion.div>
       </AnimatePresence>
       <InpErr err={errors.images?.message?.toString()} />
     </div>
