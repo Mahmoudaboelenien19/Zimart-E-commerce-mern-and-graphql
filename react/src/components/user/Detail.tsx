@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { GrUpdate } from "react-icons/gr";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import Input from "../widgets/Input";
+import Input from "../widgets/forms/Input";
 import { isAuthContext } from "../../context/isAuth";
-import SlideButton from "../widgets/SlideButton";
+import SlideButton from "../widgets/buttons/SlideButton";
 import { AnimatePresence } from "framer-motion";
 import UpdateCountry from "./UpdateCountry";
 import { yupResolver } from "@hookform/resolvers/yup";

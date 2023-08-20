@@ -2,12 +2,12 @@ import React, { useRef, useState, useContext } from "react";
 
 import AvatarEditor from "react-avatar-editor";
 import { isAuthContext } from "../../context/isAuth";
-import MainBtn from "../widgets/MainBtn";
-import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
+import MainBtn from "../widgets/buttons/MainBtn";
+import MobileCloseDropDown from "../widgets/dropdowns/MobileCloseDropDown";
 import { useMutation } from "@apollo/client";
 import { Update_Profile_Img } from "../../graphql/mutations/user";
 import { toast } from "react-hot-toast";
-import UploadingLoader from "../widgets/UploadingLoader";
+import UploadingLoader from "../widgets/loaders/UploadingLoader";
 interface Props {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   setnewImg: React.Dispatch<React.SetStateAction<File | undefined>>;

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import MainBtn from "../../../widgets/MainBtn";
+import MainBtn from "../../../widgets/buttons/MainBtn";
 import { BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
 import { useAppSelector } from "../../../../custom/reduxTypes";
 import { imagesInterface } from "../../../../interfaces/user";

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useAppSelector } from "../../custom/reduxTypes";
 import { favInterface, imagesInterface } from "../../interfaces/user";
-import HeartSvg from "../svgs/heart";
+import HeartSvg from "./heart";
 import useRemoveFromFav from "../../custom/useRemoveFeomFav";
 import useAddToFav from "../../custom/useAddToFav";
 import { isAuthContext } from "../../context/isAuth";

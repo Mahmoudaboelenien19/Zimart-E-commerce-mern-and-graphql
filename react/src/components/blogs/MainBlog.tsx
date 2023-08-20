@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, stagger, useInView } from "framer-motion";
 import { BlogInterface } from "../../interfaces/blog";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowAlt } from "react-icons/bi";

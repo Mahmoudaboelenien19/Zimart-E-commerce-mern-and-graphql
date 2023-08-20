@@ -1,8 +1,8 @@
 import React, { useTransition, useEffect, useState } from "react";
-import FadeElement from "./FadeElement";
+import FadeElement from "./animation/FadeElement";
 import { ChildrenInterFace } from "../../interfaces/general";
 import { AnimatePresence } from "framer-motion";
-import GridLoader from "./GridLoader";
+import GridLoader from "./loaders/GridLoader";
 
 interface Props extends ChildrenInterFace {
   length: boolean;

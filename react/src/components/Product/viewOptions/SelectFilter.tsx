@@ -14,7 +14,7 @@ import {
   selectDropDownVariants,
 } from "../../../variants/globals";
 import { productListContext } from "../../../context/FilterData";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 import { useAppSelector } from "../../../custom/reduxTypes";
 import useClickOutside from "../../../custom/useClickOutside";
 const optionsArr = [

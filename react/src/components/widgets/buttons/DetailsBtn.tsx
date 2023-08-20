@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import MainBtn from "./MainBtn";
 import { BsInfoCircleFill } from "react-icons/bs";
-import Title from "./Title";
+import Title from "../Title";
 interface Props {
   _id: string;
 }

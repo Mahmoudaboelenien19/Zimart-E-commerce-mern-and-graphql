@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Avatar from "./Avatar";
-import Overley from "../widgets/Overley";
-import MainBtn from "../widgets/MainBtn";
-import ProfileImg from "../widgets/ProfileImg";
+import Overley from "../widgets/dropdowns/Overley";
+import MainBtn from "../widgets/buttons/MainBtn";
+import ProfileImg from "./ProfileImg";
 const UserImage = () => {
   const inpFile = useRef<HTMLInputElement | null>(null);
 

@@ -5,7 +5,7 @@ import Blog from "./MainBlog";
 import { BlogInterface } from "../../interfaces/blog.js";
 import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
 import { addToBlogsRedux } from "../../redux/BlogsSlice";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 
 const Blogs = () => {
   useEffect(() => {

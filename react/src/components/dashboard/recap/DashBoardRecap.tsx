@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import CountUpAnimation from "../../widgets/CountUpAnimation";
+import CountUpAnimation from "../../widgets/animation/CountUpAnimation";
 interface Props {
   head: string;
   percentage: number;

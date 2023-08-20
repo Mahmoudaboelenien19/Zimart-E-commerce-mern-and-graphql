@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { useAppSelector } from "../../custom/reduxTypes";
 import SelectedProductData from "./SelectedProductData";
 import { motion, AnimatePresence } from "framer-motion";
-import FadeElement from "../widgets/FadeElement";
+import FadeElement from "../widgets/animation/FadeElement";
 import { reverseVariant } from "../../variants/globals";
 interface Props {
   product: string;

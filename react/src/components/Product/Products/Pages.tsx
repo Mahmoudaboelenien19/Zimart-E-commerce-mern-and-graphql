@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
 import { opacityVariant } from "../../../variants/globals";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 interface Props {
   numOfPages: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;

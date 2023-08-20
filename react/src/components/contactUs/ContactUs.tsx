@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Map from "./Map";
 import ContactForm from "./ContactForm";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 const ContactUs = () => {
   useEffect(() => {
     document.title = "Contact Us";

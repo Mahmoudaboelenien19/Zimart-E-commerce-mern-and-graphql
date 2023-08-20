@@ -20,6 +20,7 @@ const config_js_1 = require("../../config.js");
 const authenticate_js_1 = require("../../middlewares/authenticate.js");
 const hashPassword_js_1 = require("../../middlewares/hashPassword.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
+const context_js_1 = require("../context.js");
 exports.userResolver = {
     Query: {
         users() {
@@ -46,6 +47,7 @@ exports.userResolver = {
                     isRead: false,
                     content: `${input.email} created a new account`,
                     createdAt: new Date().toISOString(),
+                    link: "/",
                 };
                 yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
                     $push: {
@@ -54,6 +56,12 @@ exports.userResolver = {
                     $inc: {
                         notificationsCount: +1,
                     },
+                });
+                const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                    notifications: { $slice: [-1, 1] },
+                });
+                context_js_1.pubsub.publish("Notification_Created", {
+                    NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
                 });
                 return Object.assign(Object.assign({}, res), { status: 200, msg: "user created successfully" });
             }

@@ -1,6 +1,7 @@
 import cloudinary from "cloudinary";
 import productCollection from "../../mongoose/schema/product.js";
 import { pubsub } from "../context.js";
+import { userCollection } from "../../mongoose/schema/user.js";
 
 interface filterAllInterface {
   input: {
@@ -175,6 +176,32 @@ export const productResolver = {
           });
           pubsub.publish("Product_Added", {
             productAdded: newProduct,
+          });
+          const notificationObj = {
+            isRead: false,
+            content: `new product added`,
+            createdAt: new Date().toISOString(),
+            link: `/${newProduct._id}`,
+          };
+          const notification = await userCollection.updateMany(
+            { role: { $in: ["admin", "moderator", "owner", "user"] } },
+            {
+              $push: {
+                notifications: notificationObj,
+              },
+              $inc: {
+                notificationsCount: +1,
+              },
+            }
+          );
+          const newNotification = await userCollection.findOne(
+            { role: { $in: ["admin", "moderator", "owner", "user"] } },
+            {
+              notifications: { $slice: [-1, 1] },
+            }
+          );
+          pubsub.publish("Notification_Created", {
+            NotificationAdded: newNotification?.notifications[0],
           });
 
           return {

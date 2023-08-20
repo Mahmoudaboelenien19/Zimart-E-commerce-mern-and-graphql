@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TbMoonFilled } from "react-icons/tb";
 import { themeContext } from "../../context/ThemContext";
-import Title from "./Title";
+import Title from "../widgets/Title";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaSun } from "react-icons/fa";
 import useNavTransition from "../../custom/useNavTransition";

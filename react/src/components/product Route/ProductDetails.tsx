@@ -9,17 +9,18 @@ import HeartSvgProduct from "../../custom SVGs/HeartSvgProduct";
 import { productContext } from "./Product";
 import usePathAndId from "../../custom/usePathAndId";
 import ProductRate from "./ProductRate";
-import CartBtn from "../widgets/CartBtn";
+
 import AddReview from "./Review/AddReview";
 import Title from "../widgets/Title";
 import { isAuthContext } from "../../context/isAuth";
 
-import CompareIcons from "../widgets/CompareIcons";
+import CompareIcons from "../svgs/CompareIcons";
 import StyledPrice from "../widgets/StyledPrice";
 import { toast } from "react-hot-toast";
 
 import BuyBtn from "../payment/BuyBtn";
 import { reviewInterface } from "../../interfaces/product";
+import CartBtn from "../widgets/buttons/CartBtn";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;

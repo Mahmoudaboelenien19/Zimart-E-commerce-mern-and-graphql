@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import SeletedProduct from "./SeletedProduct";
 import { Navigate } from "react-router-dom";
 import { isAuthContext } from "../../context/isAuth";
@@ -13,7 +13,7 @@ const CompareProducts = () => {
     return <Navigate to={"/login"} />;
   }
   return (
-    <Animation addIntialX={false}>
+    <Animation>
       <div className="compare-products">
         <SeletedProduct
           order="first"

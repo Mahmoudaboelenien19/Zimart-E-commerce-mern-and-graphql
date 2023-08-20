@@ -4,13 +4,13 @@ import CartItem from "./CartItem";
 import TotalPrice from "./TotalPrice";
 import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
 import { AnimatePresence } from "framer-motion";
-import SLiderComponent from "../../widgets/SLider";
 import { viewContext } from "../../../context/gridView";
-import Animation from "../../widgets/Animation";
+import Animation from "../../widgets/animation/Animation";
 import NoData from "../../widgets/NoData";
 import { cartInterface } from "../../../interfaces/user";
 import { Navigate } from "react-router-dom";
 import { isAuthContext } from "../../../context/isAuth";
+import FadeElement from "../../widgets/animation/FadeElement";
 
 const offerArr = [
   { offer: "Spend $800 or more and get free shipping!", money: 800 },
@@ -42,7 +42,7 @@ const Cart = () => {
   }
   return (
     <Animation>
-      <div className="cart-cont ">
+      <FadeElement cls="cart-cont  " delay={0.4}>
         <div className="offer-cart center col">
           {offerArr.map(({ offer, money }, i) => {
             return (
@@ -65,7 +65,8 @@ const Cart = () => {
           <NoData
             length={cart.length >= 1}
             message="No products at your cart"
-            cls={"h-50-w-65  center"}
+            // cls={"h-50-w-65  center"}
+            cls={"cart-nodata center"}
           >
             <div className="carts-par center col">
               {cart.map((item: cartInterface) => {
@@ -77,10 +78,11 @@ const Cart = () => {
               })}
             </div>
           </NoData>
-          <TotalPrice subTotal={subTotal} key={"TotalPrice"} />
+          {cart.length >= 1 && (
+            <TotalPrice subTotal={subTotal} key={"TotalPrice"} />
+          )}
         </div>
-      </div>
-      {/* <SLiderComponent key={"cart-slider"} /> */}
+      </FadeElement>
     </Animation>
   );
 };

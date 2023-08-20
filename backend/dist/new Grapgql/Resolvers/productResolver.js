@@ -16,6 +16,7 @@ exports.productResolver = void 0;
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
 const context_js_1 = require("../context.js");
+const user_js_1 = require("../../mongoose/schema/user.js");
 exports.productResolver = {
     Query: {
         products() {
@@ -165,6 +166,26 @@ exports.productResolver = {
                         const newProduct = yield product_js_1.default.create(Object.assign(Object.assign({}, input), { images: urls }));
                         context_js_1.pubsub.publish("Product_Added", {
                             productAdded: newProduct,
+                        });
+                        const notificationObj = {
+                            isRead: false,
+                            content: `new product added`,
+                            createdAt: new Date().toISOString(),
+                            link: `/${newProduct._id}`,
+                        };
+                        const notification = yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                            $push: {
+                                notifications: notificationObj,
+                            },
+                            $inc: {
+                                notificationsCount: +1,
+                            },
+                        });
+                        const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                            notifications: { $slice: [-1, 1] },
+                        });
+                        context_js_1.pubsub.publish("Notification_Created", {
+                            NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
                         });
                         return {
                             status: 200,

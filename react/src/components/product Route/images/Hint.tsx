@@ -1,5 +1,5 @@
 import React from "react";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 
 const Hint = () => {
   return (

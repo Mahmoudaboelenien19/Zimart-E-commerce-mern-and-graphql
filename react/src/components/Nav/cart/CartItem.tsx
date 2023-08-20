@@ -4,8 +4,9 @@ import Counter from "./Counter.js";
 import useRemoveFromCart from "../../../custom/useRemoveFromCart.js";
 import { isAuthContext } from "../../../context/isAuth.js";
 import { BsFillCartXFill } from "react-icons/bs";
-import DetailsBtn from "../../widgets/DetailsBtn.js";
-
+import DetailsBtn from "../../widgets/buttons/DetailsBtn.js";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import Title from "../../widgets/Title.js";
 import BuyBtn from "../../payment/BuyBtn.js";
 
@@ -31,9 +32,12 @@ const CartItem = ({
 
   return (
     <div className="cart-item center ">
-      <div className="cart-img-par center">
-        <img className="cart-img" src={path} alt="" />
-      </div>
+      <LazyLoadImage
+        src={path}
+        effect="blur"
+        wrapperClassName="cart-img-par center"
+      />
+
       <div className=" cart-content ">
         <div style={{ alignSelf: "center" }}>
           <Counter count={count} productId={productId} key={_id} />

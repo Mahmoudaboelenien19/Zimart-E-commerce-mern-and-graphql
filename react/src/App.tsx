@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Loading from "./components/Loading";
+import Loading from "./components/widgets/loaders/Loading";
 import "./styles/App.scss";
-import Nav from "./components/Nav/Nav";
+import Nav from "./components/Nav/main/Nav";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./components/Nav/routes";
 import IsAuthContextComponent from "./context/isAuth";

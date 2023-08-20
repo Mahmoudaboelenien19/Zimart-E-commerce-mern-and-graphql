@@ -1,8 +1,8 @@
 import { AnimatePresence, MotionValue, motion } from "framer-motion";
 import React, { useContext } from "react";
-import { isAuthContext } from "../../context/isAuth";
-import FadeElement from "../widgets/FadeElement";
-import NavImg from "../widgets/NavImg";
+import { isAuthContext } from "../../../context/isAuth";
+import FadeElement from "../../widgets/animation/FadeElement";
+import NavImg from "./NavImg";
 import { useNavigate } from "react-router-dom";
 import ProdouctFeaturesLinks from "./ProdouctFeaturesLinks";
 

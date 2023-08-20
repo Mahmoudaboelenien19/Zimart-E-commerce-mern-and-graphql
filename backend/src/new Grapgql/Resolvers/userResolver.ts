@@ -10,6 +10,7 @@ import {
 import { hashPassword } from "../../middlewares/hashPassword.js";
 import { userCollection } from "../../mongoose/schema/user.js";
 import { IdInterface } from "../interfaces/graqphInterfaces.js";
+import { pubsub } from "../context.js";
 
 interface addToFavInterface {
   input: {
@@ -59,6 +60,7 @@ export const userResolver = {
           isRead: false,
           content: `${input.email} created a new account`,
           createdAt: new Date().toISOString(),
+          link: "/",
         };
         await userCollection.updateMany(
           { role: { $in: ["admin", "moderator", "owner", "user"] } },
@@ -71,6 +73,16 @@ export const userResolver = {
             },
           }
         );
+        const newNotification = await userCollection.findOne(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            notifications: { $slice: [-1, 1] },
+          }
+        );
+        pubsub.publish("Notification_Created", {
+          NotificationAdded: newNotification?.notifications[0],
+        });
+
         return { ...res, status: 200, msg: "user created successfully" };
       }
     },

@@ -4,7 +4,7 @@ import { reviewInterface } from "../../interfaces/product";
 import ProductRate from "../product Route/ProductRate";
 import useAvg from "../../custom/useAvg";
 import StyledPrice from "../widgets/StyledPrice";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import useRemoveFromCompareList from "../../custom/useRemoveFromCompareList";
 import { isAuthContext } from "../../context/isAuth";
 import { FiMinusSquare } from "react-icons/fi";

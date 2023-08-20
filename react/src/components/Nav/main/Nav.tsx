@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import LogoSvg from "../widgets/LogoSvg";
+import LogoSvg from "../../svgs/LogoSvg";
 
-import { isAuthContext } from "../../context/isAuth";
+import { isAuthContext } from "../../../context/isAuth";
 
-import ThemeToggle from "../widgets/ThemeToggle";
+import ThemeToggle from "../../theme/ThemeToggle";
 import NavLinks from "./NavLinks";
-import useIsMobile from "../../custom/useIsMobile";
+import useIsMobile from "../../../custom/useIsMobile";
 import LinksAside from "./LinksAside";
 import IsAuth from "./IsAuth";
-import useNavTransition from "../../custom/useNavTransition";
+import useNavTransition from "../../../custom/useNavTransition";
 
 const Nav = () => {
   const { isAuth } = useContext(isAuthContext);

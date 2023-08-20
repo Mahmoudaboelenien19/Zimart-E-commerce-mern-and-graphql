@@ -3,18 +3,18 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import { useMutation } from "@apollo/client";
-import Input from "../widgets/Input";
+import Input from "../widgets/forms/Input";
 import { ADD_USER } from "../../graphql/mutations/user";
 import { NavLink, useNavigate } from "react-router-dom";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import SelectCOuntry from "../user/SelectCOuntry";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useFormSchema from "../../custom/useFormSchema";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import LogInWithGoogle from "./LogInWithGoogle";
-import FormAnimation from "../widgets/FormAnimation";
+import FormAnimation from "../widgets/forms/FormAnimation";
 interface oAuthInterface {
   email: string;
   image: string;
@@ -87,7 +87,7 @@ const SignUp = () => {
     handleSignUp();
   };
   return (
-    <Animation addIntialX={false}>
+    <Animation>
       <motion.div className="log-in center">
         <FormProvider {...methods}>
           <FormAnimation fn={handleSubmit(OnSubmit)} cls="center log-in">

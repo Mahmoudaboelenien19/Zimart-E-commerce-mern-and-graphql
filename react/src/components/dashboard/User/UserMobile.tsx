@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 import { AnimatePresence, motion } from "framer-motion";
 import DashDropDown from "../Order/DashDropDown";
 

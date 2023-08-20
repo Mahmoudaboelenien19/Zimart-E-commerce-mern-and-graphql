@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import React, { useRef } from "react";
-import Title from "./Title";
-import SmallLoader from "./SmallLoader";
+import React from "react";
+import Title from "../Title";
+import SmallLoader from "../loaders/SmallLoader";
 interface Props {
   fn: () => void;
   btn: string;
@@ -24,21 +24,17 @@ const MainBtn = ({
   title,
   isPending = false,
 }: Props) => {
-  const ref = useRef<HTMLButtonElement | null>(null);
-
   return (
     <Title title={title ? title : ""} cls={parCls}>
       <motion.button
-        ref={ref}
         key={"apply-btn"}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
-        whileTap={{ opacity: 0.5 }}
         disabled={isPending}
         className={`center ${cls}`}
         onClick={fn}
-        style={{ color: "var(--white)", opacity: isPending ? 0.7 : 1 }}
+        style={{ color: "var(--white)", opacity: isPending ? 0.5 : 1 }}
         type={type}
       >
         <>

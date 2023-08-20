@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../widgets/Title";
+import Title from "./Title";
 
 interface Props {
   bool: boolean;

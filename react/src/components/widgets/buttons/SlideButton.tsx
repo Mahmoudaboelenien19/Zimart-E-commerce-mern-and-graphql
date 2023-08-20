@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Overley from "./Overley";
+import Overley from "../dropdowns/Overley";
 import {
   motion,
   useAnimation,
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import CircleCheckSvg from "../../custom SVGs/CircleCheckSvg";
+import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
 import { FaGreaterThan } from "react-icons/fa";
-import { ChildrenInterFace } from "../../interfaces/general";
+import { ChildrenInterFace } from "../../../interfaces/general";
 interface Props extends ChildrenInterFace {
   sethide: React.Dispatch<React.SetStateAction<boolean>>;
   cls: string;

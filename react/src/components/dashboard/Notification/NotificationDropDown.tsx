@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import DropDown from "../../widgets/DropDown";
+import DropDown from "../../widgets/dropdowns/DropDown";
 import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
 import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
@@ -17,7 +17,7 @@ import {
   notificationInterface,
 } from "../../../redux/notificationsSlice";
 import { RiNotification2Line } from "react-icons/ri";
-import ShowCount from "../../widgets/showCounter";
+import ShowCount from "../../Nav/main/showCounter";
 import { opacityVariant } from "../../../variants/globals";
 import useIsMobile from "../../../custom/useIsMobile";
 

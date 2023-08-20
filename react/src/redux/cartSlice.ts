@@ -25,7 +25,6 @@ const cartSlice = createSlice({
     },
 
     changeCartCountRedux(state, action) {
-      console.log({ action: action.payload });
       state.cart = state.cart.map((obj) =>
         action.payload.productId === obj.productId
           ? { ...obj, count: action.payload.count }

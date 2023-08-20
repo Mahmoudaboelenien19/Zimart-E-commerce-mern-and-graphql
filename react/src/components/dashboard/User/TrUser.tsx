@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import React, { useState, Fragment } from "react";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 import DashDropDown from "../Order/DashDropDown";
 
 interface Props {

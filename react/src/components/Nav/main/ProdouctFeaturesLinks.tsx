@@ -4,11 +4,11 @@ import { AiFillHeart } from "react-icons/ai";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { IoGitCompareSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import ShowCount from "../widgets/showCounter";
-import WishList from "./WishList";
-import Title from "../widgets/Title";
-import { useAppSelector } from "../../custom/reduxTypes";
-import useIsMobile from "../../custom/useIsMobile";
+import ShowCount from "./showCounter";
+import WishList from "../wishlist/WishList";
+import Title from "../../widgets/Title";
+import { useAppSelector } from "../../../custom/reduxTypes";
+import useIsMobile from "../../../custom/useIsMobile";
 interface Props {
   LinkClr?: MotionValue | string;
 }

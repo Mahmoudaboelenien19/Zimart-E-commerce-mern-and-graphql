@@ -1,5 +1,5 @@
 import React from "react";
-import LogoSvg from "../widgets/LogoSvg";
+import LogoSvg from "../svgs/LogoSvg";
 
 const AboutFooter = () => {
   return (

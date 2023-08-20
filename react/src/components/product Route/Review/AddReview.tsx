@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import SlideButton from "../../widgets/SlideButton";
+import SlideButton from "../../widgets/buttons/SlideButton";
 import AddRate from "./AddRate";
 import useAddReview from "../../../custom/useAddReview";
 import { isAuthContext } from "../../../context/isAuth";

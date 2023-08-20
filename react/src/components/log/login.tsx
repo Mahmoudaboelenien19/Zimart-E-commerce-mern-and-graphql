@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 
-import Input from "../widgets/Input";
+import Input from "../widgets/forms/Input";
 import { useMutation } from "@apollo/client";
 import { Authenticate_Query } from "../../graphql/mutations/user";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { toast } from "react-hot-toast";
 import { isAuthContext } from "../../context/isAuth";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import LogInWithGoogle from "./LogInWithGoogle";
-import FormAnimation from "../widgets/FormAnimation";
+import FormAnimation from "../widgets/forms/FormAnimation";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AiFillWarning } from "react-icons/ai";

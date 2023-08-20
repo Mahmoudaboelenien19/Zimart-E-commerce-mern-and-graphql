@@ -4,7 +4,7 @@ import { BiDotsHorizontal } from "react-icons/bi";
 import NotificationActionsDropDown from "./NotificationActionsDropDown";
 import { AnimatePresence } from "framer-motion";
 import Title from "../../widgets/Title";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 import { useNavigate } from "react-router-dom";
 
 interface Props extends notificationInterface {

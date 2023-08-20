@@ -3,11 +3,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { asideVariant } from "../../../variants/globals";
 import { Link } from "react-router-dom";
 import { showAsideContext } from "../Dashboard";
-import LogoSvg from "../../widgets/LogoSvg";
+import LogoSvg from "../../svgs/LogoSvg";
 import useLogOut from "../../../custom/useLogOut";
 import useIsMobile from "../../../custom/useIsMobile";
 import { dashAsideLinks } from "../../../assets/arries/LinksArr.js";
-import MobileCloseDropDown from "../../widgets/MobileCloseDropDown";
+import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
 
 const DashboardAside = () => {
   const { showAsideDash, setShowAsideDash } = useContext(showAsideContext);

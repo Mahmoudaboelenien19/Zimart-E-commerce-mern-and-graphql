@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Overley from "../widgets/Overley";
+import Overley from "../widgets/dropdowns/Overley";
 import CircleCheckSvg from "../../custom SVGs/CircleCheckSvg";
 import { AnimatePresence } from "framer-motion";
 import ContinueShopping from "./ContinueShopping";
 
-import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
-import FadeElement from "../widgets/FadeElement";
-import MainBtn from "../widgets/MainBtn";
+import MobileCloseDropDown from "../widgets/dropdowns/MobileCloseDropDown";
+import FadeElement from "../widgets/animation/FadeElement";
+import MainBtn from "../widgets/buttons/MainBtn";
 const StripeSuccess = () => {
   const location = useLocation();
 

@@ -7,7 +7,7 @@ import useChartData from "./useChartData";
 import { motion, useInView } from "framer-motion";
 import { ChildrenInterFace } from "../../../interfaces/general";
 import LatestOrders from "./LatestOrders";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 interface Props extends ChildrenInterFace {
   head: string;
 }

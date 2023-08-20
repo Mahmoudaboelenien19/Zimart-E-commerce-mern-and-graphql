@@ -1,5 +1,5 @@
 import React from "react";
-import FadeElement from "./FadeElement";
+import FadeElement from "../animation/FadeElement";
 import GridLoader from "./GridLoader";
 
 const UploadingLoader = ({ bool }: { bool: boolean }) => {

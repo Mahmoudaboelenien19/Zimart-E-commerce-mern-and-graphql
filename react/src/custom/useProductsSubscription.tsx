@@ -25,5 +25,4 @@ const useProductsSubscription = () => {
 
   return;
 };
-
 export default useProductsSubscription;

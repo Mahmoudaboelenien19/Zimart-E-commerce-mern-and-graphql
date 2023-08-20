@@ -1,7 +1,7 @@
-export const backendRoute = "/";
-export const webSocketGraphQLRoute = `wss://zimart-3deh.onrender.com/graphql`;
-// export const backendRoute = "http://localhost:3000/";
-// export const webSocketGraphQLRoute = `ws://localhost:3000/graphql`;
+// export const backendRoute = "/";
+// export const webSocketGraphQLRoute = `wss://zimart-3deh.onrender.com/graphql`;
+export const backendRoute = "http://localhost:3000/";
+export const webSocketGraphQLRoute = `ws://localhost:3000/graphql`;
 export const graphQLRoute = `${backendRoute}graphql`;
 
 export const newRefTokenRoute = `${backendRoute}token/auth/newRefToken`;

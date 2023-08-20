@@ -1,19 +1,19 @@
 import React, { Fragment, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import Input from "../../widgets/Input";
+import Input from "../../widgets/forms/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-hot-toast";
-import InpErr from "../../widgets/InpErr";
+import InpErr from "../../widgets/forms/InpErr";
 import { ProductInterface } from "../../../interfaces/product";
 import CustomFIleInput from "./CustomFIleInput";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { opacityVariant } from "../../../variants/globals";
-import MainBtn from "../../widgets/MainBtn";
+import MainBtn from "../../widgets/buttons/MainBtn";
 import DashMain from "../DashMain";
-import FormAnimation from "../../widgets/FormAnimation";
-import UploadingLoader from "../../widgets/UploadingLoader";
+import FormAnimation from "../../widgets/forms/FormAnimation";
+import UploadingLoader from "../../widgets/loaders/UploadingLoader";
 import Select from "./Select";
 interface keyedProduct extends ProductInterface {
   [key: string]: any;

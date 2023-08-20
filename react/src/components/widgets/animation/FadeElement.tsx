@@ -1,7 +1,6 @@
 import React from "react";
-import { ChildrenInterFace } from "../../interfaces/general";
+import { ChildrenInterFace } from "../../../interfaces/general";
 import { motion } from "framer-motion";
-import { opacityVariant } from "../../variants/globals";
 
 interface Props extends ChildrenInterFace {
   cls: string;
@@ -13,10 +12,8 @@ const FadeElement = ({ children, cls, transition, delay, fn }: Props) => {
   return (
     <motion.div
       className={cls}
-      variants={opacityVariant}
-      initial="start"
-      animate="end"
-      exit="exit"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
       transition={{ duration: transition || 0.5, delay: delay || 0 }}
       onClick={fn ? fn : () => null}
     >

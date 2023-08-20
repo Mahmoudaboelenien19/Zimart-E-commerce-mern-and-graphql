@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Title from "../../../widgets/Title";
 import { AnimatePresence, motion } from "framer-motion";
-import FadeElement from "../../../widgets/FadeElement";
+import FadeElement from "../../../widgets/animation/FadeElement";
 import StyledPrice from "../../../widgets/StyledPrice";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { checkContext } from "../Orders";

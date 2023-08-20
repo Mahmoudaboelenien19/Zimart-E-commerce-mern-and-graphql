@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import NavLinks from "./NavLinks";
-import { mobileDropDownVariant } from "../../variants/globals.js";
-import MenuTogglar from "../widgets/MenuTogglar";
-import ThemeToggle from "../widgets/ThemeToggle";
-import MobileCloseDropDown from "../widgets/MobileCloseDropDown";
+import { mobileDropDownVariant } from "../../../variants/globals.js";
+import MenuTogglar from "../../widgets/MenuTogglar";
+import ThemeToggle from "../../theme/ThemeToggle";
+import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
 
 const LinksAside = () => {
   const [showAside, setShowAside] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import MenuTogglar from "../../widgets/MenuTogglar";
-import ThemeToggle from "../../widgets/ThemeToggle";
+import ThemeToggle from "../../theme/ThemeToggle";
 import NotificationDropDown from "../Notification/NotificationDropDown";
 import { showAsideContext } from "../Dashboard";
 import BeardCrumbs from "../BeardCrumbs";

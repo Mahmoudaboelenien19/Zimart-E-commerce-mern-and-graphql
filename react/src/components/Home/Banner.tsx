@@ -7,7 +7,7 @@ import { useAppSelector } from "../../custom/reduxTypes";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import FadeElement from "../widgets/FadeElement";
+import FadeElement from "../widgets/animation/FadeElement";
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { Navigation } from "swiper/modules";

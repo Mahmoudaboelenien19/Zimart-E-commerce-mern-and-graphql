@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { opacityVariant } from "../../variants/globals";
-import { isAuthContext } from "../../context/isAuth";
+import { opacityVariant } from "../../../variants/globals";
+import { isAuthContext } from "../../../context/isAuth";
 const ShowCount = ({ length }: { length: number }) => {
   const { isAuth } = useContext(isAuthContext);
   return (

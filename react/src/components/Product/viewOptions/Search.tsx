@@ -14,7 +14,7 @@ import useIsMobile from "../../../custom/useIsMobile";
 import { viewContext } from "../../../context/gridView";
 import { mergeRefs } from "react-merge-refs";
 import { MdOutlineClear } from "react-icons/md";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 import Title from "../../widgets/Title";
 
 const Search = () => {

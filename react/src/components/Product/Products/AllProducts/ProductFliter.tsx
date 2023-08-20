@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import ProductRate from "../../../product Route/ProductRate";
 import useAvg from "../../../../custom/useAvg";
-import ProductListHeart from "../../../widgets/ProductListHeart";
+import ProductListHeart from "../../../svgs/ProductListHeart";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { AnimatePresence, motion, useAnimate } from "framer-motion";
@@ -9,13 +9,13 @@ import useMeasure from "react-use-measure";
 import { viewContext } from "../../../../context/gridView";
 import { productListContext } from "../../../../context/FilterData";
 import ListCartBtn from "./ListCartBtn";
-import DetailsBtn from "../../../widgets/DetailsBtn";
+import DetailsBtn from "../../../widgets/buttons/DetailsBtn";
 import { AiOutlineCheck } from "react-icons/ai";
 import { ProductInterface } from "../../../../interfaces/product";
 import Title from "../../../widgets/Title";
 import { RiEditLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import CompareIcons from "../../../widgets/CompareIcons";
+import CompareIcons from "../../../svgs/CompareIcons";
 import StyledPrice from "../../../widgets/StyledPrice";
 interface Props extends ProductInterface {
   isDash?: boolean;

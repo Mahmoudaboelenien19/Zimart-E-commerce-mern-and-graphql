@@ -14,7 +14,7 @@ import usePagination from "../../../../custom/useNumberOfPages";
 import { useAppSelector } from "../../../../custom/reduxTypes";
 import NoData from "../../../widgets/NoData";
 import useIsMobile from "../../../../custom/useIsMobile";
-import GridLoader from "../../../widgets/GridLoader";
+import GridLoader from "../../../widgets/loaders/GridLoader";
 import { ProductInterface } from "../../../../interfaces/product";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {

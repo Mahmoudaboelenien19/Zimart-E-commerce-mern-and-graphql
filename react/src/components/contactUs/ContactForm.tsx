@@ -1,8 +1,8 @@
 import React from "react";
-import FormAnimation from "../widgets/FormAnimation";
+import FormAnimation from "../widgets/forms/FormAnimation";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import Input from "../widgets/Input";
-import MainBtn from "../widgets/MainBtn";
+import Input from "../widgets/forms/Input";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { IoSend } from "react-icons/io5";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,7 +23,6 @@ const ContactForm = () => {
   } = methods;
 
   const onSubmit = (data: FieldValues) => {
-
     if (isValid) {
       toast.success("message is successfully sent ");
       reset();

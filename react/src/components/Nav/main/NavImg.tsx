@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Title from "./Title";
+import Title from "../../widgets/Title";
 import UserDropDown from "./userDropDown";
-import ProfileImg from "./ProfileImg";
+import ProfileImg from "../../user/ProfileImg";
 
 const NavImg = () => {
   const [showUserDrop, setShowUserDrop] = useState(false);

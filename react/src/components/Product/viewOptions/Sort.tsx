@@ -10,7 +10,7 @@ import { viewContext } from "../../../context/gridView";
 import { productListContext } from "../../../context/FilterData";
 import Title from "../../widgets/Title";
 import useIsMobile from "../../../custom/useIsMobile";
-import FadeElement from "../../widgets/FadeElement";
+import FadeElement from "../../widgets/animation/FadeElement";
 
 const Sort = () => {
   const { setShowFilter, showFilter, startTransition } =

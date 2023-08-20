@@ -10,6 +10,7 @@ import { addToOrderRedux } from "../../redux/OrderSlice";
 import { GET_ALL_USERS } from "../../graphql/mutations/user";
 import { addToUserRedux } from "../../redux/UserSlice";
 import { OrderInterface } from "../../interfaces/order";
+import useProductsSubscription from "../../custom/useProductsSubscription";
 interface contextInterface {
   showAsideDash: boolean;
   setShowAsideDash: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +55,7 @@ const Dashboard = () => {
       dispatch(addToUserRedux(ar));
     }
   }, [usersLoading]);
-
+  useProductsSubscription();
   return (
     <showAsideContext.Provider value={{ showAsideDash, setShowAsideDash }}>
       <div className="dashboard-par ">

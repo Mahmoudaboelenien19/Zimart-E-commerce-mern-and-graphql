@@ -9,7 +9,7 @@ import {
   FeaturedProductsArr,
   categoriesArr,
 } from "../../../../assets/arries/arries.js";
-import MainBtn from "../../../widgets/MainBtn";
+import MainBtn from "../../../widgets/buttons/MainBtn";
 import { MdFilterListAlt } from "react-icons/md";
 import { FiRefreshCcw } from "react-icons/fi";
 import { productListContext } from "../../../../context/FilterData";
@@ -18,7 +18,7 @@ import { asideVariant } from "../../../../variants/globals";
 import { useAppSelector } from "../../../../custom/reduxTypes";
 import useIsMobile from "../../../../custom/useIsMobile";
 
-import MobileCloseDropDown from "../../../widgets/MobileCloseDropDown";
+import MobileCloseDropDown from "../../../widgets/dropdowns/MobileCloseDropDown";
 import React, { useContext, useState } from "react";
 
 interface Props {

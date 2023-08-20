@@ -8,7 +8,7 @@ import Customer from "./Customer";
 import OrderSummery from "./OrderSummery";
 import { motion } from "framer-motion";
 import { parentVariant, reverseVariant } from "../../../../variants/globals";
-import Animation from "../../../widgets/Animation";
+import Animation from "../../../widgets/animation/Animation";
 import { OrderInterface } from "../../../../interfaces/order";
 const OrderDetails = () => {
   const { id } = useParams();

@@ -32,7 +32,6 @@ const SLiderComponent = () => {
           </h2>
 
           <Swiper
-            className="slider-par"
             loop
             spaceBetween={5}
             slidesPerView={1}
@@ -44,8 +43,8 @@ const SLiderComponent = () => {
               pauseOnMouseEnter: true,
             }}
             breakpoints={{
-              640: {
-                slidesPerView: 2,
+              340: {
+                slidesPerView: 1,
               },
               768: {
                 slidesPerView: 3,
@@ -56,13 +55,15 @@ const SLiderComponent = () => {
             }}
           >
             {" "}
-            {Allproducts.map((product: ProductInterface, index: number) => {
-              return (
-                <SwiperSlide key={index}>
-                  <ProductFliter index={index} {...product} />
-                </SwiperSlide>
-              );
-            })}
+            {Allproducts.slice(0, 8).map(
+              (product: ProductInterface, index: number) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <ProductFliter index={index} {...product} />
+                  </SwiperSlide>
+                );
+              }
+            )}
           </Swiper>
         </>
       )}

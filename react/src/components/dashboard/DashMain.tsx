@@ -3,7 +3,7 @@ import { showAsideContext } from "./Dashboard";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChildrenInterFace } from "../../interfaces/general";
 import useIsMobile from "../../custom/useIsMobile";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import DashboardAside from "./main/DashboardAside";
 import DashNav from "./main/DashNav";
 import useNavTransition from "../../custom/useNavTransition";

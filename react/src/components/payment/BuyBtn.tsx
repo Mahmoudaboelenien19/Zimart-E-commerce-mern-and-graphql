@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import { Navigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -18,7 +18,6 @@ interface Props {
   }[];
 }
 const BuyBtn = ({ products }: Props) => {
-  console.log(products);
   const [clientSecret, setClientSecret] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [fn] = useMutation(get_Stripe_Secret, {

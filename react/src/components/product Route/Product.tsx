@@ -5,10 +5,11 @@ import Reviews from "./Review/Reviews";
 import { ProductInterface, reviewInterface } from "../../interfaces/product";
 import { AnimatePresence } from "framer-motion";
 import { useParams } from "react-router-dom";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import { useAppSelector } from "../../custom/reduxTypes";
 
-import GridLoader from "../widgets/GridLoader";
+import GridLoader from "../widgets/loaders/GridLoader";
+import SLiderComponent from "../widgets/SLider";
 
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
@@ -89,6 +90,7 @@ const Product = () => {
             </section>
           </productContext.Provider>
         )}
+        <SLiderComponent />
       </Animation>
     );
   } else {

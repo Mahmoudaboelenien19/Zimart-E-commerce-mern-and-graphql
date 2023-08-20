@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import MainBtn from "../widgets/MainBtn";
+import MainBtn from "../widgets/buttons/MainBtn";
 import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   head: string;

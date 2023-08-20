@@ -2,7 +2,7 @@ import React, { PaymentElement } from "@stripe/react-stripe-js";
 import { FormEvent, useContext, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { isAuthContext } from "../../context/isAuth";
-import SmallLoader from "../widgets/SmallLoader";
+import SmallLoader from "../widgets/loaders/SmallLoader";
 import { Navigate } from "react-router-dom";
 import { ProductInterface } from "../../interfaces/product";
 import { useMutation } from "@apollo/client";

@@ -8,8 +8,8 @@ import useIndex from "../../../custom/useIndex";
 
 import { productContext } from "../Product";
 import useMeasure from "react-use-measure";
-import Overley from "../../widgets/Overley";
-import MobileCloseDropDown from "../../widgets/MobileCloseDropDown";
+import Overley from "../../widgets/dropdowns/Overley";
+import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;

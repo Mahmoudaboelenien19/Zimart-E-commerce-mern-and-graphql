@@ -1,16 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useContext, useState } from "react";
-import { opacityVariant } from "../../variants/globals";
-import Favorite from "../widgets/Favorite";
-import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
-import SlideButton from "../widgets/SlideButton";
-import DropDown from "../widgets/DropDown";
-import FadeElement from "../widgets/FadeElement";
-import NoData from "../widgets/NoData";
+import { opacityVariant } from "../../../variants/globals";
+import Favorite from "./Favorite";
+import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
+import SlideButton from "../../widgets/buttons/SlideButton";
+import DropDown from "../../widgets/dropdowns/DropDown";
+import FadeElement from "../../widgets/animation/FadeElement";
+import NoData from "../../widgets/NoData";
 import { useMutation } from "@apollo/client";
-import { Clear_Fav } from "../../graphql/mutations/user.js";
-import { clearAllFav } from "../../redux/favSlice";
-import { isAuthContext } from "../../context/isAuth";
+import { Clear_Fav } from "../../../graphql/mutations/user.js";
+import { clearAllFav } from "../../../redux/favSlice";
+import { isAuthContext } from "../../../context/isAuth";
 
 interface Props {
   setter: React.Dispatch<React.SetStateAction<boolean>>;

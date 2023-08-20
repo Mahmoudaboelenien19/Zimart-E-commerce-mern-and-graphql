@@ -1,7 +1,7 @@
 import React from "react";
 //@ts-ignore
 import Faq from "react-faq-component";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 import { faqArr } from "../../assets/arries/arries.js";
 
 const FaqComponent = () => {

@@ -3,7 +3,7 @@ import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
 import useClickOutside from "../../../custom/useClickOutside";
 import { opacityVariant } from "../../../variants/globals";
-import InpErr from "../../widgets/InpErr";
+import InpErr from "../../widgets/forms/InpErr";
 
 interface Props {
   val: string;

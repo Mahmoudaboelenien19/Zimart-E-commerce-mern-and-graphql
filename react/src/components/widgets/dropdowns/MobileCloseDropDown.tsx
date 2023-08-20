@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { opacityVariant } from "../../variants/globals";
-import useIsMobile from "../../custom/useIsMobile";
-import Title from "./Title";
+import { opacityVariant } from "../../../variants/globals";
+import useIsMobile from "../../../custom/useIsMobile";
+import Title from "../Title";
 interface Props {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;

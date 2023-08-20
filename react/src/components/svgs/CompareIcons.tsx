@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { isAuthContext } from "../../context/isAuth";
 import { AnimatePresence, motion } from "framer-motion";
-import Title from "./Title";
+import Title from "../widgets/Title";
 import { MdPlaylistAdd, MdPlaylistRemove } from "react-icons/md";
 import { opacityVariant } from "../../variants/globals";
 import { useMutation } from "@apollo/client";

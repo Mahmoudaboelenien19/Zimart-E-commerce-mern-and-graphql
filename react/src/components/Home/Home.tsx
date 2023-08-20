@@ -4,7 +4,7 @@ import Products from "../Product/Products/Products";
 import StripeSuccess from "../payment/StripeSuccess";
 import Footer from "../Footer/Footer";
 import NewsLetter from "../NewsLetter/NewsLetter";
-import Animation from "../widgets/Animation";
+import Animation from "../widgets/animation/Animation";
 
 const Home = () => {
   useEffect(() => {
