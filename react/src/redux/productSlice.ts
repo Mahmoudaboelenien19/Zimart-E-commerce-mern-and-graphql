@@ -25,7 +25,6 @@ const productSlice = createSlice({
     },
 
     updateProductRedux(state, action) {
-      console.log(action.payload);
       state.Allproducts = state.Allproducts.map((obj) =>
         obj._id === action.payload._id ? { ...obj, ...action.payload.obj } : obj
       );

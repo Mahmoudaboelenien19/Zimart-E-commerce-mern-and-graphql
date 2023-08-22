@@ -3,10 +3,10 @@ import { ChildrenInterFace } from "../../../interfaces/general";
 import { motion } from "framer-motion";
 
 interface Props extends ChildrenInterFace {
-  cls: string;
+  cls?: string;
   transition?: number;
   delay?: number;
-  fn?: () => void;
+  fn?: (e?: any) => void;
 }
 const FadeElement = ({ children, cls, transition, delay, fn }: Props) => {
   return (

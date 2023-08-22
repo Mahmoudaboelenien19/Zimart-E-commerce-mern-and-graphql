@@ -1,5 +1,5 @@
 import { shield } from "graphql-shield";
-import { isUser } from "./rules";
+import { isAdmin, isUser } from "./rules";
 
 export const permissions = shield({
   Query: {
@@ -12,11 +12,15 @@ export const permissions = shield({
     removeFromCompare: isUser,
     removeFromCart: isUser,
     addToCart: isUser,
-    updateOrder: isUser,
-    deleteOrder: isUser,
+    addReview: isUser,
+    updateReview: isUser,
     getKey: isUser,
     createOrder: isUser,
     updateUserImage: isUser,
-    addNewProduct: isUser,
+    deleteOrder: isAdmin,
+    addNewProduct: isAdmin,
+    updateOrder: isAdmin,
+    updateProduct: isAdmin,
+    updateUserRole: isAdmin,
   },
 });

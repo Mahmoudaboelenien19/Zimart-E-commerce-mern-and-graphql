@@ -97,7 +97,7 @@ export const productTypeDefs = gql`
     filterAllTypes(input: filterAllInput): [Product]
     searchProducts(word: String!): [Product]
     updateProduct(input: productInput): StatusMsg
-    addReview(input: CreateReviewInput): Review
+    addReview(input: CreateReviewInput): StatusMsg
     updateReview(input: updateReviewInput): StatusMsg
     addNewProduct(input: NewProductInput): StatusMsg
   }

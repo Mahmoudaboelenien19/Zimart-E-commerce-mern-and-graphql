@@ -107,24 +107,14 @@ form#payment-form {
     width: 120px;
   }
 }
-.order-confirmed {
-  color: var(--third);
-  gap: 5px;
-  height: 250px;
+.order-success-pop {
   h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    color: var(--third);
     text-transform: capitalize;
-    letter-spacing: 2px;
   }
   p {
-    width: 90%;
-    color: grey;
-    text-align: center;
-    margin: 0px;
-    &::first-letter {
-      margin: 0;
-      color: grey;
-    }
+    color: var(--third) !important;
   }
 }
 @media (max-width: 650px) {

@@ -86,7 +86,7 @@ const MobileOrder = ({ deliveredAt, state, _id, cost, createdAt }: Props) => {
             {deliveredAt
               ? `${new Date(deliveredAt).toLocaleDateString()} -
           ${new Date(deliveredAt).toLocaleTimeString()}`
-              : "not delvired yet"}
+              : "not delivered yet"}
           </FadeElement>
         </AnimatePresence>
       </span>

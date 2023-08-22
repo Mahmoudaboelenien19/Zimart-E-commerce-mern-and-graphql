@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Overley from "../dropdowns/Overley";
 import {
   motion,
   useAnimation,
@@ -9,18 +8,20 @@ import {
 import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
 import { FaGreaterThan } from "react-icons/fa";
 import { ChildrenInterFace } from "../../../interfaces/general";
+import MainPop from "../MainPop";
 interface Props extends ChildrenInterFace {
   sethide: React.Dispatch<React.SetStateAction<boolean>>;
-  cls: string;
+
   head: string;
   doneMsg: string;
-  height: number;
+
   fn: () => void;
   isVaild?: boolean;
   Status?: number;
+  bool: boolean;
+  cls?: string;
 }
 const SlideButton = ({
-  height,
   doneMsg,
   sethide,
   head,
@@ -29,6 +30,7 @@ const SlideButton = ({
   isVaild,
   fn,
   Status,
+  bool,
 }: Props) => {
   const offset = useMotionValue(0);
   const controls = useAnimation();
@@ -46,36 +48,33 @@ const SlideButton = ({
   };
 
   useEffect(() => {
-    let timer: number;
     if (Status === 200) {
       setIsConfirmed(true);
+      controls.start({ x: 0, y: 0 });
+      controls.set({ x: 0, y: 0 });
     } else if (Status == 404) {
       controls.start({ x: 0, y: 0 });
+      controls.set({ x: 0, y: 0 });
     }
-    return () => clearTimeout(timer);
   }, [Status, fn]);
-
+  useEffect(() => {
+    if (bool) {
+      setIsConfirmed(false);
+    }
+  }, [bool]);
+  useEffect(() => {
+    if (Status === 0) {
+      controls.set({ x: 0, y: 0 });
+    }
+  }, [Status]);
   return (
-    <Overley
-      sethide={sethide}
-      cls={`${cls} slide-bottom center col ${
-        !isConfirmed ? "between" : "center"
-      }`}
-      dir="bottom"
-      height={height}
-    >
+    <MainPop setter={sethide} bool={bool} cls={`slide-pop  ${cls}`}>
       {!isConfirmed ? (
         <>
-          <h4 className="underline header underline-sm header-sm pop-head ">
-            {head}
-          </h4>
+          <h4 className="underline header underline-sm header-sm ">{head}</h4>
 
           {children}
-          <motion.div
-            className="slide-par center 
-      "
-            style={{ background }}
-          >
+          <motion.div className="slide-par center  " style={{ background }}>
             <motion.button
               type="submit"
               style={{ x: offset }}
@@ -112,7 +111,7 @@ const SlideButton = ({
           </motion.div>
         </>
       ) : (
-        <div className={`${cls} confirmed center col gap`}>
+        <div className={`confirmed center col gap`}>
           <div className="scale">
             <CircleCheckSvg check={true} />
           </div>
@@ -131,7 +130,7 @@ const SlideButton = ({
           </motion.span>
         </div>
       )}
-    </Overley>
+    </MainPop>
   );
 };
 

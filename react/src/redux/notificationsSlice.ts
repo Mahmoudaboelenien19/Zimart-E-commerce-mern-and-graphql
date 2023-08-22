@@ -43,7 +43,6 @@ const notificatinsSlice = createSlice({
     },
 
     toggleReadNotificatinsRedux(state, action) {
-      console.log({ action: action.payload });
       state.notificatins = state.notificatins.map((e) => {
         return e._id === action.payload.id
           ? { ...e, isRead: action.payload.isRead }

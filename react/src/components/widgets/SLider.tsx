@@ -34,7 +34,6 @@ const SLiderComponent = () => {
           <Swiper
             loop
             spaceBetween={5}
-            slidesPerView={1}
             direction="horizontal"
             modules={[Autoplay]}
             autoplay={{
@@ -43,8 +42,11 @@ const SLiderComponent = () => {
               pauseOnMouseEnter: true,
             }}
             breakpoints={{
-              340: {
+              0: {
                 slidesPerView: 1,
+              },
+              400: {
+                slidesPerView: 2,
               },
               768: {
                 slidesPerView: 3,

@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/custom/.tsx", "lib/variants", "*/*.mjs"],
+  "include": ["src", "src/custom/.tsx", "src/lib/variants", "*/*.mjs"],
   "exclude": ["node_modules", "**/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

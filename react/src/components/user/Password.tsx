@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { GrUpdate } from "react-icons/gr";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../widgets/forms/Input";
 import { isAuthContext } from "../../context/isAuth";
 import SlideButton from "../widgets/buttons/SlideButton";
-import { AnimatePresence } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import { Update_Pass } from "../../graphql/mutations/user";
 import * as yup from "yup";
@@ -53,7 +52,7 @@ const Password = () => {
   const { old, new: newPass } = getValues();
 
   const OnSubmit = (data: FieldValues) => {
-    console.log(data);
+    console.log("");
   };
 
   const [Status, setStatus] = useState<number>(0);
@@ -90,37 +89,34 @@ const Password = () => {
             }}
             Icon={GrUpdate}
           />
-          <AnimatePresence>
-            {showPass && (
-              <SlideButton
-                key={`password-btn`}
-                height={280}
-                sethide={setShowPass}
-                cls="update-user-slide password"
-                doneMsg={`your password is updated`}
-                fn={passwordFn}
-                head={`update your password`}
-                isVaild={isValid}
-                Status={Status}
-              >
-                <Input
-                  placeholder={"old"}
-                  err={errors?.old?.message?.toString()}
-                  type="password"
-                />
-                <Input
-                  placeholder={"new"}
-                  err={errors?.new?.message?.toString()}
-                  type="password"
-                />
-                <Input
-                  placeholder={"confirm"}
-                  err={errors?.confirm?.message?.toString()}
-                  type="password"
-                />
-              </SlideButton>
-            )}
-          </AnimatePresence>
+
+          <SlideButton
+            key={`password-btn`}
+            bool={showPass}
+            sethide={setShowPass}
+            doneMsg={`your password is updated`}
+            fn={passwordFn}
+            head={`update your password`}
+            isVaild={isValid}
+            Status={Status}
+            cls={"update-password"}
+          >
+            <Input
+              placeholder={"old"}
+              err={errors?.old?.message?.toString()}
+              type="password"
+            />
+            <Input
+              placeholder={"new"}
+              err={errors?.new?.message?.toString()}
+              type="password"
+            />
+            <Input
+              placeholder={"confirm"}
+              err={errors?.confirm?.message?.toString()}
+              type="password"
+            />
+          </SlideButton>
         </div>
       </form>
     </FormProvider>

@@ -9,7 +9,7 @@ const schema = yup.object().shape({
 
     .matches(
       /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      "password must contain at least 1 number and 1 character"
+      "password must contain at least 1 number , 1 special character and 1 letter"
     ),
   confirm: yup
     .string()

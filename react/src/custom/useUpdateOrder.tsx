@@ -4,13 +4,13 @@ import { useAppDispatch } from "./reduxTypes";
 import { useMutation } from "@apollo/client";
 import { update_Order } from "../graphql/mutations/order";
 
-const useUpdateOrder = (id: string, state: string) => {
+const useUpdateOrder = () => {
   const date = () => new Date();
   const dispatch = useAppDispatch();
   const [updateOrder] = useMutation(update_Order);
-  const handleUpdateOrder = async () => {
+  const handleUpdateOrder = async (id: string, state: string) => {
     try {
-      const res = updateOrder({
+      const res = await updateOrder({
         variables: {
           input: {
             _id: id,
@@ -19,17 +19,18 @@ const useUpdateOrder = (id: string, state: string) => {
           },
         },
       });
-      dispatch(
-        updateOrderRedux({
-          id,
-          state,
-          deliveredAt: state === "delivered" ? date() : null,
-        })
-      );
-      toast.success((await res).data.updateOrder.msg);
+      if (res?.data?.updateOrder?.msg) {
+        dispatch(
+          updateOrderRedux({
+            id,
+            state,
+          })
+        );
+        toast.success((await res).data.updateOrder.msg);
+      }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("you aren't an admin");
       }
     }
   };

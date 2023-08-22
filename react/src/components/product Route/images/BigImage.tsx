@@ -35,7 +35,6 @@ const BigImage = () => {
             alt={`product`}
             effect="blur"
             afterLoad={() => setIsLoaded(true)}
-            className="product-image-lazy"
           />
         ) : (
           <SideBySideMagnifier

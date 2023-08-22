@@ -7,17 +7,19 @@ import Title from "../Title";
 interface Props {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
+  bool?: boolean;
 }
-const MobileCloseDropDown = ({ setter, title }: Props) => {
+const MobileCloseDropDown = ({ setter, title, bool }: Props) => {
   const { isMobile } = useIsMobile();
+
   return (
     <AnimatePresence>
-      {isMobile && (
+      {(isMobile || bool) && (
         <motion.span
           key={"hide-dash"}
           variants={opacityVariant}
           transition={{ duration: 0.4 }}
-          className="dash-aside-close"
+          className="close-pop"
           onClick={() => setter(false)}
         >
           <Title title={title}>

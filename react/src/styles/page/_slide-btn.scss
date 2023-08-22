@@ -5,27 +5,20 @@
   width: 400px;
   align-self: flex-end;
 }
-.clear-all {
-  height: 120px;
-}
-.pop-head {
-  margin: 10px;
-  color: var(--third);
-}
+
 .slide-par {
   width: 240px;
   height: 40px;
   border-radius: 20px;
   justify-content: flex-start;
-  margin-bottom: 10px;
   position: relative;
-  position: relative;
+  margin-top: 5px;
 }
 .slide {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  // margin-left: 2px;
+
   font-size: 20px;
   background: #000;
 }
@@ -38,56 +31,28 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.add-rate-pop {
-  width: 350px;
-  height: 200px;
-  background: var(--main);
-}
-
 .rate-form {
-  width: 80%;
-  margin: 0 auto;
-  height: 40px;
+  width: 90%;
+  margin: 5px auto;
+
   .rate-inp {
     border-radius: 2px;
     width: 100%;
     background: #000;
     color: white;
-    padding: 5px;
     letter-spacing: 0.8px;
     font-size: 0.8rem;
   }
 }
 
-.update-user-slide {
-  background: var(--main);
-  height: 200px;
-
-  form {
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 12px;
-  }
-  .inp-parent {
-    margin: 10px auto;
-  }
-  & input {
-    margin: 0 auto;
-    color: var(--third);
-
-    background: var(--secondary);
-  }
-}
-
 .confirmed {
-  // transform: scale(1.5);
   color: var(--green);
   letter-spacing: 1px;
   gap: 10px;
   font-weight: bold;
   font-size: 1.3rem;
   text-transform: capitalize;
+  min-height: 100%;
 }
 
 .scale {
@@ -99,6 +64,13 @@
   height: 280px !important;
   .err-form {
     transform: scale(0.9);
+  }
+}
+.update-password {
+  height: 350px !important;
+  gap: 20px;
+  .inp-parent {
+    margin: 0 !important;
   }
 }
 

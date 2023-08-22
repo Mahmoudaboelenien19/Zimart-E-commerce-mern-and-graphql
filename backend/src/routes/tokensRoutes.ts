@@ -25,18 +25,18 @@ export const getNewRefToken = async (req: Request, res: Response) => {
 
     if (result?.email) {
       const accessToken = Jwt.sign(
-        { email: result.email },
+        result,
         ACCESS_TOKEN_SECRET as unknown as string
       );
       const refreshToken = Jwt.sign(
-        { email: result.email },
+        result,
 
         REFRESH_TOKEN_SECRET as unknown as string
       );
 
       res.cookie("access_token", accessToken);
       res.cookie("refresh_token", refreshToken);
-      res.json({ accessToken });
+      res.json({ accessToken, id: result?.id });
       return true;
     } else {
       return false;

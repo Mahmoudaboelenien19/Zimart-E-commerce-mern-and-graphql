@@ -56,11 +56,16 @@ export const userResolver = {
           password: hashPassword(input.password),
           role: "user",
         });
+        console.log(res);
+        console.log("user");
+        pubsub.publish("User_Added", {
+          AddUser: res,
+        });
         const notificationObj = {
           isRead: false,
           content: `${input.email} created a new account`,
           createdAt: new Date().toISOString(),
-          link: "/",
+          link: "/dashboard/users",
         };
         await userCollection.updateMany(
           { role: { $in: ["admin", "moderator", "owner", "user"] } },
@@ -95,29 +100,22 @@ export const userResolver = {
       // context: any
       {
         try {
-          const result = await authenticateMiddleware(
-            args.email,
-            args.password
-          );
+          const user = await authenticateMiddleware(args.email, args.password);
 
-          if (Array.isArray(result)) {
-            if (result.length >= 1) {
+          if (Array.isArray(user)) {
+            if (user?.length >= 1) {
               const accessToken = jwt.sign(
-                { email: args.email },
+                { email: args.email, id: user[0]._id },
                 ACCESS_TOKEN_SECRET as unknown as string,
                 { expiresIn: "15s" }
               );
               const refToken = jwt.sign(
-                { email: args.email },
+                { email: args.email, id: user[0]._id },
 
                 REFRESH_TOKEN_SECRET as unknown as string
               );
-              console.log(refToken.length);
-              const id = result[0]._id.toString();
-              res.cookie("user_id", id as unknown as string, {
-                httpOnly: true,
-                secure: true,
-              });
+
+              const id = user[0]._id.toString();
               res.cookie("access_token", accessToken, {
                 httpOnly: true,
                 secure: true,
@@ -126,12 +124,16 @@ export const userResolver = {
                 httpOnly: true,
                 secure: true,
               });
-              return { msg: "you successfully logged in", status: 200 };
+              return {
+                msg: "you successfully logged in",
+                status: 200,
+                user: user[0],
+              };
             }
-          } else if (!result) {
+          } else if (!user) {
             return { msg: "password is wrong", status: 404 };
           } else {
-            return { msg: result };
+            return { msg: user };
           }
         } catch (err) {
           return (err as Error).message;
@@ -397,6 +399,13 @@ export const userResolver = {
       } else {
         return { status: 404, msg: "faild to upload" };
       }
+    },
+  },
+  Subscription: {
+    AddUser: {
+      async subscribe() {
+        return pubsub.asyncIterator("User_Added");
+      },
     },
   },
 };

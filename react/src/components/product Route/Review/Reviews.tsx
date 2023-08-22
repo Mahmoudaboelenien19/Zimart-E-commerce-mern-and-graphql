@@ -1,76 +1,70 @@
-import React, { useContext, useState } from "react";
+import React, { RefAttributes, useContext } from "react";
 
 import Review from "./Review";
 import { FaGreaterThan, FaLessThan } from "react-icons/fa";
-import useCarousel from "../../../custom/useCarousel";
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import useIndex from "../../../custom/useIndex";
+import { motion } from "framer-motion";
 
 import { productContext } from "../Product";
-import useMeasure from "react-use-measure";
-import Overley from "../../widgets/dropdowns/Overley";
-import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
 
+import MainPop from "../../widgets/MainPop";
+import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+
+import "swiper/css/navigation";
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
+  bool: boolean;
 }
 
-const Reviews = ({ setShowPop }: Props) => {
+const Reviews = ({ setShowPop, bool }: Props) => {
   const { reviews } = useContext(productContext);
 
-  const [reviewIndex, setRviewIndex] = useState(0);
-
-  const [variant, dir] = useCarousel(reviewIndex, reviews.length);
-
-  const [animateRef, { width }] = useMeasure();
-  const [handleIndex] = useIndex();
+  const options: RefAttributes<SwiperRef> & SwiperProps = {
+    loop: true,
+    spaceBetween: 5,
+    slidesPerView: 1,
+    direction: "horizontal",
+    modules: [Navigation],
+  };
   return (
-    <Overley sethide={setShowPop} cls=" pop-up-reviews pop-up">
+    <MainPop bool={bool} setter={setShowPop}>
       <h2 className="underline header" style={{ marginBottom: 20 }}>
         reviews
       </h2>
-      <AnimatePresence custom={{ dir, width }} mode="wait">
-        <motion.div
-          id="reviews"
-          ref={animateRef}
-          key={reviewIndex}
-          variants={variant as Variants}
-          initial="start"
-          exit="exit"
-          animate="end"
-          custom={{ dir, width }}
-        >
-          {reviews.map((review, i) => {
-            {
-              if (i === reviewIndex) {
-                return <Review key={review._id} {...review} i={i} />;
-              }
-            }
-          })}
-        </motion.div>
-      </AnimatePresence>
+      <Swiper
+        className="pop-up-reviews center"
+        {...options}
+        navigation={{
+          nextEl: ".btn-review  .next-swiper",
+          prevEl: " .btn-review  .prev-swiper",
+        }}
+      >
+        {reviews?.map((review, i) => {
+          {
+            return (
+              <SwiperSlide key={i} className="review">
+                <Review {...review} i={i} />
+              </SwiperSlide>
+            );
+          }
+        })}
+      </Swiper>
       <div className="btn-review center">
         <motion.button
-          className="center "
+          className="center prev-swiper"
           style={{ background: "var(--delete)", color: "var(--white)" }}
-          onClick={() =>
-            setRviewIndex(handleIndex(reviewIndex - 1, reviews.length))
-          }
         >
           <FaLessThan />
         </motion.button>
         <motion.button
-          className="center "
+          className="center next-swiper"
           style={{ background: "var(--green)", color: "var(--white)" }}
-          onClick={() =>
-            setRviewIndex(handleIndex(reviewIndex + 1, reviews.length))
-          }
         >
           <FaGreaterThan />
         </motion.button>
       </div>
-      <MobileCloseDropDown setter={setShowPop} title={"close reviews"} />
-    </Overley>
+    </MainPop>
   );
 };
 

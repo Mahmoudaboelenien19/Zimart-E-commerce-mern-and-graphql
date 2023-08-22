@@ -25,12 +25,13 @@ const orderSlice = createSlice({
     },
 
     updateOrderRedux(state, action) {
+      const date = () => new Date().toISOString();
       state.order = state.order.map((order: OrderInterface) =>
         action.payload.id === order._id
           ? {
               ...order,
               state: action.payload.state,
-              deliveredAt: action.payload.deliveredAt,
+              deliveredAt: action.payload.state === "delivered" ? date() : "",
             }
           : order
       );

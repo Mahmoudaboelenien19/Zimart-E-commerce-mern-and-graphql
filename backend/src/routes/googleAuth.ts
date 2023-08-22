@@ -14,22 +14,22 @@ const successLogin = async (req: Request, res: Response) => {
   const email = user?.emails[0]?.value;
   if (email) {
     const result: any = await userCollection.findOne({ email });
-
-    if (result) {
+    console.log(result);
+    console.log("result");
+    if (result?._id) {
       const expire = { expiresIn: "15s" };
       const accessToken = jwt.sign(
-        { email },
+        { email, id: result?._id },
         ACCESS_TOKEN_SECRET as unknown as string,
         expire
       );
       const refToken = jwt.sign(
-        { email },
+        { email, id: result._id },
         REFRESH_TOKEN_SECRET as unknown as string
       );
 
       const id = result._id.toString();
-      res.cookie("user_email", result.email as unknown as string);
-      res.cookie("user_id", id as unknown as string);
+
       res.cookie("access_token", accessToken);
       res.cookie("refresh_token", refToken);
       res.redirect(`${Client_Url}?isLogged=true`);

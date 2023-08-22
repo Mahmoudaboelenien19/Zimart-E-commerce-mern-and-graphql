@@ -136,10 +136,41 @@ export const productResolver = {
         input,
         { returnDocument: "after" }
       );
-      console.log(updatedProduct);
+
       pubsub.publish("Product_Updated", {
         productUpdated: updatedProduct,
       });
+
+      const notificationObj = {
+        isRead: false,
+        content: `${updatedProduct?.title
+          .split(" ")
+          .slice(0, 5)
+          .join(" ")} is updated`,
+        createdAt: new Date().toISOString(),
+        link: `/${updatedProduct?._id}`,
+      };
+      await userCollection.updateMany(
+        { role: { $in: ["admin", "moderator", "owner", "user"] } },
+        {
+          $push: {
+            notifications: notificationObj,
+          },
+          $inc: {
+            notificationsCount: +1,
+          },
+        }
+      );
+      const newNotification = await userCollection.findOne(
+        { role: { $in: ["admin", "moderator", "owner", "user"] } },
+        {
+          notifications: { $slice: [-1, 1] },
+        }
+      );
+      pubsub.publish("Notification_Created", {
+        NotificationAdded: newNotification?.notifications[0],
+      });
+
       return { msg: "product updated successfully", status: 200 };
     },
     async addNewProduct(_: unknown, { input }: { input: any }) {
@@ -179,7 +210,10 @@ export const productResolver = {
           });
           const notificationObj = {
             isRead: false,
-            content: `new product added`,
+            content: `${newProduct.title
+              .split(" ")
+              .slice(0, 5)
+              .join(" ")}  is Added`,
             createdAt: new Date().toISOString(),
             link: `/${newProduct._id}`,
           };
@@ -232,6 +266,41 @@ export const productResolver = {
         const newReview = data!.reviews[0];
         newReview.msg = "review added";
         newReview.status = 200;
+        console.log(data);
+        pubsub.publish("Product_Updated", {
+          productUpdated: data,
+        });
+
+        const notificationObj = {
+          isRead: false,
+          content: `${user} added a review on ${data?.title
+            .split(" ")
+            .slice(0, 5)
+            .join(" ")}`,
+          createdAt: new Date().toISOString(),
+          link: `/${data?._id}`,
+        };
+        const notification = await userCollection.updateMany(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            $push: {
+              notifications: notificationObj,
+            },
+            $inc: {
+              notificationsCount: +1,
+            },
+          }
+        );
+        const newNotification = await userCollection.findOne(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            notifications: { $slice: [-1, 1] },
+          }
+        );
+        pubsub.publish("Notification_Created", {
+          NotificationAdded: newNotification?.notifications[0],
+        });
+
         return newReview;
       } catch (err) {
         return (err as Error).message;

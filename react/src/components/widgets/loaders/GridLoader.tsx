@@ -11,7 +11,7 @@ const GridLoader = ({ cls }: Props) => {
         height={30}
         width={30}
         radius={5}
-        color="var(--third)"
+        color="gray"
         ariaLabel="ball-triangle-loading"
       />
     </div>

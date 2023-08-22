@@ -70,7 +70,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
 
   const [hasReview, setHasReview] = useState(false);
   const { userId } = useContext(isAuthContext);
-  const [rateIndex, setRateIndex] = useState(-1);
+  const [rateIndex, setRateIndex] = useState(0);
 
   useEffect(() => {
     const check = reviews?.find((e: reviewInterface) => e.userId === userId);
@@ -192,19 +192,16 @@ const ProductDetails = ({ setShowPop }: Props) => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {showAddRate && (
-          <AddReview
-            setShowAddRate={setShowAddRate}
-            key={"add-rate-pop"}
-            _id={_id}
-            rateIndex={rateIndex}
-            setRateIndex={setRateIndex}
-            defaultVal={userReview}
-            hasReview={hasReview}
-          />
-        )}
-      </AnimatePresence>
+      <AddReview
+        setShowAddRate={setShowAddRate}
+        key={"add-rate-pop"}
+        _id={_id}
+        rateIndex={rateIndex}
+        setRateIndex={setRateIndex}
+        defaultVal={userReview}
+        hasReview={hasReview}
+        bool={showAddRate}
+      />
     </motion.div>
   );
 };

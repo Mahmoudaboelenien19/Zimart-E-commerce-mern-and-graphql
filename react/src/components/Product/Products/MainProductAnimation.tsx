@@ -1,26 +1,17 @@
-import React from "react";
+import React, { RefAttributes } from "react";
 import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-const scaleArr = [1.15, 1.3, 1.5, 1.3, 1.15];
-const xArr = [225, 125, 0, -125, -225];
-const zIndexArr = [1, 2, 3, 2, 1];
-const delayArr = [0.8, 0.4, 0, 0.4, 0.8];
-const imgArr = [
-  "https://res.cloudinary.com/domobky11/image/upload/v1682582542/Daco_4755868_a8ln06.png",
-  "https://res.cloudinary.com/domobky11/image/upload/v1681798935/products/Daco_4236128.png.png",
-  "https://res.cloudinary.com/domobky11/image/upload/v1681687660/products/pngfind.com-tommy-hilfiger-logo-png-2660044.png.png",
-  "https://res.cloudinary.com/domobky11/image/upload/v1681798916/products/Daco_4jtfyj236560.png.png",
-  "https://res.cloudinary.com/domobky11/image/upload/v1682583204/Daco_844028_e2jzoa.png",
-];
+
+import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
+import { EffectCoverflow } from "swiper/modules";
+import { imgArr } from "../../../assets/arries/arries";
+import "swiper/css/effect-coverflow";
 const MainProductAnimation = () => {
-  const variant = {
-    start: (i: number) => ({
-      x: xArr[i],
-    }),
-    end: {
-      x: 0,
-    },
+  const options: RefAttributes<SwiperRef> & SwiperProps = {
+    spaceBetween: 5,
+    slidesPerView: "auto",
+    direction: "horizontal",
   };
   return (
     <motion.div
@@ -29,32 +20,37 @@ const MainProductAnimation = () => {
       transition={{ delay: 0.05 }}
       whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
     >
-      <>
-        {[...Array(5)].map((_, i) => {
+      <Swiper
+        style={{ width: "100%" }}
+        modules={[EffectCoverflow]}
+        {...options}
+        effect="coverflow"
+        grabCursor
+        centeredSlides={true}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 50,
+          modifier: 7.5,
+        }}
+        initialSlide={2}
+        onInit={(swiper) => {
+          swiper.slideTo(3, 0);
+        }}
+      >
+        {[...Array(7)].map((_, i) => {
           return (
-            <motion.div
-              key={i}
-              variants={variant}
-              className="products-animate"
-              style={{
-                x: xArr[i],
-                zIndex: zIndexArr[i],
-                scale: scaleArr[i],
-              }}
-              custom={i}
-              viewport={{ once: true }}
-              initial="start"
-              transition={{
-                delay: delayArr[i],
-                duration: 0.4,
-              }}
-              whileInView="end"
-            >
-              <LazyLoadImage src={imgArr[i]} effect="blur" />
-            </motion.div>
+            <SwiperSlide key={i} className="products-animate-slide">
+              <LazyLoadImage
+                src={imgArr[i]}
+                effect="blur"
+                className="products-animate-img "
+                wrapperClassName="products-animate"
+              />
+            </SwiperSlide>
           );
         })}
-      </>
+      </Swiper>
     </motion.div>
   );
 };

@@ -11,6 +11,7 @@ import { GET_ALL_USERS } from "../../graphql/mutations/user";
 import { addToUserRedux } from "../../redux/UserSlice";
 import { OrderInterface } from "../../interfaces/order";
 import useProductsSubscription from "../../custom/useProductsSubscription";
+import useUserSubscription from "../../custom/useUserSubscription";
 interface contextInterface {
   showAsideDash: boolean;
   setShowAsideDash: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,14 +25,29 @@ const Dashboard = () => {
   const { user } = useAppSelector((st) => st.user);
 
   const { isAuth } = useContext(isAuthContext);
+  /* Note
+*this state tomake check only at first render 
+* as if user use dashboard logout  the app thrown
+* as it redirect to login page twice
+
+ */
+  const [isInitial, setIsInitial] = useState(true);
+
   useEffect(() => {
     document.title = `${count >= 1 ? `(${count}) ` : ""}Dashboard`;
   }, [count]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsInitial(false);
+    }, 200);
+  }, []);
+
   const [showAsideDash, setShowAsideDash] = useState(
     Boolean(JSON.parse(sessionStorage.getItem("show-aside") || "false"))
   );
 
-  if (!isAuth) {
+  if (!isAuth && isInitial) {
     return <Navigate to={"/login"} />;
   }
   const { data: orderData } = useQuery(GET_ALL_ORDERS);
@@ -56,6 +72,7 @@ const Dashboard = () => {
     }
   }, [usersLoading]);
   useProductsSubscription();
+  useUserSubscription();
   return (
     <showAsideContext.Provider value={{ showAsideDash, setShowAsideDash }}>
       <div className="dashboard-par ">

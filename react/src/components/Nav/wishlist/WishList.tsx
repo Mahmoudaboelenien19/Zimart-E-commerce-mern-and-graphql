@@ -90,23 +90,19 @@ const WishList = ({ showFav, setter }: Props) => {
             )}
           </AnimatePresence>
         </NoData>
-        <AnimatePresence>
-          {showClearFav && (
-            <SlideButton
-              key={"slide-button-clear"}
-              sethide={setShowClearFav}
-              cls="clear-all"
-              doneMsg="All CLeared"
-              head="are you sure you want to clear All?"
-              height={120}
-              fn={handleClearFav}
-              Status={Status}
-              isVaild
-            >
-              {" "}
-            </SlideButton>
-          )}
-        </AnimatePresence>
+
+        <SlideButton
+          bool={showClearFav}
+          key={"slide-button-clear"}
+          sethide={setShowClearFav}
+          doneMsg="All CLeared"
+          head="are you sure you want to clear All?"
+          fn={handleClearFav}
+          Status={Status}
+          isVaild
+        >
+          {" "}
+        </SlideButton>
       </DropDown>
     </>
   );

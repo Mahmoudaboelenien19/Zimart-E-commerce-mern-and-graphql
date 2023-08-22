@@ -99,7 +99,7 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     filterAllTypes(input: filterAllInput): [Product]
     searchProducts(word: String!): [Product]
     updateProduct(input: productInput): StatusMsg
-    addReview(input: CreateReviewInput): Review
+    addReview(input: CreateReviewInput): StatusMsg
     updateReview(input: updateReviewInput): StatusMsg
     addNewProduct(input: NewProductInput): StatusMsg
   }

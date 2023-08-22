@@ -14,12 +14,14 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import useIsMobile from "../../custom/useIsMobile";
 
 const arrClrs = ["var(--gmail)", "var(--delete)", "var(--fb)", "var(--green)"];
 
 const Banner = () => {
   const [showArrow, setShowArrow] = useState(false);
   const [ind, setInd] = useState(0);
+  const { isMobile } = useIsMobile();
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const categoryfn = useFilterCategory();
 
@@ -101,7 +103,7 @@ const Banner = () => {
     direction: "horizontal",
     pagination: { clickable: true },
     modules: [Pagination, Navigation],
-    navigation: showArrow ? true : false,
+    navigation: showArrow && !isMobile ? true : false,
     onSlideChange: (e: any) => setInd(e.realIndex),
   };
   return (

@@ -17,11 +17,11 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_1 = require("../mongoose/schema/user");
 const config_1 = require("../config");
 const authenticateMiddleware = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const check = yield user_1.userCollection.find({ email });
-    if (check.length > 0) {
-        const isPasswordCorrect = yield bcrypt_1.default.compare(password + config_1.BCRYPT_SECRET, check[0].password);
+    const user = yield user_1.userCollection.find({ email });
+    if (user.length > 0) {
+        const isPasswordCorrect = yield bcrypt_1.default.compare(password + config_1.BCRYPT_SECRET, user[0].password);
         if (isPasswordCorrect) {
-            return check;
+            return user;
         }
         else {
             return isPasswordCorrect;

@@ -42,7 +42,7 @@ export default function CheckoutForm({
       }
       setIsProcessing(true);
       const { data } = await fn();
-      console.log(data);
+   
       if (data?.createOrder?.status === 200) {
         setOrderId(data.createOrder.orderId);
       }

@@ -10,8 +10,6 @@ const favSlice = createSlice({
   initialState,
   reducers: {
     addToFavRedux(state, action) {
-      console.log("redux");
-      console.log(action.payload);
       if (Array.isArray(action.payload)) {
         state.fav = [...action.payload, ...state.fav];
       } else {

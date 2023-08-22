@@ -21,9 +21,6 @@ const DashboardAside = () => {
     } else {
       sessionStorage.setItem("show-aside", JSON.stringify(false));
     }
-  }, [showAsideDash]);
-
-  useEffect(() => {
     if (showAsideDash && isMobile) {
       document.body.style.overflow = "hidden";
     } else {

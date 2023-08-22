@@ -12,6 +12,7 @@ const useProductsSubscription = () => {
 
   useSubscription(Updated_Product_Subscription, {
     onData: (data: OnDataOptions<{ productUpdated: ProductInterface }>) => {
+
       const ob = data?.data?.data?.productUpdated;
       dispatch(updateProductRedux({ _id: ob?._id, obj: ob }));
     },

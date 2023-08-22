@@ -5,7 +5,6 @@ import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../widgets/forms/Input";
 import { isAuthContext } from "../../context/isAuth";
 import SlideButton from "../widgets/buttons/SlideButton";
-import { AnimatePresence } from "framer-motion";
 import UpdateCountry from "./UpdateCountry";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -56,7 +55,7 @@ const Detail = ({
 
         .matches(
           /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-          "password must contain at least 1 number and 1 character"
+          "password must contain at least 1 number and 1 special character"
         ),
       new: yup
         .string()
@@ -140,7 +139,7 @@ const Detail = ({
     }));
   };
   const OnSubmit = async (data: FieldValues) => {
-    console.log(data);
+    console.log("");
   };
 
   return (
@@ -167,40 +166,36 @@ const Detail = ({
             }}
             Icon={GrUpdate}
           />
-          <AnimatePresence>
-            {bool && (
-              <SlideButton
-                key={`${detail}-btn`}
-                height={200}
-                sethide={setter}
-                cls="update-user-slide"
-                doneMsg={`your ${detail} is updated`}
-                fn={update}
-                isVaild={detail !== "detail" ? isValid : true}
-                Status={Status}
-                head={`update your ${detail}`}
-              >
-                {detail !== "country" && (
-                  <>
-                    <Input
-                      type={detail === "phone" ? "number" : "text"}
-                      placeholder={placeholder || detail}
-                      defaultVal={value}
-                      err={(errors as { [key: string]: any })[
-                        detail
-                      ]?.message?.toString()}
-                    />
-                  </>
-                )}
-                {detail === "country" && (
-                  <UpdateCountry
-                    country={UpdatedCountry}
-                    setCountry={setUpdatedCountry}
-                  />
-                )}
-              </SlideButton>
+
+          <SlideButton
+            bool={bool}
+            key={`${detail}-btn`}
+            sethide={setter}
+            doneMsg={`your ${detail} is updated`}
+            fn={update}
+            isVaild={detail !== "detail" ? isValid : true}
+            Status={Status}
+            head={`update your ${detail}`}
+          >
+            {detail !== "country" && (
+              <>
+                <Input
+                  type={detail === "phone" ? "number" : "text"}
+                  placeholder={placeholder || detail}
+                  defaultVal={value}
+                  err={(errors as { [key: string]: any })[
+                    detail
+                  ]?.message?.toString()}
+                />
+              </>
             )}
-          </AnimatePresence>
+            {detail === "country" && (
+              <UpdateCountry
+                country={UpdatedCountry}
+                setCountry={setUpdatedCountry}
+              />
+            )}
+          </SlideButton>
         </div>
       </form>
     </FormProvider>

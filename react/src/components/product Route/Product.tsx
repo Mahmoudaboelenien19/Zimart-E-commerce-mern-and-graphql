@@ -82,11 +82,11 @@ const Product = () => {
               <ProductImages key={_id} />
 
               <ProductDetails key={`product-${_id}`} setShowPop={setShowPop} />
-              <AnimatePresence mode="wait">
-                {showPop && (
-                  <Reviews key={`review-${_id}`} setShowPop={setShowPop} />
-                )}
-              </AnimatePresence>
+              <Reviews
+                key={`review-${_id}`}
+                setShowPop={setShowPop}
+                bool={showPop}
+              />
             </section>
           </productContext.Provider>
         )}

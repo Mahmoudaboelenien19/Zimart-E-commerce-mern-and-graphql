@@ -134,9 +134,28 @@ exports.productResolver = {
         updateProduct(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
                 const updatedProduct = yield product_js_1.default.findByIdAndUpdate(input._id, input, { returnDocument: "after" });
-                console.log(updatedProduct);
                 context_js_1.pubsub.publish("Product_Updated", {
                     productUpdated: updatedProduct,
+                });
+                const notificationObj = {
+                    isRead: false,
+                    content: `${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct.title.split(" ").slice(0, 5).join(" ")} is updated`,
+                    createdAt: new Date().toISOString(),
+                    link: `/${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct._id}`,
+                };
+                yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                    $push: {
+                        notifications: notificationObj,
+                    },
+                    $inc: {
+                        notificationsCount: +1,
+                    },
+                });
+                const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                    notifications: { $slice: [-1, 1] },
+                });
+                context_js_1.pubsub.publish("Notification_Created", {
+                    NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
                 });
                 return { msg: "product updated successfully", status: 200 };
             });
@@ -169,7 +188,10 @@ exports.productResolver = {
                         });
                         const notificationObj = {
                             isRead: false,
-                            content: `new product added`,
+                            content: `${newProduct.title
+                                .split(" ")
+                                .slice(0, 5)
+                                .join(" ")}  is Added`,
                             createdAt: new Date().toISOString(),
                             link: `/${newProduct._id}`,
                         };
@@ -213,6 +235,30 @@ exports.productResolver = {
                     const newReview = data.reviews[0];
                     newReview.msg = "review added";
                     newReview.status = 200;
+                    console.log(data);
+                    context_js_1.pubsub.publish("Product_Updated", {
+                        productUpdated: data,
+                    });
+                    const notificationObj = {
+                        isRead: false,
+                        content: `${user} added a review on ${data === null || data === void 0 ? void 0 : data.title.split(" ").slice(0, 5).join(" ")}`,
+                        createdAt: new Date().toISOString(),
+                        link: `/${data === null || data === void 0 ? void 0 : data._id}`,
+                    };
+                    const notification = yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                        $push: {
+                            notifications: notificationObj,
+                        },
+                        $inc: {
+                            notificationsCount: +1,
+                        },
+                    });
+                    const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                        notifications: { $slice: [-1, 1] },
+                    });
+                    context_js_1.pubsub.publish("Notification_Created", {
+                        NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
+                    });
                     return newReview;
                 }
                 catch (err) {

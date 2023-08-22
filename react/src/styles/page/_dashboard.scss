@@ -317,7 +317,7 @@ div.dash-nav {
     flex-direction: column;
     gap: 5px;
     overflow: auto;
-    min-height: 230px;
+    min-height: 80%;
   }
   .notification-btns {
     > * {
@@ -384,33 +384,25 @@ div.dash-nav {
   }
 }
 
+.close-pop {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  color: var(--delete);
+  z-index: 10 !important;
+  svg {
+    transform: scale(1.5);
+    path {
+      font-size: 40px !important;
+    }
+  }
+}
 @media (max-width: 650px) {
   .notifications {
     bottom: 0px;
     top: initial;
   }
 
-  // .dash-main-charts {
-  //   .chart-par {
-  //     &:nth-child(1) {
-  //       grid-column: initial;
-  //     }
-  //   }
-  // }
-  .dash-aside-close {
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    transform: translate(-50%, -50%);
-    color: var(--delete);
-    z-index: 10;
-    svg {
-      transform: scale(1.5);
-      path {
-        font-size: 40px !important;
-      }
-    }
-  }
   #dash-aside {
     z-index: 100;
     border-radius: initial;

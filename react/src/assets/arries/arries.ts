@@ -6,7 +6,15 @@ export const FeaturedProductsArr = [
   "exclusive",
   "limited",
 ];
-
+export const imgArr = [
+  "https://res.cloudinary.com/domobky11/image/upload/v1682820624/data/Leather-Jacket-PNG-Images-HD.png.png.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1682582542/Daco_4755868_a8ln06.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1681798935/products/Daco_4236128.png.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1681687660/products/pngfind.com-tommy-hilfiger-logo-png-2660044.png.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1681798916/products/Daco_4jtfyj236560.png.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1682583204/Daco_844028_e2jzoa.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1682820618/data/Black-Leather-Jacket-PNG-Image.png.png.png",
+];
 export const faqArr = {
   title: "Frequently Asked Questions",
   rows: [

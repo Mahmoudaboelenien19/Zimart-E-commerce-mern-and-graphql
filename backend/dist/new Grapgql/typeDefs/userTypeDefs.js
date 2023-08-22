@@ -126,9 +126,19 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     users: [User]
   }
 
+  type AuthResult {
+    msg: String!
+    status: Int
+    user: User
+  }
+
+  type Subscription {
+    AddUser: User
+  }
+
   type Mutation {
     addUser(input: AddUserInput): User
-    authenticate(password: String!, email: String!): StatusMsg
+    authenticate(password: String!, email: String!): AuthResult
     getUserData(id: ID!): User
     addToCart(input: AddToCartInput): Cart
     removeFromCart(input: removeFromCartInput): StatusMsg

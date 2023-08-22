@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Star from "../../Product/Products/Aside/Star";
 import { motion } from "framer-motion";
 
@@ -9,7 +9,7 @@ interface Props {
 
 const AddRate = ({ setRateIndex, rateIndex }: Props) => {
   return (
-    <div className="gap center">
+    <div className="gap center add-rate-pop">
       {[...Array(5)].map((st, i) => {
         return (
           <motion.span
@@ -18,7 +18,7 @@ const AddRate = ({ setRateIndex, rateIndex }: Props) => {
             onHoverStart={() => setRateIndex(i)}
             whileHover={{
               scale: [1, 1.5, 1.25],
-              transition: { duration: 1, ease: "easeInOut" },
+              transition: { duration: 0.4, ease: "easeInOut" },
             }}
             animate={{ scale: rateIndex === i ? 1.25 : 1 }}
             transition={{ duration: 0.4 }}

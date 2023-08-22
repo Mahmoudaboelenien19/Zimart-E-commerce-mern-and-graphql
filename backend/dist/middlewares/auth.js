@@ -12,7 +12,7 @@ const auth = (accessToken) => {
             const token = accessToken.split(" ")[1];
             const decode = jsonwebtoken_1.default.verify(token, config_js_1.ACCESS_TOKEN_SECRET);
             if (decode) {
-                return true;
+                return decode;
             }
             else {
                 return false;

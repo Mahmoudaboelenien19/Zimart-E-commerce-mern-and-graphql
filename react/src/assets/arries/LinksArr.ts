@@ -56,7 +56,7 @@ export const dashAsideLinks = [
       },
       {
         link: "logout",
-        to: "/login",
+        to: "",
         Icon: AiFillCloseCircle,
         active: "login",
       },

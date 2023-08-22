@@ -1,4 +1,4 @@
-import { AnimatePresence, MotionValue, motion } from "framer-motion";
+import { MotionValue, motion } from "framer-motion";
 import React, { useContext } from "react";
 import { isAuthContext } from "../../../context/isAuth";
 import FadeElement from "../../widgets/animation/FadeElement";
@@ -14,11 +14,11 @@ const IsAuth = ({ color }: Props) => {
   const { isAuth } = useContext(isAuthContext);
 
   return (
-    <AnimatePresence mode="wait">
+    <>
       {isAuth ? (
         <FadeElement
           cls="nav-is-auth center"
-          // delay={0.1}
+          delay={0.1}
           key={"user-is-autherized"}
         >
           <ProdouctFeaturesLinks LinkClr={color} />
@@ -35,7 +35,7 @@ const IsAuth = ({ color }: Props) => {
           </motion.button>
         </FadeElement>
       )}
-    </AnimatePresence>
+    </>
   );
 };
 

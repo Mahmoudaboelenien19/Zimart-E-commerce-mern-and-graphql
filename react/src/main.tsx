@@ -13,31 +13,25 @@ import {
 
 import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
-import axios from "axios";
 import { createClient } from "graphql-ws";
-
 import { setContext } from "apollo-link-context";
-import {
-  graphQLRoute,
-  newRefTokenRoute,
-  webSocketGraphQLRoute,
-} from "./assets/routes.js";
+import { graphQLRoute, webSocketGraphQLRoute } from "./assets/routes.js";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
-
-export const getnewAccess = async () => {
-  const {
-    data: { accessToken },
-  } = await axios.post(
-    newRefTokenRoute,
-    {},
-    {
-      withCredentials: true,
-    }
-  );
-  return accessToken;
-};
+import { getnewAccess } from "./lib/getNewAccess";
+// export const getnewAccess = async () => {
+//   const {
+//     data: { accessToken },
+//   } = await axios.post(
+//     newRefTokenRoute,
+//     {},
+//     {
+//       withCredentials: true,
+//     }
+//   );
+//   return accessToken;
+// };
 
 const wsLink = new GraphQLWsLink(
   createClient({
@@ -59,12 +53,12 @@ const splitLink = split(
   createUploadLink({ uri: graphQLRoute })
 );
 const middleware: unknown = setContext(async (_, { headers }) => {
-  const token = await getnewAccess();
-  if (token) {
+  const { accessToken } = await getnewAccess();
+  if (accessToken) {
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : null,
+        authorization: accessToken ? `Bearer ${accessToken}` : null,
       },
     };
   }

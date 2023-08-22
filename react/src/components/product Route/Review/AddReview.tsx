@@ -15,6 +15,7 @@ interface Props {
   setRateIndex: React.Dispatch<React.SetStateAction<number>>;
   defaultVal: string;
   hasReview: boolean;
+  bool: boolean;
 }
 
 const AddReview = ({
@@ -24,6 +25,7 @@ const AddReview = ({
   setRateIndex,
   hasReview,
   defaultVal,
+  bool,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { userId, name, image } = useContext(isAuthContext);
@@ -38,9 +40,6 @@ const AddReview = ({
   };
 
   const [addReviewFn] = useAddReview(obj);
-  const handleCHange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInpVal(e.target.value);
-  };
 
   const updateReviewObj = {
     userId,
@@ -55,10 +54,13 @@ const AddReview = ({
     },
   });
   const [Status, setStatus] = useState<number>(0);
+  const handleCHange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInpVal(e.target.value);
+  };
 
   const handleAddReview = async () => {
     const { data } = await addReviewFn();
-    if (data?.addReview?._id) {
+    if (data?.addReview?.status === 200) {
       setStatus(200);
       dispatch(
         addReviewRedux({
@@ -70,26 +72,29 @@ const AddReview = ({
   };
 
   const updateReview = async () => {
-    await updateReviewFn();
-    setStatus(200);
-    dispatch(updateReviewRedux(updateReviewObj));
+    const { data } = await updateReviewFn();
+    if (data?.updateReview?.msg) {
+      setStatus(200);
+      dispatch(updateReviewRedux(updateReviewObj));
+    }
   };
   useEffect(() => {
-    setStatus(0);
-  }, []);
+    if (bool) {
+      setStatus(0);
+    }
+  }, [bool]);
   return (
     <SlideButton
       doneMsg={hasReview ? "rate updated" : "rate added"}
       head="add rate"
       sethide={setShowAddRate}
-      cls="add-rate-pop"
-      height={200}
       Status={Status}
       isVaild
+      bool={bool}
       fn={hasReview ? updateReview : handleAddReview}
     >
       <AddRate setRateIndex={setRateIndex} rateIndex={rateIndex} />
-      <form className="rate-form">
+      <form className="rate-form ">
         <input
           placeholder="add review"
           style={{ paddingLeft: 8 }}

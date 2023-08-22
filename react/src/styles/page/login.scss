@@ -152,6 +152,7 @@
 }
 
 input:focus {
+  box-sizing: border-box;
   &:focus {
     border: solid var(--green) 2px;
   }

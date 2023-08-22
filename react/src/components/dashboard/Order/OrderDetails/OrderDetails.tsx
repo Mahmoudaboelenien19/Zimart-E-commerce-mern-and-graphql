@@ -20,7 +20,7 @@ const OrderDetails = () => {
       data.order;
     return (
       <DashMain>
-        <Animation addIntialX={false}>
+        <Animation>
           <motion.div
             variants={parentVariant}
             // initial="start"

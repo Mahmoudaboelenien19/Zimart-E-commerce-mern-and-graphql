@@ -10,8 +10,9 @@ export const auth = (accessToken: string) => {
         token,
         ACCESS_TOKEN_SECRET as unknown as string
       );
+
       if (decode) {
-        return true;
+        return decode;
       } else {
         return false;
       }

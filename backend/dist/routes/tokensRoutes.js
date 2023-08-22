@@ -34,11 +34,11 @@ const getNewRefToken = (req, res) => __awaiter(void 0, void 0, void 0, function*
     else {
         let result = (yield (0, exports.verfiyRefToken)(refresh_token));
         if (result === null || result === void 0 ? void 0 : result.email) {
-            const accessToken = jsonwebtoken_1.default.sign({ email: result.email }, config_1.ACCESS_TOKEN_SECRET);
-            const refreshToken = jsonwebtoken_1.default.sign({ email: result.email }, config_1.REFRESH_TOKEN_SECRET);
+            const accessToken = jsonwebtoken_1.default.sign(result, config_1.ACCESS_TOKEN_SECRET);
+            const refreshToken = jsonwebtoken_1.default.sign(result, config_1.REFRESH_TOKEN_SECRET);
             res.cookie("access_token", accessToken);
             res.cookie("refresh_token", refreshToken);
-            res.json({ accessToken });
+            res.json({ accessToken, id: result === null || result === void 0 ? void 0 : result.id });
             return true;
         }
         else {

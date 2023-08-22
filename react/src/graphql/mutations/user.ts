@@ -80,6 +80,45 @@ export const Authenticate_Query = gql`
     authenticate(email: $email, password: $password) {
       msg
       status
+      user {
+        email
+        name
+        image
+        country
+        phone
+        role
+        notificationsCount
+        notifications {
+          isRead
+          createdAt
+          content
+          link
+          _id
+        }
+        fav {
+          productId
+          price
+          title
+          path
+          parentId
+          _id
+        }
+
+        cart {
+          count
+          productId
+          price
+          title
+          parentId
+
+          path
+          _id
+        }
+        compare {
+          productId
+          title
+        }
+      }
     }
   }
 `;
@@ -102,6 +141,7 @@ export const GET_USER_DATA = gql`
       phone
       role
       notificationsCount
+      _id
       notifications {
         isRead
         createdAt
@@ -151,12 +191,13 @@ export const REMOVE_FROM_Cart = gql`
     }
   }
 `;
+``;
 
 export const addReview = gql`
   mutation ($input: CreateReviewInput) {
     addReview(input: $input) {
       msg
-      _id
+      status
     }
   }
 `;
@@ -203,15 +244,6 @@ export const Update_User_Email = gql`
     }
   }
 `;
-
-// export const Check_Old_Pass = gql`
-//   mutation ($_id: ID!, $password: String!) {
-//     checkOldPassword(password: $password, _id: $_id) {
-//       msg
-//       status
-//     }
-//   }
-// `;
 
 export const Update_Pass = gql`
   mutation ($_id: ID!, $newPassword: String!, $oldPassword: String!) {
@@ -288,6 +320,51 @@ export const Update_Profile_Img = gql`
     updateUserImage(_id: $_id, image: $image) {
       status
       msg
+    }
+  }
+`;
+
+export const User_Added_Sub = gql`
+  subscription AddUser {
+    AddUser {
+      email
+      name
+      image
+      country
+      phone
+      role
+      notificationsCount
+      _id
+      notifications {
+        isRead
+        createdAt
+        content
+        link
+        _id
+      }
+      fav {
+        productId
+        price
+        title
+        path
+        parentId
+        _id
+      }
+
+      cart {
+        count
+        productId
+        price
+        title
+        parentId
+
+        path
+        _id
+      }
+      compare {
+        productId
+        title
+      }
     }
   }
 `;

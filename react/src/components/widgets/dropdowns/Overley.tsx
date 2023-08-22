@@ -20,11 +20,15 @@ const Overley = ({ sethide, cls, children }: Props) => {
       onClick={handlehidePop}
       key={"overley"}
     >
-      <span onClick={(e) => e.stopPropagation()}>
-        <FadeElement cls={cls} key={"overley-pop"}>
-          {children}
-        </FadeElement>
-      </span>
+      {/* <span onClick={(e) => e.stopPropagation()}> */}
+      <FadeElement
+        cls={cls}
+        key={"overley-pop"}
+        fn={(e) => e.stopPropagation()}
+      >
+        {children}
+      </FadeElement>
+      {/* </span> */}
     </motion.div>
   );
 };

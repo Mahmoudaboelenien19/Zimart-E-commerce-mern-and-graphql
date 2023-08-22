@@ -1,17 +1,12 @@
 @import "../variables.scss";
 
-.pop-up {
-  background: var(--main);
-  filter: drop-shadow(var(--main-shadow));
-  overflow: hidden;
-  position: relative;
-  z-index: 10000;
-  border-radius: 4px;
-}
-
 .pop-up-reviews {
   width: 300px;
-  height: 300px;
+  max-height: 350px;
+  color: var(--third);
+  p {
+    color: var(--third) !important;
+  }
 
   h2 {
     width: fit-content;
@@ -19,6 +14,7 @@
     padding-bottom: 4px;
     font-size: 1.2rem;
     height: 20px;
+    color: var(--third);
     &.underline {
       &:before {
         top: 120%;
@@ -28,11 +24,14 @@
 }
 
 .review {
+  width: 300px !important;
   .img-review {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     position: relative;
     margin: 0 auto;
+    z-index: 4;
+
     .before {
       position: absolute;
       width: 100%;
@@ -44,8 +43,8 @@
       opacity: 0.8;
     }
     img {
-      width: 80px;
-      height: 80px;
+      width: 85px;
+      height: 85px;
       object-fit: cover;
       border-radius: 50%;
     }
@@ -69,7 +68,6 @@
   .five {
     font-size: 10px;
     gap: 2px;
-    color: var(--third);
   }
 }
 
@@ -115,32 +113,5 @@ p.review-user {
     padding: 5px;
     color: var(--main);
     border-radius: 4px;
-  }
-}
-
-@media (max-width: 650px) {
-  .pop-up-reviews {
-    position: fixed;
-    top: 0px;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 10;
-    h2 {
-      font-size: 2rem;
-      &.underline {
-        &:before {
-          top: 180%;
-        }
-      }
-    }
-    .user-review {
-      font-size: 1.2rem;
-    }
   }
 }

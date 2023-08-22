@@ -40,11 +40,11 @@ const Review = ({ _id, image, user, rate, review, i }: Props) => {
   }, [count, inView]);
 
   return (
-    <div className="review" ref={reviewRef}>
-      <div className="img-review center">
+    <>
+      <div className="img-review center" ref={reviewRef}>
         <div className="before" style={{ background: clrsArr[i] }}></div>
+
         <Title title={user}>
-          {/* <img src={image} alt={user} className="relative" /> */}
           <LazyLoadImage effect="blur" src={image} />
         </Title>
       </div>
@@ -66,12 +66,12 @@ const Review = ({ _id, image, user, rate, review, i }: Props) => {
             </motion.span>
           </AnimatePresence>
           <span className="five center">
-            <span style={{ color: "var(--third)" }}>/</span>5
+            <span>/</span>5
           </span>
         </span>
       </div>
 
-      <div className="user-review center" style={{ color: "var(--third)" }}>
+      <div className="user-review center">
         <span>
           <FaQuoteLeft className="icon" fill={clrsArr[i]} />
         </span>
@@ -80,7 +80,7 @@ const Review = ({ _id, image, user, rate, review, i }: Props) => {
           <FaQuoteRight className="icon" color={clrsArr[i]} />
         </span>
       </div>
-    </div>
+    </>
   );
 };
 

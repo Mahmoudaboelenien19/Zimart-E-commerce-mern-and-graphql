@@ -68,7 +68,7 @@ const SignUp = () => {
         },
       },
     });
-    console.log(data);
+
     if (data.addUser.status === 200) {
       setIsPending(false);
 
@@ -83,7 +83,7 @@ const SignUp = () => {
     }
   };
   const OnSubmit = (data: FieldValues) => {
-    console.log(data);
+
     handleSignUp();
   };
   return (

@@ -5,14 +5,14 @@ export const authenticateMiddleware = async (
   email: string,
   password: string
 ) => {
-  const check = await userCollection.find({ email });
-  if (check.length > 0) {
+  const user = await userCollection.find({ email });
+  if (user.length > 0) {
     const isPasswordCorrect = await bcrypt.compare(
       password + BCRYPT_SECRET,
-      check[0].password as any
+      user[0].password as any
     );
     if (isPasswordCorrect) {
-      return check;
+      return user;
     } else {
       return isPasswordCorrect;
     }
@@ -23,11 +23,13 @@ export const authenticateMiddleware = async (
 
 export const checkOldPass = async (_id: string, password: string) => {
   const check = await userCollection.find({ _id });
+
   if (check.length > 0) {
     const isPasswordCorrect = await bcrypt.compare(
       password + BCRYPT_SECRET,
       check[0].password as any
     );
+
     if (isPasswordCorrect) {
       return "your password is correct";
     } else {

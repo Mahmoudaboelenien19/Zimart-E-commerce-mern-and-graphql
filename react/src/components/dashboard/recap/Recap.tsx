@@ -9,6 +9,7 @@ import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
 import useMeasure from "react-use-measure";
 import GridLoader from "../../widgets/loaders/GridLoader";
+import AdminEmailPop from "../AdminEmailPop";
 
 const Recap = () => {
   const { user } = useAppSelector((st) => st.user);
@@ -81,6 +82,7 @@ const Recap = () => {
       ) : (
         <GridLoader cls="loading-recap center" />
       )}
+      <AdminEmailPop isLoaded={check} />
     </DashMain>
   );
 };

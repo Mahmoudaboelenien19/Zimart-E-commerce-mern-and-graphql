@@ -10,7 +10,6 @@ const Price = () => {
   const { setPriceFilter, priceFilter } = useContext(productListContext);
 
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setPriceFilter(Number(e.target.value));
   };
 

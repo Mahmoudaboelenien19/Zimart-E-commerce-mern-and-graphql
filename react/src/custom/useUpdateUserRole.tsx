@@ -4,25 +4,30 @@ import { toast } from "react-hot-toast";
 import { useAppDispatch } from "./reduxTypes";
 import { updateUserRedux } from "../redux/UserSlice";
 
-const useUpdateUserRole = (_id: string, role: string) => {
-  const [fn] = useMutation(Update_User_ROle, {
-    variables: {
-      _id,
-      role,
-    },
-  });
+const useUpdateUserRole = () => {
+  const [fn] = useMutation(Update_User_ROle);
 
   const dispatch = useAppDispatch();
-  const handleUpdateUserRole = async () => {
+  const handleUpdateUserRole = async (
+    _id: string,
+    role: string,
+    setter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
     try {
-      const res = await fn();
+      const res = await fn({
+        variables: {
+          _id,
+          role,
+        },
+      });
       if (await res?.data.updateUserRole?.msg) {
         dispatch(updateUserRedux({ role, _id }));
         toast.success(res?.data.updateUserRole?.msg);
+        setter(role);
       }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("you aren't an admin");
       }
     }
   };

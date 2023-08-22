@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm, Field } from "react-hook-form";
 import Input from "../../widgets/forms/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -32,6 +32,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   const [isPending, setIsPending] = useState(false);
   const [isSubmited, setIsSubmitted] = useState(false);
   const [stateValue, setStateValue] = useState(obj?.state || "");
+  const [AllDone, setAllDone] = useState(false);
   const [categoryValue, setCategoryValue] = useState(obj?.category || "");
 
   const date = () => new Date();
@@ -54,54 +55,78 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
     description: yup.string().trim().min(50).required(),
     images: type === "update" ? notRequired : fileSchema,
   });
-  const methods = useForm({ resolver: yupResolver(schema) });
+
+  const methods = useForm({ resolver: yupResolver(schema), defaultValues: {} });
   const {
     handleSubmit,
+    resetField,
     register,
+
     formState: { errors },
   } = methods;
 
   const inpArr = [
     { type: "text", placeholder: "title" },
-    // { type: "text", placeholder: "category" },
+
     { type: "number", placeholder: "stock" },
-    // { type: "text", placeholder: "state" },
+
     { type: "number", placeholder: "price" },
   ];
 
+  const resetFn = () => {
+    setIsSubmitted(false);
+
+    setCategoryValue("");
+    setStateValue("");
+    setIsPending(false);
+    [
+      ...inpArr,
+      { placeholder: "description" },
+      { placeholder: "images" },
+    ].forEach(({ placeholder }) => resetField(placeholder as any));
+  };
+
   const onSubmit = async (data: FieldValues) => {
-    if (stateValue && categoryValue) {
-      setIsPending(true);
+    try {
+      if (stateValue && categoryValue) {
+        setIsPending(true);
 
-      const obj = {
-        ...data,
-        stock: Number(data.stock),
-        price: Number(data.price),
-        state: stateValue,
-        category: categoryValue,
-      };
+        const obj = {
+          ...data,
+          stock: Number(data.stock),
+          price: Number(data.price),
+          state: stateValue,
+          category: categoryValue,
+        };
 
-      if (type === "update") {
-        const { data: res } = await fn({
-          variables: {
-            input: {
-              ...obj,
-              _id: id,
+        if (type === "update") {
+          const { data: res } = await fn({
+            variables: {
+              input: {
+                ...obj,
+                _id: id,
+              },
             },
-          },
-        });
-        toast.success(res.updateProduct.msg);
-        setIsPending(false);
-      } else {
-        const addObj = { ...obj, createdAt: date() };
+          });
+          toast.success(res.updateProduct.msg);
 
-        const { data } = await fn({
-          variables: { input: addObj },
-        });
-        if (data.addNewProduct.status) {
-          setIsPending(false);
-          toast.success(data.addNewProduct.msg);
+          resetFn();
+        } else {
+          const addObj = { ...obj, createdAt: date() };
+
+          const { data } = await fn({
+            variables: { input: addObj },
+          });
+          if (data.addNewProduct.status) {
+            resetFn();
+          }
         }
+      }
+    } catch (err: unknown) {
+      if ((err as Error).message === "Not Authorised!") {
+        setIsPending(false);
+
+        toast.error("you aren't an admin");
       }
     }
   };

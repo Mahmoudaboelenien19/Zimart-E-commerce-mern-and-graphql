@@ -32,7 +32,7 @@ const Login = () => {
     getValues,
   } = methods;
 
-  const { setIsAuth, isAuth } = useContext(isAuthContext);
+  const { setIsAuth, isAuth, setUserData } = useContext(isAuthContext);
 
   const [authenticate] = useMutation(Authenticate_Query);
   const handleLogIn = async () => {
@@ -48,6 +48,7 @@ const Login = () => {
         credentials: "include",
       },
     });
+
     if (res.data.authenticate.status === 404) {
       setIsPending(false);
       toast.error(res.data.authenticate.msg);
@@ -56,6 +57,7 @@ const Login = () => {
       setIsPending(false);
 
       setIsAuth(true);
+      setUserData(res.data.authenticate.user);
       navigate("/");
     } else {
       setIsPending(false);

@@ -7,7 +7,6 @@ import {
   selectDropDownVariants,
 } from "../../../variants/globals";
 import useUpdateOrder from "../../../custom/useUpdateOrder";
-import { isAuthContext } from "../../../context/isAuth";
 import useUpdateUserRole from "../../../custom/useUpdateUserRole";
 import { themeContext } from "../../../context/ThemContext";
 import useClickOutside from "../../../custom/useClickOutside";
@@ -21,13 +20,12 @@ interface Props {
 }
 
 const DashDropDown = ({ type, state, setter, _id, arr }: Props) => {
-  const { isAuth } = useContext(isAuthContext);
   const { theme } = useContext(themeContext);
   const [isSClicked, setIsCLicked] = useState(false);
 
   const handleToggle = () => setIsCLicked(!isSClicked);
-  const { handleUpdateOrder } = useUpdateOrder(_id, state);
-  const { handleUpdateUserRole } = useUpdateUserRole(_id, state);
+  const { handleUpdateOrder } = useUpdateOrder();
+  const { handleUpdateUserRole } = useUpdateUserRole();
   const ref = useClickOutside<HTMLDivElement>(
     () => setIsCLicked(false),
     isSClicked
@@ -62,18 +60,15 @@ const DashDropDown = ({ type, state, setter, _id, arr }: Props) => {
                     variants={opacityVariant}
                     onClick={() => {
                       setIsCLicked(false);
-                      if (type === "user") {
-                        handleUpdateUserRole();
-                      } else {
-                        handleUpdateOrder();
+                      if (state != st) {
+                        if (type === "user") {
+                          handleUpdateUserRole(_id, st, setter);
+                        } else {
+                          handleUpdateOrder(_id, st);
+                        }
                       }
                     }}
                     key={i}
-                    onTapStart={() => {
-                      if (isAuth) {
-                        setter(st);
-                      }
-                    }}
                     className="order-link select-opt"
                   >
                     {st}

@@ -43,11 +43,16 @@ exports.userResolver = {
             else {
                 const res = yield user_js_1.userCollection.create(Object.assign(Object.assign({}, input), { createdAt: new Date().toISOString(), image: input.image ||
                         "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png", password: (0, hashPassword_js_1.hashPassword)(input.password), role: "user" }));
+                console.log(res);
+                console.log("user");
+                context_js_1.pubsub.publish("User_Added", {
+                    AddUser: res,
+                });
                 const notificationObj = {
                     isRead: false,
                     content: `${input.email} created a new account`,
                     createdAt: new Date().toISOString(),
-                    link: "/",
+                    link: "/dashboard/users",
                 };
                 yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
                     $push: {
@@ -68,17 +73,12 @@ exports.userResolver = {
         }),
         authenticate: (_, args, { res }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const result = yield (0, authenticate_js_1.authenticateMiddleware)(args.email, args.password);
-                if (Array.isArray(result)) {
-                    if (result.length >= 1) {
-                        const accessToken = jsonwebtoken_1.default.sign({ email: args.email }, config_js_1.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
-                        const refToken = jsonwebtoken_1.default.sign({ email: args.email }, config_js_1.REFRESH_TOKEN_SECRET);
-                        console.log(refToken.length);
-                        const id = result[0]._id.toString();
-                        res.cookie("user_id", id, {
-                            httpOnly: true,
-                            secure: true,
-                        });
+                const user = yield (0, authenticate_js_1.authenticateMiddleware)(args.email, args.password);
+                if (Array.isArray(user)) {
+                    if ((user === null || user === void 0 ? void 0 : user.length) >= 1) {
+                        const accessToken = jsonwebtoken_1.default.sign({ email: args.email, id: user[0]._id }, config_js_1.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+                        const refToken = jsonwebtoken_1.default.sign({ email: args.email, id: user[0]._id }, config_js_1.REFRESH_TOKEN_SECRET);
+                        const id = user[0]._id.toString();
                         res.cookie("access_token", accessToken, {
                             httpOnly: true,
                             secure: true,
@@ -87,14 +87,18 @@ exports.userResolver = {
                             httpOnly: true,
                             secure: true,
                         });
-                        return { msg: "you successfully logged in", status: 200 };
+                        return {
+                            msg: "you successfully logged in",
+                            status: 200,
+                            user: user[0],
+                        };
                     }
                 }
-                else if (!result) {
+                else if (!user) {
                     return { msg: "password is wrong", status: 404 };
                 }
                 else {
-                    return { msg: result };
+                    return { msg: user };
                 }
             }
             catch (err) {
@@ -326,6 +330,15 @@ exports.userResolver = {
                     return { status: 404, msg: "faild to upload" };
                 }
             });
+        },
+    },
+    Subscription: {
+        AddUser: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_js_1.pubsub.asyncIterator("User_Added");
+                });
+            },
         },
     },
 };
