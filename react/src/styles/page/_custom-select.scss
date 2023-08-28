@@ -2,8 +2,8 @@
 
 .custom-select {
   width: 150px;
-  height: 25px;
-  background: var(--twitter);
+  height: 30px;
+  background: var(--secondary);
   border-radius: 5px;
   position: relative;
   letter-spacing: 0.7px;
@@ -24,7 +24,7 @@
 .select-icon {
   position: absolute;
   transform: translateY(-50%);
-  color: var(--white);
+  color: var(--wheat);
   font-size: 10px;
 
   cursor: pointer;

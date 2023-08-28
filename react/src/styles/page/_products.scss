@@ -118,8 +118,16 @@ aside {
   &.list {
     display: flex;
     flex-direction: column;
+    .list-cart-btn {
+      width: 200px !important;
+      margin-bottom: 5px;
+    }
     .product-data {
       width: 70%;
+      height: 100% !important;
+
+      justify-content: space-between;
+      padding-top: 15px;
     }
   }
   &.grid {
@@ -127,7 +135,7 @@ aside {
 
     grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
     .product-data {
-      width: 90%;
+      width: 100%;
     }
   }
 }
@@ -224,10 +232,11 @@ svg.svg-star {
   justify-content: center !important;
   align-items: center !important;
   overflow: hidden;
-  padding: 10px;
+  // padding: 10px;
   border-radius: 2px;
+
   &:hover {
-    box-shadow: 1px 1px 3px var(--green);
+    box-shadow: 0.2px 0.2px 2px var(--third);
   }
 
   p {
@@ -243,17 +252,22 @@ svg.svg-star {
   }
 
   .img-par {
+    position: relative;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
     &.grid {
       width: 100%;
-      height: 140px;
+      height: 200px;
       img {
-        height: 100px;
+        height: 140px;
         width: 90%;
+        object-fit: contain;
       }
     }
     &.list {
       width: 30% !important;
-      height: 90% !important;
+      height: 100% !important;
       img {
         min-width: 85px;
         max-width: 85%;
@@ -349,18 +363,18 @@ svg.svg-star {
   background: var(--secondary);
   border-radius: 10px;
   box-shadow: var(--forth-shadow);
+  overflow: hidden;
 }
 .products-animate {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   position: relative;
-
   height: 20vw;
   width: 20vw;
 
   .products-animate-img {
-    height: 18vw;
+    height: 17vw;
     width: 18vw;
     object-fit: contain;
 
@@ -409,5 +423,11 @@ svg.svg-star {
   }
   .product-list-par {
     width: 95% !important;
+  }
+}
+
+.product-slide {
+  .product-data {
+    width: 100%;
   }
 }

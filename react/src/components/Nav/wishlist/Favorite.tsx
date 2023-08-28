@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 import useRemoveFromFav from "../../../custom/useRemoveFeomFav";
 import useIsMobile from "../../../custom/useIsMobile";
 import { isAuthContext } from "../../../context/isAuth";
-import { favInterface } from "../../../interfaces/user";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-interface Props extends favInterface {
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
-}
 const Favorite = ({
   _id,
   price,
@@ -18,7 +15,7 @@ const Favorite = ({
   path,
   parentId,
   setter,
-}: Props) => {
+}: any) => {
   const navigate = useNavigate();
   const { userId } = useContext(isAuthContext);
   const { handleRemoveFromFav } = useRemoveFromFav({
@@ -31,25 +28,24 @@ const Favorite = ({
       className="fav-product center"
       variants={opacityVariant}
       key={_id}
-      // initial="start"
-      // exit={"exit"}
-      // animate="end"
-      // transition={{ duration: 0.4 }}
     >
-      <div className="fav-img center ">
-        <img src={path} alt="" />
-      </div>
+      <LazyLoadImage
+        wrapperClassName="fav-img center "
+        effect="blur"
+        src={path}
+        alt=""
+      />
 
       <div className="fav-content center shadow">
         <h3 className="fav-title ">{title}</h3>
         <span className="fav-price">$ {price}</span>
         <div className="product-links">
-          <button className="btn unsave shadow" onClick={handleRemoveFromFav}>
+          <button className="btn unsave " onClick={handleRemoveFromFav}>
             unsave
           </button>
           <button
-            className="btn shadow "
-            style={{ color: "var(--white" }}
+            className="btn  "
+            style={{ color: "var(--third" }}
             onClick={() => {
               navigate(`/${parentId}`);
               if (isMobile) {

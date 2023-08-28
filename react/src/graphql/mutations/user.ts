@@ -161,12 +161,14 @@ export const GET_USER_DATA = gql`
       cart {
         count
         productId
-        price
-        title
         parentId
-
-        path
         _id
+        path
+        product {
+          price
+          title
+          stock
+        }
       }
       compare {
         productId

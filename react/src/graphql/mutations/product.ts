@@ -260,3 +260,30 @@ export const Added_Product_Subscription = gql`
     }
   }
 `;
+
+export const Single_Updated_Product_Subscription = gql`
+  subscription productUpdated($id: ID) {
+    singleProductUpdate(id: $id) {
+      reviews {
+        image
+        user
+        review
+        rate
+        _id
+      }
+      _id
+      price
+      stock
+      title
+      description
+      rating
+      category
+      state
+
+      images {
+        productPath
+        _id
+      }
+    }
+  }
+`;

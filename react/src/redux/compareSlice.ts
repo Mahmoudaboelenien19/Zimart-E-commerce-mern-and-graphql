@@ -22,9 +22,12 @@ const compareSlice = createSlice({
         (obj) => obj.productId !== action.payload
       );
     },
+    clearCompare(st) {
+      st.compare = [];
+    },
   },
 });
 
-export const { addToCompareRedux, removeFromCompareRedux } =
+export const { clearCompare, addToCompareRedux, removeFromCompareRedux } =
   compareSlice.actions;
 export default compareSlice.reducer;

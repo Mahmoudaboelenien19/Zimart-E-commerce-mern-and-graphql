@@ -8,12 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderResolver = void 0;
 const getAmount_1 = require("../../middlewares/getAmount");
 const order_1 = require("../../mongoose/schema/order");
 const user_1 = require("../../mongoose/schema/user");
 const context_1 = require("../context");
+const product_1 = __importDefault(require("../../mongoose/schema/product"));
 exports.orderResolver = {
     Query: {
         order(_, args) {
@@ -24,6 +28,20 @@ exports.orderResolver = {
         orders() {
             return __awaiter(this, void 0, void 0, function* () {
                 return yield order_1.OrderCollection.find({});
+            });
+        },
+    },
+    OrderProduct: {
+        product(par) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield product_1.default.findById(par.id);
+            });
+        },
+    },
+    Order: {
+        user(par) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield user_1.userCollection.findById(par.userId);
             });
         },
     },
@@ -83,26 +101,61 @@ exports.orderResolver = {
                     context_1.pubsub.publish("Order_Created", {
                         OrderCreated: order,
                     });
-                    const notificationObj = {
-                        isRead: false,
-                        content: `${input.email} created a new order`,
-                        createdAt: new Date().toISOString(),
-                        link: `/dashboard/orders/${order._id}`,
-                    };
-                    yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        $push: {
-                            notifications: notificationObj,
-                        },
-                        $inc: {
-                            notificationsCount: +1,
-                        },
-                    });
-                    const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        notifications: { $slice: [-1, 1] },
-                    });
-                    context_1.pubsub.publish("Notification_Created", {
-                        NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                    });
+                    yield input.products.forEach((e) => __awaiter(this, void 0, void 0, function* () {
+                        const product = yield product_1.default.findByIdAndUpdate(e.parentId, {
+                            $inc: {
+                                stock: -e.count,
+                            },
+                        }, { new: true });
+                        context_1.pubsub.publish("Product_Updated", {
+                            productUpdated: product,
+                        });
+                        context_1.pubsub.publish("Single_Product_Updated", {
+                            singleProductUpdate: product,
+                        });
+                        const notificationObj = {
+                            isRead: false,
+                            content: `${input.email} created a new order`,
+                            createdAt: new Date().toISOString(),
+                            link: `/dashboard/orders/${order._id}`,
+                        };
+                        yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                            $push: {
+                                notifications: notificationObj,
+                            },
+                            $inc: {
+                                notificationsCount: +1,
+                            },
+                        });
+                        const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                            notifications: { $slice: [-1, 1] },
+                        });
+                        context_1.pubsub.publish("Notification_Created", {
+                            NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
+                        });
+                        if ((product === null || product === void 0 ? void 0 : product._id) && ((product === null || product === void 0 ? void 0 : product.stock) <= 5 || (product === null || product === void 0 ? void 0 : product.stock) === 0)) {
+                            const notificationObj = {
+                                isRead: false,
+                                content: `${product === null || product === void 0 ? void 0 : product.title.split(" ").slice(0, 5).join(" ")} is running out`,
+                                createdAt: new Date().toISOString(),
+                                link: `/${product === null || product === void 0 ? void 0 : product._id}`,
+                            };
+                            yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                                $push: {
+                                    notifications: notificationObj,
+                                },
+                                $inc: {
+                                    notificationsCount: +1,
+                                },
+                            });
+                            const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
+                                notifications: { $slice: [-1, 1] },
+                            });
+                            context_1.pubsub.publish("Notification_Created", {
+                                NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
+                            });
+                        }
+                    }));
                     return { status: 200, orderId: order._id };
                 }
                 catch (err) {

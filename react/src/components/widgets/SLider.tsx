@@ -60,8 +60,8 @@ const SLiderComponent = () => {
             {Allproducts.slice(0, 8).map(
               (product: ProductInterface, index: number) => {
                 return (
-                  <SwiperSlide key={index}>
-                    <ProductFliter index={index} {...product} />
+                  <SwiperSlide key={index} className="product-slide">
+                    <ProductFliter index={index} {...product} isSLide />
                   </SwiperSlide>
                 );
               }

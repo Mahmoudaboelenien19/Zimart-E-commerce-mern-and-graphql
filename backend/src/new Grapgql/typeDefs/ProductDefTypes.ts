@@ -14,14 +14,15 @@ export const productTypeDefs = gql`
   }
 
   type Review {
-    image: String
-    user: String
     review: String
     rate: Int
     status: Int
     msg: String
+    user: String
+    image: String
     userId: ID
     _id: ID
+    userData: User
   }
 
   type Product {
@@ -104,6 +105,7 @@ export const productTypeDefs = gql`
 
   type Subscription {
     productUpdated: Product
+    singleProductUpdate(id: ID): Product
     productAdded: Product
   }
 `;

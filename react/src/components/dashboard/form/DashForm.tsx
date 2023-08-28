@@ -50,7 +50,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   const notRequired = yup.mixed().notRequired();
   const schema = yup.object().shape({
     title: yup.string().min(12).max(30).required(),
-    stock: yup.number().integer().min(1).max(100).required(),
+    stock: yup.number().integer().min(0).max(100).required(),
     price: yup.number().min(1).max(1000).required(),
     description: yup.string().trim().min(50).required(),
     images: type === "update" ? notRequired : fileSchema,

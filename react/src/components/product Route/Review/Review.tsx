@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import StarIcon from "../../../custom SVGs/StarIcon";
 
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
-import { AnimatePresence, motion, useInView } from "framer-motion";
-import { reviewCounter } from "../../../variants/globals";
+import { AnimatePresence } from "framer-motion";
 import Title from "../../widgets/Title";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -22,48 +21,36 @@ interface Props {
   rate: number;
   review: string;
   i: number;
+  userData: { name: string; image: string };
 }
 
-const Review = ({ _id, image, user, rate, review, i }: Props) => {
-  const [count, setCount] = useState(0);
+const Review = ({ image: img, user, rate, review, i, userData }: Props) => {
+  const [reviewData, setReviewDate] = useState({ name: "", image: "" });
 
-  const reviewRef = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(reviewRef);
-  let interval: number | undefined;
   useEffect(() => {
-    if (count <= rate && inView) {
-      interval = setInterval(() => {
-        setCount((cur) => cur + 1);
-      }, 300);
+    if (userData?.name) {
+      setReviewDate({
+        name: userData?.name,
+        image: userData?.image,
+      });
     }
-    return () => clearInterval(interval);
-  }, [count, inView]);
+  }, [userData?.name]);
 
   return (
     <>
-      <div className="img-review center" ref={reviewRef}>
+      <div className="img-review center">
         <div className="before" style={{ background: clrsArr[i] }}></div>
 
-        <Title title={user}>
-          <LazyLoadImage effect="blur" src={image} />
+        <Title title={reviewData?.name || user}>
+          <LazyLoadImage effect="blur" src={reviewData?.image || img} />
         </Title>
       </div>
-      <p className="review-user center">{user}</p>
+      <p className="review-user center">{reviewData?.name || user}</p>
       <div className="review-rate center">
         <StarIcon avgRate={4} id={1} />
         <span className="center" style={{ marginBottom: -4 }}>
           <AnimatePresence mode="wait">
-            <motion.span
-              variants={reviewCounter}
-              custom={{ count, rate }}
-              key={count}
-              initial="start"
-              animate="end"
-              exit="exit"
-              className="user-rate"
-            >
-              {count}
-            </motion.span>
+            <span className="user-rate">{rate}</span>
           </AnimatePresence>
           <span className="five center">
             <span>/</span>5

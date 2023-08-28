@@ -90,7 +90,9 @@ const Input = ({
               initial="start"
               animate="end"
               className={`placeholder ${
-                inpVal || isFocus ? "placeholder-top" : "placeholder-center"
+                placeholder === "stock" || inpVal || isFocus
+                  ? "placeholder-top"
+                  : "placeholder-center"
               }`}
               onClick={() => setFocus(placeholder)}
             >

@@ -39,6 +39,9 @@ const UserInfo = () => {
       setUserData({ name, email, country, phone });
     }
   }, [name]);
+  useEffect(() => {
+    document.title = userData?.name;
+  }, [userData?.name]);
   const userArr = [
     {
       detail: "name",

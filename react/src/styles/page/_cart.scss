@@ -77,14 +77,22 @@
   }
 }
 .totel-price {
-  padding: 25px 0;
+  padding: 25px 10px;
   background: var(--sale);
   width: 30%;
   align-self: flex-start;
   border-start-end-radius: 5px;
   color: var(--main);
   letter-spacing: 0.8px;
+  .title-par {
+    width: 100% !important;
 
+    .btn-buy {
+      margin: 0 auto;
+      margin-top: 10px;
+      width: 40% !important;
+    }
+  }
   > * {
     font-weight: bold;
   }
@@ -126,7 +134,6 @@
   .free {
     position: absolute;
     bottom: 70%;
-    right: 100%;
     color: var(--star);
     text-transform: capitalize;
     transform: scale(0.75);
@@ -137,16 +144,16 @@
     background: var(--delete);
     position: absolute;
     top: 2px;
-    right: 45%;
-    transform-origin: 100% 0%;
+    right: 0%;
     transform: rotate(-20deg);
   }
 }
 
 .order-val {
   display: inline-block;
-  width: 80px;
-  text-align: start;
+  width: 100px;
+  height: 20px;
+  text-align: end;
 }
 
 .cart-btns {

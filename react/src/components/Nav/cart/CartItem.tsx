@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { cartInterface } from "../../../interfaces/user.js";
 import Counter from "./Counter.js";
 import useRemoveFromCart from "../../../custom/useRemoveFromCart.js";
@@ -14,11 +14,12 @@ const CartItem = ({
   _id,
   productId,
   parentId,
-  price,
-  path,
-  title,
   count,
+  path,
+  product: { price, title, stock },
 }: cartInterface) => {
+  const [counter, setCounter] = useState(count);
+
   const detailsArr = [
     { detail: "product", value: title },
     { detail: "productId", value: productId },
@@ -40,7 +41,17 @@ const CartItem = ({
 
       <div className=" cart-content ">
         <div style={{ alignSelf: "center" }}>
-          <Counter count={count} productId={productId} key={_id} />
+          {stock > 0 ? (
+            <Counter
+              counter={counter}
+              productId={productId}
+              key={_id}
+              stock={stock}
+              setCounter={setCounter}
+            />
+          ) : (
+            <div className="cart-not-available center"> not available now</div>
+          )}
         </div>
         {detailsArr.map(({ detail, value }, i) => {
           return (
@@ -63,6 +74,7 @@ const CartItem = ({
                 count,
               },
             ]}
+            disabled={stock === 0}
           />
         </div>
       </div>

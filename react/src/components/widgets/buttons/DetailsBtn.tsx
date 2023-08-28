@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import MainBtn from "./MainBtn";
+import { Link, useNavigate } from "react-router-dom";
 import { BsInfoCircleFill } from "react-icons/bs";
 import Title from "../Title";
 interface Props {
@@ -14,11 +13,13 @@ const DetailsBtn = ({ _id }: Props) => {
   };
 
   return (
-    <button className={"details-btn "} onClick={handleDetailsFn}>
-      <Title title="more details ">
-        <BsInfoCircleFill />
-      </Title>
-    </button>
+    <Link to={`/${_id}`}>
+      <button className={"details-btn "} onClick={handleDetailsFn}>
+        <Title title="more details ">
+          <BsInfoCircleFill />
+        </Title>
+      </button>
+    </Link>
   );
 };
 

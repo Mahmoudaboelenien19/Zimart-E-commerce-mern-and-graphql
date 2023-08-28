@@ -30,7 +30,11 @@ const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
       <NavLink to="/cart" className="cart-active-link ">
         <motion.li id="cart-link-par" style={{ color: LinkClr }}>
           <Title title="go to your cart">
-            <ShowCount length={cart.length} />
+            <ShowCount
+              length={
+                Number(sessionStorage.getItem("cart-length")) || cart.length
+              }
+            />
             <BsFillCartPlusFill fontSize={"1.2rem"} />
           </Title>
         </motion.li>

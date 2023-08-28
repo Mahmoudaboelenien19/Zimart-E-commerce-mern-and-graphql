@@ -12,6 +12,7 @@ export const orderDefType = gql`
     price: Float
     title: String
     count: Int
+    product: Product
   }
 
   type Order {
@@ -24,6 +25,7 @@ export const orderDefType = gql`
     cost: Float!
     createdAt: Date
     deliveredAt: Date
+    user: User
   }
 
   type Query {

@@ -71,6 +71,7 @@ const Dashboard = () => {
       dispatch(addToUserRedux(ar));
     }
   }, [usersLoading]);
+
   useProductsSubscription();
   useUserSubscription();
   return (

@@ -27,7 +27,7 @@ const ProductRate = ({
       </Fragment>
 
       <span className="shadow rate center">
-        {avgRate >= 0 ? avgRate.toFixed(1) : "0"}
+        {avgRate >= 0 ? avgRate.toFixed(1) : null}
       </span>
       <span
         style={{
@@ -37,7 +37,23 @@ const ProductRate = ({
         }}
         className="shadow center relative"
       >
-        ({ratingLen >= 0 ? ratingLen : 0})
+        {ratingLen >= 0 ? (
+          ratingLen
+        ) : (
+          <span
+            style={{
+              whiteSpace: "nowrap",
+              fontSize: ".6rem",
+              color: "var(--third)",
+              fontWeight: "normal",
+            }}
+            className="center"
+          >
+            {" "}
+            no reviews{" "}
+          </span>
+        )}
+
         <RatingDetails
           pos={pos}
           arr={

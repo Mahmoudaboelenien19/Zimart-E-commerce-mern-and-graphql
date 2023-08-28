@@ -3,8 +3,6 @@ import SlideButton from "../../widgets/buttons/SlideButton";
 import AddRate from "./AddRate";
 import useAddReview from "../../../custom/useAddReview";
 import { isAuthContext } from "../../../context/isAuth";
-import { useAppDispatch } from "../../../custom/reduxTypes";
-import { addReviewRedux, updateReviewRedux } from "../../../redux/productSlice";
 import { useMutation } from "@apollo/client";
 import { update_Review } from "../../../graphql/mutations/user";
 
@@ -27,12 +25,11 @@ const AddReview = ({
   defaultVal,
   bool,
 }: Props) => {
-  const dispatch = useAppDispatch();
   const { userId, name, image } = useContext(isAuthContext);
   const [inpVal, setInpVal] = useState("");
   const obj = {
     userId,
-    image: image,
+    image,
     _id,
     rate: rateIndex + 1,
     review: inpVal,
@@ -62,12 +59,6 @@ const AddReview = ({
     const { data } = await addReviewFn();
     if (data?.addReview?.status === 200) {
       setStatus(200);
-      dispatch(
-        addReviewRedux({
-          reviewObj: { ...obj, _id: data?.addReview?._id },
-          _id,
-        })
-      );
     }
   };
 
@@ -75,7 +66,6 @@ const AddReview = ({
     const { data } = await updateReviewFn();
     if (data?.updateReview?.msg) {
       setStatus(200);
-      dispatch(updateReviewRedux(updateReviewObj));
     }
   };
   useEffect(() => {

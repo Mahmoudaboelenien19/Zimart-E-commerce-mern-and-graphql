@@ -137,6 +137,9 @@ exports.productResolver = {
                 context_js_1.pubsub.publish("Product_Updated", {
                     productUpdated: updatedProduct,
                 });
+                context_js_1.pubsub.publish("Single_Product_Updated", {
+                    singleProductUpdate: updatedProduct,
+                });
                 const notificationObj = {
                     isRead: false,
                     content: `${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct.title.split(" ").slice(0, 5).join(" ")} is updated`,
@@ -231,13 +234,12 @@ exports.productResolver = {
                     const { userId, rate, review, image, user } = input;
                     const data = yield product_js_1.default.findByIdAndUpdate(input._id, {
                         $push: { reviews: { user, userId, rate, review, image } },
-                    }, { projection: { reviews: { $slice: [-1, 1] } }, new: true });
-                    const newReview = data.reviews[0];
-                    newReview.msg = "review added";
-                    newReview.status = 200;
-                    console.log(data);
+                    }, { new: true });
                     context_js_1.pubsub.publish("Product_Updated", {
                         productUpdated: data,
+                    });
+                    context_js_1.pubsub.publish("Single_Product_Updated", {
+                        singleProductUpdate: data,
                     });
                     const notificationObj = {
                         isRead: false,
@@ -259,7 +261,7 @@ exports.productResolver = {
                     context_js_1.pubsub.publish("Notification_Created", {
                         NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
                     });
-                    return newReview;
+                    return { status: 200, msg: "review added successfully" };
                 }
                 catch (err) {
                     return err.message;
@@ -270,7 +272,7 @@ exports.productResolver = {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     const { rate, review } = input;
-                    const data = yield product_js_1.default.findOneAndUpdate({
+                    const newReview = yield product_js_1.default.findOneAndUpdate({
                         _id: input.productId,
                         "reviews.userId": input.userId,
                     }, {
@@ -278,6 +280,9 @@ exports.productResolver = {
                             "reviews.$.rate": rate,
                             "reviews.$.review": review,
                         },
+                    }, { new: true });
+                    context_js_1.pubsub.publish("Single_Product_Updated", {
+                        singleProductUpdate: newReview,
                     });
                     return { msg: "review updated successfully" };
                 }
@@ -299,6 +304,13 @@ exports.productResolver = {
             subscribe() {
                 return __awaiter(this, void 0, void 0, function* () {
                     return context_js_1.pubsub.asyncIterator("Product_Added");
+                });
+            },
+        },
+        singleProductUpdate: {
+            subscribe() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return context_js_1.pubsub.asyncIterator("Single_Product_Updated");
                 });
             },
         },

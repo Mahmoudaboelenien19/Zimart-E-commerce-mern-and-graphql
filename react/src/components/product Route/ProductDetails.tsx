@@ -177,12 +177,13 @@ const ProductDetails = ({ setShowPop }: Props) => {
                 _id,
                 title,
                 productId: _id,
-                parentId: "",
+                parentId: _id,
                 price,
                 path: images[bigImgInd]?.productPath || "",
                 count: 1,
               },
             ]}
+            disabled={stock === 0}
           />
           {!onCart ? (
             <CartBtn id={_id} key={"add-to-cart"} btn="add to cart" />

@@ -11,6 +11,7 @@ import { hashPassword } from "../../middlewares/hashPassword.js";
 import { userCollection } from "../../mongoose/schema/user.js";
 import { IdInterface } from "../interfaces/graqphInterfaces.js";
 import { pubsub } from "../context.js";
+import productCollection from "../../mongoose/schema/product.js";
 
 interface addToFavInterface {
   input: {
@@ -37,6 +38,21 @@ export const userResolver = {
     },
   },
   Upload: GraphQLUpload,
+  Review: {
+    async userData(par: { userId: string }) {
+      return (
+        (await userCollection.findById(par.userId)) || {
+          name: null,
+          image: null,
+        }
+      );
+    },
+  },
+  Cart: {
+    async product(par: { parentId: string }) {
+      return await productCollection.findById(par.parentId);
+    },
+  },
   Mutation: {
     addUser: async (_: unknown, { input }: any) => {
       const check = await userCollection.find({ email: input.email });
@@ -56,8 +72,7 @@ export const userResolver = {
           password: hashPassword(input.password),
           role: "user",
         });
-        console.log(res);
-        console.log("user");
+
         pubsub.publish("User_Added", {
           AddUser: res,
         });

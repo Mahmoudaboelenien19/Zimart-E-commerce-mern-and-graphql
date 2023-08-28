@@ -10,8 +10,8 @@ interface Props {
   productId: string;
   path: string;
   parentId: string;
-  price: number;
-  title: string;
+  // price: number;
+  // title: string;
 }
 const useAddToCart = (obj: Props) => {
   const [isPending, setIsPending] = useState(false);
@@ -41,7 +41,7 @@ const useAddToCart = (obj: Props) => {
       setIsPending(false);
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("login please !");
         setIsPending(false);
       }
     }

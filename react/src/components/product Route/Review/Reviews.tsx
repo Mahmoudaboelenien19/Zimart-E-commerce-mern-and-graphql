@@ -40,7 +40,7 @@ const Reviews = ({ setShowPop, bool }: Props) => {
           prevEl: " .btn-review  .prev-swiper",
         }}
       >
-        {reviews?.map((review, i) => {
+        {reviews?.map((review: any, i) => {
           {
             return (
               <SwiperSlide key={i} className="review">

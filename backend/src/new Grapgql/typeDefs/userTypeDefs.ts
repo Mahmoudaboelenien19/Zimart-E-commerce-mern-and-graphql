@@ -25,6 +25,7 @@ export const userTypeDefs = gql`
     price: Float
     title: String
     msg: String
+    product: Product
   }
 
   type Compare {
@@ -76,9 +77,9 @@ export const userTypeDefs = gql`
     productId: ID
     parentId: ID
     count: Int
-    title: String
+    # title: String
     path: String
-    price: Float
+    # price: Float
   }
 
   input removeFromCartInput {

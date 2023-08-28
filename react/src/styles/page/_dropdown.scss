@@ -21,50 +21,66 @@
         font-size: 1.4rem;
       }
     }
+    button {
+      box-shadow: initial;
+      position: relative;
+      z-index: 3;
+    }
     .fav-product {
       box-shadow: var(--main-shadow);
 
       width: 100%;
-      height: 80px;
-      background: var(--green);
+      height: 100px;
       display: flex;
       justify-content: center;
-      button {
-        box-shadow: initial;
+      // background: var(--wheat-lighter);
+
+      position: relative;
+      color: var(--main);
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+
+        background: var(--wheat-lighter);
       }
+
       .fav-content {
         flex-direction: column;
         width: 60%;
-        .unsave {
-          background: transparent;
-          color: var(--delete);
-          font-weight: bold;
-        }
       }
+
       .fav-title {
-        color: var(--main);
+        color: var(--third);
         white-space: nowrap;
         overflow: hidden;
         width: 90%;
         font-size: 1.1rem;
         text-align: center;
         text-overflow: ellipsis;
+        text-transform: capitalize;
       }
       .fav-price {
         color: var(--wheat);
         position: relative;
         top: 5px;
+        transform: scale(1.4);
+        margin: 5px;
       }
       .fav-img {
-        width: 70px;
-        height: 95%;
+        width: 40%;
+        height: 100%;
         overflow: hidden;
         z-index: 2;
-
+        display: flex !important;
         img {
-          width: 50px;
-          // height: 100%;
-          // object-fit: cover;
+          width: 90%;
+          height: 90%;
+          object-fit: contain;
           filter: drop-shadow(2px 6px 4px black);
         }
       }

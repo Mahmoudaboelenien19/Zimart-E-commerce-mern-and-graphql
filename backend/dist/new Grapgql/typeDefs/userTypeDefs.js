@@ -27,6 +27,7 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     price: Float
     title: String
     msg: String
+    product: Product
   }
 
   type Compare {
@@ -78,9 +79,9 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     productId: ID
     parentId: ID
     count: Int
-    title: String
+    # title: String
     path: String
-    price: Float
+    # price: Float
   }
 
   input removeFromCartInput {

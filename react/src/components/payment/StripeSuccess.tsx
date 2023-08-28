@@ -11,7 +11,7 @@ import MainPop from "../widgets/MainPop";
 const StripeSuccess = () => {
   const location = useLocation();
 
-  const orderId = location.state?.orderId || true;
+  const orderId = location.state?.orderId;
   const orderRef = useRef(orderId);
   const isSuccess = location.search.includes("?success=true");
 

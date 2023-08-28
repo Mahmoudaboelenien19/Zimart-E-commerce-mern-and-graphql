@@ -1,47 +1,73 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useAnimate } from "framer-motion";
 import { useAppDispatch } from "../../../custom/reduxTypes";
 import { changeCartCountRedux } from "../../../redux/cartSlice.js";
 import { useMutation } from "@apollo/client";
 import { Change_Cart_Count } from "../../../graphql/mutations/user";
 import { isAuthContext } from "../../../context/isAuth";
+import { toast } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 const Counter = ({
-  count: defaultCount,
+  counter,
+  setCounter,
   productId,
+
+  stock,
 }: {
   productId: string;
-  count: number;
+  counter: number;
+  setCounter: React.Dispatch<React.SetStateAction<number>>;
+  stock: number;
 }) => {
-  const [count, setCount] = useState(defaultCount);
   const handleCount = (num: number) => {
     if (num < 1) {
       return 1;
-    } else if (num >= 20) {
-      return 20;
+    } else if (num >= stock) {
+      toast(`you can't exceed ${stock} for this product`, {
+        icon: <AiFillWarning fontSize={18} color="var(--star)" />,
+      });
+      return stock;
     } else {
       return num;
     }
   };
+
   const { userId } = useContext(isAuthContext);
   const dispatch = useAppDispatch();
   const [changeCartCuntDB] = useMutation(Change_Cart_Count);
-  const handleIncrease = () => setCount((cur): number => handleCount(cur + 1));
-  const handleDecrease = () => setCount((cur): number => handleCount(cur - 1));
+  useEffect(() => {
+    if (stock < counter) {
+      setCounter(stock);
+      changeCartCuntDB({
+        variables: {
+          input: {
+            userId,
+            productId,
+            count: stock,
+          },
+        },
+      });
+    }
+  }, []);
+  const handleIncrease = () =>
+    setCounter((cur): number => handleCount(cur + 1));
+  const handleDecrease = () =>
+    setCounter((cur): number => handleCount(cur - 1));
 
   const [countRef, animateCount] = useAnimate();
   const handleIncreaseFn = () => {
     handleIncrease();
 
-    if (count != 20) {
-      dispatch(changeCartCountRedux({ count: count + 1, productId }));
+    if (counter != stock) {
+      dispatch(changeCartCountRedux({ count: counter + 1, productId }));
       animateCount("small", { y: [-40, 5, 0] }, { duration: 0.4 });
       changeCartCuntDB({
         variables: {
           input: {
             userId,
             productId,
-            count: count + 1,
+            count: counter + 1,
           },
         },
       });
@@ -50,8 +76,8 @@ const Counter = ({
 
   const handleDecreaseCount = () => {
     handleDecrease();
-    if (count != 1) {
-      dispatch(changeCartCountRedux({ count: count - 1, productId }));
+    if (counter != 1) {
+      dispatch(changeCartCountRedux({ count: counter - 1, productId }));
 
       animateCount("small", { y: [40, -5, 0] }, { duration: 0.4 });
 
@@ -60,7 +86,7 @@ const Counter = ({
           input: {
             userId,
             productId,
-            count: count - 1,
+            count: counter - 1,
           },
         },
       });
@@ -76,7 +102,7 @@ const Counter = ({
         -
       </button>
       <span className="count ">
-        <small>{count}</small>
+        <small>{counter}</small>
       </span>
 
       <button

@@ -140,6 +140,9 @@ export const productResolver = {
       pubsub.publish("Product_Updated", {
         productUpdated: updatedProduct,
       });
+      pubsub.publish("Single_Product_Updated", {
+        singleProductUpdate: updatedProduct,
+      });
 
       const notificationObj = {
         isRead: false,
@@ -261,16 +264,16 @@ export const productResolver = {
           {
             $push: { reviews: { user, userId, rate, review, image } },
           },
-          { projection: { reviews: { $slice: [-1, 1] } }, new: true }
+          { new: true }
         );
-        const newReview = data!.reviews[0];
-        newReview.msg = "review added";
-        newReview.status = 200;
-        console.log(data);
+
         pubsub.publish("Product_Updated", {
           productUpdated: data,
         });
 
+        pubsub.publish("Single_Product_Updated", {
+          singleProductUpdate: data,
+        });
         const notificationObj = {
           isRead: false,
           content: `${user} added a review on ${data?.title
@@ -301,7 +304,7 @@ export const productResolver = {
           NotificationAdded: newNotification?.notifications[0],
         });
 
-        return newReview;
+        return { status: 200, msg: "review added successfully" };
       } catch (err) {
         return (err as Error).message;
       }
@@ -309,7 +312,7 @@ export const productResolver = {
     async updateReview(_: any, { input }: any) {
       try {
         const { rate, review } = input;
-        const data = await productCollection.findOneAndUpdate(
+        const newReview = await productCollection.findOneAndUpdate(
           {
             _id: input.productId,
             "reviews.userId": input.userId,
@@ -319,8 +322,12 @@ export const productResolver = {
               "reviews.$.rate": rate,
               "reviews.$.review": review,
             },
-          }
+          },
+          { new: true }
         );
+        pubsub.publish("Single_Product_Updated", {
+          singleProductUpdate: newReview,
+        });
         return { msg: "review updated successfully" };
       } catch (err) {
         return (err as Error).message;
@@ -336,6 +343,11 @@ export const productResolver = {
     productAdded: {
       async subscribe() {
         return pubsub.asyncIterator("Product_Added");
+      },
+    },
+    singleProductUpdate: {
+      async subscribe() {
+        return pubsub.asyncIterator("Single_Product_Updated");
       },
     },
   },

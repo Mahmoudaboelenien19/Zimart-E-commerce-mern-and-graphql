@@ -25,31 +25,6 @@ export const opacityVariant = {
   exit: { opacity: 0 },
 };
 
-// interface popInterface {
-//   dir: string;
-//   height?: number;
-// }
-// export const popVariant = {
-//   start: ({ dir, height }: popInterface) => ({
-//     y: dir === "bottom" ? height : -500,
-//   }),
-//   end: { y: 0, transition: { duration: 0.5, delay: 0.4 } },
-//   exit: ({ dir, height }: popInterface) => ({
-//     y: dir === "bottom" ? height : -500,
-//     transition: { duration: 0.5 },
-//   }),
-// };
-
-export const reviewCounter = {
-  start: { opacity: 0, y: -5 },
-  end: { opacity: 1, y: 0 },
-  exit: ({ rate, count }: { count: number; rate: number }) => ({
-    y: 5,
-    opacity: 0,
-    transition: { duration: count === rate - 1 ? 0.4 : 0.1 },
-  }),
-};
-
 export const selectDropDownVariants = {
   start: { opacity: 0 },
   end: {

@@ -10,7 +10,7 @@ import MainBtn from "./MainBtn";
 const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
   const { userId } = useContext(isAuthContext);
 
-  const { images, bigImgInd, price, title } = useContext(productContext);
+  const { images, bigImgInd } = useContext(productContext);
 
   const [productId, path] = usePathAndId(images, bigImgInd);
   const addToCartObj = {
@@ -18,8 +18,6 @@ const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
     productId,
     parentId: id,
     path,
-    price,
-    title,
   };
   const { handleAddToCart, isPending } = useAddToCart(addToCartObj);
   const { handleRemoveFromCart, isPending: isPendingRemove } =

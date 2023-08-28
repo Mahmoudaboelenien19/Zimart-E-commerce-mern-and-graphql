@@ -5,6 +5,8 @@ import { BiPurchaseTagAlt } from "react-icons/bi";
 import { Navigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { get_Stripe_Secret } from "../../graphql/stripe.js";
+import { toast } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 interface Props {
   products: {
@@ -16,8 +18,9 @@ interface Props {
     price: number;
     title: string;
   }[];
+  disabled?: boolean;
 }
-const BuyBtn = ({ products }: Props) => {
+const BuyBtn = ({ products, disabled = false }: Props) => {
   const [clientSecret, setClientSecret] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [fn] = useMutation(get_Stripe_Secret, {
@@ -26,12 +29,27 @@ const BuyBtn = ({ products }: Props) => {
     },
   });
   const getSecretKey = async () => {
-    setIsClicked(true);
-    const { data } = (await fn()) as unknown as {
-      data: { getKey: { clientSecret: string } };
-    };
-    if (data?.getKey?.clientSecret) {
-      setClientSecret(data?.getKey?.clientSecret);
+    try {
+      if (!disabled) {
+        setIsClicked(true);
+        const { data } = (await fn()) as unknown as {
+          data: { getKey: { clientSecret: string } };
+        };
+        if (data?.getKey?.clientSecret) {
+          setClientSecret(data?.getKey?.clientSecret);
+          setIsClicked(false);
+        }
+      } else {
+        toast("this product is out of stock", {
+          icon: <AiFillWarning fontSize={18} color="var(--star)" />,
+        });
+        setIsClicked(false);
+      }
+    } catch (err: unknown) {
+      if ((err as Error).message === "Not Authorised!") {
+        toast.error("log in to buy this product");
+        setIsClicked(false);
+      }
     }
   };
   return (
@@ -41,6 +59,7 @@ const BuyBtn = ({ products }: Props) => {
         fn={getSecretKey}
         Icon={BiPurchaseTagAlt}
         btn="Buy Now"
+        disabled={disabled}
         isPending={Boolean(clientSecret) || isClicked}
       />
       {clientSecret && (

@@ -1,5 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { useAppSelector } from "../../../custom/reduxTypes";
+import React, { useContext, useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import TotalPrice from "./TotalPrice";
 import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
@@ -11,6 +10,10 @@ import { cartInterface } from "../../../interfaces/user";
 import { Navigate } from "react-router-dom";
 import { isAuthContext } from "../../../context/isAuth";
 import FadeElement from "../../widgets/animation/FadeElement";
+import { useMutation } from "@apollo/client";
+import { GET_USER_DATA } from "../../../graphql/mutations/user";
+import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
+import { addToCartRedux, clearCart } from "../../../redux/cartSlice";
 
 const offerArr = [
   { offer: "Spend $800 or more and get free shipping!", money: 800 },
@@ -18,24 +21,62 @@ const offerArr = [
 ];
 
 const Cart = () => {
-  const { cart } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const { userId, isAuth } = useContext(isAuthContext);
+  const { setGridView } = useContext(viewContext);
+
+  const [fn, { data }] = useMutation(GET_USER_DATA, {
+    variables: {
+      id: userId,
+    },
+  });
+  const [loading, setLoading] = useState(true);
+  const { cart } = useAppSelector((st) => st.cart);
 
   const [subTotal, setSubTotal] = useState(0);
+
+  /*
+   * i clear then add to cart to get the latest data
+   */
+
   useEffect(() => {
+    if (userId) {
+      fn();
+    }
+  }, [userId]);
+  useEffect(() => {
+    sessionStorage.setItem("cart-length", JSON.stringify(cart.length));
     document.title = "Cart";
+    setGridView(true);
   }, []);
+  useEffect(() => {
+    if (data?.getUserData?.cart) {
+      dispatch(clearCart());
+      setLoading(false);
+      dispatch(addToCartRedux(data?.getUserData?.cart));
+      sessionStorage.removeItem("cart-length");
+    }
+  }, [data?.getUserData?.cart]);
+
+  useEffect(() => {
+    if (userId) {
+      fn({
+        variables: {
+          id: userId,
+        },
+      });
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (Array.isArray(cart)) {
-      setSubTotal(cart.reduce((acc, cur) => acc + cur.price * cur.count, 0));
+      setSubTotal(
+        cart
+          .filter((e) => e?.product?.stock > 0)
+          .reduce((acc, cur) => acc + cur?.product?.price * cur.count, 0)
+      );
     }
   }, [cart]);
-
-  const { setGridView } = useContext(viewContext);
-  const { isAuth } = useContext(isAuthContext);
-  useEffect(() => {
-    setGridView(true);
-  }, []);
 
   if (!isAuth) {
     return <Navigate to={"/login"} />;
@@ -67,19 +108,20 @@ const Cart = () => {
             message="No products at your cart"
             // cls={"h-50-w-65  center"}
             cls={"cart-nodata center"}
+            loading={loading}
           >
             <div className="carts-par center col">
               {cart.map((item: cartInterface) => {
-                return (
-                  <Fragment key={item._id}>
-                    <CartItem {...item} />
-                  </Fragment>
-                );
+                return <CartItem key={item._id + item.path} {...item} />;
               })}
             </div>
           </NoData>
-          {cart.length >= 1 && (
-            <TotalPrice subTotal={subTotal} key={"TotalPrice"} />
+          {cart?.length >= 1 && !loading && (
+            <TotalPrice
+              subTotal={subTotal}
+              key={"TotalPrice"}
+              cart={cart || []}
+            />
           )}
         </div>
       </FadeElement>

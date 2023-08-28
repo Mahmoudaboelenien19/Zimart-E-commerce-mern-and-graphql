@@ -67,11 +67,11 @@ const OrderTable = () => {
             </tr>
           </thead>
           <tbody style={{ overflow: "hidden" }}>
-            <AnimatePresence mode="wait">
+            <>
               {dataShown.map((order: OrderInterface, i: number) => {
                 return <Order key={order._id} index={i} {...order} />;
               })}
-            </AnimatePresence>
+            </>
           </tbody>
         </table>
       </FadeElement>

@@ -16,8 +16,15 @@ const OrderDetails = () => {
   const { data } = useQuery(GET_ORDER, { variables: { id } });
 
   if (data?.order) {
-    const { productId, cost, userId, state, createdAt, deliveredAt } =
-      data.order;
+    const {
+      productId,
+      cost,
+      userId,
+      state,
+      createdAt,
+      deliveredAt,
+      user: { email, name },
+    } = data.order;
     return (
       <DashMain>
         <Animation>
@@ -48,7 +55,13 @@ const OrderDetails = () => {
                 })}
               </tbody>
             </motion.table>
-            <Customer state={state} userId={userId} cost={cost} />
+            <Customer
+              state={state}
+              userId={userId}
+              cost={cost}
+              email={email}
+              name={name}
+            />
             <OrderSummery
               created={createdAt}
               delivered={deliveredAt}

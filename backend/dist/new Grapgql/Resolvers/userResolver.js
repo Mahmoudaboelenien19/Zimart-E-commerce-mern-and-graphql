@@ -21,6 +21,7 @@ const authenticate_js_1 = require("../../middlewares/authenticate.js");
 const hashPassword_js_1 = require("../../middlewares/hashPassword.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
 const context_js_1 = require("../context.js");
+const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
 exports.userResolver = {
     Query: {
         users() {
@@ -30,6 +31,23 @@ exports.userResolver = {
         },
     },
     Upload: graphql_upload_1.default,
+    Review: {
+        userData(par) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return ((yield user_js_1.userCollection.findById(par.userId)) || {
+                    name: null,
+                    image: null,
+                });
+            });
+        },
+    },
+    Cart: {
+        product(par) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield product_js_1.default.findById(par.parentId);
+            });
+        },
+    },
     Mutation: {
         addUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             const check = yield user_js_1.userCollection.find({ email: input.email });
@@ -43,8 +61,6 @@ exports.userResolver = {
             else {
                 const res = yield user_js_1.userCollection.create(Object.assign(Object.assign({}, input), { createdAt: new Date().toISOString(), image: input.image ||
                         "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png", password: (0, hashPassword_js_1.hashPassword)(input.password), role: "user" }));
-                console.log(res);
-                console.log("user");
                 context_js_1.pubsub.publish("User_Added", {
                     AddUser: res,
                 });

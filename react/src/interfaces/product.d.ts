@@ -8,6 +8,10 @@ export interface reviewInterface {
   _id: string;
   rate: number;
   userId?: string;
+  userData?: {
+    name: string;
+    image: string;
+  };
 }
 
 export interface ProductInterface {

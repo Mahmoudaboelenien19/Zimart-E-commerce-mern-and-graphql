@@ -3,13 +3,14 @@ import ProductImages from "./images/images";
 import ProductDetails from "./ProductDetails";
 import Reviews from "./Review/Reviews";
 import { ProductInterface, reviewInterface } from "../../interfaces/product";
-import { AnimatePresence } from "framer-motion";
 import { useParams } from "react-router-dom";
 import Animation from "../widgets/animation/Animation";
-import { useAppSelector } from "../../custom/reduxTypes";
 
 import GridLoader from "../widgets/loaders/GridLoader";
 import SLiderComponent from "../widgets/SLider";
+import { GET_Product_By_Id } from "../../graphql/general";
+import { OnDataOptions, useQuery, useSubscription } from "@apollo/client";
+import { Single_Updated_Product_Subscription } from "../../graphql/mutations/product";
 
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
@@ -19,31 +20,35 @@ export interface productContextInterface extends ProductInterface {
 export const productContext = createContext({} as productContextInterface);
 
 const Product = () => {
+  const [productData, setProductData] = useState({} as ProductInterface);
   const { id } = useParams();
   const [bigImgInd, setBigImgInd] = useState(0);
-
-  const [singleProduct, setSingleProduct] = useState<ProductInterface>(
-    {} as ProductInterface
-  );
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
-
+  const { data } = useQuery(GET_Product_By_Id, {
+    variables: {
+      id,
+    },
+  });
+  useSubscription(Single_Updated_Product_Subscription, {
+    onData: (
+      data: OnDataOptions<{ singleProductUpdate: ProductInterface }>
+    ) => {
+      setProductData(data?.data?.data?.singleProductUpdate as ProductInterface);
+    },
+    variables: {
+      id,
+    },
+  });
   useEffect(() => {
-    if (singleProduct._id) {
-      document.title = singleProduct.title;
+    if (data?.product?._id) {
+      document.title = data?.product?._id;
+
+      setProductData(data?.product);
     }
-  }, [singleProduct._id]);
-  useEffect(() => {
-    if (Allproducts?.length >= 1) {
-      const pro = Allproducts.find(
-        (product: ProductInterface) => product._id === id
-      );
-      setSingleProduct(pro as ProductInterface);
-    }
-  }, [Allproducts]);
+  }, [data?.product]);
 
   const [showPop, setShowPop] = useState(false);
 
-  if (singleProduct?._id !== "") {
+  if (productData?._id) {
     const {
       images,
       _id,
@@ -56,11 +61,11 @@ const Product = () => {
       rating,
       reviews,
       createdAt,
-    } = singleProduct;
+    } = productData;
 
     return (
       <Animation>
-        {singleProduct && (
+        {data?.product && (
           <productContext.Provider
             value={{
               setBigImgInd,

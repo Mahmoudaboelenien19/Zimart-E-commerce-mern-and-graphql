@@ -14,7 +14,6 @@ export const GET_ALL_ORDERS = gql`
         price
       }
       userId
-
       createdAt
       deliveredAt
     }
@@ -34,10 +33,14 @@ export const GET_ORDER = gql`
         title
         price
       }
-      userId
 
+      userId
       createdAt
       deliveredAt
+      user {
+        name
+        email
+      }
     }
   }
 `;

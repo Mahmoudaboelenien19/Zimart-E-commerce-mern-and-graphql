@@ -35,6 +35,15 @@
       filter: drop-shadow(var(--forth-shadow));
     }
   }
+  &.unsave {
+    background: transparent;
+    color: var(--delete);
+    font-weight: bold;
+  }
+  &.list-cart-btn {
+    height: 3rem;
+    width: 100% !important;
+  }
   &.about {
     border: var(--third) solid 1.5px;
     color: var(--third) !important;
@@ -50,18 +59,19 @@
       border: 1.5px solid var(--green);
     }
   }
+
   &.main-outline {
     transition: 0.3s;
-    border: 1.5px solid var(--green);
+    border: 1.5px solid var(--nav-btn);
     &:hover {
-      background: var(--green);
+      background: var(--nav-btn);
       color: white !important;
     }
   }
   &.cancel-outline {
     transition: 0.3s;
     border: 1.5px solid var(--third);
-    color: grey !important;
+    color: var(--third) !important;
     &:hover {
       background: var(--third);
       color: var(--main) !important;
@@ -184,7 +194,7 @@
     background-color: var(--wheat-lighter);
     background-color: gray;
     color: var(--third);
-    border-radius: 5px;
+    // border-radius: 5px;
     position: relative;
     z-index: 2;
     .pop-par {
@@ -211,8 +221,6 @@
       background-color: var(--secondary);
       margin-top: 20px;
     }
-
-    border-radius: 5px;
   }
   .skewed {
     overflow: hidden;
@@ -222,7 +230,7 @@
     width: 100%;
     height: 100%;
     background-color: var(--main);
-    border-radius: 5px;
+    // border-radius: 5px;
 
     z-index: -1;
     h3,

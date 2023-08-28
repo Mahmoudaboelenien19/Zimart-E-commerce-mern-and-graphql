@@ -16,14 +16,15 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
   }
 
   type Review {
-    image: String
-    user: String
     review: String
     rate: Int
     status: Int
     msg: String
+    user: String
+    image: String
     userId: ID
     _id: ID
+    userData: User
   }
 
   type Product {
@@ -106,6 +107,7 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
 
   type Subscription {
     productUpdated: Product
+    singleProductUpdate(id: ID): Product
     productAdded: Product
   }
 `;

@@ -43,26 +43,30 @@ const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
   }
 
   return (
-    <div className=" center gap">
-      <IoIosArrowDown
-        fontSize={15}
-        onClick={() => setShow(!show)}
-        color="var(--green)"
-      />
-      <AnimatePresence>
-        {show && (
-          <motion.div
-            ref={ref}
-            variants={parentVariant}
-            style={{ [pos]: "140%" }}
-            key={pos}
-            id="star-details"
-          >
-            {stars}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <>
+      {arr.length >= 1 && (
+        <div className=" center gap">
+          <IoIosArrowDown
+            fontSize={15}
+            onClick={() => setShow(!show)}
+            color="var(--green)"
+          />
+          <AnimatePresence>
+            {show && (
+              <motion.div
+                ref={ref}
+                variants={parentVariant}
+                style={{ [pos]: "140%" }}
+                key={pos}
+                id="star-details"
+              >
+                {stars}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
+    </>
   );
 };
 

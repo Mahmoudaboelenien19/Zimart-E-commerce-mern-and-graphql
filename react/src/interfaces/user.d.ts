@@ -1,10 +1,13 @@
 export interface favInterface {
-  title: string;
-  price: number;
   productId: string;
   path: string;
   _id: string;
   parentId?: string;
+  product: {
+    stock: number;
+    title: string;
+    price: number;
+  };
 }
 export interface compareInterface {
   productId: string;

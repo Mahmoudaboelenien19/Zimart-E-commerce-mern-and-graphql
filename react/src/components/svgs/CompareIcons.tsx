@@ -41,7 +41,7 @@ const CompareIcons = ({ id, title }: Props) => {
       toast.success(data?.addToCompare?.msg);
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("login please !");
       }
     }
   };

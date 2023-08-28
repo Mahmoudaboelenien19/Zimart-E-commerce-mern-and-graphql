@@ -19,10 +19,12 @@ import CompareIcons from "../../../svgs/CompareIcons";
 import StyledPrice from "../../../widgets/StyledPrice";
 interface Props extends ProductInterface {
   isDash?: boolean;
+  isSLide?: boolean;
   index: number;
 }
 
 const ProductFliter = ({
+  isSLide,
   isDash,
   category,
   _id,
@@ -76,22 +78,21 @@ const ProductFliter = ({
               sectionWidth <= 400 && !gridView && showFilter
                 ? 200
                 : !gridView
-                ? 240
-                : 300,
+                ? 280
+                : 350,
           }}
           transition={{ duration: 0.1, type: "tween" }}
         >
-          <div className={` img-par center ${gridView ? "grid" : "list"}`}>
-            <LazyLoadImage
-              effect="blur"
-              src={images[0].productPath}
-              alt={title}
-            />
-          </div>
+          <LazyLoadImage
+            effect="blur"
+            src={images[0].productPath}
+            alt={title}
+            wrapperClassName={` img-par center ${gridView ? "grid" : "list"}`}
+          />
 
           <div className="center col product-data">
             <h5 className="product-head-underline" style={{ marginBottom: 12 }}>
-              {productSearchWord && !isDash
+              {productSearchWord && !isDash && !isSLide
                 ? category
                     .split(new RegExp(`(${productSearchWord})`, "gi"))
                     .map((part, index) => {
@@ -109,9 +110,11 @@ const ProductFliter = ({
                     })
                 : category}
             </h5>
+            <StyledPrice price={price} />
+
             <span className="title-product">
               {" "}
-              {productSearchWord && !isDash
+              {productSearchWord && !isDash && !isSLide
                 ? title
                     .split(new RegExp(`(${productSearchWord})`, "gi"))
                     .map((part, index) => {
@@ -129,15 +132,14 @@ const ProductFliter = ({
                     })
                 : title}
             </span>
-            {isDash && (
-              <span className=" center stock-par shadow">
-                <span className="stock-icon ">
-                  <AiOutlineCheck className=" icon" />
-                </span>
-                <span className="stock "> {stock}</span>{" "}
-                <span className="stock-card">in stock</span>
+
+            <span className=" center stock-par shadow">
+              <span className="stock-icon ">
+                <AiOutlineCheck className=" icon" />
               </span>
-            )}
+              <span className="stock "> {stock}</span>{" "}
+              <span className="stock-card">in stock</span>
+            </span>
 
             <AnimatePresence mode="wait">
               {!gridView && sectionWidth >= 400 && (
@@ -163,8 +165,6 @@ const ProductFliter = ({
                 </motion.p>
               )}
             </AnimatePresence>
-            <StyledPrice price={price} />
-            <span> </span>
 
             <div className="product-rate-filter center ">
               <ProductRate

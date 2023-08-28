@@ -58,12 +58,7 @@ const WishList = ({ showFav, setter }: Props) => {
             style={{ justifyContent: "flex-end", padding: "0 5px" }}
           >
             <button
-              className=" btn"
-              style={{
-                background: "transparent",
-                color: "var(--delete)",
-                fontSize: ".7rem",
-              }}
+              className=" btn unsave "
               onClick={() => {
                 setShowClearFav(true);
                 setStatus(0);
@@ -76,9 +71,9 @@ const WishList = ({ showFav, setter }: Props) => {
             {fav.length >= 1 ? (
               <FadeElement key={"fav-parent"} cls="center col">
                 <AnimatePresence>
-                  {fav.map((arr) => {
+                  {fav.map((ob) => {
                     return (
-                      <Favorite key={arr.productId} {...arr} setter={setter} />
+                      <Favorite key={ob.productId} {...ob} setter={setter} />
                     );
                   })}
                 </AnimatePresence>

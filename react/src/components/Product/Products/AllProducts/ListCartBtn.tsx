@@ -47,8 +47,6 @@ const ListCartBtn = ({
     userId,
     productId: (images as imagesInterface[])[0]._id,
     path: (images as imagesInterface[])[0].productPath,
-    price,
-    title,
     parentId,
   };
   const { handleAddToCart, isPending } = useAddToCart(addToCartObj);
@@ -61,7 +59,10 @@ const ListCartBtn = ({
   return (
     <MainBtn
       isPending={isPending || isPendingRemove}
-      cls={`btn center gap ${btn === "add to cart" ? "main" : "remove"}`}
+      parCls="w-100 center"
+      cls={`  btn center gap list-cart-btn ${
+        btn === "add to cart" ? "main" : "remove"
+      }`}
       btn={btn}
       fn={btn === "add to cart" ? handleAddToCart : handleRemoveFromCart}
       Icon={btn === "add to cart" ? BsFillCartPlusFill : BsFillCartXFill}

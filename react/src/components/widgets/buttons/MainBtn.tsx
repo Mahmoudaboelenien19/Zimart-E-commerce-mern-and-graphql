@@ -12,6 +12,7 @@ interface Props {
   parCls?: string;
   type?: "submit" | "button" | "reset";
   isPending?: boolean;
+  disabled?: boolean;
 }
 const MainBtn = ({
   type = "button",
@@ -23,18 +24,21 @@ const MainBtn = ({
   Icon,
   title,
   isPending = false,
+  disabled = false,
 }: Props) => {
   return (
     <Title title={title ? title : ""} cls={parCls}>
       <motion.button
         key={"apply-btn"}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: isPending || disabled ? 0.7 : 1 }}
         transition={{ duration: 0.4 }}
         disabled={isPending}
         className={`center ${cls}`}
         onClick={fn}
-        style={{ color: "var(--white)", opacity: isPending ? 0.5 : 1 }}
+        style={{
+          color: "var(--white)",
+        }}
         type={type}
       >
         <>

@@ -14,6 +14,7 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
     price: Float
     title: String
     count: Int
+    product: Product
   }
 
   type Order {
@@ -26,6 +27,7 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
     cost: Float!
     createdAt: Date
     deliveredAt: Date
+    user: User
   }
 
   type Query {

@@ -9,14 +9,16 @@ const useDeleteOrder = (arr: string[]) => {
   const [deleteOrder] = useMutation(Remove_Order);
   const handleDeleteOrder = async () => {
     try {
-      const res = deleteOrder({
+      const res = await deleteOrder({
         variables: { _id: arr },
       });
-      dispatch(removeFromOrderRedux(arr));
-      toast.success((await res).data.deleteOrder.msg);
+      if (res?.data?.deleteOrder?.msg) {
+        dispatch(removeFromOrderRedux(arr));
+        toast.success(res.data.deleteOrder.msg);
+      }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("lyou aren't an admin");
       }
     }
   };

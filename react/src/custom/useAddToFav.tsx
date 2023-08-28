@@ -29,7 +29,7 @@ const useAddToFav = (obj: Props) => {
       }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        toast.error((err as Error).message);
+        toast.error("login please !");
       }
     }
   };

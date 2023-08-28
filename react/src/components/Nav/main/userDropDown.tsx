@@ -27,7 +27,7 @@ const UserDropDown = ({ bool, setter }: Props) => {
     {
       link: "logout",
       icon: RiLogoutCircleRFill,
-      to: "/login",
+      to: "",
       fn: handleLogOut,
     },
   ];

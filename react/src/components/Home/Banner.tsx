@@ -16,7 +16,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import useIsMobile from "../../custom/useIsMobile";
 
-const arrClrs = ["var(--gmail)", "var(--delete)", "var(--fb)", "var(--green)"];
+const arrClrs = ["var(--green)", "var(--gmail)", "var(--delete)", "var(--fb)"];
 
 const Banner = () => {
   const [showArrow, setShowArrow] = useState(false);
@@ -49,6 +49,11 @@ const Banner = () => {
   const handleGetAllProducts = () => {
     setProducts(Allproducts);
   };
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--nav-btn", `${arrClrs[ind]}`);
+    sessionStorage.setItem("banner-index", `${ind}`);
+  }, [ind]);
 
   const bannerArr = [
     {
@@ -108,7 +113,11 @@ const Banner = () => {
   };
   return (
     <>
-      <Swiper className="banner-par " {...options}>
+      <Swiper
+        className="banner-par "
+        {...options}
+        initialSlide={Number(sessionStorage.getItem("banner-index")) || 0}
+      >
         <FadeElement cls="" delay={0.6}>
           <div className="custom-shape-divider-top-1691782077">
             <svg

@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userDataInterface } from "./UserInfo";
 import { toast } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 interface Props {
   value: string;
   detail: string;
@@ -31,7 +32,7 @@ const Detail = ({
   setUpdateUserData,
   userdata,
 }: Props) => {
-  const { userId } = useContext(isAuthContext);
+  const { userId, isAdmin } = useContext(isAuthContext);
   const [UpdatedCountry, setUpdatedCountry] = useState("");
   const [Status, setStatus] = useState<number>(0);
 
@@ -161,8 +162,14 @@ const Detail = ({
             btn="update"
             cls="btn update-user center gap"
             fn={() => {
-              setter(true);
-              setStatus(0);
+              if (!isAdmin) {
+                setter(true);
+                setStatus(0);
+              } else {
+                toast("admins can't change their data ", {
+                  icon: <AiFillWarning fontSize={18} color="var(--star)" />,
+                });
+              }
             }}
             Icon={GrUpdate}
           />
