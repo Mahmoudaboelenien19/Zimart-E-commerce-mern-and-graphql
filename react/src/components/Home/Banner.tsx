@@ -114,7 +114,7 @@ const Banner = () => {
   return (
     <>
       <Swiper
-        className="banner-par "
+        className="banner-par container "
         {...options}
         initialSlide={Number(sessionStorage.getItem("banner-index")) || 0}
       >
@@ -143,13 +143,12 @@ const Banner = () => {
                   key={ob.header}
                   isShown={index === ind && showArrow}
                 />
-                <div className="banner-image  ">
-                  <LazyLoadImage
-                    src={ob.image}
-                    alt={`banner proile`}
-                    effect="blur"
-                  />
-                </div>
+                <LazyLoadImage
+                  src={ob.image}
+                  alt={`banner proile`}
+                  wrapperClassName="banner-image"
+                  effect="blur"
+                />
               </div>
             </SwiperSlide>
           );

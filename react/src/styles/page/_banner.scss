@@ -1,35 +1,35 @@
 @import "../variables.scss";
 
 .banner-par {
-  width: 100vw;
-  max-height: calc(100vh);
+  height: calc(100vh - 60px);
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 60px;
   display: flex !important;
   align-items: flex-start;
   overflow-y: hidden;
 
   .banner {
-    width: 100%;
-    max-width: 1100px;
-    height: calc(100vh - 40px);
+    width: 98%;
+    height: 100%;
     margin: 0 auto;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 0 3vw;
+
     .banner-image {
       width: 40%;
       display: flex !important;
       justify-content: flex-end !important;
-      align-items: flex-start !important;
-      align-self: flex-end;
+      align-items: flex-end !important;
       height: 100%;
       position: relative;
       padding-top: 20px;
+      align-self: flex-end !important;
 
       img {
         width: clamp(200px, 40vw, 400px);
+        height: 100%;
+        object-fit: contain;
       }
     }
   }
@@ -54,19 +54,19 @@
   }
   h1 {
     width: 100%;
-    font-size: 3.6vw;
+    font-size: 4vw;
     letter-spacing: 0.25vw;
 
     color: var(--green);
     font-weight: 600;
     text-transform: capitalize;
 
-    line-height: 3.6vw;
+    line-height: 4vw;
   }
   p {
     color: var(--third);
 
-    font-size: 1rem;
+    font-size: 1.2rem;
     width: 100%;
     text-transform: lowercase;
     text-align: initial;
@@ -115,35 +115,29 @@
 
 @media (max-width: 499px) {
   .banner-par {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    overflow: hidden;
-    height: 100vh;
     .banner {
       gap: 6vh;
-      width: 100%;
+
       max-width: initial;
       flex-direction: column;
       justify-content: center !important;
       align-items: center !important;
       margin: 0 auto;
-      margin-top: 70px;
-      padding: 0;
+      margin-top: 20px;
 
       .banner-image {
-        // display: none !important;
         width: 100%;
         height: 45vh;
         justify-content: center !important;
+        align-items: flex-end !important;
 
         img {
-          // height: 75%;
           object-fit: contain;
+          width: 60vw;
         }
       }
       .banner-content {
-        width: 90%;
+        width: 100%;
         align-self: initial;
         margin: 0 auto;
         padding: 0;
@@ -151,13 +145,9 @@
         h1 {
           font-size: 9vw;
           letter-spacing: 0.3vw;
-          line-height: 9vw;
+          line-height: 12vw;
         }
-        p {
-          letter-spacing: 0.4px;
 
-          font-size: 1.15rem;
-        }
         .product-links {
           flex-direction: column;
           width: 100%;

@@ -10,6 +10,7 @@ footer {
   overflow: hidden;
   text-shadow: var(--forth-shadow);
   justify-content: space-between;
+
   & > * {
     opacity: 0;
   }
@@ -17,7 +18,7 @@ footer {
     padding: 15px 0;
     font-weight: 700;
     width: 95%;
-    max-width: 950px;
+    // max-width: 950px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -73,8 +74,8 @@ footer {
   }
   .icon-parent {
     display: inline-flex;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     justify-content: center;
     align-items: center;
     background: var(--main);
@@ -102,7 +103,7 @@ footer {
 }
 
 .footer-head {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--third);
   text-transform: capitalize;
   letter-spacing: 0.8px;

@@ -116,8 +116,8 @@ const Search = () => {
   const seachVariant = {
     hide: {
       borderRadius: "50%",
-      height: 30,
-      width: 30,
+      height: 40,
+      width: 40,
       transition: { duration: 0.2 },
     },
     show: {
@@ -178,7 +178,6 @@ const Search = () => {
             placeholder="Search By Title or category"
             type="text"
             onChange={handleInputChange}
-            // variants={isMobile ? mobileSeachVariant : {}}
             animate={{ display: showSearch ? "block" : "none" }}
             transition={{ delay: isMobile ? 0.3 : 0 }}
           />

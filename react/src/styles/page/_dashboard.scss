@@ -79,12 +79,22 @@ form.update-product-form {
   margin: 0 auto;
   padding: 30px;
   gap: 30px;
+  .inp-parent {
+    height: 40px;
+    &.textarea-par {
+      height: auto;
+    }
+  }
+  button {
+    height: 40px;
+  }
   input {
     padding-right: 20px;
     box-shadow: var(--secondary-shadow);
     background-color: var(--main);
     border-radius: 4px;
     color: var(--third);
+    height: 100%;
   }
 }
 
@@ -205,28 +215,56 @@ a.crumb-link {
   gap: 10px;
   display: flex;
   flex-wrap: wrap;
-  &.reverse .chart-par {
-    &:nth-child(2) {
-      order: 0;
-      width: 100%;
+  .first-col {
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+    .chart-par {
+      order: 2;
     }
-    &:nth-child(1) {
-      order: 1;
+    &.reverse .chart-par {
+      &:nth-child(2) {
+        order: 1;
+        width: 100%;
+      }
+      &:nth-child(1) {
+        flex-grow: 2;
+      }
     }
   }
+  .order-recap-par {
+    padding: 5px;
+    width: 98%;
+    height: 100%;
+    .order-recap {
+      width: 100%;
+      color: var(--white);
+      padding: 5px;
+      background-color: var(--green);
+      margin: 0 auto;
+      height: 50px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      .order-recap-data {
+        width: 90% !important;
+        display: flex;
+        text-transform: capitalize;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+    }
+  }
+
   .chart-par {
     background: var(--secondary);
     padding: 20px 5px;
-    width: 100%;
+
     border-radius: 2px;
     box-shadow: var(--main-shadow);
     height: 350px;
     flex-grow: 1;
-    width: 350px;
-    &:nth-child(1) {
-      flex-grow: 2;
-      flex-basis: 500px;
-    }
+    width: clamp(300px, 100%, 350px);
+    order: 4;
 
     & > div {
       display: flex;
@@ -236,30 +274,10 @@ a.crumb-link {
       height: 80%;
     }
     &:nth-child(2) {
-      min-width: 300px;
+      width: clamp(300px, 100%, 450px);
+      flex-basis: 450px;
     }
-    .order-recap-par {
-      padding: 5px;
-      width: 98%;
-      height: 100%;
-      .order-recap {
-        width: 100%;
-        color: var(--white);
-        padding: 5px;
-        background-color: var(--green);
-        margin: 0 auto;
-        height: 50px;
-        font-size: 0.9rem;
-        border-radius: 5px;
-        .order-recap-data {
-          width: 90% !important;
-          display: flex;
-          text-transform: capitalize;
-          justify-content: flex-start;
-          align-items: flex-start;
-        }
-      }
-    }
+
     h3 {
       color: var(--third);
       font-size: 1.4rem;
@@ -302,8 +320,8 @@ div.dash-nav {
 }
 
 .notification-par {
-  height: 300px;
-  width: 250px;
+  height: 350px;
+  width: 350px;
   top: 25px;
   background: var(--main);
   padding: 5px;

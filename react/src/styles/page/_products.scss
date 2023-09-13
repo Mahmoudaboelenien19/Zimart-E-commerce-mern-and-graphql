@@ -10,8 +10,9 @@
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   flex-direction: column;
+
   h1 {
     margin-bottom: 0;
   }
@@ -114,13 +115,11 @@ aside {
   margin: 0 auto;
   min-height: 100vh;
   margin-bottom: 12px;
-
   &.list {
     display: flex;
     flex-direction: column;
     .list-cart-btn {
       width: 200px !important;
-      margin-bottom: 5px;
     }
     .product-data {
       width: 70%;
@@ -133,7 +132,8 @@ aside {
   &.grid {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 5px;
     .product-data {
       width: 100%;
     }
@@ -172,9 +172,7 @@ svg.svg-star {
   position: absolute;
   top: 10px;
   left: 0;
-  width: fit-content;
-  height: 25px;
-  padding: 0 10px;
+  padding: 10px;
   color: white;
   border-end-end-radius: 4px;
   letter-spacing: 0.8px;
@@ -197,8 +195,8 @@ svg.svg-star {
   }
   cursor: pointer;
   .page {
-    width: 14px;
-    height: 14px;
+    width: 1.5rem;
+    height: 1.5rem;
     background: var(--green);
     border: 0;
     outline: 0;
@@ -220,7 +218,7 @@ svg.svg-star {
 .product-List {
   font-size: clamp(12px, 1rem, 1rem);
   position: relative;
-  margin: 0 1px;
+
   background: var(--secondary);
   box-shadow: var(--main-shadow);
   gap: 1px;
@@ -348,7 +346,7 @@ svg.svg-star {
 
 .products-animation-par {
   width: 100vw;
-  height: 25vw;
+  height: 22vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,7 +356,7 @@ svg.svg-star {
 }
 
 .products-animate-slide {
-  max-height: 22vw;
+  max-height: 20vw;
   max-width: 20vw;
   background: var(--secondary);
   border-radius: 10px;
@@ -370,12 +368,12 @@ svg.svg-star {
   align-items: center !important;
   justify-content: center !important;
   position: relative;
-  height: 20vw;
-  width: 20vw;
+  height: 18vw;
+  width: 18vw;
 
   .products-animate-img {
-    height: 17vw;
-    width: 18vw;
+    height: 16vw;
+    width: 17vw;
     object-fit: contain;
 
     filter: drop-shadow(var(--main-shadow));
@@ -423,6 +421,24 @@ svg.svg-star {
   }
   .product-list-par {
     width: 95% !important;
+  }
+  .products-animation-par {
+    height: 45vw;
+  }
+  .products-animate-slide {
+    max-height: 34vw;
+    max-width: 32vw;
+  }
+  .products-animate {
+    height: 32vw;
+    width: 32vw;
+
+    .products-animate-img {
+      height: 28vw;
+      width: 30vw;
+
+      filter: drop-shadow(var(--main-shadow));
+    }
   }
 }
 

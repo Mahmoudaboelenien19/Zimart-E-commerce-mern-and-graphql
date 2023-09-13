@@ -25,7 +25,7 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { gridView } = useContext(viewContext);
   const [page, setPage] = useState(1);
   const { isMobile } = useIsMobile();
-  const [dataShown, numberOfPages] = usePagination(9, page, ar);
+  const [dataShown, numberOfPages] = usePagination(12, page, ar);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     setProducts(Allproducts);
@@ -40,7 +40,7 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
         ref={ref}
         className={`product-list-par  ${!gridView ? "list" : "grid"} `}
         style={{
-          width: showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "90%",
+          width: showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "96%",
         }}
       >
         {isPending ? (

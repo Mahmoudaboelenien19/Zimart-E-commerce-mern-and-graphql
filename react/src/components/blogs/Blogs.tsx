@@ -9,7 +9,7 @@ import Animation from "../widgets/animation/Animation";
 
 const Blogs = () => {
   useEffect(() => {
-    document.title = "Zimart | Blogs";
+    document.title = "Blogs";
   }, []);
   const { blogs } = useAppSelector((st) => st.blogs);
   const { data } = useQuery(getAllBlogs);
@@ -21,7 +21,7 @@ const Blogs = () => {
   }, [data]);
   return (
     <Animation>
-      <div className="blogs">
+      <div className="blogs container">
         <>
           {data?.blogs?.map((blog: BlogInterface, i: number) => {
             return <Blog key={i} i={i} {...blog} />;

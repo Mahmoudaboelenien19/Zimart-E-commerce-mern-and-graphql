@@ -71,13 +71,15 @@ const MainPageCharts = ({ width }: { width: number }) => {
 
   return (
     <>
-      <div className={`dash-main-charts ${width <= 800 ? "reverse" : ""} `}>
-        <InViewPar head="Users Per Time">
-          <Line data={userChartData || []} options={options} />
-        </InViewPar>
-        <InViewPar head="Latest Orders">
-          <LatestOrders />
-        </InViewPar>
+      <div className={`dash-main-charts `}>
+        <div className={`first-col center ${width <= 800 ? "reverse" : ""} `}>
+          <InViewPar head="Users Per Time">
+            <Line data={userChartData || []} options={options} />
+          </InViewPar>
+          <InViewPar head="Latest Orders">
+            <LatestOrders />
+          </InViewPar>
+        </div>
         <InViewPar head="Earnings Per Time">
           <Pie data={orderChartData || []} options={options} />
         </InViewPar>

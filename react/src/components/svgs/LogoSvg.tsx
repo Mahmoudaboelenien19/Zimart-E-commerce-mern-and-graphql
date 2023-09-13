@@ -1,8 +1,10 @@
 import React from "react";
-
+import { motion } from "framer-motion";
+import useNavTransition from "../../custom/useNavTransition";
 const LogoSvg = () => {
+  const { scale } = useNavTransition();
   return (
-    <div id="logo-svg">
+    <motion.div style={{ scale }} id="logo-svg">
       <svg
         width="86"
         height="23"
@@ -58,7 +60,7 @@ const LogoSvg = () => {
           </linearGradient>
         </defs>
       </svg>
-    </div>
+    </motion.div>
   );
 };
 

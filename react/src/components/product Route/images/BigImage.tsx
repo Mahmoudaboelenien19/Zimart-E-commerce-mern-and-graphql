@@ -41,8 +41,8 @@ const BigImage = () => {
             imageSrc={modifiedUrl}
             style={{
               objectFit: "contain",
-              height: 200,
-              width: 250,
+              height: 400,
+              width: 450,
               display: "flex",
               alignItems: "flex-end",
               justifyContent: "center",

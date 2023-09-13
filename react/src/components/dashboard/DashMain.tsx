@@ -20,15 +20,15 @@ const DashMain = ({ children }: ChildrenInterFace) => {
       <motion.section
         className="dash-product"
         style={{
-          width: showAsideDash && !isMobile ? "calc(100% - 210px )" : "95%",
-          margin: showAsideDash && !isMobile ? "0px 10px 0px 210px" : "0 auto",
+          width: showAsideDash && !isMobile ? "calc(100% - 310px )" : "95%",
+          margin: showAsideDash && !isMobile ? "0px 10px 0px 310px" : "0 auto",
         }}
       >
         <>
           <motion.nav
             className="dash-nav w-100"
             style={{
-              paddingLeft: showAsideDash && !isMobile ? 210 : 10,
+              paddingLeft: showAsideDash && !isMobile ? 310 : 10,
               boxShadow,
               background: navClr,
               color: LinkClr,

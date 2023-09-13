@@ -46,7 +46,7 @@ const Blog = ({
   return (
     <div
       ref={scope}
-      className={`main-blog ${isReversed ? "" : "blog-reversed"}`}
+      className={`main-blog container ${isReversed ? "" : "blog-reversed "}`}
     >
       <div className="main-img-blog">
         <LazyLoadImage effect="blur" src={image} alt={head} />{" "}

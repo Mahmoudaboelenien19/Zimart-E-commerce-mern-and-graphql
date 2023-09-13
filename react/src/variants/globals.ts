@@ -48,7 +48,7 @@ export const selectDropDownVariants = {
 
 export const asideVariant = {
   start: { width: 0, opacity: 0 },
-  end: ({ bool = false, w = 200 }) => ({
+  end: ({ bool = false, w = 300 }) => ({
     width: bool ? "100%" : w,
     opacity: 1,
     transition: {

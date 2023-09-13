@@ -35,7 +35,7 @@ const Orders = () => {
   const [arrOfOrders, setarrOfOrders] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const { order } = useAppSelector((st) => st.order);
-  const [dataShown, numberOfPages] = usePagination(12, page, order || []);
+  const [dataShown, numberOfPages] = usePagination(18, page, order || []);
   useEffect(() => {
     setTimeout(() => {
       document.title = "Dashboaed | Orders";

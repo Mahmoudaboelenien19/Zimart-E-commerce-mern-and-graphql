@@ -27,7 +27,7 @@ const UsersDashboard = () => {
   const { user } = useAppSelector((st) => st.user);
   const [page, setPage] = useState(1);
 
-  const [dataShown, numberOfPages] = usePagination(12, page, user || []);
+  const [dataShown, numberOfPages] = usePagination(18, page, user || []);
   const [ref, { width }] = useMessure();
 
   const [wid, setWid] = useState(0);

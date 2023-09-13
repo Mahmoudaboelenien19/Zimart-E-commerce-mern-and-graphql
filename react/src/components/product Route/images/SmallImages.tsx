@@ -21,11 +21,11 @@ const SmallImages = () => {
           <motion.span
             custom={index}
             variants={smallImageVariant}
-            className="small-img"
             key={index}
             onClick={() => setBigImgInd(index)}
           >
             <LazyLoadImage
+              wrapperClassName="small-img"
               effect="blur"
               src={productPath}
               style={{ opacity: bigImgInd === index ? 1 : 0.2 }}

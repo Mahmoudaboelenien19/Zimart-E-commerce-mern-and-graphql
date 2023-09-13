@@ -42,10 +42,10 @@ const SLiderComponent = () => {
               pauseOnMouseEnter: true,
             }}
             breakpoints={{
-              0: {
+              1: {
                 slidesPerView: 1,
               },
-              400: {
+              500: {
                 slidesPerView: 2,
               },
               768: {

@@ -1,5 +1,5 @@
 const useModifyUrl = (link: string, type?: string) => {
-  const width = type === "phone" ? 1050 : 1400;
+  const width = type === "phone" ? 1400 : 1400;
   const height = type === "phone" ? 1400 : 1400;
 
   const urlParts = link?.split("/");

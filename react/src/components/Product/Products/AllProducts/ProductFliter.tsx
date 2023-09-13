@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ProductRate from "../../../product Route/ProductRate";
 import useAvg from "../../../../custom/useAvg";
 import ProductListHeart from "../../../svgs/ProductListHeart";
@@ -17,6 +17,7 @@ import { RiEditLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import CompareIcons from "../../../svgs/CompareIcons";
 import StyledPrice from "../../../widgets/StyledPrice";
+import useIsMobile from "../../../../custom/useIsMobile";
 interface Props extends ProductInterface {
   isDash?: boolean;
   isSLide?: boolean;
@@ -42,12 +43,17 @@ const ProductFliter = ({
   const [isFavoraited, setIsFavorited] = useState(false);
   const [onCart, setOnCart] = useState(false);
   const { productSearchWord, showFilter } = useContext(productListContext);
-  const { gridView } = useContext(viewContext);
+  const { gridView, setGridView } = useContext(viewContext);
   const [sectionRef, { width: sectionWidth }] = useMeasure();
 
   const [ref, animate] = useAnimate();
   const navigat = useNavigate();
-
+  const { isMobile } = useIsMobile();
+  useEffect(() => {
+    if (isMobile) {
+      setGridView(true);
+    }
+  }, [isMobile]);
   return (
     <motion.span
       ref={ref}
@@ -78,8 +84,8 @@ const ProductFliter = ({
               sectionWidth <= 400 && !gridView && showFilter
                 ? 200
                 : !gridView
-                ? 280
-                : 350,
+                ? 320
+                : 380,
           }}
           transition={{ duration: 0.1, type: "tween" }}
         >
@@ -230,7 +236,7 @@ const ProductFliter = ({
               ) : (
                 <span onClick={() => navigat(`/dashboard/products/${_id}`)}>
                   <Title title="edit product">
-                    <RiEditLine fontSize={16} color="var(--third)" />
+                    <RiEditLine color="var(--third)" />
                   </Title>
                 </span>
               )}

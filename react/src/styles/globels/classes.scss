@@ -132,13 +132,12 @@
   opacity: 0.6;
 }
 .header {
-  // @include kyiv(600, -400);
   filter: drop-shadow(var(--forth-shadow));
   margin-top: 10px;
 }
 .underline {
   width: fit-content;
-  height: 40px;
+  padding: 2px 0;
   font-size: 2rem;
   margin: 20px auto;
   text-transform: capitalize;
@@ -148,11 +147,9 @@
   color: var(--third);
   &:before {
     content: "";
-    // clip-path: polygon(0 5%, 100% 37%, 100% 64%, 0 95%);
 
     position: absolute;
-
-    top: 35px;
+    top: 100%;
     left: 10%;
     height: 1.5px;
     width: 80%;
@@ -190,11 +187,11 @@
   .popup {
     padding: 25px 15px;
     min-width: 300px;
-    width: clamp(300px, 90%, 350px);
+    width: clamp(300px, 90%, 400px);
     background-color: var(--wheat-lighter);
     background-color: gray;
     color: var(--third);
-    // border-radius: 5px;
+
     position: relative;
     z-index: 2;
     .pop-par {
@@ -208,8 +205,11 @@
     }
 
     &.slide-pop {
-      width: 340px;
+      width: clamp(300px, 90%, 400px);
       height: 200px;
+      .slide-text {
+        white-space: nowrap;
+      }
     }
     p {
       text-align: center !important;
@@ -266,6 +266,7 @@
   background: var(--gmail);
   color: var(--white);
   border-radius: 50%;
+  z-index: 5;
 }
 
 .remove {
@@ -360,14 +361,14 @@
   top: 115%;
   width: fit-content;
   padding: 4px 6px;
-  background: var(--wheat-light);
+  background: var(--wheat);
   color: var(--white) !important;
   z-index: 10;
   white-space: nowrap;
   border-radius: 4px;
   letter-spacing: 0.8px;
-  height: 20px;
-  font-size: 0.8rem;
+  height: 30px;
+  font-size: 1rem;
   box-shadow: 0.5px 0.5px 1px black;
   text-transform: capitalize;
   &.right {
@@ -534,4 +535,9 @@ form {
   height: 100vh;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  width: 100vw;
+  padding: 0 2vw !important;
 }

@@ -28,7 +28,9 @@ const useNavTransition = <T extends HTMLElement>() => {
     [0, 0.5],
     ["0 0 0 000", ".5px .5px 1.5px 000"]
   );
-  return { navRef, navClr, LinkClr, boxShadow };
+
+  const scale = useTransform(scrollY, [0, 0.5], [1.4, 1]);
+  return { navRef, navClr, LinkClr, boxShadow, scale };
 };
 
 export default useNavTransition;

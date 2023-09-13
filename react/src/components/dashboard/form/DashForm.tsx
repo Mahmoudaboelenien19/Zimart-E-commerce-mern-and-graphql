@@ -182,7 +182,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
               </Fragment>
             );
           })}
-          <div className="inp-parent">
+          <div className="inp-parent textarea-par">
             <InpErr
               key={"description"}
               err={errors.description?.message?.toString()}
