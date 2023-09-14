@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
 import Login from "../log/login";
@@ -105,6 +105,7 @@ const AppRoutes = () => {
         <Route path="/user" element={<User />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/compare" element={<CompareProducts />} />
+
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="" element={<Recap />} />
           <Route path="users" element={<UsersDashboard />} />

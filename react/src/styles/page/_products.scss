@@ -115,9 +115,29 @@ aside {
   margin: 0 auto;
   min-height: 100vh;
   margin-bottom: 12px;
+  .divider {
+    background-color: rgba(128, 128, 128, 0.05);
+    // box-shadow: var(--forth-shadow);
+    position: relative;
+    .price-product {
+      position: absolute;
+    }
+  }
   &.list {
     display: flex;
     flex-direction: column;
+    .divider {
+      width: 2px;
+      height: 100%;
+      .price-product {
+        left: -100px;
+        bottom: 0px;
+
+        width: 100px;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
     .list-cart-btn {
       width: 200px !important;
     }
@@ -132,8 +152,19 @@ aside {
   &.grid {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
     gap: 5px;
+    .divider {
+      width: 96%;
+      height: 2px;
+
+      .price-product {
+        position: absolute;
+        right: 0;
+        top: -35px;
+      }
+    }
+
     .product-data {
       width: 100%;
     }
@@ -211,7 +242,7 @@ svg.svg-star {
 }
 
 .product-links {
-  margin-top: 6px;
+  margin-top: 20px;
   gap: 2rem;
 }
 
@@ -254,12 +285,13 @@ svg.svg-star {
     display: flex !important;
     justify-content: center !important;
     width: 100% !important;
+
     &.grid {
       width: 100%;
-      height: 200px;
+      height: 50%;
       img {
-        height: 140px;
-        width: 90%;
+        height: 95%;
+        width: 95%;
         object-fit: contain;
       }
     }
@@ -267,9 +299,8 @@ svg.svg-star {
       width: 30% !important;
       height: 100% !important;
       img {
-        min-width: 85px;
-        max-width: 85%;
-        height: 180px;
+        min-width: 90px;
+        height: 90%;
         object-fit: contain;
       }
     }
@@ -304,7 +335,7 @@ svg.svg-star {
   margin: 0;
   margin-bottom: 10px;
   margin-top: 5px;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   &.underline {
     &:before {
       width: 70%;

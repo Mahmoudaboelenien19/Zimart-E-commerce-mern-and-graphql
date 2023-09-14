@@ -354,22 +354,22 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  @extend .shadow;
   font-weight: bold;
   text-transform: lowercase;
   position: absolute;
   top: 115%;
   width: fit-content;
   padding: 4px 6px;
-  background: var(--wheat);
-  color: var(--white) !important;
+  background: var(--secondary);
+
+  color: var(--third);
   z-index: 10;
   white-space: nowrap;
   border-radius: 4px;
   letter-spacing: 0.8px;
   height: 30px;
   font-size: 1rem;
-  box-shadow: 0.5px 0.5px 1px black;
+  box-shadow: var(--secondary-shadow);
   text-transform: capitalize;
   &.right {
     right: 0;

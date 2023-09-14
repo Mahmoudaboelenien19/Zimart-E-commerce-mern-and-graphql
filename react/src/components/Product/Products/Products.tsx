@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import Aside from "./Aside/Aside";
 import ProductList from "./AllProducts/ProductList";
 import { AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import MainProductAnimation from "./MainProductAnimation";
 import { useAppSelector } from "../../../custom/reduxTypes";
 import useIsMobile from "../../../custom/useIsMobile";
 import useProductsSubscription from "../../../custom/useProductsSubscription";
+import GridLoader from "../../widgets/loaders/GridLoader";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
@@ -55,6 +56,7 @@ const Products = () => {
         <AnimatePresence mode="wait">
           {showFilter && <Aside startFiltering={startFiltering} />}
         </AnimatePresence>
+
         <ProductList />
       </div>
     </section>

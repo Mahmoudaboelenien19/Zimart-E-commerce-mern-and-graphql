@@ -4,6 +4,7 @@ import { Link } from "react-scroll";
 import { productListContext } from "../../context/FilterData";
 import useFilterCategory from "../../custom/useFilterCategory";
 import { motion } from "framer-motion";
+import FadeWithY from "../widgets/animation/FadeWithY";
 const FooterCategory = () => {
   const { setProducts, setCategoryFilter } = useContext(productListContext);
   const categoryfn = useFilterCategory();
@@ -16,7 +17,7 @@ const FooterCategory = () => {
   };
 
   return (
-    <div className="footer-category footer-links">
+    <FadeWithY once cls="footer-category footer-links">
       <h3 className="header  footer-head">category</h3>
       {categoriesArr.map((link, i) => {
         return (
@@ -35,7 +36,7 @@ const FooterCategory = () => {
           </motion.span>
         );
       })}
-    </div>
+    </FadeWithY>
   );
 };
 

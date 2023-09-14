@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import FadeElement from "./animation/FadeElement";
 import { ChildrenInterFace } from "../../interfaces/general";
 import { AnimatePresence } from "framer-motion";

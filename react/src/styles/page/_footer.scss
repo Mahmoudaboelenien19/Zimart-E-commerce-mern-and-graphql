@@ -1,7 +1,6 @@
 @import "../variables.scss";
 
 footer {
-  // background-color: var(--main);
   padding-bottom: 0;
   padding-top: 20px;
   width: 100%;
@@ -11,14 +10,11 @@ footer {
   text-shadow: var(--forth-shadow);
   justify-content: space-between;
 
-  & > * {
-    opacity: 0;
-  }
   .content {
     padding: 15px 0;
     font-weight: 700;
     width: 95%;
-    // max-width: 950px;
+
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;

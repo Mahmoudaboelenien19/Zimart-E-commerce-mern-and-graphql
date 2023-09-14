@@ -4,6 +4,7 @@ import { GrLinkedinOption } from "react-icons/gr";
 import { opacityVariant } from "../../variants/globals";
 import { motion } from "framer-motion";
 import Title from "../widgets/Title";
+import FadeWithY from "../widgets/animation/FadeWithY";
 
 const FooterLinks = () => {
   const iconsArr = [
@@ -42,7 +43,7 @@ const FooterLinks = () => {
     },
   ];
   return (
-    <div className="icons-footer">
+    <FadeWithY once cls="icons-footer">
       <h3 className=" footer-head header">contact me</h3>
       <div className="social-icons center">
         {iconsArr.map(({ icon, id, title, link }) => {
@@ -62,7 +63,7 @@ const FooterLinks = () => {
           );
         })}
       </div>
-    </div>
+    </FadeWithY>
   );
 };
 

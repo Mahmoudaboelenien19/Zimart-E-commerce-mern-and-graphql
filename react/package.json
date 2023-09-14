@@ -45,6 +45,7 @@
     "react-use-scroll-direction": "^0.1.0",
     "subscriptions-transport-ws": "^0.11.0",
     "swiper": "^10.1.0",
+    "use-debounce": "^9.0.4",
     "yup": "^1.1.1"
   },
   "devDependencies": {

@@ -155,10 +155,10 @@
       position: fixed;
       bottom: 0px !important;
       right: 0;
-      top: 0;
+      top: 0 !important   ;
       left: initial;
       width: 100% !important;
-      min-height: calc(100vh) !important;
+      min-height: 100vh !important;
       z-index: 6 !important;
       border-radius: initial;
     }

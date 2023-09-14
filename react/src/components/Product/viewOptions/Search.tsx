@@ -58,16 +58,6 @@ const Search = () => {
     setroductSearchWord(e.target.value);
     setShowRes(true);
     setIsActive(-1);
-
-    if (e.target.value != "") {
-      fnSearch({
-        variables: {
-          word: e.target.value,
-        },
-      }).then(({ data }) =>
-        startTransition(() => setProducts(data.searchProducts))
-      );
-    }
   };
 
   const navigate = useNavigate();
@@ -91,6 +81,21 @@ const Search = () => {
         }
       }
   };
+
+  useEffect(() => {
+    if (productSearchWord != "") {
+      fnSearch({
+        variables: {
+          word: productSearchWord,
+        },
+      }).then(({ data }) =>
+        startTransition(() => setProducts(data.searchProducts))
+      );
+    } else {
+      setProducts(Allproducts);
+      handleInputValue("");
+    }
+  }, [productSearchWord]);
 
   const [convertNegativeToZero] = useIndex();
   useKeypress(["ArrowUp", "ArrowDown", "Escape"], (e: React.KeyboardEvent) => {

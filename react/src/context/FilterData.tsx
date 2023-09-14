@@ -10,7 +10,7 @@ import { Get_All_Products } from "../graphql/general.js";
 import { addToProductRedux } from "../redux/productSlice.js";
 import { useAppDispatch } from "../custom/reduxTypes.js";
 import { ProductInterface } from "../interfaces/product.js";
-
+import { useDebounce } from "use-debounce";
 interface productListContextInterface {
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
   showFilter: boolean;
@@ -55,6 +55,10 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
   const [priceFilter, setPriceFilter] = useState<string | number>(0);
   const [productSearchWord, setroductSearchWord] = useState<string>("");
   const [RateChecked, setRateChecked] = useState<string | number>("");
+  const [value] = useDebounce(
+    productSearchWord,
+    productSearchWord === "" ? 0 : 800
+  );
 
   return (
     <productListContext.Provider
@@ -73,7 +77,7 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
         setPriceFilter,
         RateChecked,
         setRateChecked,
-        productSearchWord,
+        productSearchWord: value,
         setroductSearchWord,
       }}
     >

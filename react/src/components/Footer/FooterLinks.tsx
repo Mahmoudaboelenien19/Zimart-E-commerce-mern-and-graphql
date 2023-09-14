@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
 import { motion } from "framer-motion";
 import { linksArr } from "../../assets/arries/LinksArr";
+import FadeWithY from "../widgets/animation/FadeWithY";
 const FooterLinks = () => {
   const arr = [
     ...linksArr.filter((obj) => obj.link !== "Home"),
     { link: "Faq", to: "/faq" },
   ];
   return (
-    <div className="footer-important-links footer-links ">
+    <FadeWithY once cls="footer-important-links footer-links ">
       <h3 className=" footer-head header">links</h3>
       <motion.span whileHover={{ x: 10 }}>
         <Link to="banner" smooth style={{ cursor: "pointer" }}>
@@ -23,7 +24,7 @@ const FooterLinks = () => {
           </motion.span>
         );
       })}
-    </div>
+    </FadeWithY>
   );
 };
 

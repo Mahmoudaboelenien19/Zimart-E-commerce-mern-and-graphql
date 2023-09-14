@@ -1,6 +1,6 @@
 .log-in {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   flex-direction: column;
   margin-top: 50px;
   margin-bottom: 20px;

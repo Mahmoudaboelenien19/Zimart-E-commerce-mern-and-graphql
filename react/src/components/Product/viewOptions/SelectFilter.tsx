@@ -30,7 +30,7 @@ const optionsArr = [
 const SelectFilter = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const [isOptSelected, setIsOptSelected] = useState(false);
-  const { setProducts, isPending, startTransition } =
+  const { setProducts, isPending, startTransition, setroductSearchWord } =
     useContext(productListContext);
   const [selectValue, setSelectValue] = useState("relevance");
   const [fnPrice] = useMutation(FILTER_BY_PRICE);
@@ -39,6 +39,7 @@ const SelectFilter = () => {
   useEffect(() => {
     if (!isPending && isOptSelected) {
       setIsOptSelected(false);
+      setroductSearchWord("");
       if (selectValue === "relevance") {
         startTransition(() => setProducts(Allproducts));
       } else if (selectValue === "lowest price") {

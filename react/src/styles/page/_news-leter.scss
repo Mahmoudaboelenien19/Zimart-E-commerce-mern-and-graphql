@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   gap: 40px;
-  min-height: 160px;
+  min-height: 240px;
   align-items: center;
   position: relative;
   box-shadow: var(--forth-shadow);
@@ -32,7 +32,7 @@
     .inp-parent,
     input,
     button {
-      height: 40px;
+      height: 45px;
       box-shadow: initial;
     }
     input {
@@ -53,7 +53,6 @@
       color: var(--white);
       border-end-end-radius: 2px;
       border-top-right-radius: 2px;
-      font-size: 0.8rem;
       letter-spacing: 0.8px;
       text-transform: capitalize;
     }
@@ -66,8 +65,8 @@
     h2 {
       text-transform: capitalize;
       color: var(--white);
-
       font-weight: 800;
+      font-size: 2rem;
     }
     span {
       font-weight: 700;

@@ -7,6 +7,7 @@ import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
 import { imgArr } from "../../../assets/arries/arries";
 import "swiper/css/effect-coverflow";
+import FadeWithY from "../../widgets/animation/FadeWithY";
 const MainProductAnimation = () => {
   const options: RefAttributes<SwiperRef> & SwiperProps = {
     spaceBetween: 5,
@@ -14,14 +15,8 @@ const MainProductAnimation = () => {
     direction: "horizontal",
   };
   return (
-    <motion.div
-      className="products-animation-par"
-      style={{ opacity: 0 }}
-      transition={{ delay: 0.05 }}
-      whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
-    >
+    <FadeWithY cls="products-animation-par">
       <Swiper
-        style={{ width: "100%" }}
         modules={[EffectCoverflow]}
         {...options}
         effect="coverflow"
@@ -51,7 +46,7 @@ const MainProductAnimation = () => {
           );
         })}
       </Swiper>
-    </motion.div>
+    </FadeWithY>
   );
 };
 
