@@ -106,7 +106,6 @@ const Cart = () => {
           <NoData
             length={cart.length >= 1}
             message="No products at your cart"
-            // cls={"h-50-w-65  center"}
             cls={"cart-nodata center"}
             loading={loading}
           >

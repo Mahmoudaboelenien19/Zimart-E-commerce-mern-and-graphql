@@ -33,9 +33,14 @@ const Orders = () => {
   const { showAsideDash } = useContext(showAsideContext);
   const [selectALl, setSlectALl] = useState<string | number>("");
   const [arrOfOrders, setarrOfOrders] = useState<string[]>([]);
-  const [page, setPage] = useState(1);
+  const query = new URLSearchParams(location.search);
+  const page = query.get("page") || "1";
   const { order } = useAppSelector((st) => st.order);
-  const [dataShown, numberOfPages] = usePagination(18, page, order || []);
+  const [dataShown, numberOfPages] = usePagination(
+    18,
+    Number(page),
+    order || []
+  );
   useEffect(() => {
     setTimeout(() => {
       document.title = "Dashboaed | Orders";
@@ -62,10 +67,10 @@ const Orders = () => {
             <MobileOrders key={"mobile-order"} />
           )}
           <Pages
+            pathname="/dashboard/orders"
             key={"order-pages"}
-            page={page}
+            page={Number(page)}
             numOfPages={numberOfPages}
-            setPage={setPage}
           />
 
           <Outlet />

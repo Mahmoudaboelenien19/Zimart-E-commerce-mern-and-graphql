@@ -1,83 +1,71 @@
-import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
-import { opacityVariant } from "../../../variants/globals";
+
 import FadeElement from "../../widgets/animation/FadeElement";
+import { Link } from "react-router-dom";
+import clsx from "clsx";
 interface Props {
   numOfPages: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
   page: number;
+  pathname: string;
 }
-const Pages = ({ numOfPages, setPage, page }: Props) => {
-  const [pageArr, setpageArr] = useState([] as number[]);
-  useEffect(() => {
-    setpageArr([]);
-    for (let i = 1; i <= numOfPages; i++) {
-      setpageArr((pageArr) => [...pageArr, i]);
-    }
-  }, [numOfPages]);
-  return (
-    <>
-      {numOfPages > 1 && (
-        <FadeElement cls="" delay={1.5}>
-          <div className="pages-par center">
-            <motion.button
-              className="page center"
-              variants={opacityVariant}
-              style={{
-                background: page > 1 ? "var(--wheat)" : "var(--wheat-lighter)",
-              }}
-              disabled={page < 2 ? true : false}
-              initial="start"
-              animate="end"
-              exit="exit"
-              transition={{ duration: 0.4 }}
-              key={"prev-page"}
-              onClick={() => setPage(page - 1)}
-            >
-              <BiLeftArrowAlt />
-            </motion.button>
+const Pages = ({ numOfPages, page, pathname }: Props) => (
+  <>
+    {numOfPages > 1 && (
+      <FadeElement cls="" delay={1.5}>
+        <div className="pages-par center">
+          <Link
+            className={clsx(
+              "page center",
+              page > 1 ? "wheat" : "wheat-lighter"
+            )}
+            to={{
+              pathname,
+              search: `${page >= 2 ? `?page=${page - 1}` : pathname}`,
+            }}
+            key={"prev-page"}
+          >
+            <BiLeftArrowAlt />
+          </Link>
 
-            <div className="center-pages-par">
-              {pageArr?.map((num, index) => {
-                {
-                  return (
-                    <div
-                      className={`page center ${
-                        page === index + 1 ? "page-active" : ""
-                      }`}
-                      onClick={() => setPage(index + 1)}
-                      key={index}
-                    >
-                      {num}
-                    </div>
-                  );
-                }
-              })}
-            </div>
-
-            <motion.button
-              className="page center"
-              variants={opacityVariant}
-              initial="start"
-              animate="end"
-              exit="exit"
-              transition={{ duration: 0.4 }}
-              key={"next-page"}
-              onClick={() => setPage(page + 1)}
-              style={{
-                background:
-                  page < numOfPages ? "var(--wheat)" : "var(--wheat-lighter)",
-              }}
-              disabled={page > numOfPages - 1 ? true : false}
-            >
-              <BiRightArrowAlt />
-            </motion.button>
+          <div className="center-pages-par">
+            {Array.from({ length: numOfPages })?.map((_, index) => {
+              {
+                return (
+                  <Link
+                    className={clsx(
+                      "page center bg-green ",
+                      page === index + 1 && "page-active"
+                    )}
+                    key={index}
+                    to={{
+                      pathname,
+                      search: `?page=${index + 1}`,
+                    }}
+                  >
+                    {index + 1}
+                  </Link>
+                );
+              }
+            })}
           </div>
-        </FadeElement>
-      )}
-    </>
-  );
-};
+
+          <Link
+            className={clsx(
+              "page center",
+              page < numOfPages ? "wheat" : "wheat-lighter"
+            )}
+            to={{
+              pathname,
+              search: `?page=${page + 1}`,
+            }}
+          >
+            <BiRightArrowAlt />
+          </Link>
+        </div>
+      </FadeElement>
+    )}
+  </>
+);
 
 export default Pages;

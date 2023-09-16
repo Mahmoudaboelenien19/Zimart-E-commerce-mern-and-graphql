@@ -300,17 +300,22 @@
 .counter {
   // padding: 0;
   height: 30px !important;
-  &.green {
-    color: var(--green);
-  }
 
   &.red {
     color: var(--red);
   }
+  &.green {
+    color: var(--green);
+  }
 }
-
+.bg-green {
+  background-color: var(--green);
+}
 .wheat-light {
   background: var(--wheat-light);
+}
+.wheat-lighter {
+  background: var(--wheat-lighter);
 }
 
 .wheat {
@@ -499,16 +504,6 @@ form {
 }
 .end {
   justify-content: flex-end;
-}
-
-.details-btn {
-  box-shadow: initial;
-  outline: 0;
-  background-color: transparent;
-  border: 0;
-  font-size: 0.8rem;
-  width: fit-content;
-  padding: 0;
 }
 
 .no-data-80 {

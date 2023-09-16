@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useContext, useEffect, useRef } from "react";
 import ProductFliter from "./ProductFliter";
 import Pages from "../Pages";
 import { motion } from "framer-motion";
@@ -23,13 +17,16 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
     useContext(productListContext);
   const ar = isDash ? Allproducts : products || [];
   const { gridView } = useContext(viewContext);
-  const [page, setPage] = useState(1);
+
+  const query = new URLSearchParams(location.search);
+  const page = query.get("page") || "1";
   const { isMobile } = useIsMobile();
-  const [dataShown, numberOfPages] = usePagination(12, page, ar);
+  const [dataShown, numberOfPages] = usePagination(12, Number(page), ar);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     setProducts(Allproducts);
   }, [Allproducts]);
+
   return (
     <NoData
       length={dataShown.length >= 1}
@@ -57,10 +54,10 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
           </>
         )}
         <Pages
+          pathname={isDash ? "/dashboard/products" : "/"}
           key={"pages"}
-          page={page}
+          page={Number(page)}
           numOfPages={numberOfPages}
-          setPage={setPage}
         />
       </motion.div>
     </NoData>

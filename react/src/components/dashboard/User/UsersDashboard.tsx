@@ -25,9 +25,14 @@ const UsersDashboard = () => {
     }, 400);
   }, []);
   const { user } = useAppSelector((st) => st.user);
-  const [page, setPage] = useState(1);
+  const query = new URLSearchParams(location.search);
+  const page = query.get("page") || "1";
 
-  const [dataShown, numberOfPages] = usePagination(18, page, user || []);
+  const [dataShown, numberOfPages] = usePagination(
+    18,
+    Number(page),
+    user || []
+  );
   const [ref, { width }] = useMessure();
 
   const [wid, setWid] = useState(0);
@@ -48,10 +53,10 @@ const UsersDashboard = () => {
       </span>
 
       <Pages
+        pathname="/dashboard/users"
         key={"order-pages"}
-        page={page}
+        page={Number(page)}
         numOfPages={numberOfPages}
-        setPage={setPage}
       />
     </DashMain>
   );
