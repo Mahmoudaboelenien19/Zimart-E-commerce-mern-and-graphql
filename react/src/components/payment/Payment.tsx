@@ -5,12 +5,14 @@ import { Stripe, loadStripe } from "@stripe/stripe-js";
 import { Navigate, useLocation } from "react-router-dom";
 import OrderedProduct from "./OrderedProducts";
 import GridLoader from "../widgets/loaders/GridLoader";
-import { themeContext } from "../../context/ThemContext";
+
 import FadeElement from "../widgets/animation/FadeElement";
 import OrderedProductDetail from "./OrderedProductDetail";
 import { useQuery } from "@apollo/client";
-import { get_Stripe_PublicKey } from "../../graphql/stripe";
-import { OrderInterface } from "../../interfaces/order";
+import { themeContext } from "@/context/ThemContext";
+import { get_Stripe_PublicKey } from "@/graphql/stripe";
+import { OrderInterface } from "@/interfaces/order";
+
 const Payment = () => {
   const location = useLocation();
 

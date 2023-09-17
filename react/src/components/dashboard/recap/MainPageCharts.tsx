@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
-import { useAppSelector } from "../../../custom/reduxTypes";
+
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import useChartData from "./useChartData";
 import { motion, useInView } from "framer-motion";
-import { ChildrenInterFace } from "../../../interfaces/general";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { useAppSelector } from "@/custom/reduxTypes";
+import { ChildrenInterFace } from "@/interfaces/general";
 import LatestOrders from "./LatestOrders";
-import FadeElement from "../../widgets/animation/FadeElement";
+
 interface Props extends ChildrenInterFace {
   head: string;
 }

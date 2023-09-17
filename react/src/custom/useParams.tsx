@@ -8,11 +8,13 @@ const useParams = () => {
     categoryFilter: string;
     featuredProductsFilter: string;
     showAsideFilter: string;
+    showDashBoaedAside: string;
     page: string;
     resetSearchParams: () => void;
     deleteParam: (param: string) => void;
     setParam: (param: string, value: string) => void;
     setSearchParams: SetURLSearchParams;
+    [key: string]: string | any;
   }
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,6 +26,7 @@ const useParams = () => {
   const categoryFilter = searchParams.get("category") || "";
   const featuredProductsFilter = searchParams.get("featured products") || "";
   const showAsideFilter = searchParams.get("showAsideFilter") || "";
+  const showDashBoaedAside = searchParams.get("showDashBoaedAside") || "";
   const deleteParam = (param: string) => {
     setSearchParams((params) => {
       params.delete(param);
@@ -49,6 +52,7 @@ const useParams = () => {
     resetSearchParams,
     showAsideFilter,
     deleteParam,
+    showDashBoaedAside,
     setParam,
     setSearchParams,
   } as Params;

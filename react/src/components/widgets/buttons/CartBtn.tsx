@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
-import usePathAndId from "../../../custom/usePathAndId";
-import { productContext } from "../../product Route/Product";
-import useAddToCart from "../../../custom/useAddToCart";
-import { isAuthContext } from "../../../context/isAuth";
-import useRemoveFromCart from "../../../custom/useRemoveFromCart";
+
 import MainBtn from "./MainBtn";
+import { productContext } from "@/components/product Route/Product";
+import { isAuthContext } from "@/context/isAuth";
+import useAddToCart from "@/custom/useAddToCart";
+import usePathAndId from "@/custom/usePathAndId";
+import useRemoveFromCart from "@/custom/useRemoveFromCart";
 
 const CartBtn = ({ btn, id }: { btn: string; id: string }) => {
   const { userId } = useContext(isAuthContext);

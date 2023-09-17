@@ -393,6 +393,7 @@ svg.svg-star {
   border-radius: 10px;
   box-shadow: var(--forth-shadow);
   overflow: hidden;
+  margin-top: 20px;
 }
 .products-animate {
   display: flex !important;
@@ -401,6 +402,7 @@ svg.svg-star {
   position: relative;
   height: 18vw;
   width: 18vw;
+  margin: 0 auto;
 
   .products-animate-img {
     height: 16vw;

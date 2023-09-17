@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { opacityVariant } from "../../variants/globals";
-import { useAppSelector } from "../../custom/reduxTypes";
+import { useAppSelector } from "@/custom/reduxTypes";
+import { opacityVariant } from "@/variants/globals";
+
 interface Props {
   product: string;
   setProduct: React.Dispatch<React.SetStateAction<string>>;

@@ -1,6 +1,6 @@
+import { ChildrenInterFace } from "@/interfaces/general";
 import { useAnimate, motion, stagger, useInView } from "framer-motion";
 import React, { useEffect } from "react";
-import { ChildrenInterFace } from "../../../interfaces/general";
 
 interface Props extends ChildrenInterFace {
   fn: () => void;

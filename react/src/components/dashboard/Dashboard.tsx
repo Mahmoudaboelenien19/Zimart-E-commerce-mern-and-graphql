@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-
 import { OnDataOptions, useQuery, useSubscription } from "@apollo/client";
 import { isAuthContext } from "@/context/isAuth";
 import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
@@ -13,13 +12,6 @@ import { OrderInterface } from "@/interfaces/order";
 import { addToOrderRedux } from "@/redux/OrderSlice";
 import { addToUserRedux } from "@/redux/UserSlice";
 
-interface contextInterface {
-  showAsideDash: boolean;
-  setShowAsideDash: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const showAsideContext = createContext({} as contextInterface);
-
 const Dashboard = () => {
   const { count } = useAppSelector((st) => st.notification);
   const { order } = useAppSelector((st) => st.order);
@@ -27,11 +19,10 @@ const Dashboard = () => {
 
   const { isAuth } = useContext(isAuthContext);
   /* Note
-*this state tomake check only at first render 
-* as if user use dashboard logout  the app thrown
-* as it redirect to login page twice
-
- */
+   *this state tomake check only at first render
+   * as if user use dashboard logout  the app thrown
+   * as it redirect to login page twice
+   */
   const [isInitial, setIsInitial] = useState(true);
 
   useEffect(() => {
@@ -43,10 +34,6 @@ const Dashboard = () => {
       setIsInitial(false);
     }, 200);
   }, []);
-
-  const [showAsideDash, setShowAsideDash] = useState(
-    Boolean(JSON.parse(sessionStorage.getItem("show-aside") || "false"))
-  );
 
   if (!isAuth && isInitial) {
     return <Navigate to={"/login"} />;
@@ -76,11 +63,9 @@ const Dashboard = () => {
   useProductsSubscription();
   useUserSubscription();
   return (
-    <showAsideContext.Provider value={{ showAsideDash, setShowAsideDash }}>
-      <div className="dashboard-par ">
-        <Outlet />
-      </div>
-    </showAsideContext.Provider>
+    <div className="dashboard-par ">
+      <Outlet />
+    </div>
   );
 };
 

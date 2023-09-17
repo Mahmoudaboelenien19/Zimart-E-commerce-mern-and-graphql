@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { opacityVariant } from "../../../variants/globals";
 import Title from "../Title";
 import { AiTwotoneEye } from "react-icons/ai";
 import { MdOutlineClear } from "react-icons/md";
 import FadeElement from "../animation/FadeElement";
+import { opacityVariant } from "@/variants/globals";
 interface Props {
   placeholder: string;
   err?: string;

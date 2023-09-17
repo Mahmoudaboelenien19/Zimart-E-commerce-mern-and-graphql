@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { opacityVariant } from "../../../variants/globals";
-import useIsMobile from "../../../custom/useIsMobile";
 import Title from "../Title";
 import useParams from "@/custom/useParams";
+import { opacityVariant } from "@/variants/globals";
+import useIsMobile from "@/custom/useIsMobile";
 interface Props {
   target: string;
   title: string;
@@ -13,7 +13,13 @@ interface Props {
 const MobileCloseDropDown = ({ target, title, bool }: Props) => {
   const { isMobile } = useIsMobile();
   const { deleteParam } = useParams();
-  const closeTarget = () => deleteParam(target);
+  const closeTarget = () => {
+    deleteParam(target);
+
+    if (target === "showDashBoaedAside") {
+      sessionStorage.removeItem("show-aside");
+    }
+  };
   return (
     <AnimatePresence>
       {(isMobile || bool) && (

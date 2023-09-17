@@ -1,32 +1,19 @@
-import React, {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import DashMain from "../DashMain";
-import usePagination from "../../../custom/useNumberOfPages";
 import DashBoardUsersTable from "./DashBoardUsersTable";
-import Pages from "../../Product/Products/Pages";
 import MobileDashUser from "./MobileDashUser";
-import { useAppSelector } from "../../../custom/reduxTypes";
-import NoData from "../../widgets/NoData";
 import useMessure from "react-use-measure";
-import { showAsideContext } from "../Dashboard";
+
 import { mergeRefs } from "react-merge-refs";
+import Pages from "@/components/Product/Products/Pages";
+import NoData from "@/components/widgets/NoData";
+import { useAppSelector } from "@/custom/reduxTypes";
+import usePagination from "@/custom/useNumberOfPages";
+import useParams from "@/custom/useParams";
 
 const UsersDashboard = () => {
-  const { showAsideDash } = useContext(showAsideContext);
-
-  useEffect(() => {
-    setTimeout(() => {
-      document.title = "Dashboard | Users";
-    }, 400);
-  }, []);
   const { user } = useAppSelector((st) => st.user);
-  const query = new URLSearchParams(location.search);
-  const page = query.get("page") || "1";
+  const { page, showDashBoaedAside } = useParams();
 
   const [dataShown, numberOfPages] = usePagination(
     18,
@@ -37,9 +24,15 @@ const UsersDashboard = () => {
 
   const [wid, setWid] = useState(0);
   const reff = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      document.title = "Dashboard | Users";
+    }, 400);
+  }, []);
   useLayoutEffect(() => {
     setWid(reff.current?.offsetWidth || 0);
-  }, [showAsideDash, width]);
+  }, [showDashBoaedAside, width]);
   return (
     <DashMain key={"order-dashmain"}>
       <span ref={mergeRefs([reff, ref])}>
@@ -53,7 +46,6 @@ const UsersDashboard = () => {
       </span>
 
       <Pages
-        pathname="/dashboard/users"
         key={"order-pages"}
         page={Number(page)}
         numOfPages={numberOfPages}

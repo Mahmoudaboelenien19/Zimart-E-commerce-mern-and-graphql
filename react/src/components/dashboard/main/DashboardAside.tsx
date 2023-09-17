@@ -1,8 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
 import { Link } from "react-router-dom";
-import { showAsideContext } from "../Dashboard";
 import { dashAsideLinks } from "@/assets/arries/LinksArr";
 import LogoSvg from "@/components/svgs/LogoSvg";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
@@ -10,24 +8,22 @@ import useHideScroll from "@/custom/useHideScroll";
 import useIsMobile from "@/custom/useIsMobile";
 import useLogOut from "@/custom/useLogOut";
 import { asideVariant } from "@/variants/globals";
+import useParams from "@/custom/useParams";
 
 const DashboardAside = () => {
-  const { showAsideDash, setShowAsideDash } = useContext(showAsideContext);
+  const { showDashBoaedAside, deleteParam } = useParams();
+
   const { handleLogOut } = useLogOut();
 
   const { isMobile } = useIsMobile();
 
-  useEffect(() => {
-    if (showAsideDash) {
-      sessionStorage.setItem("show-aside", JSON.stringify(true));
-    } else {
-      sessionStorage.setItem("show-aside", JSON.stringify(false));
-    }
-  }, [showAsideDash, isMobile]);
-  useHideScroll(showAsideDash);
+  useHideScroll(Boolean(showDashBoaedAside));
+  const check =
+    sessionStorage.getItem("show-aside") &&
+    JSON.stringify(JSON.parse(sessionStorage.getItem("show-aside") || ""));
   return (
     <AnimatePresence mode="wait" initial={false}>
-      {showAsideDash && (
+      {(showDashBoaedAside || check) && (
         <motion.aside
           id="dash-aside"
           variants={asideVariant}
@@ -66,7 +62,7 @@ const DashboardAside = () => {
                         to={to}
                         onClick={() => {
                           if (isMobile) {
-                            setShowAsideDash(false);
+                            deleteParam("showDashBoaedAside");
                           }
                           if (link === "logout") {
                             handleLogOut();
@@ -83,7 +79,7 @@ const DashboardAside = () => {
             );
           })}
 
-          <MobileCloseDropDown setter={setShowAsideDash} title="close" />
+          <MobileCloseDropDown target="showDashBoaedAside" title="close" />
         </motion.aside>
       )}
     </AnimatePresence>

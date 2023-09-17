@@ -305,20 +305,6 @@ a.crumb-link {
   letter-spacing: 1px;
 }
 
-div.dash-nav {
-  position: fixed;
-  top: 0px;
-  padding: 0 10px;
-  height: 40px;
-  right: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--forth);
-  transition: 0.3s;
-}
-
 .notification-par {
   height: 350px;
   width: 350px;
@@ -440,4 +426,17 @@ div.dash-nav {
   top: 0;
   left: 0;
   height: 100%;
+}
+div.dash-nav {
+  position: fixed;
+  top: 0px;
+  padding: 0 10px;
+  height: 40px;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var (--main);
+  transition: 0.3s;
 }

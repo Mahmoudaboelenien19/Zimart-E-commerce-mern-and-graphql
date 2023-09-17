@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./components/widgets/loaders/Loading";
 import "./styles/App.scss";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import Nav from "./components/Nav/main/Nav";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./components/Nav/routes";

@@ -1,10 +1,10 @@
 import { AnimatePresence } from "framer-motion";
 import React, { LegacyRef } from "react";
-import NoData from "../../widgets/NoData";
-
 import { useScrollDirection } from "react-use-scroll-direction";
 import Notificatin from "./Notificatin";
-import { notificationInterface } from "../../../redux/notificationsSlice";
+import NoData from "@/components/widgets/NoData";
+import { notificationInterface } from "@/redux/notificationsSlice";
+
 interface Props {
   dataShown: notificationInterface[];
   showAll: boolean;

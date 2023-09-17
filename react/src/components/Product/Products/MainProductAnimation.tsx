@@ -1,13 +1,12 @@
 import React, { RefAttributes } from "react";
-import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
-import { imgArr } from "../../../assets/arries/arries";
 import "swiper/css/effect-coverflow";
-import FadeWithY from "../../widgets/animation/FadeWithY";
+
+import { imgArr } from "@/assets/arries/arries";
+import FadeWithY from "@/components/widgets/animation/FadeWithY";
 const MainProductAnimation = () => {
   const options: RefAttributes<SwiperRef> & SwiperProps = {
     spaceBetween: 5,

@@ -1,12 +1,22 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { opacityVariant } from "../../../variants/globals";
 import { useNavigate } from "react-router-dom";
-import useRemoveFromFav from "../../../custom/useRemoveFeomFav";
-import useIsMobile from "../../../custom/useIsMobile";
-import { isAuthContext } from "../../../context/isAuth";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { isAuthContext } from "@/context/isAuth";
+import useIsMobile from "@/custom/useIsMobile";
+import useRemoveFromFav from "@/custom/useRemoveFeomFav";
+import { opacityVariant } from "@/variants/globals";
+
+interface Props {
+  _id: string;
+  price: number;
+  title: string;
+  productId: string;
+  path: string;
+  parentId: string;
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
+}
 const Favorite = ({
   _id,
   price,
@@ -15,7 +25,7 @@ const Favorite = ({
   path,
   parentId,
   setter,
-}: any) => {
+}: Props) => {
   const navigate = useNavigate();
   const { userId } = useContext(isAuthContext);
   const { handleRemoveFromFav } = useRemoveFromFav({

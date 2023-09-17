@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
-import useClickOutside from "../../../custom/useClickOutside";
-import { opacityVariant } from "../../../variants/globals";
-import InpErr from "../../widgets/forms/InpErr";
+import InpErr from "@/components/widgets/forms/InpErr";
+import useClickOutside from "@/custom/useClickOutside";
+import { opacityVariant } from "@/variants/globals";
 
 interface Props {
   val: string;

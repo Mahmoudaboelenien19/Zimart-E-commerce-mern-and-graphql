@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { BiPlus } from "react-icons/bi";
-import { opacityVariant, parentVariant } from "../../../variants/globals";
 import Star from "./Aside/Star";
 import { IoIosArrowDown } from "react-icons/io";
-import useClickOutside from "../../../custom/useClickOutside";
+import useClickOutside from "@/custom/useClickOutside";
+import { opacityVariant, parentVariant } from "@/variants/globals";
 
 const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
   const [show, setShow] = useState(false);

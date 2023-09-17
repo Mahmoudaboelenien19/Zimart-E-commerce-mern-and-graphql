@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { useAnimate } from "framer-motion";
-import { useAppDispatch } from "../../../custom/reduxTypes";
-import { changeCartCountRedux } from "../../../redux/cartSlice.js";
 import { useMutation } from "@apollo/client";
-import { Change_Cart_Count } from "../../../graphql/mutations/user";
-import { isAuthContext } from "../../../context/isAuth";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
+import { isAuthContext } from "@/context/isAuth";
+import { useAppDispatch } from "@/custom/reduxTypes";
+import { Change_Cart_Count } from "@/graphql/mutations/user";
+import { changeCartCountRedux } from "@/redux/cartSlice";
 
 const Counter = ({
   counter,

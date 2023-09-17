@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
-import { opacityVariant } from "../../../variants/globals";
-
 import TrUser from "./TrUser";
-import FadeElement from "../../widgets/animation/FadeElement";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { opacityVariant } from "@/variants/globals";
 
 const DashBoardUsersTable = ({ data }: { data: any }) => {
   return (

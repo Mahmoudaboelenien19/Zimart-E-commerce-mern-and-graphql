@@ -3,10 +3,11 @@ import React, { useContext, useState } from "react";
 import { SideBySideMagnifier } from "react-image-magnifiers";
 import Hint from "./Hint";
 import { productContext } from "../Product";
-import useCarousel from "../../../custom/useCarousel";
-import useModifyUrl from "../../../custom/useModifyUrl";
+
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import useCarousel from "@/custom/useCarousel";
+import useModifyUrl from "@/custom/useModifyUrl";
 
 const BigImage = () => {
   const { images = [], bigImgInd, category } = useContext(productContext);

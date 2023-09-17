@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 
-import OrderDetail from "../Table/OrderDetail";
 import { motion } from "framer-motion";
-import { reverseVariant } from "../../../../variants/globals";
+import { reverseVariant } from "@/variants/globals";
+import OrderDetail from "../Table/OrderDetail";
+
 interface Props {
   userId: string;
   state: string;

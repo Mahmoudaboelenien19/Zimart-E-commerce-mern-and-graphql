@@ -1,5 +1,5 @@
+import { themeContext } from "@/context/ThemContext";
 import { useContext } from "react";
-import { themeContext } from "../../../context/ThemContext";
 
 const useChartData = (
   arr: { createdAt: string; cost?: number }[],

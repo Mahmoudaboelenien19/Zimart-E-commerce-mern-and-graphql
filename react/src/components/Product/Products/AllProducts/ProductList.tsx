@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import ProductFliter from "./ProductFliter";
 import Pages from "../Pages";
 import { motion } from "framer-motion";
@@ -46,9 +46,12 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
           <>
             {dataShown?.map((product: ProductInterface, index: number) => {
               return (
-                <Fragment key={`${product._id}-list`}>
-                  <ProductFliter {...product} index={index} isDash={isDash} />
-                </Fragment>
+                <ProductFliter
+                  {...product}
+                  index={index}
+                  isDash={isDash}
+                  key={`${product._id}-list`}
+                />
               );
             })}
           </>

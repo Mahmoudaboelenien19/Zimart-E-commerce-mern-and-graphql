@@ -2,40 +2,34 @@ import React, {
   useEffect,
   createContext,
   useState,
-  useContext,
   useLayoutEffect,
   useRef,
 } from "react";
 import DashMain from "../DashMain";
-
 import MobileOrders from "./Mobile/MobileOrders";
 import OrderTable from "./Table/OrderTable";
 import { Outlet } from "react-router-dom";
-
 import useMessure from "react-use-measure";
-import { showAsideContext } from "../Dashboard";
 import { mergeRefs } from "react-merge-refs";
 import Pages from "@/components/Product/Products/Pages";
 import NoData from "@/components/widgets/NoData";
 import { useAppSelector } from "@/custom/reduxTypes";
 import usePagination from "@/custom/useNumberOfPages";
 import { OrderInterface } from "@/interfaces/order";
+import useParams from "@/custom/useParams";
 
 interface contextInterface {
   setarrOfOrders: React.Dispatch<React.SetStateAction<string[]>>;
   arrOfOrders: string[];
-
   setSlectALl: React.Dispatch<React.SetStateAction<string | number>>;
   selectALl: string | number;
   dataShown: OrderInterface[];
 }
 export const checkContext = createContext({} as contextInterface);
 const Orders = () => {
-  const { showAsideDash } = useContext(showAsideContext);
   const [selectALl, setSlectALl] = useState<string | number>("");
   const [arrOfOrders, setarrOfOrders] = useState<string[]>([]);
-  const query = new URLSearchParams(location.search);
-  const page = query.get("page") || "1";
+  const { page, showAsideFilter } = useParams();
   const { order } = useAppSelector((st) => st.order);
   const [dataShown, numberOfPages] = usePagination(
     18,
@@ -51,9 +45,11 @@ const Orders = () => {
 
   const [wid, setWid] = useState(0);
   const reff = useRef<HTMLDivElement>(null);
+
   useLayoutEffect(() => {
     setWid(reff.current?.offsetWidth || 0);
-  }, [showAsideDash, width]);
+  }, [showAsideFilter, width]);
+
   return (
     <checkContext.Provider
       value={{ dataShown, setarrOfOrders, arrOfOrders, setSlectALl, selectALl }}
@@ -68,7 +64,6 @@ const Orders = () => {
             <MobileOrders key={"mobile-order"} />
           )}
           <Pages
-            pathname="/dashboard/orders"
             key={"order-pages"}
             page={Number(page)}
             numOfPages={numberOfPages}

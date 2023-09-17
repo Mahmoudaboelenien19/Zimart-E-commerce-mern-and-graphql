@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import StarIcon from "../../../custom SVGs/StarIcon";
-
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import Title from "../../widgets/Title";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import StarIcon from "@/custom SVGs/StarIcon";
 
 const clrsArr = [
   "var(--green)",

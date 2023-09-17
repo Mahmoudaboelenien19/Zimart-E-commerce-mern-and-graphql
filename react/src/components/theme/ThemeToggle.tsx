@@ -4,9 +4,9 @@ import { themeContext } from "../../context/ThemContext";
 import Title from "../widgets/Title";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaSun } from "react-icons/fa";
-import useNavTransition from "../../custom/useNavTransition";
+import useNavTransition from "@/custom/useNavTransition";
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ isDash = false }: { isDash?: boolean }) => {
   const { toggleTheme, theme } = useContext(themeContext);
   const variant = {
     start: { x: theme === "light" ? 0 : 10 },
@@ -21,7 +21,7 @@ const ThemeToggle = () => {
     <motion.div className="theme" ref={navRef}>
       <Title
         title={theme === "light" ? "apply dark mode" : "apply light mode"}
-        dir="left"
+        dir="right"
       >
         <AnimatePresence initial={false}>
           <motion.div
@@ -29,10 +29,14 @@ const ThemeToggle = () => {
             variants={variant}
             animate="end"
             initial="start"
-            style={{ color: LinkClr }}
+            style={{ color: isDash ? "var(--third)" : LinkClr }}
           >
             {theme === "dark" ? (
-              <TbMoonFilled onClick={toggleTheme} className="above" />
+              <TbMoonFilled
+                style={{ color: isDash ? "var(--third)" : "inherit" }}
+                onClick={toggleTheme}
+                className="above"
+              />
             ) : (
               <FaSun className="above sun" onClick={toggleTheme} />
             )}

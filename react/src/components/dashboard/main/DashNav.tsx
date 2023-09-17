@@ -1,22 +1,18 @@
-import React, { useContext } from "react";
-import MenuTogglar from "../../widgets/MenuTogglar";
-import ThemeToggle from "../../theme/ThemeToggle";
+import React from "react";
 import NotificationDropDown from "../Notification/NotificationDropDown";
-import { showAsideContext } from "../Dashboard";
 import BeardCrumbs from "../BeardCrumbs";
+import ThemeToggle from "@/components/theme/ThemeToggle";
+import MenuTogglar from "@/components/widgets/MenuTogglar";
 
 const DashNav = () => {
-  const { showAsideDash, setShowAsideDash } = useContext(showAsideContext);
-
   return (
     <>
       <BeardCrumbs key="beardCrumbs" />
       <span className="center " style={{ gap: 15 }}>
-        <ThemeToggle />
+        <ThemeToggle isDash />
         <NotificationDropDown />
         <MenuTogglar
-          bool={showAsideDash}
-          setter={setShowAsideDash}
+          target={"showDashBoaedAside"}
           hideMsg="hide dashboard"
           showMsg="show dashboard"
         />

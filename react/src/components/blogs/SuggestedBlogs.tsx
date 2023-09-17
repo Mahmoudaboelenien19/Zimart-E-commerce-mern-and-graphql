@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
+
 import SuggestedBlog from "./SuggestedBlog";
 import { stagger, useAnimate, useInView } from "framer-motion";
-import { addToBlogsRedux } from "../../redux/BlogsSlice";
+
 import { useLazyQuery } from "@apollo/client";
-import { getAllBlogs } from "../../graphql/blog";
+import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import { getAllBlogs } from "@/graphql/blog";
+import { addToBlogsRedux } from "@/redux/BlogsSlice";
 
 const SuggestedBlogs = ({ id }: { id: string }) => {
   const { blogs } = useAppSelector((st) => st.blogs);

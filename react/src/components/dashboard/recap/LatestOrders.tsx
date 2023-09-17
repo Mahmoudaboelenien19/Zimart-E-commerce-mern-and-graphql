@@ -1,7 +1,7 @@
+import { useAppSelector } from "@/custom/reduxTypes";
+import { OrderInterface } from "@/interfaces/order";
 import React from "react";
-import { useAppSelector } from "../../../custom/reduxTypes";
 import OrderRecap from "./OrderRecap";
-import { OrderInterface } from "../../../interfaces/order";
 
 const LatestOrders = () => {
   const { order } = useAppSelector((st) => st.order);

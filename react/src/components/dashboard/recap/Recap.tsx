@@ -3,13 +3,15 @@ import DashMain from "../DashMain";
 import DashBoardRecap from "./DashBoardRecap";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrProductHunt } from "react-icons/gr";
-import { useAppSelector } from "../../../custom/reduxTypes";
-import useDashProgress from "../../../custom/useDashProgress";
+
 import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
 import useMeasure from "react-use-measure";
-import GridLoader from "../../widgets/loaders/GridLoader";
+
 import AdminEmailPop from "../AdminEmailPop";
+import GridLoader from "@/components/widgets/loaders/GridLoader";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useDashProgress from "@/custom/useDashProgress";
 
 const Recap = () => {
   const { user } = useAppSelector((st) => st.user);

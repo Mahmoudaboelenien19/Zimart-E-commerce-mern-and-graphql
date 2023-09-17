@@ -23,6 +23,7 @@ const Pages = ({ numOfPages, page, to }: Props) => {
                 "page center",
                 page > 1 ? "wheat" : "wheat-lighter"
               )}
+              delay={1400}
               onClick={() => {
                 if (page >= 2) {
                   setParam("page", `${page >= 2 && page - 1}`);
@@ -43,6 +44,7 @@ const Pages = ({ numOfPages, page, to }: Props) => {
                         page === index + 1 && "page-active"
                       )}
                       smooth
+                      delay={1400}
                       to="products"
                       onClick={() => {
                         setParam("page", `${index + 1}`);
@@ -62,6 +64,7 @@ const Pages = ({ numOfPages, page, to }: Props) => {
                 page < numOfPages ? "wheat" : "wheat-lighter"
               )}
               smooth
+              delay={1400}
               to="products"
               onClick={() => setParam("page", `${page + 1}`)}
             >

@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import { ChildrenInterFace } from "../../../interfaces/general";
 import FadeElement from "../animation/FadeElement";
+import { ChildrenInterFace } from "@/interfaces/general";
 interface Props extends ChildrenInterFace {
   sethide: React.Dispatch<React.SetStateAction<boolean>>;
   cls: string;

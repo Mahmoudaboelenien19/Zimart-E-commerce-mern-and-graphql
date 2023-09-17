@@ -1,21 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { AnimatePresence, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
-
-import ListCartBtn from "./ListCartBtn";
-
 import { AiOutlineCheck } from "react-icons/ai";
-
 import { RiEditLine } from "react-icons/ri";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProductRate from "@/components/product Route/ProductRate";
 import CompareIcons from "@/components/svgs/CompareIcons";
 import ProductListHeart from "@/components/svgs/ProductListHeart";
 import StyledPrice from "@/components/widgets/StyledPrice";
-import FadeWithY from "@/components/widgets/animation/FadeWithY";
 import DetailsBtn from "@/components/widgets/buttons/DetailsBtn";
 import { productListContext } from "@/context/FilterData";
 import { viewContext } from "@/context/gridView";
@@ -24,6 +17,9 @@ import useIsMobile from "@/custom/useIsMobile";
 import { ProductInterface } from "@/interfaces/product";
 import Title from "@/components/widgets/Title";
 import useParams from "@/custom/useParams";
+import ProductDescription from "./ProductDescription";
+import ProductBtns from "./ProductBtns";
+import HighlightSearchResult from "./HighlightSearchResult";
 
 interface Props extends ProductInterface {
   isDash?: boolean;
@@ -42,19 +38,16 @@ const ProductFliter = ({
   images,
   rating,
   state,
-
   description,
   reviews,
 }: Props) => {
-  const [searchParams] = useSearchParams();
-  const searchWord = searchParams.get("search");
+  const { search: searchWord, showAsideFilter } = useParams();
   const { avgRate, reviewLength } = useAvg(rating, reviews);
   const [isFavoraited, setIsFavorited] = useState(false);
-  const [onCart, setOnCart] = useState(false);
+
   const { isPending } = useContext(productListContext);
   const { gridView, setGridView } = useContext(viewContext);
   const [sectionRef, { width: sectionWidth }] = useMeasure();
-  const { showAsideFilter } = useParams();
   const navigat = useNavigate();
   const { isMobile } = useIsMobile();
   useEffect(() => {
@@ -68,13 +61,12 @@ const ProductFliter = ({
         gridView ? "grid col" : "list between "
       }`}
       ref={sectionRef}
-      // initial={{ height: 0 }}
       style={{
         height:
           sectionWidth <= 400 && !gridView && showAsideFilter
             ? 200
             : !gridView
-            ? 280
+            ? 320
             : 380,
       }}
     >
@@ -90,42 +82,19 @@ const ProductFliter = ({
       </div>
 
       <div className="center col product-data">
-        <h5 className="product-head-underline" style={{ marginBottom: 12 }}>
-          {searchWord && !isDash && !isSLide && !isPending
-            ? category
-                .split(new RegExp(`(${searchWord})`, "gi"))
-                .map((part, index) => {
-                  if (part?.toLowerCase() === searchWord.toLowerCase()) {
-                    return (
-                      <span key={index} className="highlight">
-                        {part}
-                      </span>
-                    );
-                  } else {
-                    return <span key={index}>{part}</span>;
-                  }
-                })
-            : category}
-        </h5>
+        <HighlightSearchResult
+          bool={Boolean(searchWord && !isDash && !isSLide && !isPending)}
+          Element="h5"
+          className="product-head-underline"
+          value={category}
+        />
 
-        <span className="title-product">
-          {" "}
-          {searchWord && !isDash && !isSLide && !isPending
-            ? title
-                .split(new RegExp(`(${searchWord})`, "gi"))
-                .map((part, index) => {
-                  if (part?.toLowerCase() === searchWord.toLowerCase()) {
-                    return (
-                      <span key={index} className="highlight">
-                        {part}
-                      </span>
-                    );
-                  } else {
-                    return <span key={index}>{part}</span>;
-                  }
-                })
-            : title}
-        </span>
+        <HighlightSearchResult
+          bool={Boolean(searchWord && !isDash && !isSLide && !isPending)}
+          Element="span"
+          className="title-product"
+          value={title}
+        />
 
         <span className=" center stock-par shadow">
           <span className="stock-icon ">
@@ -135,30 +104,11 @@ const ProductFliter = ({
           <span className="stock-card">in stock</span>
         </span>
 
-        <AnimatePresence mode="wait">
+        <>
           {!gridView && sectionWidth >= 400 && (
-            <motion.p
-              key={description}
-              initial={{
-                height: 0,
-                opacity: 0,
-              }}
-              animate={{
-                height: "auto",
-                opacity: 1,
-                transition: { delay: 0.3, duration: 0.3 },
-              }}
-              exit={{
-                height: 0,
-                opacity: 0,
-                transition: { duration: 0.3 },
-              }}
-              style={{ fontWeight: "normal" }}
-            >
-              {description}
-            </motion.p>
+            <ProductDescription description={description || ""} />
           )}
-        </AnimatePresence>
+        </>
 
         <div className="product-rate-filter center ">
           <ProductRate
@@ -173,29 +123,12 @@ const ProductFliter = ({
         </div>
         {!isDash && (
           <div className="product-links center  w-100">
-            <AnimatePresence mode="wait">
-              {!onCart ? (
-                <ListCartBtn
-                  key={"ListCartBtn"}
-                  setOnCart={setOnCart}
-                  price={price}
-                  title={title}
-                  parentId={_id}
-                  images={images}
-                  btn="add to cart"
-                />
-              ) : (
-                <ListCartBtn
-                  key={"removeListCartBtn"}
-                  setOnCart={setOnCart}
-                  price={price}
-                  title={title}
-                  parentId={_id}
-                  images={images}
-                  btn="remove from cart"
-                />
-              )}
-            </AnimatePresence>
+            <ProductBtns
+              price={price}
+              title={title}
+              images={images}
+              _id={_id}
+            />
           </div>
         )}
         <span className="heart-filter  center">

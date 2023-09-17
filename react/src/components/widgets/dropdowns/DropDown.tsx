@@ -1,9 +1,9 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
-import { ChildrenInterFace } from "../../../interfaces/general";
-import useClickOutside from "../../../custom/useClickOutside";
-import FadeElement from "../animation/FadeElement";
+
 import MobileCloseDropDown from "./MobileCloseDropDown";
+import useClickOutside from "@/custom/useClickOutside";
+import { ChildrenInterFace } from "@/interfaces/general";
 
 interface Props extends ChildrenInterFace {
   bool: boolean;

@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { categoriesArr } from "../../assets/arries/arries";
+
 import { Link } from "react-scroll";
-import { productListContext } from "../../context/FilterData";
-import useFilterCategory from "../../custom/useFilterCategory";
+
 import { motion } from "framer-motion";
 import FadeWithY from "../widgets/animation/FadeWithY";
 import useParams from "@/custom/useParams";
+import { categoriesArr } from "@/assets/arries/arries";
+import { productListContext } from "@/context/FilterData";
+import useFilterCategory from "@/custom/useFilterCategory";
 const FooterCategory = () => {
   const { setProducts } = useContext(productListContext);
   const { setParam, deleteParam } = useParams();

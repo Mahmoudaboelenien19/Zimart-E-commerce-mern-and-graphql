@@ -1,6 +1,6 @@
 import React from "react";
-import { ChildrenInterFace } from "../../../interfaces/general";
 import { motion } from "framer-motion";
+import { ChildrenInterFace } from "@/interfaces/general";
 
 interface Props extends ChildrenInterFace {
   cls?: string;

@@ -1,6 +1,6 @@
+import { opacityVariant } from "@/variants/globals";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
-import { opacityVariant } from "../../../variants/globals";
 
 interface Props {
   err: string | undefined;

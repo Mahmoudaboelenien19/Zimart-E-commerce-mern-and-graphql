@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import ProductList from "../../Product/Products/AllProducts/ProductList";
-import { viewContext } from "../../../context/gridView";
+
 import DashMain from "../DashMain";
 import { Outlet } from "react-router-dom";
+import ProductList from "@/components/Product/Products/AllProducts/ProductList";
+import { viewContext } from "@/context/gridView";
 
 const DashProducts = () => {
   const { setGridView } = useContext(viewContext);

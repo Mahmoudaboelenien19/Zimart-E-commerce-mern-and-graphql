@@ -1,14 +1,16 @@
 import React, { useEffect, useContext, useState } from "react";
 
 import ProductFliter from "../Product/Products/AllProducts/ProductFliter";
-import { viewContext } from "../../context/gridView";
-import { useAppSelector } from "../../custom/reduxTypes";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-import { ProductInterface } from "../../interfaces/product";
+import { viewContext } from "@/context/gridView";
+import { useAppSelector } from "@/custom/reduxTypes";
+import { ProductInterface } from "@/interfaces/product";
+
 const SLiderComponent = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
 

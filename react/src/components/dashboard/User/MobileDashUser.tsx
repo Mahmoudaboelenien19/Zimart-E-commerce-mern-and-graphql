@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { opacityVariant } from "../../../variants/globals";
 import UserMobile from "./UserMobile";
+import { opacityVariant } from "@/variants/globals";
 const MobileDashUser = ({ data }: { data: any }) => {
   return (
     <div className="">

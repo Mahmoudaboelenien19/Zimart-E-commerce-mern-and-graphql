@@ -5,10 +5,10 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
 import { FaGreaterThan } from "react-icons/fa";
-import { ChildrenInterFace } from "../../../interfaces/general";
 import MainPop from "../MainPop";
+import CircleCheckSvg from "@/custom SVGs/CircleCheckSvg";
+import { ChildrenInterFace } from "@/interfaces/general";
 interface Props extends ChildrenInterFace {
   sethide: React.Dispatch<React.SetStateAction<boolean>>;
 
