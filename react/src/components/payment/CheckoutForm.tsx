@@ -1,12 +1,14 @@
 import React, { PaymentElement } from "@stripe/react-stripe-js";
 import { FormEvent, useContext, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { isAuthContext } from "../../context/isAuth";
+
 import SmallLoader from "../widgets/loaders/SmallLoader";
 import { Navigate } from "react-router-dom";
-import { ProductInterface } from "../../interfaces/product";
+
 import { useMutation } from "@apollo/client";
-import { create_Order } from "../../graphql/mutations/order";
+import { isAuthContext } from "@/context/isAuth";
+import { create_Order } from "@/graphql/mutations/order";
+import { ProductInterface } from "@/interfaces/product";
 
 export default function CheckoutForm({
   products,
@@ -42,7 +44,7 @@ export default function CheckoutForm({
       }
       setIsProcessing(true);
       const { data } = await fn();
-   
+
       if (data?.createOrder?.status === 200) {
         setOrderId(data.createOrder.orderId);
       }

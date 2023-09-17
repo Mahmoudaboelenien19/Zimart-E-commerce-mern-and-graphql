@@ -1,6 +1,6 @@
 :root {
   --green: #237a44;
-  --wheat: rgb(161, 137, 92);
+  --wheat: rgb(170, 136, 73);
   --white: rgb(247, 246, 246);
   --wheat-light: #c5af87c9;
   --wheat-lighter: #dcccaec9;
@@ -26,8 +26,9 @@
   --admin: rgb(4, 81, 4);
   --delivered: var(--sale);
   --moderator: var(--sale);
+  --nav-btn: #237a44;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
   --forth-shadow: 0.3px 0.3px 0.2px black;
-} /*# sourceMappingURL=variables.css.map */
+}/*# sourceMappingURL=variables.css.map */

@@ -1,12 +1,14 @@
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleBlog } from "../../graphql/blog";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BlogParagraph from "./BlogParagraph";
-import { BlogPragraph } from "../../interfaces/blog";
+
 import SuggestedBlogs from "./SuggestedBlogs";
 import { motion } from "framer-motion";
+import { getSingleBlog } from "@/graphql/blog";
+import { BlogPragraph } from "@/interfaces/blog";
 const Blog = () => {
   const { id } = useParams();
   const { data, loading } = useQuery(getSingleBlog, {
@@ -17,7 +19,7 @@ const Blog = () => {
   }, [loading]);
 
   if (data?.blog) {
-    const { head, intro, end, image, _id, content } = data.blog;
+    const { head, intro, end, image, content } = data.blog;
     return (
       <div className="blog">
         <div className="blog-details">

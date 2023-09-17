@@ -1,20 +1,24 @@
 import React, { Fragment, useState } from "react";
-import { FieldValues, FormProvider, useForm, Field } from "react-hook-form";
-import Input from "../../widgets/forms/Input";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-hot-toast";
-import InpErr from "../../widgets/forms/InpErr";
-import { ProductInterface } from "../../../interfaces/product";
+
 import CustomFIleInput from "./CustomFIleInput";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { opacityVariant } from "../../../variants/globals";
-import MainBtn from "../../widgets/buttons/MainBtn";
+
 import DashMain from "../DashMain";
-import FormAnimation from "../../widgets/forms/FormAnimation";
-import UploadingLoader from "../../widgets/loaders/UploadingLoader";
+
 import Select from "./Select";
+import MainBtn from "@/components/widgets/buttons/MainBtn";
+import FormAnimation from "@/components/widgets/forms/FormAnimation";
+import InpErr from "@/components/widgets/forms/InpErr";
+import Input from "@/components/widgets/forms/Input";
+import UploadingLoader from "@/components/widgets/loaders/UploadingLoader";
+import { ProductInterface } from "@/interfaces/product";
+import { opacityVariant } from "@/variants/globals";
 interface keyedProduct extends ProductInterface {
   [key: string]: any;
 }
@@ -32,7 +36,6 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   const [isPending, setIsPending] = useState(false);
   const [isSubmited, setIsSubmitted] = useState(false);
   const [stateValue, setStateValue] = useState(obj?.state || "");
-  const [AllDone, setAllDone] = useState(false);
   const [categoryValue, setCategoryValue] = useState(obj?.category || "");
 
   const date = () => new Date();

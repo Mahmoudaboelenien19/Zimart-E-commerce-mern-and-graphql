@@ -1,80 +1,40 @@
-import { IoFilter } from "react-icons/io5";
-import Rating from "./Rating";
-import Price from "./Price";
+import React from "react";
+import Rating from "./filter/Rating";
+import Price from "./filter/Price";
 import { AnimatePresence, motion } from "framer-motion";
-import FeaturedProducts from "./FeaturedProducts";
-import { useMutation } from "@apollo/client";
-import { FILTER_All } from "../../../../graphql/mutations/product.js";
-import {
-  FeaturedProductsArr,
-  categoriesArr,
-} from "../../../../assets/arries/arries.js";
-import MainBtn from "../../../widgets/buttons/MainBtn";
-import { MdFilterListAlt } from "react-icons/md";
-import { FiRefreshCcw } from "react-icons/fi";
-import { productListContext } from "../../../../context/FilterData";
-import Category from "./Category";
-import { asideVariant } from "../../../../variants/globals";
-import { useAppSelector } from "../../../../custom/reduxTypes";
-import useIsMobile from "../../../../custom/useIsMobile";
+import { categoriesArr, FeaturedProductsArr } from "@/assets/arries/arries";
+import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
+import useIsMobile from "@/custom/useIsMobile";
+import { asideVariant } from "@/variants/globals";
+import FilterSection from "./filter/FilterSection";
+import useParams from "@/custom/useParams";
+import ResetFiltersBtn from "./ResetFiltersBtn";
+import AsideFilterHead from "./AsideFilterHead";
 
-import MobileCloseDropDown from "../../../widgets/dropdowns/MobileCloseDropDown";
-import React, { useContext, useState } from "react";
-
-interface Props {
-  startFiltering: boolean;
-}
-const Aside = ({ startFiltering }: Props) => {
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
+const Aside = () => {
   const {
-    categoryFilter,
-    setCategoryFilter,
     priceFilter,
-    setPriceFilter,
-    RateChecked,
-    setRateChecked,
-    productFeatured,
-    setProductFeatured,
-    setProducts,
-    products,
-    setShowFilter,
-    startTransition,
-  } = useContext(productListContext);
+    rateFilter,
+    categoryFilter,
+    featuredProductsFilter,
+
+    deleteParam,
+  } = useParams();
   const { isMobile } = useIsMobile();
-  const [filterAllFn] = useMutation(FILTER_All);
-  const [isPending, setIsPending] = useState(false);
-  const handleFiltering = async () => {
-    setIsPending(true);
-    const res = await filterAllFn({
-      variables: {
-        input: {
-          price: priceFilter === 0 ? 10000 : priceFilter,
-          category: categoryFilter === "" ? categoriesArr : [categoryFilter],
-          state:
-            productFeatured === "" ? FeaturedProductsArr : [productFeatured],
-          rate: RateChecked === "" ? 5 : Number(RateChecked),
-        },
-      },
-    });
-    startTransition(() => {
-      setProducts(res?.data.filterAllTypes);
-      setIsPending(false);
-      if (isMobile) {
-        setShowFilter(false);
-      }
-    });
-  };
 
-  const handleResetFiltering = () => {
-    setCategoryFilter("");
-    setRateChecked("");
-    setPriceFilter(0);
-    setProductFeatured("");
+  // const initialRender = useRef(true);
+  // useEffect(() => {
+  //   if (initialRender.current && isMobile) {
+  //     initialRender.current = false;
+  //     deleteParam("showAsideFilter");
+  //   } else {
+  //     initialRender.current = true;
+  //   }
+  // }, [isMobile]);
 
-    if (products.length !== Allproducts.length) {
-      setProducts(Allproducts);
-    }
-  };
+  const startFiltering = Boolean(
+    priceFilter != "0" || rateFilter || categoryFilter || featuredProductsFilter
+  );
   return (
     <motion.aside
       variants={asideVariant}
@@ -85,45 +45,19 @@ const Aside = ({ startFiltering }: Props) => {
       custom={{ bool: isMobile, w: 280 }}
       className="aside-products"
     >
-      <div className="aside-head center gap">
-        <div className="filter-icon center ">
-          <IoFilter className="icon" color="var(--third)" />
-          <span className="filter-head">filter</span>
-        </div>
+      <AsideFilterHead startFiltering={startFiltering} />
 
-        <div className="collapse-par center">
-          <AnimatePresence>
-            {startFiltering && (
-              <MainBtn
-                key={"apply-btn"}
-                cls={"btn shadow main center  gap"}
-                btn={"apply"}
-                fn={handleFiltering}
-                Icon={MdFilterListAlt}
-                isPending={isPending}
-              />
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-      <div className="hr"></div>
+      <FilterSection
+        head="featured products"
+        ar={FeaturedProductsArr}
+        filter="featured products"
+      />
+      <FilterSection head="category" ar={categoriesArr} filter="category" />
 
-      <FeaturedProducts />
-      <Category />
       <Rating />
       <Price />
-      <AnimatePresence>
-        {startFiltering && (
-          <MainBtn
-            key={"reset-filter-btn"}
-            cls={"btn w-100 reset-filter center  gap"}
-            btn={"            reset filters"}
-            fn={handleResetFiltering}
-            Icon={FiRefreshCcw}
-          />
-        )}
-      </AnimatePresence>
-      <MobileCloseDropDown setter={setShowFilter} title="close" />
+      <AnimatePresence>{startFiltering && <ResetFiltersBtn />}</AnimatePresence>
+      <MobileCloseDropDown target={"showAsideFilter"} title="close" />
     </motion.aside>
   );
 };

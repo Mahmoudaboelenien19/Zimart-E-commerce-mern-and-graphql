@@ -1,51 +1,27 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Aside from "./Aside/Aside";
 import ProductList from "./AllProducts/ProductList";
 import { AnimatePresence } from "framer-motion";
 import Sort from "../viewOptions/Sort";
-import { productListContext } from "../../../context/FilterData";
+
 import MainProductAnimation from "./MainProductAnimation";
-import { useAppSelector } from "../../../custom/reduxTypes";
-import useIsMobile from "../../../custom/useIsMobile";
-import useProductsSubscription from "../../../custom/useProductsSubscription";
-import GridLoader from "../../widgets/loaders/GridLoader";
+import useProductsSubscription from "@/custom/useProductsSubscription";
+import { productListContext } from "@/context/FilterData";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useHideScroll from "@/custom/useHideScroll";
+import useParams from "@/custom/useParams";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
+
+  const { showAsideFilter } = useParams();
   useProductsSubscription();
-  const { isMobile } = useIsMobile();
-  const {
-    RateChecked,
-    priceFilter,
-    categoryFilter,
-    productFeatured,
-    showFilter,
-    setProducts,
-  } = useContext(productListContext);
-  const [startFiltering, setStartFiltering] = useState(false);
+  const { setProducts } = useContext(productListContext);
   useEffect(() => {
     setProducts(Allproducts);
   }, []);
-  useEffect(() => {
-    if (isMobile && showFilter) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [showFilter, isMobile]);
-  useEffect(() => {
-    if (
-      RateChecked === "" &&
-      priceFilter === 0 &&
-      categoryFilter === "" &&
-      productFeatured === ""
-    ) {
-      setStartFiltering(false);
-    } else {
-      setStartFiltering(true);
-    }
-  }, [RateChecked, priceFilter, categoryFilter, productFeatured]);
 
+  useHideScroll(Boolean(showAsideFilter));
   return (
     <section id="products" className="products-par">
       <h1 className="sort-title header underline">Our Products</h1>
@@ -54,7 +30,7 @@ const Products = () => {
 
       <div className="center row start between relative">
         <AnimatePresence mode="wait">
-          {showFilter && <Aside startFiltering={startFiltering} />}
+          {showAsideFilter && <Aside />}
         </AnimatePresence>
 
         <ProductList />

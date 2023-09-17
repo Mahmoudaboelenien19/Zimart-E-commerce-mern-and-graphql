@@ -1,6 +1,6 @@
+import { isAuthContext } from "@/context/isAuth";
 import React, { useContext } from "react";
 
-import { isAuthContext } from "../../../context/isAuth";
 const ShowCount = ({ length }: { length: number }) => {
   const { isAuth } = useContext(isAuthContext);
   return (

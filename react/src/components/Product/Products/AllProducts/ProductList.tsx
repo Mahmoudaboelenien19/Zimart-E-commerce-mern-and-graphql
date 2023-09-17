@@ -2,24 +2,23 @@ import React, { Fragment, useContext, useEffect, useRef } from "react";
 import ProductFliter from "./ProductFliter";
 import Pages from "../Pages";
 import { motion } from "framer-motion";
-import { viewContext } from "../../../../context/gridView";
-import { productListContext } from "../../../../context/FilterData";
-import usePagination from "../../../../custom/useNumberOfPages";
-import { useAppSelector } from "../../../../custom/reduxTypes";
-import NoData from "../../../widgets/NoData";
-import useIsMobile from "../../../../custom/useIsMobile";
-import GridLoader from "../../../widgets/loaders/GridLoader";
-import { ProductInterface } from "../../../../interfaces/product";
+import NoData from "@/components/widgets/NoData";
+import GridLoader from "@/components/widgets/loaders/GridLoader";
+import { productListContext } from "@/context/FilterData";
+import { viewContext } from "@/context/gridView";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useIsMobile from "@/custom/useIsMobile";
+import usePagination from "@/custom/useNumberOfPages";
+import { ProductInterface } from "@/interfaces/product";
+import useParams from "@/custom/useParams";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { showFilter, isPending, products, setProducts } =
-    useContext(productListContext);
+  const { isPending, products, setProducts } = useContext(productListContext);
   const ar = isDash ? Allproducts : products || [];
   const { gridView } = useContext(viewContext);
 
-  const query = new URLSearchParams(location.search);
-  const page = query.get("page") || "1";
+  const { page, showAsideFilter } = useParams();
   const { isMobile } = useIsMobile();
   const [dataShown, numberOfPages] = usePagination(12, Number(page), ar);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -36,8 +35,9 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
       <motion.div
         ref={ref}
         className={`product-list-par  ${!gridView ? "list" : "grid"} `}
-        style={{
-          width: showFilter && !isMobile ? " calc(100% - 200px - 20px)" : "96%",
+        animate={{
+          width:
+            showAsideFilter && !isMobile ? " calc(100% - 200px - 20px)" : "96%",
         }}
       >
         {isPending ? (
@@ -54,7 +54,7 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
           </>
         )}
         <Pages
-          pathname={isDash ? "/dashboard/products" : "/"}
+          to="products"
           key={"pages"}
           page={Number(page)}
           numOfPages={numberOfPages}

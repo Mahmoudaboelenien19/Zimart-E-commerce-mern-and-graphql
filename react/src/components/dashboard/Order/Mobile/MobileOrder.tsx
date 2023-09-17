@@ -1,14 +1,17 @@
 import React, { useContext, useState } from "react";
-import Title from "../../../widgets/Title";
+
 import { AnimatePresence, motion } from "framer-motion";
-import FadeElement from "../../../widgets/animation/FadeElement";
-import StyledPrice from "../../../widgets/StyledPrice";
+
 import { AiTwotoneDelete } from "react-icons/ai";
 import { checkContext } from "../Orders";
-import useDeleteOrder from "../../../../custom/useDeleteOrder";
+
 import OrderDetailsIcon from "../OrderDetailsIcon";
 import DashDropDown from "../DashDropDown";
 import { useScrollDirection } from "react-use-scroll-direction";
+import StyledPrice from "@/components/widgets/StyledPrice";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import useDeleteOrder from "@/custom/useDeleteOrder";
+import Title from "@/components/widgets/Title";
 
 interface Props {
   state: string;

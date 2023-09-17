@@ -1,22 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Overley from "../widgets/dropdowns/Overley";
 import { ChildrenInterFace } from "../../interfaces/general";
-import MobileCloseDropDown from "./dropdowns/MobileCloseDropDown";
 import { motion } from "framer-motion";
 import FadeElement from "./animation/FadeElement";
+import useHideScroll from "../../custom/useHideScroll";
 interface Props extends ChildrenInterFace {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   bool: boolean;
   cls?: string;
 }
 const MainPop = ({ bool, setter, children, cls = "" }: Props) => {
-  useEffect(() => {
-    if (bool) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [bool]);
+  useHideScroll(bool);
+
   return (
     <>
       {bool && (

@@ -1,10 +1,10 @@
 import { MotionValue, motion } from "framer-motion";
 import React, { useContext } from "react";
-import { isAuthContext } from "../../../context/isAuth";
-import FadeElement from "../../widgets/animation/FadeElement";
 import NavImg from "./NavImg";
 import { useNavigate } from "react-router-dom";
 import ProdouctFeaturesLinks from "./ProdouctFeaturesLinks";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { isAuthContext } from "@/context/isAuth";
 
 interface Props {
   color: MotionValue;

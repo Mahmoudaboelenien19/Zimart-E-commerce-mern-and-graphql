@@ -8,17 +8,18 @@ import React, {
 } from "react";
 import DashMain from "../DashMain";
 
-import Pages from "../../Product/Products/Pages";
-import usePagination from "../../../custom/useNumberOfPages";
-import { useAppSelector } from "../../../custom/reduxTypes";
 import MobileOrders from "./Mobile/MobileOrders";
 import OrderTable from "./Table/OrderTable";
 import { Outlet } from "react-router-dom";
-import NoData from "../../widgets/NoData";
+
 import useMessure from "react-use-measure";
 import { showAsideContext } from "../Dashboard";
 import { mergeRefs } from "react-merge-refs";
-import { OrderInterface } from "../../../interfaces/order";
+import Pages from "@/components/Product/Products/Pages";
+import NoData from "@/components/widgets/NoData";
+import { useAppSelector } from "@/custom/reduxTypes";
+import usePagination from "@/custom/useNumberOfPages";
+import { OrderInterface } from "@/interfaces/order";
 
 interface contextInterface {
   setarrOfOrders: React.Dispatch<React.SetStateAction<string[]>>;

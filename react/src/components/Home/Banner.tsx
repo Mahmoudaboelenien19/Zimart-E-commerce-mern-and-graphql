@@ -1,20 +1,22 @@
 import React, { RefAttributes, useContext, useEffect, useState } from "react";
-import useFilterCategory from "../../custom/useFilterCategory";
-import { productListContext } from "../../context/FilterData";
-import useFilterState from "../../custom/useFIlterState";
-import BannerText from "./BannerText";
-import { useAppSelector } from "../../custom/reduxTypes";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import FadeElement from "../widgets/animation/FadeElement";
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import useIsMobile from "../../custom/useIsMobile";
+
+import BannerText from "./BannerText";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useFilterCategory from "@/custom/useFilterCategory";
+import useFilterState from "@/custom/useFIlterState";
+import useIsMobile from "@/custom/useIsMobile";
+import { productListContext } from "@/context/FilterData";
+import FadeElement from "../widgets/animation/FadeElement";
+import useParams from "@/custom/useParams";
 
 const arrClrs = ["var(--green)", "var(--gmail)", "var(--delete)", "var(--fb)"];
 
@@ -24,15 +26,23 @@ const Banner = () => {
   const { isMobile } = useIsMobile();
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const categoryfn = useFilterCategory();
-
-  const { setProducts, setCategoryFilter } = useContext(productListContext);
-
+  const { setProducts } = useContext(productListContext);
   const filterStateFn = useFilterState();
+  const { setParam, deleteParam } = useParams();
+
+  const handleAddCategoryParam = (category: string) => {
+    setParam("category", category);
+    deleteParam("page");
+    deleteParam("search");
+    deleteParam("rate");
+    deleteParam("featured products");
+    deleteParam("price");
+  };
 
   const handleCategory = (category: string) => {
     categoryfn({ variables: { category } }).then(({ data }) => {
       setProducts(data.filterBycatageory);
-      setCategoryFilter(category);
+      handleAddCategoryParam(category);
     });
   };
   useEffect(() => {
@@ -43,7 +53,7 @@ const Banner = () => {
   const handleState = (state: string) => {
     filterStateFn({ variables: { state } }).then(({ data }) => {
       setProducts(data.filterByState);
-      setCategoryFilter(state);
+      setParam("featured products", state);
     });
   };
   const handleGetAllProducts = () => {

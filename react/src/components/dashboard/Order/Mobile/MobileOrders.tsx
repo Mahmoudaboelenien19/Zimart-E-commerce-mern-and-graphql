@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { checkContext } from "../Orders";
 import { AnimatePresence, motion } from "framer-motion";
-import { opacityVariant } from "../../../../variants/globals";
 import MobileOrder from "./MobileOrder";
 import { Outlet } from "react-router-dom";
-import { OrderInterface } from "../../../../interfaces/order";
+import { OrderInterface } from "@/interfaces/order";
+import { opacityVariant } from "@/variants/globals";
+
 const MobileOrders = () => {
   const { setSlectALl, dataShown } = useContext(checkContext);
 

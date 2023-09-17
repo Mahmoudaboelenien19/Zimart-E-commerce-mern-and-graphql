@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import SlideButton from "../../widgets/buttons/SlideButton";
+
 import AddRate from "./AddRate";
-import useAddReview from "../../../custom/useAddReview";
-import { isAuthContext } from "../../../context/isAuth";
+
 import { useMutation } from "@apollo/client";
-import { update_Review } from "../../../graphql/mutations/user";
+import SlideButton from "@/components/widgets/buttons/SlideButton";
+import { isAuthContext } from "@/context/isAuth";
+import useAddReview from "@/custom/useAddReview";
+import { update_Review } from "@/graphql/mutations/user";
 
 interface Props {
   setShowAddRate: React.Dispatch<React.SetStateAction<boolean>>;

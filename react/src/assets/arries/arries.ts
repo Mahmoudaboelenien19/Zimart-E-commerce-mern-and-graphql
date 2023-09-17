@@ -65,3 +65,13 @@ export const faqArr = {
     },
   ],
 };
+
+export const optionsArr = [
+  "relevance",
+  "highest price",
+  "lowest price",
+  "highest rate",
+  "lowest rate",
+  "newest",
+  "oldest",
+];

@@ -1,11 +1,13 @@
+import MainBtn from "@/components/widgets/buttons/MainBtn";
+import { isAuthContext } from "@/context/isAuth";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useAddToCart from "@/custom/useAddToCart";
+import useRemoveFromCart from "@/custom/useRemoveFromCart";
+import { imagesInterface } from "@/interfaces/user";
 import React, { useContext, useEffect } from "react";
-import MainBtn from "../../../widgets/buttons/MainBtn";
+
 import { BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
-import { useAppSelector } from "../../../../custom/reduxTypes";
-import { imagesInterface } from "../../../../interfaces/user";
-import useAddToCart from "../../../../custom/useAddToCart";
-import { isAuthContext } from "../../../../context/isAuth";
-import useRemoveFromCart from "../../../../custom/useRemoveFromCart";
+
 interface Props {
   setOnCart: React.Dispatch<React.SetStateAction<boolean>>;
   price: number;

@@ -1,6 +1,6 @@
 import React from "react";
+import { logInWithGoogle, signUpWithGoogle } from "@/assets/routes";
 import { FcGoogle } from "react-icons/fc";
-import { logInWithGoogle, signUpWithGoogle } from "../../assets/routes.js";
 
 const LogInWithGoogle = ({ type }: { type?: string }) => {
   return (

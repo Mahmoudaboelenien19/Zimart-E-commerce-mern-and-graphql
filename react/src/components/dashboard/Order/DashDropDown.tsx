@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
-import Title from "../../widgets/Title";
+
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  opacityVariant,
-  selectDropDownVariants,
-} from "../../../variants/globals";
-import useUpdateOrder from "../../../custom/useUpdateOrder";
-import useUpdateUserRole from "../../../custom/useUpdateUserRole";
-import { themeContext } from "../../../context/ThemContext";
-import useClickOutside from "../../../custom/useClickOutside";
+import Title from "@/components/widgets/Title";
+import { themeContext } from "@/context/ThemContext";
+import useClickOutside from "@/custom/useClickOutside";
+import useUpdateOrder from "@/custom/useUpdateOrder";
+import useUpdateUserRole from "@/custom/useUpdateUserRole";
+import { selectDropDownVariants, opacityVariant } from "@/variants/globals";
 
 interface Props {
   state: string;

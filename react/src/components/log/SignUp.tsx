@@ -4,17 +4,17 @@ import { motion } from "framer-motion";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import Input from "../widgets/forms/Input";
-import { ADD_USER } from "../../graphql/mutations/user";
 import { NavLink, useNavigate } from "react-router-dom";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import SelectCOuntry from "../user/SelectCOuntry";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useFormSchema from "../../custom/useFormSchema";
 import Animation from "../widgets/animation/Animation";
 import LogInWithGoogle from "./LogInWithGoogle";
 import FormAnimation from "../widgets/forms/FormAnimation";
+import useFormSchema from "@/custom/useFormSchema";
+import { ADD_USER } from "@/graphql/mutations/user";
 interface oAuthInterface {
   email: string;
   image: string;
@@ -83,7 +83,6 @@ const SignUp = () => {
     }
   };
   const OnSubmit = (data: FieldValues) => {
-
     handleSignUp();
   };
   return (

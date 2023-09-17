@@ -1,17 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { isAuthContext } from "../../context/isAuth";
-import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
 import { OnDataOptions, useQuery, useSubscription } from "@apollo/client";
-import { Order_Created_Subscription } from "../../graphql/mutations/order";
-import { GET_ALL_ORDERS } from "../../graphql/queries";
-import { addToOrderRedux } from "../../redux/OrderSlice";
-import { GET_ALL_USERS } from "../../graphql/mutations/user";
-import { addToUserRedux } from "../../redux/UserSlice";
-import { OrderInterface } from "../../interfaces/order";
-import useProductsSubscription from "../../custom/useProductsSubscription";
-import useUserSubscription from "../../custom/useUserSubscription";
+import { isAuthContext } from "@/context/isAuth";
+import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import useProductsSubscription from "@/custom/useProductsSubscription";
+import useUserSubscription from "@/custom/useUserSubscription";
+import { Order_Created_Subscription } from "@/graphql/mutations/order";
+import { GET_ALL_USERS } from "@/graphql/mutations/user";
+import { GET_ALL_ORDERS } from "@/graphql/queries";
+import { OrderInterface } from "@/interfaces/order";
+import { addToOrderRedux } from "@/redux/OrderSlice";
+import { addToUserRedux } from "@/redux/UserSlice";
+
 interface contextInterface {
   showAsideDash: boolean;
   setShowAsideDash: React.Dispatch<React.SetStateAction<boolean>>;

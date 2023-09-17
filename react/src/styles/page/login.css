@@ -1,6 +1,6 @@
 .log-in {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   flex-direction: column;
   margin-top: 50px;
   margin-bottom: 20px;
@@ -32,24 +32,24 @@
   cursor: pointer;
 }
 .log-in .google-log {
-  height: 30px;
+  height: 40px;
   padding: 0 10px;
   border-radius: 5px;
   justify-content: flex-start;
   gap: 20px;
   box-shadow: var(--third-shadow);
   text-transform: capitalize;
-  font-weight: bold;
+  font-weight: 400;
   color: var(--wheat);
   letter-spacing: 1px;
   cursor: pointer;
   white-space: nowrap;
+  font-size: 1.3rem;
+  justify-content: center;
 }
 .log-in form {
   background: #222222;
-  width: 95vw;
-  max-width: 350px;
-  min-width: 260px;
+  width: clamp(320px, 95vw, 400px);
   height: -moz-fit-content;
   height: fit-content;
   padding: 20px 0;
@@ -64,15 +64,15 @@
   color: white;
 }
 .log-in form input {
-  height: 30px;
+  height: 40px;
   padding-right: 20px;
   background-color: var(--main);
+  color: var(--third);
   box-shadow: var(--third-shadow);
   border-radius: 5px;
-  color: var(--third);
 }
 .log-in form button {
-  height: 30px;
+  height: 40px;
   margin: 0 auto;
 }
 
@@ -145,6 +145,9 @@
   text-shadow: var(--third-shadow);
 }
 
+input:focus {
+  box-sizing: border-box;
+}
 input:focus:focus {
   border: solid var(--green) 2px;
 }/*# sourceMappingURL=login.css.map */

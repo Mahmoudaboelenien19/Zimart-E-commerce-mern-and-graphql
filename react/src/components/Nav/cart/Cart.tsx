@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import TotalPrice from "./TotalPrice";
-import CircleCheckSvg from "../../../custom SVGs/CircleCheckSvg";
 import { AnimatePresence } from "framer-motion";
-import { viewContext } from "../../../context/gridView";
-import Animation from "../../widgets/animation/Animation";
-import NoData from "../../widgets/NoData";
-import { cartInterface } from "../../../interfaces/user";
+
 import { Navigate } from "react-router-dom";
-import { isAuthContext } from "../../../context/isAuth";
-import FadeElement from "../../widgets/animation/FadeElement";
+
 import { useMutation } from "@apollo/client";
-import { GET_USER_DATA } from "../../../graphql/mutations/user";
-import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
-import { addToCartRedux, clearCart } from "../../../redux/cartSlice";
+import NoData from "@/components/widgets/NoData";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { viewContext } from "@/context/gridView";
+import { isAuthContext } from "@/context/isAuth";
+import CircleCheckSvg from "@/custom SVGs/CircleCheckSvg";
+import { useAppDispatch, useAppSelector } from "@/custom/reduxTypes";
+import { GET_USER_DATA } from "@/graphql/mutations/user";
+import { cartInterface } from "@/interfaces/user";
+import { clearCart, addToCartRedux } from "@/redux/cartSlice";
+import Animation from "@/components/widgets/animation/Animation";
 
 const offerArr = [
   { offer: "Spend $800 or more and get free shipping!", money: 800 },

@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
 import Login from "../log/login";

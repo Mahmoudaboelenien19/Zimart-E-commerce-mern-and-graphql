@@ -8,6 +8,7 @@ import MobileCloseDropDown from "../widgets/dropdowns/MobileCloseDropDown";
 
 import MainBtn from "../widgets/buttons/MainBtn";
 import MainPop from "../widgets/MainPop";
+import useHideScroll from "../../custom/useHideScroll";
 const StripeSuccess = () => {
   const location = useLocation();
 
@@ -25,14 +26,7 @@ const StripeSuccess = () => {
     }
   }, [isSuccess]);
 
-  useEffect(() => {
-    if (show) {
-      document.body.style.overflow = "hidden";
-    } else {
-      navigate("/");
-      document.body.style.overflowY = "auto";
-    }
-  }, [show]);
+  useHideScroll(show);
 
   return (
     <MainPop bool={show} setter={setShow}>

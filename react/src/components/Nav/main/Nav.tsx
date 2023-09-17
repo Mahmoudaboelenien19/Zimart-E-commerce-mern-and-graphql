@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import LogoSvg from "../../svgs/LogoSvg";
-
-import { isAuthContext } from "../../../context/isAuth";
-
-import ThemeToggle from "../../theme/ThemeToggle";
-import NavLinks from "./NavLinks";
-import useIsMobile from "../../../custom/useIsMobile";
-import LinksAside from "./LinksAside";
+import LogoSvg from "@/components/svgs/LogoSvg";
+import ThemeToggle from "@/components/theme/ThemeToggle";
+import { isAuthContext } from "@/context/isAuth";
+import useIsMobile from "@/custom/useIsMobile";
+import useNavTransition from "@/custom/useNavTransition";
 import IsAuth from "./IsAuth";
-import useNavTransition from "../../../custom/useNavTransition";
+import LinksAside from "./LinksAside";
+import NavLinks from "./NavLinks";
 
 const Nav = () => {
   const { isAuth } = useContext(isAuthContext);
@@ -31,6 +29,13 @@ const Nav = () => {
 
   const { isMobile } = useIsMobile();
 
+  /* 
+  this useEffect to make scroll auto
+   if user open any thing such as filters aside in mobile 
+  as this will make overflow hidden 
+  if user make screen bigger  this useEffect will run
+  
+   */
   useEffect(() => {
     if (!isMobile) {
       document.body.style.overflowY = "auto";

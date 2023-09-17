@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Banner from "./Banner";
-import Products from "../Product/Products/Products";
-import StripeSuccess from "../payment/StripeSuccess";
 import Footer from "../Footer/Footer";
 import NewsLetter from "../NewsLetter/NewsLetter";
+import Products from "../Product/Products/Products";
+import StripeSuccess from "../payment/StripeSuccess";
+import Banner from "./Banner";
 import Animation from "../widgets/animation/Animation";
 
 const Home = () => {

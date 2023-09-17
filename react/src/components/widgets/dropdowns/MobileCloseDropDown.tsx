@@ -4,14 +4,16 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { opacityVariant } from "../../../variants/globals";
 import useIsMobile from "../../../custom/useIsMobile";
 import Title from "../Title";
+import useParams from "@/custom/useParams";
 interface Props {
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
+  target: string;
   title: string;
   bool?: boolean;
 }
-const MobileCloseDropDown = ({ setter, title, bool }: Props) => {
+const MobileCloseDropDown = ({ target, title, bool }: Props) => {
   const { isMobile } = useIsMobile();
-
+  const { deleteParam } = useParams();
+  const closeTarget = () => deleteParam(target);
   return (
     <AnimatePresence>
       {(isMobile || bool) && (
@@ -20,7 +22,7 @@ const MobileCloseDropDown = ({ setter, title, bool }: Props) => {
           variants={opacityVariant}
           transition={{ duration: 0.4 }}
           className="close-pop"
-          onClick={() => setter(false)}
+          onClick={closeTarget}
         >
           <Title title={title}>
             <AiFillCloseCircle className="icon red" />

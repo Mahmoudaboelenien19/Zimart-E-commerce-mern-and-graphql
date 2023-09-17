@@ -1,6 +1,6 @@
 :root {
   --green: #237a44;
-  --wheat: rgb(202, 170, 109);
+  --wheat: rgb(170, 136, 73);
   --white: rgb(247, 246, 246);
   --wheat-light: #c5af87c9;
   --wheat-lighter: #dcccaec9;
@@ -26,6 +26,7 @@
   --admin: rgb(4, 81, 4);
   --delivered: var(--sale);
   --moderator: var(--sale);
+  --nav-btn: #237a44;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
@@ -43,7 +44,7 @@
   outline: 0;
 }
 
-.shadow, .custom-title {
+.shadow {
   filter: drop-shadow var(--forth-shadow);
   text-shadow: var(--forth-shadow);
 }
@@ -67,6 +68,15 @@
 .btn svg path {
   filter: drop-shadow(var(--forth-shadow));
 }
+.btn.unsave {
+  background: transparent;
+  color: var(--delete);
+  font-weight: bold;
+}
+.btn.list-cart-btn {
+  height: 3rem;
+  width: 100% !important;
+}
 .btn.about {
   border: var(--third) solid 1.5px;
   color: var(--third) !important;
@@ -84,16 +94,16 @@
 }
 .btn.main-outline {
   transition: 0.3s;
-  border: 1.5px solid var(--green);
+  border: 1.5px solid var(--nav-btn);
 }
 .btn.main-outline:hover {
-  background: var(--green);
+  background: var(--nav-btn);
   color: white !important;
 }
 .btn.cancel-outline {
   transition: 0.3s;
   border: 1.5px solid var(--third);
-  color: grey !important;
+  color: var(--third) !important;
 }
 .btn.cancel-outline:hover {
   background: var(--third);
@@ -152,6 +162,54 @@
   opacity: 0.6;
 }
 
+.header {
+  filter: drop-shadow(var(--forth-shadow));
+  margin-top: 10px;
+}
+
+.underline {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 2px 0;
+  font-size: 2rem;
+  margin: 20px auto;
+  text-transform: capitalize;
+  letter-spacing: 0.8px;
+  font-weight: 800;
+  position: relative;
+  color: var(--third);
+}
+.underline:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 10%;
+  height: 1.5px;
+  width: 80%;
+  background: linear-gradient(60deg, var(--wheat), var(--green));
+}
+
+.header-sm {
+  font-size: 1.4rem;
+}
+.header-sm.underline-sm {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.header-sm.underline-sm:before {
+  content: "";
+  top: initial;
+  bottom: -6px;
+  left: 10%;
+  height: 1px;
+}
+
+.white {
+  color: var(--main);
+}
+
 .overley {
   position: fixed;
   top: 0;
@@ -160,6 +218,66 @@
   height: 100vh;
   background: var(--overley);
   z-index: 10;
+  padding: 10px;
+}
+.overley .popup {
+  padding: 25px 15px;
+  min-width: 300px;
+  width: clamp(300px, 90%, 400px);
+  background-color: var(--wheat-lighter);
+  background-color: gray;
+  color: var(--third);
+  position: relative;
+  z-index: 2;
+}
+.overley .popup .pop-par {
+  width: 100%;
+  height: 100%;
+}
+.overley .popup .confirmed {
+  width: 100%;
+  height: 100%;
+}
+.overley .popup.slide-pop {
+  width: clamp(300px, 90%, 400px);
+  height: 200px;
+}
+.overley .popup.slide-pop .slide-text {
+  white-space: nowrap;
+}
+.overley .popup p {
+  text-align: center !important;
+}
+.overley .popup .inp-parent,
+.overley .popup .select-country-par {
+  width: 280px;
+  box-shadow: 1px 1px 1px black;
+  background-color: var(--secondary);
+  margin-top: 20px;
+}
+.overley .skewed {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main);
+  z-index: -1;
+}
+.overley .skewed h3,
+.overley .skewed h4 {
+  font-size: 1.4rem;
+  text-align: center;
+  color: var(--third);
+  text-transform: capitalize;
+}
+.overley .detail {
+  text-transform: capitalize;
+  font-weight: bold !important;
+}
+.overley .underline {
+  margin: 0;
 }
 
 .between {
@@ -178,6 +296,7 @@
   background: var(--gmail);
   color: var(--white);
   border-radius: 50%;
+  z-index: 5;
 }
 
 .remove {
@@ -213,63 +332,23 @@
 .counter {
   height: 30px !important;
 }
-.counter.green {
-  color: var(--green);
-}
 .counter.red {
   color: var(--red);
 }
-
-.header {
-  filter: drop-shadow(var(--forth-shadow));
-  margin-top: 10px;
+.counter.green {
+  color: var(--green);
 }
 
-.underline {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 40px;
-  font-size: 2rem;
-  margin: 20px auto;
-  text-transform: capitalize;
-  letter-spacing: 0.8px;
-  font-weight: 800;
-  position: relative;
-  color: var(--third);
-}
-.underline:before {
-  content: "";
-  position: absolute;
-  top: 35px;
-  left: 10%;
-  height: 1.5px;
-  width: 80%;
-  background: linear-gradient(60deg, var(--wheat), var(--green));
-}
-
-.header-sm {
-  font-size: 1.4rem;
-}
-.header-sm.underline-sm {
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-}
-.header-sm.underline-sm:before {
-  content: "";
-  top: initial;
-  bottom: -6px;
-  left: 10%;
-  height: 1px;
-}
-
-.white {
-  color: var(--main);
+.bg-green {
+  background-color: var(--green);
 }
 
 .wheat-light {
   background: var(--wheat-light);
+}
+
+.wheat-lighter {
+  background: var(--wheat-lighter);
 }
 
 .wheat {
@@ -324,15 +403,15 @@
   width: -moz-fit-content;
   width: fit-content;
   padding: 4px 6px;
-  background: var(--wheat-light);
-  color: var(--white) !important;
+  background: var(--secondary);
+  color: var(--third);
   z-index: 10;
   white-space: nowrap;
   border-radius: 4px;
   letter-spacing: 0.8px;
-  height: 20px;
-  font-size: 0.8rem;
-  box-shadow: 0.5px 0.5px 1px black;
+  height: 30px;
+  font-size: 1rem;
+  box-shadow: var(--secondary-shadow);
   text-transform: capitalize;
 }
 .custom-title.right {
@@ -398,13 +477,13 @@
 }
 .order-pop-btn.view-order-btn {
   background: transparent;
-  border: 1px solid grey;
+  border: 1px solid var(--third);
   color: var(--third) !important;
   transition: 0.3s;
 }
 .order-pop-btn.view-order-btn:hover {
-  color: var(--white) !important;
-  background-color: grey;
+  color: var(--main) !important;
+  background-color: var(--third);
 }
 .order-pop-btn svg {
   font-size: 1.4rem;
@@ -465,17 +544,6 @@ form.hide textarea {
   justify-content: flex-end;
 }
 
-.details-btn {
-  box-shadow: initial;
-  outline: 0;
-  background-color: transparent;
-  border: 0;
-  font-size: 0.8rem;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 0;
-}
-
 .no-data-80 {
   width: 100%;
   height: 80%;
@@ -490,4 +558,19 @@ form.hide textarea {
   transform: scale(0.3);
   animation: slide-animation 10s linear forwards;
   opacity: 0.7;
+}
+
+.updating {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  width: 100vw;
+  padding: 0 2vw !important;
 }/*# sourceMappingURL=classes.css.map */

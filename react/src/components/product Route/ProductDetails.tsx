@@ -3,24 +3,22 @@ import { BiCommentEdit, BiShow } from "react-icons/bi";
 
 import { AiFillPlusSquare, AiOutlineCheck } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
-import useAvg from "../../custom/useAvg";
-import { useAppSelector } from "../../custom/reduxTypes";
-import HeartSvgProduct from "../../custom SVGs/HeartSvgProduct";
 import { productContext } from "./Product";
-import usePathAndId from "../../custom/usePathAndId";
 import ProductRate from "./ProductRate";
-
 import AddReview from "./Review/AddReview";
 import Title from "../widgets/Title";
-import { isAuthContext } from "../../context/isAuth";
-
 import CompareIcons from "../svgs/CompareIcons";
 import StyledPrice from "../widgets/StyledPrice";
 import { toast } from "react-hot-toast";
 
 import BuyBtn from "../payment/BuyBtn";
-import { reviewInterface } from "../../interfaces/product";
 import CartBtn from "../widgets/buttons/CartBtn";
+import { isAuthContext } from "@/context/isAuth";
+import HeartSvgProduct from "@/custom SVGs/HeartSvgProduct";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useAvg from "@/custom/useAvg";
+import usePathAndId from "@/custom/usePathAndId";
+import { reviewInterface } from "@/interfaces/product";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;

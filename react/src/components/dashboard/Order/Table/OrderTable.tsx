@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
-import Checkbox from "../../../../custom SVGs/checkbox";
-import Title from "../../../widgets/Title";
+
 import { AnimatePresence } from "framer-motion";
 import { AiTwotoneDelete } from "react-icons/ai";
-import useDeleteOrder from "../../../../custom/useDeleteOrder";
-import FadeElement from "../../../widgets/animation/FadeElement";
+
 import { checkContext } from "../Orders";
 import Order from "./Order";
-import { OrderInterface } from "../../../../interfaces/order";
+import Title from "@/components/widgets/Title";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import Checkbox from "@/custom SVGs/checkbox";
+import { OrderInterface } from "@/interfaces/order";
+import useDeleteOrder from "@/custom/useDeleteOrder";
 
 const OrderTable = () => {
   const { arrOfOrders, setarrOfOrders, selectALl, setSlectALl, dataShown } =

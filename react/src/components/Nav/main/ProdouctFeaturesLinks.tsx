@@ -1,14 +1,15 @@
 import { motion, MotionValue } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { IoGitCompareSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import ShowCount from "./showCounter";
 import WishList from "../wishlist/WishList";
-import Title from "../../widgets/Title";
-import { useAppSelector } from "../../../custom/reduxTypes";
-import useIsMobile from "../../../custom/useIsMobile";
+import Title from "@/components/widgets/Title";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useHideScroll from "@/custom/useHideScroll";
+
 interface Props {
   LinkClr?: MotionValue | string;
 }
@@ -17,14 +18,8 @@ const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
   const { cart } = useAppSelector((state) => state.cart);
   const { compare } = useAppSelector((state) => state.compare);
   const { fav } = useAppSelector((state) => state.fav);
-  const { isMobile } = useIsMobile();
-  useEffect(() => {
-    if (isMobile && showFav) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [showFav, isMobile]);
+
+  useHideScroll(showFav);
   return (
     <ul>
       <NavLink to="/cart" className="cart-active-link ">

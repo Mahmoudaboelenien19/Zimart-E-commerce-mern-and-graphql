@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { asideVariant } from "../../../variants/globals";
+
 import { Link } from "react-router-dom";
 import { showAsideContext } from "../Dashboard";
-import LogoSvg from "../../svgs/LogoSvg";
-import useLogOut from "../../../custom/useLogOut";
-import useIsMobile from "../../../custom/useIsMobile";
-import { dashAsideLinks } from "../../../assets/arries/LinksArr.js";
-import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
+import { dashAsideLinks } from "@/assets/arries/LinksArr";
+import LogoSvg from "@/components/svgs/LogoSvg";
+import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
+import useHideScroll from "@/custom/useHideScroll";
+import useIsMobile from "@/custom/useIsMobile";
+import useLogOut from "@/custom/useLogOut";
+import { asideVariant } from "@/variants/globals";
 
 const DashboardAside = () => {
   const { showAsideDash, setShowAsideDash } = useContext(showAsideContext);
@@ -21,12 +23,8 @@ const DashboardAside = () => {
     } else {
       sessionStorage.setItem("show-aside", JSON.stringify(false));
     }
-    if (showAsideDash && isMobile) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
   }, [showAsideDash, isMobile]);
+  useHideScroll(showAsideDash);
   return (
     <AnimatePresence mode="wait" initial={false}>
       {showAsideDash && (

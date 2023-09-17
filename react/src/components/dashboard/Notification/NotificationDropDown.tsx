@@ -1,27 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import DropDown from "../../widgets/dropdowns/DropDown";
-import { useAppDispatch, useAppSelector } from "../../../custom/reduxTypes";
+
 import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
-import {
-  Clear_Notification,
-  Mark_All_as_Notification,
-  Reset_Notification,
-} from "../../../graphql/mutations/user";
-import { isAuthContext } from "../../../context/isAuth";
+
 import { toast } from "react-hot-toast";
-import {
-  MarkAllAsReadNotificationRedux,
-  changeNotificationCount,
-  clearNotificationRedux,
-  notificationInterface,
-} from "../../../redux/notificationsSlice";
+
 import { RiNotification2Line } from "react-icons/ri";
-import ShowCount from "../../Nav/main/showCounter";
-import { opacityVariant } from "../../../variants/globals";
-import useIsMobile from "../../../custom/useIsMobile";
 
 import Notifications from "./Notifications";
+import ShowCount from "@/components/Nav/main/showCounter";
+import DropDown from "@/components/widgets/dropdowns/DropDown";
+import { isAuthContext } from "@/context/isAuth";
+import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import useHideScroll from "@/custom/useHideScroll";
+import {
+  Reset_Notification,
+  Clear_Notification,
+  Mark_All_as_Notification,
+} from "@/graphql/mutations/user";
+import {
+  notificationInterface,
+  clearNotificationRedux,
+  MarkAllAsReadNotificationRedux,
+  changeNotificationCount,
+} from "@/redux/notificationsSlice";
+import { opacityVariant } from "@/variants/globals";
 
 const NotificationDropDown = () => {
   const { userId } = useContext(isAuthContext);
@@ -33,7 +36,7 @@ const NotificationDropDown = () => {
   });
   const { count } = useAppSelector((st) => st.notification);
   const [showNotifications, setShowNotifications] = useState(false);
-  const { isMobile } = useIsMobile();
+
   const [showAll, setShowAll] = useState(true);
   const { notificatins } = useAppSelector((st) => st.notification);
   const [clearFn] = useMutation(Clear_Notification, {
@@ -60,13 +63,6 @@ const NotificationDropDown = () => {
     }
   }, [notificatins, showAll]);
 
-  useEffect(() => {
-    if (showNotifications && isMobile) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [showNotifications, isMobile]);
   const handleClear = async () => {
     const { data } = await clearFn();
     if (data?.ClearNotification?.msg) {
@@ -81,7 +77,7 @@ const NotificationDropDown = () => {
       dispatch(MarkAllAsReadNotificationRedux());
     }
   };
-
+  useHideScroll(showNotifications);
   return (
     <>
       <span className="relative">

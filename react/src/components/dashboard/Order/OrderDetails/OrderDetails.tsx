@@ -1,15 +1,17 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { GET_ORDER } from "../../../../graphql/queries";
-import DashMain from "../../DashMain";
+
 import OrderDetailTr from "./OrderDetialTr";
 import Customer from "./Customer";
 import OrderSummery from "./OrderSummery";
 import { motion } from "framer-motion";
-import { parentVariant, reverseVariant } from "../../../../variants/globals";
-import Animation from "../../../widgets/animation/Animation";
-import { OrderInterface } from "../../../../interfaces/order";
+import { GET_ORDER } from "@/graphql/queries";
+import { OrderInterface } from "@/interfaces/order";
+import { parentVariant, reverseVariant } from "@/variants/globals";
+import DashMain from "../../DashMain";
+import Animation from "@/components/widgets/animation/Animation";
+
 const OrderDetails = () => {
   const { id } = useParams();
 

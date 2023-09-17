@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { imagesInterface } from "../../interfaces/user";
-import { reviewInterface } from "../../interfaces/product";
 import ProductRate from "../product Route/ProductRate";
-import useAvg from "../../custom/useAvg";
 import StyledPrice from "../widgets/StyledPrice";
 import MainBtn from "../widgets/buttons/MainBtn";
-import useRemoveFromCompareList from "../../custom/useRemoveFromCompareList";
-import { isAuthContext } from "../../context/isAuth";
 import { FiMinusSquare } from "react-icons/fi";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Title from "../widgets/Title";
+import { isAuthContext } from "@/context/isAuth";
+import useAvg from "@/custom/useAvg";
+import useRemoveFromCompareList from "@/custom/useRemoveFromCompareList";
+import { reviewInterface } from "@/interfaces/product";
+import { imagesInterface } from "@/interfaces/user";
 
 interface Props {
   setProduct: React.Dispatch<React.SetStateAction<string>>;

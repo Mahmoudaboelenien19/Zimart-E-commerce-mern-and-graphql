@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Checkbox from "../../../../custom SVGs/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
-import FadeElement from "../../../widgets/animation/FadeElement";
+
 import OrderDetailsIcon from "../OrderDetailsIcon";
 import DashDropDown from "../DashDropDown";
-import { opacityVariant } from "../../../../variants/globals";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import Checkbox from "@/custom SVGs/checkbox";
+import { opacityVariant } from "@/variants/globals";
 
 interface Props {
   state: string;

@@ -1,12 +1,14 @@
 import React from "react";
 import ProductSelect from "./ProductSelect";
-import { GET_Product_By_Id } from "../../graphql/general";
 import { useQuery } from "@apollo/client";
-import { useAppSelector } from "../../custom/reduxTypes";
+
 import SelectedProductData from "./SelectedProductData";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeElement from "../widgets/animation/FadeElement";
-import { reverseVariant } from "../../variants/globals";
+import { useAppSelector } from "@/custom/reduxTypes";
+import { GET_Product_By_Id } from "@/graphql/general";
+import { reverseVariant } from "@/variants/globals";
+
 interface Props {
   product: string;
   setProduct: React.Dispatch<React.SetStateAction<string>>;

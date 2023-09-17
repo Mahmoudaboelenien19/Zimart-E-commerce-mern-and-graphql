@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   checkSvgVariant,
@@ -8,49 +8,42 @@ import {
 import { checkContext } from "../components/dashboard/Order/Orders";
 
 interface Props {
-  isChecked: string | number;
-  setIsChecked: React.Dispatch<React.SetStateAction<string | number>>;
   filter: string | number;
+  isChecked: ConstrainBoolean;
   index?: number;
 }
 
-const Checkbox = ({
-  isChecked,
-  filter,
-  setIsChecked,
-
-  index,
-}: Props) => {
+const Checkbox = ({ filter, index, isChecked }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const { selectALl, setarrOfOrders, arrOfOrders } = useContext(checkContext);
+  const { selectALl } = useContext(checkContext);
   const inview = useInView(ref);
-  useEffect(() => {
-    if (typeof index === "number") {
-      if (selectALl === "all" && inview) {
-        setarrOfOrders((cur) => [...cur, String(filter)]);
-        setIsChecked(filter);
-      } else {
-        const arr = arrOfOrders?.filter((order) => order != filter);
-        setarrOfOrders(arr);
+  // useEffect(() => {
+  //   if (typeof index === "number") {
+  //     if (selectALl === "all" && inview) {
+  //       setarrOfOrders((cur) => [...cur, String(filter)]);
+  //       setIsChecked(filter);
+  //     } else {
+  //       const arr = arrOfOrders?.filter((order) => order != filter);
+  //       setarrOfOrders(arr);
 
-        setIsChecked("");
-      }
-    }
-  }, [selectALl]);
+  //       setIsChecked("");
+  //     }
+  //   }
+  // }, [selectALl]);
 
-  useEffect(() => {
-    if (typeof index === "number") {
-      if (isChecked) {
-        setarrOfOrders((arrOfOrders) => [
-          ...new Set([...arrOfOrders, String(filter)]),
-        ]);
-      } else {
-        setarrOfOrders((arrOfOrders) =>
-          arrOfOrders?.filter((order) => order != filter)
-        );
-      }
-    }
-  }, [isChecked]);
+  // useEffect(() => {
+  //   if (typeof index === "number") {
+  //     if (isChecked) {
+  //       setarrOfOrders((arrOfOrders) => [
+  //         ...new Set([...arrOfOrders, String(filter)]),
+  //       ]);
+  //     } else {
+  //       setarrOfOrders((arrOfOrders) =>
+  //         arrOfOrders?.filter((order) => order != filter)
+  //       );
+  //     }
+  //   }
+  // }, [isChecked]);
   return (
     <motion.div
       className="custom-check-parent center "
@@ -60,16 +53,9 @@ const Checkbox = ({
       exit={"exit"}
       ref={ref}
       custom={{ filter, isChecked, index }}
-      onClick={() => {
-        if (filter === isChecked) {
-          setIsChecked("");
-        } else {
-          setIsChecked(filter);
-        }
-      }}
     >
       <AnimatePresence mode="wait">
-        {isChecked === filter && (
+        {isChecked && (
           <motion.svg
             viewBox="0 0 24 24"
             width="12px"

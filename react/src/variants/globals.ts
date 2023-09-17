@@ -102,3 +102,21 @@ export const mobileDropDownVariant = {
     },
   },
 };
+
+export const seachVariant = {
+  hide: {
+    borderRadius: "50%",
+    height: 40,
+    width: 40,
+    transition: { duration: 0.2 },
+  },
+  show: {
+    borderRadius: "2%",
+    width: "100%",
+    transition: { duration: 0.15 },
+  },
+  main: {
+    width: "100%",
+    borderRadius: "1%",
+  },
+};

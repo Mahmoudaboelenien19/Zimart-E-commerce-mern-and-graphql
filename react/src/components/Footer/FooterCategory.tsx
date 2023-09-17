@@ -5,14 +5,21 @@ import { productListContext } from "../../context/FilterData";
 import useFilterCategory from "../../custom/useFilterCategory";
 import { motion } from "framer-motion";
 import FadeWithY from "../widgets/animation/FadeWithY";
+import useParams from "@/custom/useParams";
 const FooterCategory = () => {
-  const { setProducts, setCategoryFilter } = useContext(productListContext);
+  const { setProducts } = useContext(productListContext);
+  const { setParam, deleteParam } = useParams();
   const categoryfn = useFilterCategory();
 
   const handleCategory = (category: string) => {
     categoryfn({ variables: { category } }).then(({ data }) => {
       setProducts(data.filterBycatageory);
-      setCategoryFilter(category);
+      setParam("category", category);
+      deleteParam("page");
+      deleteParam("search");
+      deleteParam("rate");
+      deleteParam("featured products");
+      deleteParam("price");
     });
   };
 

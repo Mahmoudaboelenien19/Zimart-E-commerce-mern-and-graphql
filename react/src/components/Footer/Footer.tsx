@@ -4,7 +4,6 @@ import FooterCategory from "./FooterCategory";
 import FooterSocial from "./FooterSocial";
 import CopyRight from "./CopyRight";
 import FooterLinks from "./FooterLinks";
-import FadeWithY from "../widgets/animation/FadeWithY";
 const Footer = () => {
   return (
     <footer>

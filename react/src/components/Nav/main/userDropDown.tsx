@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
-import DropDown from "../../widgets/dropdowns/DropDown";
-import ProfileImg from "../../user/ProfileImg";
-import { isAuthContext } from "../../../context/isAuth";
+
 import { NavLink } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { RiLogoutCircleRFill } from "react-icons/ri";
-import useLogOut from "../../../custom/useLogOut";
+
 import { FaQuestionCircle } from "react-icons/fa";
+import ProfileImg from "@/components/user/ProfileImg";
+import DropDown from "@/components/widgets/dropdowns/DropDown";
+import { isAuthContext } from "@/context/isAuth";
+import useLogOut from "@/custom/useLogOut";
 
 interface Props {
   bool: boolean;

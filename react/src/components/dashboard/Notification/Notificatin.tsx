@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { notificationInterface } from "../../../redux/notificationsSlice";
 import { BiDotsHorizontal } from "react-icons/bi";
 import NotificationActionsDropDown from "./NotificationActionsDropDown";
 import { AnimatePresence } from "framer-motion";
-import Title from "../../widgets/Title";
-import FadeElement from "../../widgets/animation/FadeElement";
+import Title from "@/components/widgets/Title";
 import { useNavigate } from "react-router-dom";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { notificationInterface } from "@/redux/notificationsSlice";
 
 interface Props extends notificationInterface {
   isScrolling: boolean;

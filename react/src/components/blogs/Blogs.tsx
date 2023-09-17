@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { getAllBlogs } from "../../graphql/blog";
 import Blog from "./MainBlog";
-import { BlogInterface } from "../../interfaces/blog.js";
-import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
-import { addToBlogsRedux } from "../../redux/BlogsSlice";
+
 import Animation from "../widgets/animation/Animation";
+import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import { getAllBlogs } from "@/graphql/blog";
+import { BlogInterface } from "@/interfaces/blog";
+import { addToBlogsRedux } from "@/redux/BlogsSlice";
 
 const Blogs = () => {
   useEffect(() => {

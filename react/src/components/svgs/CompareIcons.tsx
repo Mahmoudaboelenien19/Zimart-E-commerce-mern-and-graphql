@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { isAuthContext } from "../../context/isAuth";
 import { AnimatePresence, motion } from "framer-motion";
 import Title from "../widgets/Title";
 import { MdPlaylistAdd, MdPlaylistRemove } from "react-icons/md";
-import { opacityVariant } from "../../variants/globals";
+
 import { useMutation } from "@apollo/client";
-import { AddTo_Compare } from "../../graphql/mutations/user";
-import { useAppDispatch, useAppSelector } from "../../custom/reduxTypes";
-import { addToCompareRedux } from "../../redux/compareSlice";
+
 import { toast } from "react-hot-toast";
-import useRemoveFromCompareList from "../../custom/useRemoveFromCompareList";
+import { isAuthContext } from "@/context/isAuth";
+import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import useRemoveFromCompareList from "@/custom/useRemoveFromCompareList";
+import { AddTo_Compare } from "@/graphql/mutations/user";
+import { addToCompareRedux } from "@/redux/compareSlice";
+import { opacityVariant } from "@/variants/globals";
 
 interface Props {
   id: string;

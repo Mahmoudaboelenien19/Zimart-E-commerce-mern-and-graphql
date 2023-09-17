@@ -1,20 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavLinks from "./NavLinks";
-import { mobileDropDownVariant } from "../../../variants/globals.js";
-import MenuTogglar from "../../widgets/MenuTogglar";
-import ThemeToggle from "../../theme/ThemeToggle";
-import MobileCloseDropDown from "../../widgets/dropdowns/MobileCloseDropDown";
+import ThemeToggle from "@/components/theme/ThemeToggle";
+import MenuTogglar from "@/components/widgets/MenuTogglar";
+import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
+import useHideScroll from "@/custom/useHideScroll";
+import { mobileDropDownVariant } from "@/variants/globals";
 
 const LinksAside = () => {
   const [showAside, setShowAside] = useState(false);
-  useEffect(() => {
-    if (showAside) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [showAside]);
+
+  useHideScroll(showAside);
+
   return (
     <>
       <MenuTogglar

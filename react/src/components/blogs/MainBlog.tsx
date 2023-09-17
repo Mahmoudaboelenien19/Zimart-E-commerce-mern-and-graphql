@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { motion, stagger, useInView } from "framer-motion";
-import { BlogInterface } from "../../interfaces/blog";
+import React, { useEffect } from "react";
+import { useInView } from "framer-motion";
+
 import MainBtn from "../widgets/buttons/MainBtn";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { useAnimate } from "framer-motion";
+import { BlogInterface } from "@/interfaces/blog";
 
 interface Props extends BlogInterface {
   i: number;
@@ -13,11 +14,10 @@ interface Props extends BlogInterface {
 const Blog = ({
   head,
   intro,
-  end,
+
   image,
   _id,
   i,
-  content: [{ title, paragraph }],
 }: Props) => {
   const navigate = useNavigate();
   const [scope, animate] = useAnimate();

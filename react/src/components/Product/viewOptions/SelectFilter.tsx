@@ -1,36 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 
-import {
-  FILTER_BY_Date,
-  FILTER_BY_PRICE,
-  FILTER_BY_Rate,
-} from "../../../graphql/mutations/product";
 import { MdOutlineSort } from "react-icons/md";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { productListContext } from "@/context/FilterData";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useClickOutside from "@/custom/useClickOutside";
 import {
-  opacityVariant,
-  selectDropDownVariants,
-} from "../../../variants/globals";
-import { productListContext } from "../../../context/FilterData";
-import FadeElement from "../../widgets/animation/FadeElement";
-import { useAppSelector } from "../../../custom/reduxTypes";
-import useClickOutside from "../../../custom/useClickOutside";
-const optionsArr = [
-  "relevance",
-  "highest price",
-  "lowest price",
-  "highest rate",
-  "lowest rate",
-  "newest",
-  "oldest",
-];
+  FILTER_BY_PRICE,
+  FILTER_BY_Rate,
+  FILTER_BY_Date,
+} from "@/graphql/mutations/product";
+import { selectDropDownVariants, opacityVariant } from "@/variants/globals";
+import { optionsArr } from "@/assets/arries/arries";
+import useParams from "@/custom/useParams";
 
 const SelectFilter = () => {
+  const { deleteParam } = useParams();
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const [isOptSelected, setIsOptSelected] = useState(false);
-  const { setProducts, isPending, startTransition, setroductSearchWord } =
+  const { setProducts, isPending, startTransition } =
     useContext(productListContext);
   const [selectValue, setSelectValue] = useState("relevance");
   const [fnPrice] = useMutation(FILTER_BY_PRICE);
@@ -39,7 +30,7 @@ const SelectFilter = () => {
   useEffect(() => {
     if (!isPending && isOptSelected) {
       setIsOptSelected(false);
-      setroductSearchWord("");
+
       if (selectValue === "relevance") {
         startTransition(() => setProducts(Allproducts));
       } else if (selectValue === "lowest price") {
@@ -136,6 +127,8 @@ const SelectFilter = () => {
                   variants={opacityVariant}
                   onClick={() => {
                     setIsSelectFocus(false);
+                    deleteParam("search");
+                    deleteParam("page");
                     setSelectValue(opt);
                   }}
                   key={i}

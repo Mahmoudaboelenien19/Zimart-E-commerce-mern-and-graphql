@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Price from "./Price";
-import BuyBtn from "../../payment/BuyBtn";
-import FadeElement from "../../widgets/animation/FadeElement";
-import { cartInterface } from "../../../interfaces/user";
+import BuyBtn from "@/components/payment/BuyBtn";
+import FadeElement from "@/components/widgets/animation/FadeElement";
+import { cartInterface } from "@/interfaces/user";
+
 const TotalPrice = ({
   subTotal,
   cart,

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { useAppSelector } from "../../custom/reduxTypes";
-import { favInterface, imagesInterface } from "../../interfaces/user";
 import HeartSvg from "./heart";
-import useRemoveFromFav from "../../custom/useRemoveFeomFav";
-import useAddToFav from "../../custom/useAddToFav";
+
 import { isAuthContext } from "../../context/isAuth";
+import { useAppSelector } from "@/custom/reduxTypes";
+import useAddToFav from "@/custom/useAddToFav";
+import useRemoveFromFav from "@/custom/useRemoveFeomFav";
+import { imagesInterface, favInterface } from "@/interfaces/user";
 
 interface Props {
   setIsFavorited: React.Dispatch<React.SetStateAction<boolean>>;
