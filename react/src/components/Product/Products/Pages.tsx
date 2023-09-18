@@ -5,12 +5,13 @@ import clsx from "clsx";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import useParams from "@/custom/useParams";
 interface Props {
-  numOfPages: number;
+  total: number;
   page: number;
   to?: string;
 }
-const Pages = ({ numOfPages, page, to }: Props) => {
+const Pages = ({ total, page, to }: Props) => {
   const { setParam } = useParams();
+  const numOfPages = Math.ceil(total / 12);
   return (
     <>
       {numOfPages > 1 && (
@@ -18,7 +19,7 @@ const Pages = ({ numOfPages, page, to }: Props) => {
           <div className="pages-par center">
             <ScrollLink
               smooth
-              to={to || ""}
+              to={to && page >= 2 ? to : "#"}
               className={clsx(
                 "page center",
                 page > 1 ? "wheat" : "wheat-lighter"
@@ -45,9 +46,11 @@ const Pages = ({ numOfPages, page, to }: Props) => {
                       )}
                       smooth
                       delay={1400}
-                      to="products"
+                      to={to && page !== index + 1 ? to : "#"}
                       onClick={() => {
-                        setParam("page", `${index + 1}`);
+                        if (page !== index + 1) {
+                          setParam("page", `${index + 1}`);
+                        }
                       }}
                     >
                       {" "}
@@ -65,8 +68,10 @@ const Pages = ({ numOfPages, page, to }: Props) => {
               )}
               smooth
               delay={1400}
-              to="products"
-              onClick={() => setParam("page", `${page + 1}`)}
+              to={to && numOfPages > page ? to : ""}
+              onClick={() =>
+                setParam("page", `${numOfPages === page ? page : page + 1}`)
+              }
             >
               <BiRightArrowAlt />
             </ScrollLink>

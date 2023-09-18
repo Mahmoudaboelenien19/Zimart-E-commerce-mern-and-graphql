@@ -40,8 +40,13 @@ export const productTypeDefs = gql`
     createdAt: Date
   }
 
-  type Query {
+  type Return {
     products: [Product]
+    totalProducts: Int
+  }
+
+  type Query {
+    products(skip: Int, limit: Int): Return
     product(id: ID!): Product
   }
 

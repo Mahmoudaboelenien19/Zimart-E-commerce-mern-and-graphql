@@ -15,6 +15,8 @@ interface productListContextInterface {
   products: ProductInterface[];
   isPending: boolean;
   startTransition: React.TransitionStartFunction;
+  totalProductsNum: number;
+  setTotalProductsNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const productListContext = createContext(
@@ -24,17 +26,18 @@ export const productListContext = createContext(
 const FilterDataContext = ({ children }: ChildrenInterFace) => {
   const [isPending, startTransition] = useTransition();
 
-  const { data, loading } = useQuery(Get_All_Products);
+  // const { data, loading } = useQuery(Get_All_Products);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (data?.products) {
-      dispatch(addToProductRedux(data?.products.slice(0).reverse()));
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (data?.products) {
+  //     dispatch(addToProductRedux(data?.products.slice(0).reverse()));
+  //   }
+  // }, [loading]);
 
   const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [totalProductsNum, setTotalProductsNum] = useState(1);
 
   return (
     <productListContext.Provider
@@ -42,6 +45,8 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
         isPending,
         startTransition,
         products,
+        totalProductsNum,
+        setTotalProductsNum,
         setProducts,
       }}
     >

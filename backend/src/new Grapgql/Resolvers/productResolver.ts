@@ -1,3 +1,4 @@
+import { SkipAndLimit } from "./../interfaces/graqphInterfaces";
 import cloudinary from "cloudinary";
 import productCollection from "../../mongoose/schema/product.js";
 import { pubsub } from "../context.js";
@@ -34,8 +35,10 @@ interface reviewInterface {
 
 export const productResolver = {
   Query: {
-    async products() {
-      return await productCollection.find({});
+    async products(_: unknown, { limit, skip }: SkipAndLimit) {
+      const totalProducts = await productCollection.countDocuments();
+      const products = await productCollection.find({}).skip(skip).limit(limit);
+      return { products, totalProducts };
     },
     async product(_: any, args: { id: string }) {
       return await productCollection.findById(args.id);

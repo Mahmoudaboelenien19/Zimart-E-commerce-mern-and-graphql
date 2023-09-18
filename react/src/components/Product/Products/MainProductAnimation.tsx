@@ -14,38 +14,40 @@ const MainProductAnimation = () => {
     direction: "horizontal",
   };
   return (
-    <FadeWithY cls="products-animation-par">
-      <Swiper
-        modules={[EffectCoverflow]}
-        {...options}
-        effect="coverflow"
-        grabCursor
-        centeredSlides={true}
-        coverflowEffect={{
-          rotate: 0,
-          stretch: 0,
-          depth: 50,
-          modifier: 7.5,
-        }}
-        initialSlide={2}
-        onInit={(swiper) => {
-          swiper.slideTo(3, 0);
-        }}
-      >
-        {[...Array(7)].map((_, i) => {
-          return (
-            <SwiperSlide key={i} className="products-animate-slide">
-              <LazyLoadImage
-                src={imgArr[i]}
-                effect="blur"
-                className="products-animate-img "
-                wrapperClassName="products-animate"
-              />
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-    </FadeWithY>
+    <div className="products-animation-par">
+      <FadeWithY>
+        <Swiper
+          modules={[EffectCoverflow]}
+          {...options}
+          effect="coverflow"
+          grabCursor
+          centeredSlides={true}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 50,
+            modifier: 7.5,
+          }}
+          initialSlide={2}
+          onInit={(swiper) => {
+            swiper.slideTo(3, 0);
+          }}
+        >
+          {[...Array(7)].map((_, i) => {
+            return (
+              <SwiperSlide className="products-animate-slide" key={i}>
+                <LazyLoadImage
+                  src={imgArr[i]}
+                  effect="blur"
+                  className="products-animate-img "
+                  wrapperClassName="products-animate"
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </FadeWithY>
+    </div>
   );
 };
 

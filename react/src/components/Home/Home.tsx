@@ -9,6 +9,7 @@ import Animation from "../widgets/animation/Animation";
 const Home = () => {
   useEffect(() => {
     document.title = "Zimart";
+    window.scrollTo(0, 0);
   }, []);
 
   return (

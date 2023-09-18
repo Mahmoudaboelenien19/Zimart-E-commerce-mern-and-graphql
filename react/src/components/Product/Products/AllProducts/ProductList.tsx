@@ -6,45 +6,60 @@ import NoData from "@/components/widgets/NoData";
 import GridLoader from "@/components/widgets/loaders/GridLoader";
 import { productListContext } from "@/context/FilterData";
 import { viewContext } from "@/context/gridView";
-import { useAppSelector } from "@/custom/reduxTypes";
 import useIsMobile from "@/custom/useIsMobile";
 import usePagination from "@/custom/useNumberOfPages";
 import { ProductInterface } from "@/interfaces/product";
 import useParams from "@/custom/useParams";
+import { Get_All_Products } from "@/graphql/general";
+import { useLazyQuery } from "@apollo/client";
+import SkeltonProducts from "./SkeltonProducts";
 
 const ProductList = ({ isDash }: { isDash?: boolean }) => {
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { isPending, products, setProducts } = useContext(productListContext);
-  const ar = isDash ? Allproducts : products || [];
+  // const ar = isDash ? Allproducts : products || [];
+  const { products, setProducts, totalProductsNum, setTotalProductsNum } =
+    useContext(productListContext);
   const { gridView } = useContext(viewContext);
-
-  const { page, showAsideFilter } = useParams();
   const { isMobile } = useIsMobile();
-  const [dataShown, numberOfPages] = usePagination(12, Number(page), ar);
+
+  const { getParam, showAsideFilter } = useParams();
+  // const [dataShown, numberOfPages] = usePagination(12, Number(page), ar);
   const ref = useRef<HTMLDivElement | null>(null);
+
+  const page = getParam("page") || 1;
+  const [getProducts, { loading }] = useLazyQuery(Get_All_Products, {
+    variables: {
+      skip: Number(page) >= 2 ? 12 * (Number(page) - 1) : 0,
+      limit: 12,
+    },
+  });
+
   useEffect(() => {
-    setProducts(Allproducts);
-  }, [Allproducts]);
+    setProducts([]);
+
+    getProducts().then(({ data }: any) => {
+      setProducts(data?.products?.products);
+      setTotalProductsNum(data?.products?.totalProducts);
+    });
+  }, [page]);
+
+  console.log({ products });
 
   return (
-    <NoData
-      length={dataShown.length >= 1}
-      message="no products matched"
-      cls="loading-recap w-100"
+    <motion.div
+      ref={ref}
+      className={`product-list-par  ${!gridView ? "list" : "grid"} `}
+      style={{
+        width:
+          showAsideFilter && !isMobile ? " calc(100% - 200px - 20px)" : "96%",
+      }}
     >
-      <motion.div
-        ref={ref}
-        className={`product-list-par  ${!gridView ? "list" : "grid"} `}
-        animate={{
-          width:
-            showAsideFilter && !isMobile ? " calc(100% - 200px - 20px)" : "96%",
-        }}
-      >
-        {isPending ? (
-          <GridLoader cls={`product-loader  center w-100`} />
+      <>
+        {" "}
+        {products.length === 0 ? (
+          <SkeltonProducts />
         ) : (
           <>
-            {dataShown?.map((product: ProductInterface, index: number) => {
+            {products?.map((product: ProductInterface, index: number) => {
               return (
                 <ProductFliter
                   {...product}
@@ -56,14 +71,14 @@ const ProductList = ({ isDash }: { isDash?: boolean }) => {
             })}
           </>
         )}
-        <Pages
-          to="products"
-          key={"pages"}
-          page={Number(page)}
-          numOfPages={numberOfPages}
-        />
-      </motion.div>
-    </NoData>
+      </>
+      <Pages
+        to="products"
+        key={"pages"}
+        page={Number(page)}
+        total={totalProductsNum}
+      />
+    </motion.div>
   );
 };
 

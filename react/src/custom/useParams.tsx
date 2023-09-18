@@ -12,6 +12,7 @@ const useParams = () => {
     page: string;
     resetSearchParams: () => void;
     deleteParam: (param: string) => void;
+    getParam: (target: string) => string | undefined;
     setParam: (param: string, value: string) => void;
     setSearchParams: SetURLSearchParams;
     [key: string]: string | any;
@@ -40,6 +41,7 @@ const useParams = () => {
       return params;
     });
   };
+  const getParam = (target: string) => searchParams.get(target);
 
   const resetSearchParams = () => setSearchParams({});
   return {
@@ -54,6 +56,7 @@ const useParams = () => {
     deleteParam,
     showDashBoaedAside,
     setParam,
+    getParam,
     setSearchParams,
   } as Params;
 };

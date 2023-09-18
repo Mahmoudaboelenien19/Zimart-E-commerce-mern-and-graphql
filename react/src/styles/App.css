@@ -2603,6 +2603,7 @@ svg.svg-star {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 .products-animation-par .swiper-coverflow {
   padding: 30px 0;

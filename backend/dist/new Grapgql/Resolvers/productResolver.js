@@ -19,9 +19,11 @@ const context_js_1 = require("../context.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
 exports.productResolver = {
     Query: {
-        products() {
+        products(_, { limit, skip }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield product_js_1.default.find({});
+                const totalProducts = yield product_js_1.default.countDocuments();
+                const products = yield product_js_1.default.find({}).skip(skip).limit(limit);
+                return { products, totalProducts };
             });
         },
         product(_, args) {

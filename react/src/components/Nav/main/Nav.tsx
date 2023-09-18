@@ -9,8 +9,12 @@ import useNavTransition from "@/custom/useNavTransition";
 import IsAuth from "./IsAuth";
 import LinksAside from "./LinksAside";
 import NavLinks from "./NavLinks";
+import useParams from "@/custom/useParams";
 
 const Nav = () => {
+  const { getParam } = useParams();
+  const isLoading = getParam("loading");
+
   const { isAuth } = useContext(isAuthContext);
   const { LinkClr, boxShadow, navClr, navRef } =
     useNavTransition<HTMLElement>();
@@ -29,21 +33,21 @@ const Nav = () => {
 
   const { isMobile } = useIsMobile();
 
-  /* 
+  useEffect(() => {
+    /* 
   this useEffect to make scroll auto
    if user open any thing such as filters aside in mobile 
   as this will make overflow hidden 
   if user make screen bigger  this useEffect will run
   
    */
-  useEffect(() => {
     if (!isMobile) {
       document.body.style.overflowY = "auto";
     }
   }, [isMobile]);
   return (
     <AnimatePresence initial={!showNav}>
-      {showNav && (
+      {showNav && !isLoading && (
         <motion.nav
           key={"main-nav"}
           initial={{ opacity: 0 }}

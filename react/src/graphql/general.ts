@@ -33,32 +33,35 @@ export const GET_Product_By_Id = gql`
 `;
 
 export const Get_All_Products = gql`
-  query {
-    products {
-      _id
-      price
-      stock
-      title
-      state
-      rating
-      category
-      createdAt
-      reviews {
-        image
-        user
-        userId
-        review
-        rate
+  query ($skip: Int, $limit: Int) {
+    products(skip: $skip, limit: $limit) {
+      totalProducts
+      products {
         _id
-        userData {
-          name
+        price
+        stock
+        title
+        state
+        rating
+        category
+        createdAt
+        reviews {
           image
+          user
+          userId
+          review
+          rate
+          _id
+          userData {
+            name
+            image
+          }
         }
-      }
-      description
-      images {
-        productPath
-        _id
+        description
+        images {
+          productPath
+          _id
+        }
       }
     }
   }

@@ -42,8 +42,13 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     createdAt: Date
   }
 
-  type Query {
+  type Return {
     products: [Product]
+    totalProducts: Int
+  }
+
+  type Query {
+    products(skip: Int, limit: Int): Return
     product(id: ID!): Product
   }
 

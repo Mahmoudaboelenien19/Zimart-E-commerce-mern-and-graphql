@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import Aside from "./Aside/Aside";
 import ProductList from "./AllProducts/ProductList";
 import { AnimatePresence } from "framer-motion";
@@ -10,6 +10,8 @@ import { productListContext } from "@/context/FilterData";
 import { useAppSelector } from "@/custom/reduxTypes";
 import useHideScroll from "@/custom/useHideScroll";
 import useParams from "@/custom/useParams";
+import GridLoader from "@/components/widgets/loaders/GridLoader";
+import SkeltonProducts from "./AllProducts/SkeltonProducts";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);

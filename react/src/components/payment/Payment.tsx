@@ -35,11 +35,11 @@ const Payment = () => {
     (acc: number, cur: OrderInterface) => cur.price * cur.count + acc,
     0
   );
-  if (!stripePromise && !clientSecret) return <Navigate to={"/"} />;
   const { theme } = useContext(themeContext);
+  if (!stripePromise && !clientSecret) return <Navigate to={"/"} />;
   return (
     <div className=" payment between ">
-      {stripePromise ? (
+      {stripePromise && clientSecret ? (
         <>
           <FadeElement cls="ordered-products col" delay={0.4}>
             {products?.map(

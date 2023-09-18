@@ -10,7 +10,6 @@ const Price = ({ num }: { num: number }) => {
       initial="start"
       animate="end"
       exit="exit"
-      key={Math.random()}
     >
       {num}
     </motion.span>
