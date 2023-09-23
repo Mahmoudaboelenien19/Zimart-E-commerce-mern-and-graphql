@@ -1,16 +1,14 @@
 import React, { useRef, useState, useContext } from "react";
-
 import AvatarEditor from "react-avatar-editor";
-import { isAuthContext } from "../../context/isAuth";
 import MainBtn from "../widgets/buttons/MainBtn";
 import MobileCloseDropDown from "../widgets/dropdowns/MobileCloseDropDown";
 import { useMutation } from "@apollo/client";
-import { Update_Profile_Img } from "../../graphql/mutations/user";
 import { toast } from "react-hot-toast";
 import UploadingLoader from "../widgets/loaders/UploadingLoader";
+import { isAuthContext } from "@/context/isAuth";
+import { Update_Profile_Img } from "@/graphql/mutations/user";
 interface Props {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  setnewImg: React.Dispatch<React.SetStateAction<File | undefined>>;
   newImg: File | undefined;
   handleCancel: () => void;
   setFileKey: React.Dispatch<React.SetStateAction<number>>;
@@ -19,7 +17,6 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
   const editorRef = useRef<AvatarEditor | null>(null);
-  const { setProfile } = useContext(isAuthContext);
 
   interface positionInterface {
     x: number;
@@ -29,10 +26,8 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
     setPosition(position);
   };
 
-  const { userId } = useContext(isAuthContext);
-
+  const { userId, setProfile } = useContext(isAuthContext);
   const [uploadImgFn] = useMutation(Update_Profile_Img, {});
-
   async function handleSaveButtonClick() {
     setFileKey((prev) => prev + 1);
     if (editorRef.current) {
@@ -71,15 +66,15 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
 
   return (
     <>
-      <h3 className="header underline  underline-sm header-sm">
+      <h3 className="header underline  underline-sm header-sm avatar-head">
         update your profile image
       </h3>
       <AvatarEditor
         style={{ backgroundColor: "white", border: "0" }}
         ref={editorRef}
         image={newImg ? URL.createObjectURL(newImg as File) : ""}
-        width={200}
-        height={200}
+        width={250}
+        height={250}
         border={2}
         borderRadius={125}
         position={position}

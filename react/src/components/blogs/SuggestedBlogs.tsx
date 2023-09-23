@@ -35,6 +35,7 @@ const SuggestedBlogs = ({ id }: { id: string }) => {
       );
     }
   }, [inView, blogs]);
+
   return (
     <div className="suggested-blogs" ref={scope}>
       {blogs

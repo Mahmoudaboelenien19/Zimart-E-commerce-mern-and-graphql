@@ -8,7 +8,7 @@ import { getAllBlogs } from "@/graphql/blog";
 import { BlogInterface } from "@/interfaces/blog";
 import { addToBlogsRedux } from "@/redux/BlogsSlice";
 
-const Blogs = () => {
+export const Component = () => {
   useEffect(() => {
     document.title = "Blogs";
   }, []);
@@ -32,5 +32,3 @@ const Blogs = () => {
     </Animation>
   );
 };
-
-export default Blogs;

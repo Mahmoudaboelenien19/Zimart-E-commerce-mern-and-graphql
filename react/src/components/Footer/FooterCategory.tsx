@@ -26,25 +26,27 @@ const FooterCategory = () => {
   };
 
   return (
-    <FadeWithY once cls="footer-category footer-links">
-      <h3 className="header  footer-head">category</h3>
-      {categoriesArr.map((link, i) => {
-        return (
-          <motion.span key={i} whileHover={{ x: 10 }}>
-            <Link
-              to="products"
-              style={{ cursor: "pointer" }}
-              smooth
-              onClick={() => {
-                handleCategory(link);
-              }}
-            >
-              {" "}
-              {link}
-            </Link>
-          </motion.span>
-        );
-      })}
+    <FadeWithY once cls=" footer-links">
+      <div className="footer-links-par center col start">
+        <h3 className="  footer-head">category</h3>
+        {categoriesArr.map((link, i) => {
+          return (
+            <motion.span key={i} whileHover={{ x: 10 }}>
+              <Link
+                to="products"
+                style={{ cursor: "pointer" }}
+                smooth
+                onClick={() => {
+                  handleCategory(link);
+                }}
+              >
+                {" "}
+                {link}
+              </Link>
+            </motion.span>
+          );
+        })}
+      </div>
     </FadeWithY>
   );
 };

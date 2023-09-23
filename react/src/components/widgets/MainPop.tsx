@@ -15,10 +15,12 @@ const MainPop = ({ bool, setter, children, cls = "" }: Props) => {
   return (
     <>
       {bool && (
-        <Overley cls={`popup  ${cls}`} sethide={setter}>
-          <FadeElement delay={0.6} cls="pop-par center col gap between">
-            {children}
-          </FadeElement>
+        <Overley
+          cls={`popup  pop-par center col gap between ${cls}`}
+          sethide={setter}
+        >
+          {children}
+
           <motion.div
             className="skewed       "
             initial={{ transform: "rotate(0)" }}

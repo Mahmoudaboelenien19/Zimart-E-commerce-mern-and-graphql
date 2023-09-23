@@ -1,12 +1,17 @@
 import * as yup from "yup";
 const schema = yup.object().shape({
   name: yup.string().min(6).max(20),
-  email: yup.string().email("insert a vaild email").required(),
+  email: yup
+    .string()
+    .email("insert a vaild email")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    )
+    .required(),
   password: yup
     .string()
     .min(6)
     .max(20)
-
     .matches(
       /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
       "password must contain at least 1 number , 1 special character and 1 letter"

@@ -24,13 +24,15 @@ const useCarousel = (index: number, len: number) => {
   }
 
   const variant = {
-    end: { x: 0 },
+    end: { x: 0, opacity: 1 },
     start: ({ dir, width }: { dir: string; width: number }) => ({
       x: dir === "increase" ? width : -width,
+      opacity: 0,
       transition: { type: "tween", duraion: 0.4 },
     }),
     exit: ({ dir, width }: { dir: string; width: number }) => ({
       x: dir === "increase" ? -0.5 * width : 0.5 * width,
+      opacity: 0,
       transition: { type: "tween", duraion: 0.1 },
     }),
   };

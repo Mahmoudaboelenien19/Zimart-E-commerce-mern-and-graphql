@@ -6,12 +6,9 @@ import MainBtn from "../widgets/buttons/MainBtn";
 import ProfileImg from "./ProfileImg";
 const UserImage = () => {
   const inpFile = useRef<HTMLInputElement | null>(null);
-
   const [newImg, setnewImg] = useState<File | undefined>();
-
   const [edit, setEdit] = useState(false);
   const [fileKey, setFileKey] = useState<number>(0);
-
   const chooseImgFn = () => {
     inpFile?.current?.click();
   };
@@ -28,8 +25,8 @@ const UserImage = () => {
   };
   return (
     <div className="user-image ">
-      <div className="user-img-par ">
-        <ProfileImg dimension={150} />
+      <div>
+        <ProfileImg dimension={200} />
       </div>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
@@ -53,7 +50,6 @@ const UserImage = () => {
           <Overley cls="avatar-par center col gap" sethide={setEdit}>
             <Avatar
               setEdit={setEdit}
-              setnewImg={setnewImg}
               newImg={newImg}
               handleCancel={handleCancel}
               setFileKey={setFileKey}

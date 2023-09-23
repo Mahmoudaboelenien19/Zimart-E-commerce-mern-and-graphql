@@ -1,17 +1,15 @@
-import React, { Suspense, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Aside from "./Aside/Aside";
 import ProductList from "./AllProducts/ProductList";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Sort from "../viewOptions/Sort";
-
 import MainProductAnimation from "./MainProductAnimation";
 import useProductsSubscription from "@/custom/useProductsSubscription";
 import { productListContext } from "@/context/FilterData";
 import { useAppSelector } from "@/custom/reduxTypes";
 import useHideScroll from "@/custom/useHideScroll";
 import useParams from "@/custom/useParams";
-import GridLoader from "@/components/widgets/loaders/GridLoader";
-import SkeltonProducts from "./AllProducts/SkeltonProducts";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const Products = () => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
@@ -26,7 +24,15 @@ const Products = () => {
   useHideScroll(Boolean(showAsideFilter));
   return (
     <section id="products" className="products-par">
-      <h1 className="sort-title header underline">Our Products</h1>
+      <motion.h1
+        className="sort-title header underline"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
+        Our Products
+      </motion.h1>
+
       <MainProductAnimation />
       <Sort />
 
@@ -34,8 +40,11 @@ const Products = () => {
         <AnimatePresence mode="wait">
           {showAsideFilter && <Aside />}
         </AnimatePresence>
-
-        <ProductList />
+        <AnimatePresence initial={false}>
+          <LazyLoadComponent>
+            <ProductList />
+          </LazyLoadComponent>
+        </AnimatePresence>
       </div>
     </section>
   );

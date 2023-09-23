@@ -35,9 +35,6 @@ const Rating = () => {
         key={`group-${i}`}
         onClick={() => {
           seSearchParams((params) => {
-            params.delete("search");
-            params.delete("page");
-
             params.set(
               "rate",
               `${String(6 - i) === filter ? "" : String(6 - i)}`

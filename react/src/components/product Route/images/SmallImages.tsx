@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React, { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { productContext } from "../Product";
+import useModifyUrl from "@/custom/useModifyUrl";
 
 const SmallImages = () => {
   const { images, setBigImgInd, bigImgInd } = useContext(productContext);
@@ -14,6 +15,7 @@ const SmallImages = () => {
       transition: { delay: 1.5 + 0.4 * index, duration: 0.3 },
     }),
   };
+  const { getlink } = useModifyUrl();
   return (
     <div className="small-img-par center">
       {images?.map(({ productPath }, index) => {
@@ -27,7 +29,7 @@ const SmallImages = () => {
             <LazyLoadImage
               wrapperClassName="small-img"
               effect="blur"
-              src={productPath}
+              src={getlink(productPath, 200)}
               style={{ opacity: bigImgInd === index ? 1 : 0.2 }}
             />
           </motion.span>

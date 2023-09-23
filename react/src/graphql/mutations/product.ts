@@ -3,25 +3,28 @@ import { gql } from "@apollo/client";
 export const FILTER_BY_PRICE = gql`
   mutation ($price: Float!) {
     filterByPrice(price: $price) {
-      reviews {
-        image
-        user
-        review
-        rate
+      totalProducts
+      products {
+        reviews {
+          image
+          user
+          review
+          rate
+          _id
+        }
         _id
-      }
-      _id
-      price
-      stock
-      title
-      description
-      rating
-      category
-      state
+        price
+        stock
+        title
+        description
+        rating
+        category
+        state
 
-      images {
-        productPath
-        _id
+        images {
+          productPath
+          _id
+        }
       }
     }
   }
@@ -136,27 +139,30 @@ export const FILTER_BY_Rate = gql`
 `;
 
 export const Search_Mutaion = gql`
-  mutation ($word: String!) {
-    searchProducts(word: $word) {
-      reviews {
-        image
-        user
-        review
-        rate
+  mutation ($word: String!, $skip: Int, $limit: Int) {
+    searchProducts(word: $word, skip: $skip, limit: $limit) {
+      totalProducts
+      products {
+        reviews {
+          image
+          user
+          review
+          rate
+          _id
+        }
         _id
-      }
-      _id
-      price
-      stock
-      title
-      description
-      rating
-      category
-      state
+        price
+        stock
+        title
+        description
+        rating
+        category
+        state
 
-      images {
-        productPath
-        _id
+        images {
+          productPath
+          _id
+        }
       }
     }
   }

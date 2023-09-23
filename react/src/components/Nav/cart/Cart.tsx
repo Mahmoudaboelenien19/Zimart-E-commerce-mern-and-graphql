@@ -2,9 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import TotalPrice from "./TotalPrice";
 import { AnimatePresence } from "framer-motion";
-
-import { Navigate } from "react-router-dom";
-
 import { useMutation } from "@apollo/client";
 import NoData from "@/components/widgets/NoData";
 import FadeElement from "@/components/widgets/animation/FadeElement";
@@ -22,9 +19,9 @@ const offerArr = [
   { offer: "Spend $1000 or more and get 5% discount!", money: 1000 },
 ];
 
-const Cart = () => {
+export const Component = () => {
   const dispatch = useAppDispatch();
-  const { userId, isAuth } = useContext(isAuthContext);
+  const { userId } = useContext(isAuthContext);
   const { setGridView } = useContext(viewContext);
 
   const [fn, { data }] = useMutation(GET_USER_DATA, {
@@ -34,12 +31,7 @@ const Cart = () => {
   });
   const [loading, setLoading] = useState(true);
   const { cart } = useAppSelector((st) => st.cart);
-
   const [subTotal, setSubTotal] = useState(0);
-
-  /*
-   * i clear then add to cart to get the latest data
-   */
 
   useEffect(() => {
     if (userId) {
@@ -80,9 +72,6 @@ const Cart = () => {
     }
   }, [cart]);
 
-  if (!isAuth) {
-    return <Navigate to={"/login"} />;
-  }
   return (
     <Animation>
       <FadeElement cls="cart-cont  " delay={0.4}>
@@ -129,5 +118,3 @@ const Cart = () => {
     </Animation>
   );
 };
-
-export default Cart;

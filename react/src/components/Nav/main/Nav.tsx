@@ -1,36 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoSvg from "@/components/svgs/LogoSvg";
 import ThemeToggle from "@/components/theme/ThemeToggle";
-import { isAuthContext } from "@/context/isAuth";
 import useIsMobile from "@/custom/useIsMobile";
 import useNavTransition from "@/custom/useNavTransition";
 import IsAuth from "./IsAuth";
 import LinksAside from "./LinksAside";
 import NavLinks from "./NavLinks";
-import useParams from "@/custom/useParams";
 
 const Nav = () => {
-  const { getParam } = useParams();
-  const isLoading = getParam("loading");
-
-  const { isAuth } = useContext(isAuthContext);
   const { LinkClr, boxShadow, navClr, navRef } =
     useNavTransition<HTMLElement>();
-  const [showNav, setShowNav] = useState(false);
-
   const { pathname } = useLocation();
-
   useEffect(() => {
-    if (pathname.startsWith("/dashboard") && isAuth) {
-      setShowNav(false);
-    } else {
-      setShowNav(true);
-    }
     window.scrollTo(0, 0);
   }, [pathname]);
-
   const { isMobile } = useIsMobile();
 
   useEffect(() => {
@@ -45,16 +30,12 @@ const Nav = () => {
       document.body.style.overflowY = "auto";
     }
   }, [isMobile]);
+  const check = !pathname.startsWith("/dashboard");
   return (
-    <AnimatePresence initial={!showNav}>
-      {showNav && !isLoading && (
+    <AnimatePresence initial={!check}>
+      {check && (
         <motion.nav
           key={"main-nav"}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0, 0.2, 0.4, 0.6, 1],
-            transition: { delay: 1, duration: 0.3 },
-          }}
           ref={navRef}
           style={{ background: navClr, boxShadow }}
         >

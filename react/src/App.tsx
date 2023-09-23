@@ -3,8 +3,6 @@ import "./styles/App.scss";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Nav from "./components/Nav/main/Nav";
-import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./components/Nav/routes";
 import IsAuthContextComponent from "./context/isAuth";
 import GridViewContext from "./context/gridView";
@@ -13,29 +11,25 @@ import ThemeContext from "./context/ThemContext";
 import useProductsSubscription from "./custom/useProductsSubscription";
 import Toast from "./components/widgets/Toast";
 import { SkeletonTheme } from "react-loading-skeleton";
-
+import "react-lazy-load-image-component/src/effects/blur.css";
 const App = () => {
   useProductsSubscription();
 
   return (
-    <SkeletonTheme baseColor="#202020" highlightColor="#444">
-      <ThemeContext>
+    <ThemeContext>
+      <div className="App">
         <IsAuthContextComponent>
-          <GridViewContext>
-            <FilterDataContext>
-              <BrowserRouter>
-                <div className="App">
-                  <Nav />
-                  <AppRoutes />
-                </div>
-
+          <FilterDataContext>
+            <SkeletonTheme baseColor="#202020" highlightColor="#444">
+              <GridViewContext>
+                <AppRoutes />
                 <Toast />
-              </BrowserRouter>
-            </FilterDataContext>
-          </GridViewContext>
+              </GridViewContext>
+            </SkeletonTheme>
+          </FilterDataContext>
         </IsAuthContextComponent>
-      </ThemeContext>
-    </SkeletonTheme>
+      </div>
+    </ThemeContext>
   );
 };
 

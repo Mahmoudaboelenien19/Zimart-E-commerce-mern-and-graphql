@@ -9,8 +9,11 @@ import SuggestedBlogs from "./SuggestedBlogs";
 import { motion } from "framer-motion";
 import { getSingleBlog } from "@/graphql/blog";
 import { BlogPragraph } from "@/interfaces/blog";
-const Blog = () => {
+import useModifyUrl from "@/custom/useModifyUrl";
+import FadeElement from "../widgets/animation/FadeElement";
+export const Component = () => {
   const { id } = useParams();
+
   const { data, loading } = useQuery(getSingleBlog, {
     variables: { id },
   });
@@ -20,17 +23,21 @@ const Blog = () => {
 
   if (data?.blog) {
     const { head, intro, end, image, content } = data.blog;
+    const { getlink } = useModifyUrl();
     return (
       <div className="blog">
         <div className="blog-details">
           <h1>{head}</h1>
           <motion.div className="blog-img">
-            <LazyLoadImage effect="blur" src={image} alt={head} />
+            <LazyLoadImage effect="blur" src={getlink(image, 800)} alt={head} />
           </motion.div>
-          <p>{intro}</p>
-          {content.map((obj: BlogPragraph, i: number) => {
-            return <BlogParagraph key={i} i={i} {...obj} />;
-          })}
+          <FadeElement delay={0.3}>
+            <p>{intro}</p>
+            {content.map((obj: BlogPragraph, i: number) => {
+              return <BlogParagraph key={i} i={i} {...obj} />;
+            })}
+          </FadeElement>
+
           <p>{end}</p>
         </div>
         <SuggestedBlogs id={id!} />
@@ -40,5 +47,3 @@ const Blog = () => {
     return <> no data</>;
   }
 };
-
-export default Blog;

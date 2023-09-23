@@ -4,6 +4,7 @@ import { Link as ScrollLink } from "react-scroll";
 import clsx from "clsx";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import useParams from "@/custom/useParams";
+import { motion } from "framer-motion";
 interface Props {
   total: number;
   page: number;
@@ -38,24 +39,36 @@ const Pages = ({ total, page, to }: Props) => {
               {Array.from({ length: numOfPages })?.map((_, index) => {
                 {
                   return (
-                    <ScrollLink
+                    <motion.span
                       key={index}
-                      className={clsx(
-                        "page center bg-green ",
-                        page === index + 1 && "page-active"
-                      )}
-                      smooth
-                      delay={1400}
-                      to={to && page !== index + 1 ? to : "#"}
-                      onClick={() => {
-                        if (page !== index + 1) {
-                          setParam("page", `${index + 1}`);
-                        }
+                      initial={{
+                        scale: page !== index + 1 ? 1.3 : 1,
+                        boxShadow: "0 0 0 000000 ",
                       }}
+                      animate={{
+                        scale: page === index + 1 ? 1.3 : 1,
+                        boxShadow:
+                          page === index + 1
+                            ? "0.3px 0.3px 0.2px 000000"
+                            : "0 0 0 000000 ",
+                      }}
+                      transition={{ duration: 0.3 }}
                     >
-                      {" "}
-                      {index + 1}
-                    </ScrollLink>
+                      <ScrollLink
+                        className={clsx("page center bg-green ")}
+                        smooth
+                        delay={1400}
+                        to={to && page !== index + 1 ? to : "#"}
+                        onClick={() => {
+                          if (page !== index + 1) {
+                            setParam("page", `${index + 1}`);
+                          }
+                        }}
+                      >
+                        {" "}
+                        {index + 1}
+                      </ScrollLink>
+                    </motion.span>
                   );
                 }
               })}

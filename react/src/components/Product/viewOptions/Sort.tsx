@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { BsListTask } from "react-icons/bs";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { IoFilter } from "react-icons/io5";
@@ -14,13 +14,14 @@ import ShowAsideBtn from "./showAsideFilter";
 const Sort = () => {
   const { startTransition } = useContext(productListContext);
 
-  const { setGridView, gridView, showSearch } = useContext(viewContext);
+  const { setGridView, gridView } = useContext(viewContext);
 
   const { isMobile, isMidScreen } = useIsMobile();
+  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <div className="sort-par  center between">
-      <Search />
+      <Search showSearch={showSearch} setShowSearch={setShowSearch} />
       <AnimatePresence mode="wait">
         {(!isMidScreen || (isMidScreen && !showSearch)) && (
           <FadeElement cls=" center view-opt" key={"sort-mobile"} delay={0.1}>

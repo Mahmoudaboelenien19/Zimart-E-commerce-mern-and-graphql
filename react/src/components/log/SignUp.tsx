@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { motion } from "framer-motion";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -21,9 +20,8 @@ interface oAuthInterface {
   name: string;
 }
 
-const SignUp = () => {
+export const Signup = () => {
   const [isPending, setIsPending] = useState(false);
-
   useEffect(() => {
     document.title = "Zimart | Signup";
   }, []);
@@ -140,5 +138,3 @@ const SignUp = () => {
     </Animation>
   );
 };
-
-export default SignUp;

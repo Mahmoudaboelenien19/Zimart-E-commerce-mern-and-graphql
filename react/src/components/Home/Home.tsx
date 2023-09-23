@@ -6,10 +6,9 @@ import StripeSuccess from "../payment/StripeSuccess";
 import Banner from "./Banner";
 import Animation from "../widgets/animation/Animation";
 
-const Home = () => {
+export function Component() {
   useEffect(() => {
     document.title = "Zimart";
-    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -22,6 +21,4 @@ const Home = () => {
       <Footer />
     </Animation>
   );
-};
-
-export default Home;
+}

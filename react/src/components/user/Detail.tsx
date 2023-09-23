@@ -3,20 +3,18 @@ import MainBtn from "../widgets/buttons/MainBtn";
 import { GrUpdate } from "react-icons/gr";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../widgets/forms/Input";
-import { isAuthContext } from "../../context/isAuth";
 import SlideButton from "../widgets/buttons/SlideButton";
 import UpdateCountry from "./UpdateCountry";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { userDataInterface } from "./UserInfo";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
+import useUserSchema from "@/custom/useUserSchema";
+import { isAuthContext } from "@/context/isAuth";
 interface Props {
   value: string;
   detail: string;
   fn: (variables: any) => any;
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
-  bool: boolean;
   placeholder?: string;
   setUpdateUserData: React.Dispatch<React.SetStateAction<userDataInterface>>;
   userdata: userDataInterface;
@@ -25,9 +23,7 @@ interface Props {
 const Detail = ({
   detail,
   value,
-  setter,
   fn,
-  bool,
   placeholder,
   setUpdateUserData,
   userdata,
@@ -35,55 +31,16 @@ const Detail = ({
   const { userId, isAdmin } = useContext(isAuthContext);
   const [UpdatedCountry, setUpdatedCountry] = useState("");
   const [Status, setStatus] = useState<number>(0);
-
+  const [bool, setter] = useState(false);
   useEffect(() => {
     if (userdata?.country && UpdatedCountry === "") {
       setUpdatedCountry(userdata.country);
     }
   }, [userdata?.country]);
-  const schema: { [key: string]: any } = {
-    name: yup.object().shape({
-      name: yup.string().min(6).max(20).required("insert a name"),
-    }),
-    email: yup.object().shape({
-      email: yup.string().email().required("insert a vaild email"),
-    }),
-    password: yup.object().shape({
-      old: yup
-        .string()
-        .min(6)
-        .max(20)
-
-        .matches(
-          /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-          "password must contain at least 1 number and 1 special character"
-        ),
-      new: yup
-        .string()
-        .min(6)
-        .max(20)
-
-        .matches(
-          /\w+\d+[^a-zA-Z0-9]+/,
-          "insert 1 number,1 letter and 1 character"
-        ),
-      confirm: yup
-        .string()
-        .oneOf([yup.ref("new")], "doesn't match your password")
-        .required(),
-    }),
-    phone: yup.object().shape({
-      phone: yup.string().min(10).required(),
-    }),
-    country: yup.object().shape({
-      phone: yup.mixed().notRequired(),
-    }),
-  };
-
+  const schema = useUserSchema();
   const methods = useForm({ resolver: yupResolver(schema[detail]) });
   const {
     getValues,
-
     handleSubmit,
     formState: { errors, isValid },
   } = methods;

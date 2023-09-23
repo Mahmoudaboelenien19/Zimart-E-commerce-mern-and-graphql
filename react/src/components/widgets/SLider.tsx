@@ -25,51 +25,53 @@ const SLiderComponent = () => {
   return (
     <>
       {showSlider && (
-        <>
-          <h2
-            className="underline header  heading-slider"
-            style={{ margin: "12px  " }}
-          >
-            you may like
-          </h2>
+        <div className="slider-products-par">
+          <>
+            <h2
+              className="underline header  heading-slider"
+              style={{ margin: "12px  " }}
+            >
+              you may like
+            </h2>
 
-          <Swiper
-            loop
-            spaceBetween={5}
-            direction="horizontal"
-            modules={[Autoplay]}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            breakpoints={{
-              1: {
-                slidesPerView: 1,
-              },
-              500: {
-                slidesPerView: 2,
-              },
-              768: {
-                slidesPerView: 3,
-              },
-              1024: {
-                slidesPerView: 4,
-              },
-            }}
-          >
-            {" "}
-            {Allproducts.slice(0, 8).map(
-              (product: ProductInterface, index: number) => {
-                return (
-                  <SwiperSlide key={index} className="product-slide">
-                    <ProductFliter index={index} {...product} isSLide />
-                  </SwiperSlide>
-                );
-              }
-            )}
-          </Swiper>
-        </>
+            <Swiper
+              loop
+              spaceBetween={5}
+              direction="horizontal"
+              modules={[Autoplay]}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              breakpoints={{
+                1: {
+                  slidesPerView: 1,
+                },
+                500: {
+                  slidesPerView: 2,
+                },
+                768: {
+                  slidesPerView: 3,
+                },
+                1024: {
+                  slidesPerView: 4,
+                },
+              }}
+            >
+              {" "}
+              {Allproducts.slice(0, 8).map(
+                (product: ProductInterface, index: number) => {
+                  return (
+                    <SwiperSlide key={index} className="product-slide">
+                      <ProductFliter index={index} {...product} isSLide />
+                    </SwiperSlide>
+                  );
+                }
+              )}
+            </Swiper>
+          </>
+        </div>
       )}
     </>
   );

@@ -12,7 +12,7 @@ import { parentVariant, reverseVariant } from "@/variants/globals";
 import DashMain from "../../DashMain";
 import Animation from "@/components/widgets/animation/Animation";
 
-const OrderDetails = () => {
+export const Component = () => {
   const { id } = useParams();
 
   const { data } = useQuery(GET_ORDER, { variables: { id } });
@@ -77,5 +77,3 @@ const OrderDetails = () => {
     return <></>;
   }
 };
-
-export default OrderDetails;

@@ -13,7 +13,7 @@ const DashMain = ({ children }: ChildrenInterFace) => {
 
   const check =
     sessionStorage.getItem("show-aside") &&
-    JSON.stringify(JSON.parse(sessionStorage.getItem("show-aside") || ""));
+    JSON.parse(sessionStorage.getItem("show-aside") || "");
 
   useEffect(() => {
     if (showDashBoaedAside || check) {
@@ -22,7 +22,7 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         setParam("showDashBoaedAside", "true");
       }
     } else {
-      sessionStorage.setItem("show-aside", JSON.stringify(""));
+      sessionStorage.setItem("show-aside", JSON.stringify(null));
     }
   }, [showDashBoaedAside]);
   return (

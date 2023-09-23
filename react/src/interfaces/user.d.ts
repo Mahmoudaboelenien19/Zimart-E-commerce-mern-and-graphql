@@ -30,3 +30,25 @@ export interface imagesInterface {
   productPath: string;
   _id: string;
 }
+
+interface userDataState {
+  email: string;
+  name: string;
+  country: string;
+  phone: string;
+  fav?: favInterface[];
+  cart?: cartInterface[];
+  compare?: compareInterface[];
+  //-imp to use braket notation wuth variables
+  [key: string]: any;
+}
+
+interface authContextInterface extends userDataState {
+  isAuth: boolean;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: string;
+  profile: string;
+  setProfile: React.Dispatch<React.SetStateAction<string>>;
+  setUserData: React.Dispatch<React.SetStateAction<userDataState>>;
+  isAdmin: boolean;
+}

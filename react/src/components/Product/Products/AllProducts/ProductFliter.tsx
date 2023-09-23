@@ -20,6 +20,7 @@ import useParams from "@/custom/useParams";
 import ProductDescription from "./ProductDescription";
 import ProductBtns from "./ProductBtns";
 import HighlightSearchResult from "./HighlightSearchResult";
+import useModifyUrl from "@/custom/useModifyUrl";
 
 interface Props extends ProductInterface {
   isDash?: boolean;
@@ -44,7 +45,7 @@ const ProductFliter = ({
   const { search: searchWord, showAsideFilter } = useParams();
   const { avgRate, reviewLength } = useAvg(rating, reviews);
   const [isFavoraited, setIsFavorited] = useState(false);
-
+  const { getlink } = useModifyUrl();
   const { isPending } = useContext(productListContext);
   const { gridView, setGridView } = useContext(viewContext);
   const [sectionRef, { width: sectionWidth }] = useMeasure();
@@ -72,7 +73,7 @@ const ProductFliter = ({
     >
       <LazyLoadImage
         effect="blur"
-        src={images[0].productPath}
+        src={getlink(images[0].productPath, 400)}
         alt={title}
         wrapperClassName={` img-par center ${gridView ? "grid" : "list"}`}
         placeholder={<StyledPrice price={price} />}

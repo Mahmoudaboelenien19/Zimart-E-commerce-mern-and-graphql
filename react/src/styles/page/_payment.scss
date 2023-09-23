@@ -108,6 +108,10 @@ form#payment-form {
   }
 }
 .order-success-pop {
+  height: 150px;
+  width: clamp(300px, 90vw, 500px);
+  padding: 12%;
+
   h1 {
     font-size: 1.8rem;
     color: var(--third);
@@ -115,6 +119,10 @@ form#payment-form {
   }
   p {
     color: var(--third) !important;
+    padding: 20px;
+    &:first-letter {
+      margin: 0;
+    }
   }
 }
 @media (max-width: 650px) {

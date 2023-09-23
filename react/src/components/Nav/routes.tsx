@@ -1,109 +1,143 @@
-import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import React, { useContext } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Loading from "@/components/widgets/loaders/Loading";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Layout from "../Layout";
+import { NotAuthedRoutes } from "./NotAuthedRoutes";
 import { isAuthContext } from "@/context/isAuth";
-import { AnimatePresence } from "framer-motion";
-import Loading from "../widgets/loaders/Loading";
-import useParams from "@/custom/useParams";
-const Home = lazy(() => import("../Home/Home"));
-const SignUp = lazy(() => import("../log/SignUp"));
-const Login = lazy(() => import("../log/login"));
-const Cart = lazy(() => import("./cart/Cart"));
-const Product = lazy(() => import("../product Route/Product"));
-const User = lazy(() => import("../user/User"));
-const Dashboard = lazy(() => import("../dashboard/Dashboard"));
-const DashProducts = lazy(
-  () => import("../dashboard/dash-products/DashProducts")
-);
-const DashUpdateProduct = lazy(
-  () => import("../dashboard/form/DashUpdateProduct")
-);
-const DashAddProduct = lazy(() => import("../dashboard/form/DashAddProduct"));
-const Orders = lazy(() => import("../dashboard/Order/Orders"));
-const CompareProducts = lazy(() => import("../Compare/CompareProducts"));
-const OrderDetails = lazy(
-  () => import("../dashboard/Order/OrderDetails/OrderDetails")
-);
-const Recap = lazy(() => import("../dashboard/recap/Recap"));
-const UsersDashboard = lazy(() => import("../dashboard/User/UsersDashboard"));
-const FaqComponent = lazy(() => import("../user/Faq"));
-const Blogs = lazy(() => import("../blogs/Blogs"));
-const Blog = lazy(() => import("../blogs/Blog"));
-const ContactUs = lazy(() => import("../contactUs/ContactUs"));
-const Payment = lazy(() => import("../payment/Payment"));
+import { Login } from "../log/login";
+import { Signup } from "../log/SignUp";
 
 const AppRoutes = () => {
-  const { setParam, deleteParam, getParam } = useParams();
+  const dashBoardRoutes = {
+    path: "dashboard",
+    lazy: () => import("@/components/dashboard/Dashboard"),
+    children: [
+      { path: "", lazy: () => import("@/components/dashboard/recap/Recap") },
+      {
+        path: "users",
+        lazy: () => import("@/components/dashboard/User/UsersDashboard"),
+      },
+      {
+        path: "products",
+        lazy: () => import("@/components/dashboard/dash-products/DashProducts"),
+      },
 
-  const isLog = getParam("isLogged");
-  const isRegistered = getParam("isRegistered");
-  const location = useLocation();
+      {
+        path: "products/add",
+        lazy: () => import("@/components/dashboard/form/DashAddProduct"),
+      },
+      // {
+      //   path: "dashboard/products/:id",
+      //   lazy: () => import("@/components/dashboard/form/DashUpdateProduct"),
+      // },
+      {
+        path: "orders",
+        lazy: () => import("@/components/dashboard/Order/Orders"),
+      },
+      {
+        path: "dashboard/orders/:id",
+        lazy: () =>
+          import("@/components/dashboard/Order/OrderDetails/OrderDetails"),
+      },
+    ],
+  };
 
-  const { setIsAuth } = useContext(isAuthContext);
+  const { isAuth } = useContext(isAuthContext);
 
-  const [InitialRender, setIsIntialRender] = useState(true);
-  useEffect(() => {
-    if (location.pathname === "/payment") {
-      setIsIntialRender(false);
-      return;
-    }
+  const routes = [
+    {
+      path: "/",
+      element: <Layout />,
 
-    setParam("loading", "true");
-    setTimeout(() => {
-      deleteParam("loading");
-      setIsIntialRender(false);
-    }, 3000);
-  }, []);
-  useEffect(() => {
-    if (isLog === "") return;
-    if (isLog) {
-      setIsAuth(true);
-      toast.success("successfully logged in");
-    } else if (isLog === "false") {
-      toast.success("this email is not registered");
-    }
-    deleteParam("isLogged");
-  }, []);
+      children: [
+        {
+          index: true,
+          lazy: () => import("@/components/Home/Home"),
+          // element: <Home />,
+          path: "",
+        },
 
-  useEffect(() => {
-    if (isRegistered === "") return;
-    if (isRegistered === "true") {
-      toast.success("this email is registered");
-    }
-    deleteParam("isRegistered");
-  }, []);
+        {
+          // loader: async () => await getnewAccess(),
+
+          path: "",
+          element: <NotAuthedRoutes isAuth={isAuth} />,
+          children: [
+            {
+              path: "login",
+              // lazy: () => import("../log/login"),
+              element: <Login />,
+            },
+            {
+              path: "signup",
+              // lazy: () => import("../log/SignUp"),
+              element: <Signup />,
+            },
+          ],
+        },
+
+        {
+          element: <ProtectedRoutes />,
+          path: "",
+          children: [
+            { ...dashBoardRoutes },
+            {
+              path: "user",
+              lazy: () => import("../user/User"),
+            },
+            {
+              path: "cart",
+              lazy: () => import("./cart/Cart"),
+            },
+            {
+              path: "compare",
+              lazy: () => import("../Compare/CompareProducts"),
+            },
+            {
+              path: "payment",
+              lazy: () => import("../payment/Payment"),
+            },
+          ],
+        },
+        {
+          lazy: () => import("../contactUs/ContactUs"),
+
+          path: "contact",
+        },
+        {
+          lazy: () => import("@/components/user/Faq"),
+          path: "faq",
+        },
+        {
+          lazy: () => import("@/components/blogs/Blogs"),
+          path: "blogs",
+        },
+
+        {
+          path: "/blogs/:id",
+          lazy: () => import("@/components/blogs/Blog"),
+        },
+        {
+          lazy: () => import("@/components/product Route/Product"),
+          path: "/product/:id",
+        },
+        {
+          path: "/dashboard/products/:id",
+          lazy: () => import("@/components/dashboard/form/DashUpdateProduct"),
+        },
+      ],
+    },
+  ];
+
+  //@ts-ignore
+  const router = createBrowserRouter(routes);
   return (
-    <AnimatePresence mode="wait">
-      <Suspense fallback={<Loading bool={InitialRender} />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blogs/:id" element={<Blog />} />
-          <Route path="/faq" element={<FaqComponent />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/compare" element={<CompareProducts />} />
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="" element={<Recap />} />
-            <Route path="users" element={<UsersDashboard />} />
-            <Route path="products">
-              <Route path="add" element={<DashAddProduct />} />
-              <Route path=":id" element={<DashUpdateProduct />} />
-              <Route path="" element={<DashProducts />} />
-            </Route>
-            <Route path="orders">
-              <Route path="" element={<Orders />} />
-              <Route path=":id" element={<OrderDetails />} />
-            </Route>
-          </Route>
-          <Route path="/:id" element={<Product />} />
-        </Routes>
-      </Suspense>
-    </AnimatePresence>
+    <RouterProvider
+      router={router}
+      fallbackElement={<Loading />}
+      key={"main-route"}
+    />
   );
 };
 

@@ -7,12 +7,14 @@ import "swiper/css/effect-coverflow";
 
 import { imgArr } from "@/assets/arries/arries";
 import FadeWithY from "@/components/widgets/animation/FadeWithY";
+import useModifyUrl from "@/custom/useModifyUrl";
 const MainProductAnimation = () => {
   const options: RefAttributes<SwiperRef> & SwiperProps = {
     spaceBetween: 5,
     slidesPerView: "auto",
     direction: "horizontal",
   };
+  const { getlink } = useModifyUrl();
   return (
     <div className="products-animation-par">
       <FadeWithY>
@@ -37,7 +39,7 @@ const MainProductAnimation = () => {
             return (
               <SwiperSlide className="products-animate-slide" key={i}>
                 <LazyLoadImage
-                  src={imgArr[i]}
+                  src={getlink(imgArr[i], 400)}
                   effect="blur"
                   className="products-animate-img "
                   wrapperClassName="products-animate"

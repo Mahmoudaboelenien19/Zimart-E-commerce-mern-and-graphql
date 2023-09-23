@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import FIlter from "./FIlter";
 import Checkbox from "@/custom SVGs/checkbox";
 import { opacityVariant } from "@/variants/globals";
-import { useSearchParams } from "react-router-dom";
+import useParams from "@/custom/useParams";
 
 interface Props {
   filter: string;
@@ -11,8 +11,9 @@ interface Props {
   ar: string[];
 }
 const FilterSection = ({ filter, ar, head }: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const SPfilter = searchParams.get(filter);
+  const { getParam, deleteParam, setParam } = useParams();
+
+  const SPfilter = getParam(filter);
 
   return (
     <FIlter head={head}>
@@ -24,16 +25,10 @@ const FilterSection = ({ filter, ar, head }: Props) => {
             key={i}
             variants={opacityVariant}
             onClick={() => {
-              setSearchParams((params) => {
-                params.delete("search");
-                params.delete("page");
-
-                params.set(filter, `${category === SPfilter ? "" : category}`);
-                if (category === SPfilter) {
-                  params.delete(filter);
-                }
-                return params;
-              });
+              setParam(filter, `${category === SPfilter ? "" : category}`);
+              if (category === SPfilter) {
+                deleteParam(filter);
+              }
             }}
           >
             <Checkbox filter={category} isChecked={SPfilter === category} />

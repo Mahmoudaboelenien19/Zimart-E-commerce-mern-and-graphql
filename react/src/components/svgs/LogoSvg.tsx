@@ -1,10 +1,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import useNavTransition from "../../custom/useNavTransition";
+import { useLocation } from "react-router-dom";
 const LogoSvg = () => {
+  const location = useLocation();
   const { scale } = useNavTransition();
   return (
-    <motion.div style={{ scale }} id="logo-svg">
+    <motion.div
+      style={{ scale: location.pathname.startsWith("/dashboard") ? 1 : scale }}
+      id="logo-svg"
+    >
       <svg
         width="86"
         height="23"

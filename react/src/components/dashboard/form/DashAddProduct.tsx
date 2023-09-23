@@ -4,7 +4,7 @@ import DashForm from "./DashForm";
 import { useMutation } from "@apollo/client";
 import { Add_Product } from "@/graphql/mutations/product";
 
-const DashAddProduct = () => {
+export const Component = () => {
   const [addProductFn] = useMutation(Add_Product);
   useEffect(() => {
     setTimeout(() => {
@@ -21,5 +21,3 @@ const DashAddProduct = () => {
     />
   );
 };
-
-export default DashAddProduct;

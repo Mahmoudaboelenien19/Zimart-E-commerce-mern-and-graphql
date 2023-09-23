@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from "react";
-
 import DashMain from "../DashMain";
 import { Outlet } from "react-router-dom";
 import ProductList from "@/components/Product/Products/AllProducts/ProductList";
 import { viewContext } from "@/context/gridView";
 
-const DashProducts = () => {
+export const Component = () => {
   const { setGridView } = useContext(viewContext);
 
   useEffect(() => {
@@ -23,5 +22,3 @@ const DashProducts = () => {
     </DashMain>
   );
 };
-
-export default DashProducts;

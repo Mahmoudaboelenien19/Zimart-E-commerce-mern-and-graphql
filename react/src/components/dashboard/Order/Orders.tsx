@@ -26,7 +26,7 @@ interface contextInterface {
   dataShown: OrderInterface[];
 }
 export const checkContext = createContext({} as contextInterface);
-const Orders = () => {
+export const Component = () => {
   const [selectALl, setSlectALl] = useState<string | number>("");
   const [arrOfOrders, setarrOfOrders] = useState<string[]>([]);
   const { page, showAsideFilter } = useParams();
@@ -75,5 +75,3 @@ const Orders = () => {
     </checkContext.Provider>
   );
 };
-
-export default Orders;

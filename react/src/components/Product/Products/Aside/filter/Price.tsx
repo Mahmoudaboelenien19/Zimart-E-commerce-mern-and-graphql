@@ -15,8 +15,6 @@ const Price = () => {
   };
 
   useEffect(() => {
-    deleteParam("search");
-    deleteParam("page");
     if (inpVal != "0") {
       setParam("price", inpVal);
     } else {

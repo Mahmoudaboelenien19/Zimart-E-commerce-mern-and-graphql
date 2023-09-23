@@ -1,91 +1,86 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
-
 import { MdOutlineSort } from "react-icons/md";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence, motion } from "framer-motion";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import { productListContext } from "@/context/FilterData";
-import { useAppSelector } from "@/custom/reduxTypes";
 import useClickOutside from "@/custom/useClickOutside";
 import {
   FILTER_BY_PRICE,
   FILTER_BY_Rate,
   FILTER_BY_Date,
 } from "@/graphql/mutations/product";
-import { selectDropDownVariants, opacityVariant } from "@/variants/globals";
-import { optionsArr } from "@/assets/arries/arries";
 import useParams from "@/custom/useParams";
+import useSortByPrice from "@/custom/useSortByPrice";
+import SortOptions from "./selectFIlter/Options";
 
 const SelectFilter = () => {
-  const { deleteParam } = useParams();
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const [isOptSelected, setIsOptSelected] = useState(false);
+
+  const { sortByPrice } = useSortByPrice();
+
   const { setProducts, isPending, startTransition } =
     useContext(productListContext);
   const [selectValue, setSelectValue] = useState("relevance");
-  const [fnPrice] = useMutation(FILTER_BY_PRICE);
+  const [isSelectFocus, setIsSelectFocus] = useState(false);
+  const { deleteParam } = useParams();
+  const deleteSearchAndFIlterParams = () => {
+    deleteParam("search");
+    deleteParam("page");
+    deleteParam("isFilterApplied");
+  };
+
   const [fnRate] = useMutation(FILTER_BY_Rate);
   const [fnDate] = useMutation(FILTER_BY_Date);
   useEffect(() => {
-    if (!isPending && isOptSelected) {
-      setIsOptSelected(false);
+    switch (selectValue) {
+      case "relevance":
+        return;
+      case "lowest price":
+        return sortByPrice(1);
 
-      if (selectValue === "relevance") {
-        startTransition(() => setProducts(Allproducts));
-      } else if (selectValue === "lowest price") {
-        fnPrice({
-          variables: {
-            price: 1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByPrice))
-        );
-      } else if (selectValue === "highest price") {
-        fnPrice({
-          variables: {
-            price: -1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByPrice))
-        );
-      } else if (selectValue === "lowest rate") {
-        fnRate({
-          variables: {
-            rate: 1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByRate))
-        );
-      } else if (selectValue === "highest rate") {
-        fnRate({
-          variables: {
-            rate: -1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByRate))
-        );
-      } else if (selectValue === "newest") {
-        fnDate({
-          variables: {
-            date: -1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByDate))
-        );
-      } else if (selectValue === "oldest") {
-        fnDate({
-          variables: {
-            date: 1,
-          },
-        }).then(({ data }) =>
-          startTransition(() => setProducts(data.filterByDate))
-        );
-      }
+      case "highest price":
+        return sortByPrice(-1);
     }
-  }, [selectValue, isPending]);
+    // if (selectValue === "relevance") {
+    //   startTransition(() => setProducts(Allproducts));
 
-  const [isSelectFocus, setIsSelectFocus] = useState(false);
+    // } else if (selectValue === "lowest rate") {
+    //   fnRate({
+    //     variables: {
+    //       rate: 1,
+    //     },
+    //   }).then(({ data }) =>
+    //     startTransition(() => setProducts(data.filterByRate))
+    //   );
+    // } else if (selectValue === "highest rate") {
+    //   fnRate({
+    //     variables: {
+    //       rate: -1,
+    //     },
+    //   }).then(({ data }) =>
+    //     startTransition(() => setProducts(data.filterByRate))
+    //   );
+    // } else if (selectValue === "newest") {
+    //   fnDate({
+    //     variables: {
+    //       date: -1,
+    //     },
+    //   }).then(({ data }) =>
+    //     startTransition(() => setProducts(data.filterByDate))
+    //   );
+    // } else if (selectValue === "oldest") {
+    //   fnDate({
+    //     variables: {
+    //       date: 1,
+    //     },
+    //   }).then(({ data }) =>
+    //     startTransition(() => setProducts(data.filterByDate))
+    //   );
+    // }
+  }, [selectValue]);
+
   const ref = useClickOutside<HTMLDivElement>(() => {
     if (isSelectFocus) {
       setIsSelectFocus(false);
@@ -109,36 +104,11 @@ const SelectFilter = () => {
       </span>
       <AnimatePresence>
         {isSelectFocus && (
-          <motion.ul
-            className="select-dropdown center col"
-            variants={selectDropDownVariants}
-            initial="start"
-            animate="end"
-            exit="exit"
-          >
-            {optionsArr.map((opt, i) => {
-              return (
-                <motion.li
-                  className="select-opt"
-                  style={{
-                    color:
-                      opt === selectValue ? "var(--wheat)" : "var(--third)",
-                  }}
-                  variants={opacityVariant}
-                  onClick={() => {
-                    setIsSelectFocus(false);
-                    deleteParam("search");
-                    deleteParam("page");
-                    setSelectValue(opt);
-                  }}
-                  key={i}
-                  onTapStart={() => setIsOptSelected(true)}
-                >
-                  {opt}
-                </motion.li>
-              );
-            })}
-          </motion.ul>
+          <SortOptions
+            selectValue={selectValue}
+            setIsSelectFocus={setIsSelectFocus}
+            setSelectValue={setSelectValue}
+          />
         )}
       </AnimatePresence>
     </div>

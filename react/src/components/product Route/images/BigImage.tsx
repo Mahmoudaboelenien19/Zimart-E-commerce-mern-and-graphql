@@ -1,60 +1,33 @@
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import React, { useContext, useState } from "react";
-import { SideBySideMagnifier } from "react-image-magnifiers";
-import Hint from "./Hint";
+import React, { useContext } from "react";
 import { productContext } from "../Product";
-
-import "react-lazy-load-image-component/src/effects/blur.css";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import useCarousel from "@/custom/useCarousel";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import useModifyUrl from "@/custom/useModifyUrl";
 
 const BigImage = () => {
-  const { images = [], bigImgInd, category } = useContext(productContext);
-
+  const { images = [], bigImgInd, title } = useContext(productContext);
   const [variant, dir] = useCarousel(bigImgInd, images.length);
-  const modifiedUrl = useModifyUrl(images[bigImgInd]?.productPath, category);
-  const [isLoaded, setIsLoaded] = useState(false);
-
+  const { getlink } = useModifyUrl();
+  const url = images[bigImgInd]?.productPath;
   return (
-    <AnimatePresence mode="wait" custom={dir} initial={false}>
+    <AnimatePresence mode="wait" custom={dir}>
       <motion.div
-        className="big-img-par"
-        key={modifiedUrl}
+        className="big-img-par center "
+        key={url}
         custom={{ dir, width: 100 }}
         variants={variant as Variants}
-        onAnimationStart={() => {
-          setIsLoaded(false);
-        }}
+        transition={{ delay: 0.6 }}
       >
-        <AnimatePresence>
-          {isLoaded && <Hint key="hover_hint" />}
-        </AnimatePresence>
-        {!isLoaded ? (
-          <LazyLoadImage
-            src={modifiedUrl}
-            alt={`product`}
-            effect="blur"
-            afterLoad={() => setIsLoaded(true)}
-          />
-        ) : (
-          <SideBySideMagnifier
-            imageSrc={modifiedUrl}
-            style={{
-              objectFit: "contain",
-              height: 400,
-              width: 450,
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-            }}
-            overlayBoxOpacity={1}
-            overlayOpacity={0.1}
-            cursorStyle="crosshair"
-            overlayBoxColor="yellow"
-            className="zoom"
-          />
-        )}
+        <LazyLoadImage
+          effect="blur"
+          alt={title}
+          src={getlink(url, 600)}
+          wrapperClassName="w-80 h-100  "
+          className="w-100 h-100 "
+          // srcSet={`${getlink(url, 800)} 400w,${getlink(url, 400)} 1200w
+          // `}
+        />
       </motion.div>
     </AnimatePresence>
   );

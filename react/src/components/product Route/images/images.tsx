@@ -19,6 +19,7 @@ const ProductImages = () => {
       animate="end"
     >
       <BigImage />
+
       <SmallImages />
     </motion.div>
   );

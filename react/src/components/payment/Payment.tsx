@@ -13,11 +13,10 @@ import { themeContext } from "@/context/ThemContext";
 import { get_Stripe_PublicKey } from "@/graphql/stripe";
 import { OrderInterface } from "@/interfaces/order";
 
-const Payment = () => {
+export const Component = () => {
   const location = useLocation();
 
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
-
   const clientSecret = location.state?.clientSecret || null;
   const products = location.state?.products || [];
   const { data } = useQuery(get_Stripe_PublicKey);
@@ -80,4 +79,3 @@ const Payment = () => {
     </div>
   );
 };
-export default Payment;

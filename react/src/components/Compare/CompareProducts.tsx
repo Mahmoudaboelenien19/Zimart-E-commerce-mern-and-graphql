@@ -1,17 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Animation from "../widgets/animation/Animation";
 import SeletedProduct from "./SeletedProduct";
-import { Navigate } from "react-router-dom";
-import { isAuthContext } from "@/context/isAuth";
 
-const CompareProducts = () => {
+export const Component = () => {
   const [firstproduct, setFirstProduct] = useState("");
   const [secondproduct, setSecondProduct] = useState("");
-  const { isAuth } = useContext(isAuthContext);
 
-  if (!isAuth) {
-    return <Navigate to={"/login"} />;
-  }
   return (
     <Animation>
       <div className="compare-products">
@@ -29,5 +23,3 @@ const CompareProducts = () => {
     </Animation>
   );
 };
-
-export default CompareProducts;

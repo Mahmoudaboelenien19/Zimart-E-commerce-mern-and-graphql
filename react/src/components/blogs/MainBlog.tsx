@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { useAnimate } from "framer-motion";
 import { BlogInterface } from "@/interfaces/blog";
+import useModifyUrl from "@/custom/useModifyUrl";
 
 interface Props extends BlogInterface {
   i: number;
@@ -43,13 +44,16 @@ const Blog = ({
         );
     }
   }, [inView]);
+
+  const { getlink } = useModifyUrl();
+
   return (
     <div
       ref={scope}
       className={`main-blog container ${isReversed ? "" : "blog-reversed "}`}
     >
       <div className="main-img-blog">
-        <LazyLoadImage effect="blur" src={image} alt={head} />{" "}
+        <LazyLoadImage effect="blur" src={getlink(image, 600)} alt={head} />{" "}
         <div className="blog-background"></div>
       </div>
 

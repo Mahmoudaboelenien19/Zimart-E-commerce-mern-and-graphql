@@ -11,7 +11,7 @@ import { useAppSelector } from "@/custom/reduxTypes";
 import usePagination from "@/custom/useNumberOfPages";
 import useParams from "@/custom/useParams";
 
-const UsersDashboard = () => {
+export const Component = () => {
   const { user } = useAppSelector((st) => st.user);
   const { page, showDashBoaedAside } = useParams();
 
@@ -53,5 +53,3 @@ const UsersDashboard = () => {
     </DashMain>
   );
 };
-
-export default UsersDashboard;

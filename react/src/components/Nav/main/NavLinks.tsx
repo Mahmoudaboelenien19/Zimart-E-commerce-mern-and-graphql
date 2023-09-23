@@ -20,7 +20,7 @@ const NavLinks = ({ LinkClr = "white", setShowAside }: Props) => {
       {linksArr.map(({ to, link }, i) => {
         return (
           <motion.li
-            className="center"
+            className="center relative"
             key={i}
             variants={opacityVariant}
             style={{ color: LinkClr }}

@@ -5,15 +5,13 @@ import React, {
   useTransition,
 } from "react";
 import { ChildrenInterFace } from "../interfaces/general.js";
-import { useQuery } from "@apollo/client";
-import { Get_All_Products } from "../graphql/general.js";
-import { addToProductRedux } from "../redux/productSlice.js";
-import { useAppDispatch } from "../custom/reduxTypes.js";
 import { ProductInterface } from "../interfaces/product.js";
+
 interface productListContextInterface {
   setProducts: React.Dispatch<React.SetStateAction<ProductInterface[]>>;
   products: ProductInterface[];
   isPending: boolean;
+  delayedPending: boolean;
   startTransition: React.TransitionStartFunction;
   totalProductsNum: number;
   setTotalProductsNum: React.Dispatch<React.SetStateAction<number>>;
@@ -25,20 +23,24 @@ export const productListContext = createContext(
 
 const FilterDataContext = ({ children }: ChildrenInterFace) => {
   const [isPending, startTransition] = useTransition();
-
-  // const { data, loading } = useQuery(Get_All_Products);
-
-  // const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   if (data?.products) {
-  //     dispatch(addToProductRedux(data?.products.slice(0).reverse()));
-  //   }
-  // }, [loading]);
-
   const [products, setProducts] = useState<ProductInterface[]>([]);
   const [totalProductsNum, setTotalProductsNum] = useState(1);
-
+  /* 
+  this state not to show the old data then show new
+  */
+  const [delayedPending, setDelayedPending] = useState(true);
+  useEffect(() => {
+    let timer: number;
+    if (isPending && !delayedPending) {
+      setDelayedPending(isPending);
+    }
+    if (delayedPending && !isPending) {
+      timer = setTimeout(() => {
+        setDelayedPending(isPending);
+      }, 500);
+    }
+    return () => clearTimeout(timer);
+  }, [isPending]);
   return (
     <productListContext.Provider
       value={{
@@ -48,6 +50,7 @@ const FilterDataContext = ({ children }: ChildrenInterFace) => {
         totalProductsNum,
         setTotalProductsNum,
         setProducts,
+        delayedPending,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import Faq from "react-faq-component";
 import Animation from "../widgets/animation/Animation";
 import { faqArr } from "../../assets/arries/arries.js";
 
-const FaqComponent = () => {
+export const Component = () => {
   return (
     <Animation>
       <div
@@ -31,5 +31,3 @@ const FaqComponent = () => {
     </Animation>
   );
 };
-
-export default FaqComponent;

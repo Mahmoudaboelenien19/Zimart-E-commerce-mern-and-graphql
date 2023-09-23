@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { dashAsideLinks } from "@/assets/arries/LinksArr";
@@ -12,15 +12,12 @@ import useParams from "@/custom/useParams";
 
 const DashboardAside = () => {
   const { showDashBoaedAside, deleteParam } = useParams();
-
   const { handleLogOut } = useLogOut();
-
   const { isMobile } = useIsMobile();
-
   useHideScroll(Boolean(showDashBoaedAside));
   const check =
     sessionStorage.getItem("show-aside") &&
-    JSON.stringify(JSON.parse(sessionStorage.getItem("show-aside") || ""));
+    JSON.parse(sessionStorage.getItem("show-aside") || "");
   return (
     <AnimatePresence mode="wait" initial={false}>
       {(showDashBoaedAside || check) && (

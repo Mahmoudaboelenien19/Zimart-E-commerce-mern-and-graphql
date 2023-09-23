@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { update_Product } from "@/graphql/mutations/product";
 import { GET_Product_By_Id } from "@/graphql/general";
 
-const DashUpdateProduct = () => {
+export const Component = () => {
   const { id } = useParams();
 
   const { data } = useQuery(GET_Product_By_Id, {
@@ -36,5 +36,3 @@ const DashUpdateProduct = () => {
     );
   } else return <></>;
 };
-
-export default DashUpdateProduct;

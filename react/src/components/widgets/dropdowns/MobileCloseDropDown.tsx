@@ -6,15 +6,26 @@ import useParams from "@/custom/useParams";
 import { opacityVariant } from "@/variants/globals";
 import useIsMobile from "@/custom/useIsMobile";
 interface Props {
-  target: string;
+  target?: string;
   title: string;
   bool?: boolean;
+  setter?: React.Dispatch<React.SetStateAction<boolean>>;
+  fn?: () => void;
 }
-const MobileCloseDropDown = ({ target, title, bool }: Props) => {
+const MobileCloseDropDown = ({ setter, target, title, bool, fn }: Props) => {
   const { isMobile } = useIsMobile();
   const { deleteParam } = useParams();
   const closeTarget = () => {
-    deleteParam(target);
+    if (fn) {
+      fn();
+    }
+    if (setter) {
+      setter(false);
+    } else {
+      if (target) {
+        deleteParam(target);
+      }
+    }
 
     if (target === "showDashBoaedAside") {
       sessionStorage.removeItem("show-aside");

@@ -20,18 +20,6 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 import { getnewAccess } from "./lib/getNewAccess";
-// export const getnewAccess = async () => {
-//   const {
-//     data: { accessToken },
-//   } = await axios.post(
-//     newRefTokenRoute,
-//     {},
-//     {
-//       withCredentials: true,
-//     }
-//   );
-//   return accessToken;
-// };
 
 const wsLink = new GraphQLWsLink(
   createClient({

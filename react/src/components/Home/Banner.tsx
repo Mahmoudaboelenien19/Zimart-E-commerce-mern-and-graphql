@@ -8,18 +8,14 @@ import useIsMobile from "@/custom/useIsMobile";
 import FadeElement from "../widgets/animation/FadeElement";
 import Shape from "./Shape";
 import useBuildBannerArr from "@/custom/useBuildBannerArr";
+import useModifyUrl from "@/custom/useModifyUrl";
+import useInnitialRender from "@/custom/useInnitialRender";
 const arrClrs = ["var(--green)", "var(--gmail)", "var(--delete)", "var(--fb)"];
 
 const Banner = () => {
-  const [showArrow, setShowArrow] = useState(false);
   const [ind, setInd] = useState(0);
   const { isMobile } = useIsMobile();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowArrow(true);
-    }, 1500);
-  }, []);
+  const { isInitialRender } = useInnitialRender(2000, false);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--nav-btn", `${arrClrs[ind]}`);
@@ -33,11 +29,13 @@ const Banner = () => {
     direction: "horizontal",
     pagination: { clickable: true },
     modules: [Pagination, Navigation],
-    navigation: showArrow && !isMobile ? true : false,
+    navigation: isInitialRender && !isMobile ? true : false,
     onSlideChange: (e: any) => setInd(e.realIndex),
   };
 
   const bannerArr = useBuildBannerArr();
+  const { getlink } = useModifyUrl();
+
   return (
     <>
       <Swiper
@@ -57,10 +55,11 @@ const Banner = () => {
                   clr={arrClrs[index]}
                   {...ob}
                   key={ob.header}
-                  isShown={index === ind && showArrow}
+                  isShown={index === ind && isInitialRender}
                 />
                 <LazyLoadImage
-                  src={ob.image}
+                  src={getlink(ob.image, undefined, 800)}
+                  // src={ob.image}
                   alt={`banner proile`}
                   wrapperClassName="banner-image"
                   effect="blur"

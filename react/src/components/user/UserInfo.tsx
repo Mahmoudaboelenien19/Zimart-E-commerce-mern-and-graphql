@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import Detail from "./Detail";
-import { isAuthContext } from "../../context/isAuth";
 import { useMutation } from "@apollo/client";
+
+import Password from "./Password";
 import {
   Update_Country,
   Update_User_Email,
   Update_User_Phone,
   Update_user_name,
-} from "../../graphql/mutations/user.js";
-import Password from "./Password";
+} from "@/graphql/mutations/user";
+import { isAuthContext } from "@/context/isAuth";
 
 export interface userDataInterface {
   name: string;
@@ -20,10 +21,6 @@ export interface userDataInterface {
 
 const UserInfo = () => {
   const { name, email, country, phone } = useContext(isAuthContext);
-  const [updateName, setUpdateName] = useState(false);
-  const [updateCountry, setUpdateCountry] = useState(false);
-  const [updateEmail, setUpdateEmail] = useState(false);
-  const [updatePhone, setUpdatePhone] = useState(false);
   const [updateNameFn] = useMutation(Update_user_name);
   const [updatePhoneFn] = useMutation(Update_User_Phone);
   const [updateEmailFn] = useMutation(Update_User_Email);
@@ -46,30 +43,22 @@ const UserInfo = () => {
     {
       detail: "name",
       value: userData.name,
-      setter: setUpdateName,
       fn: updateNameFn,
-      bool: updateName,
     },
 
     {
       detail: "email",
       value: userData.email,
-      setter: setUpdateEmail,
       fn: updateEmailFn,
-      bool: updateEmail,
     },
     {
       detail: "phone",
       value: userData.phone || "No Phone Number is Added",
-      setter: setUpdatePhone,
       fn: updatePhoneFn,
-      bool: updatePhone,
     },
     {
       detail: "country",
       value: userData.country,
-      setter: setUpdateCountry,
-      bool: updateCountry,
       fn: updateCountryFn,
     },
   ];
@@ -77,15 +66,13 @@ const UserInfo = () => {
     <div>
       <h2 className="underline header user-head">User Info</h2>
 
-      {userArr.map(({ detail, value, fn, setter, bool }) => {
+      {userArr.map(({ detail, value, fn }) => {
         return (
           <Fragment key={detail}>
             <Detail
               detail={detail}
               value={value}
-              setter={setter}
               fn={fn}
-              bool={bool}
               setUpdateUserData={setUserData}
               userdata={userData}
             />

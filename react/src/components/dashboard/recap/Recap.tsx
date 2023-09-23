@@ -9,11 +9,10 @@ import MainPageCharts from "./MainPageCharts";
 import useMeasure from "react-use-measure";
 
 import AdminEmailPop from "../AdminEmailPop";
-import GridLoader from "@/components/widgets/loaders/GridLoader";
 import { useAppSelector } from "@/custom/reduxTypes";
 import useDashProgress from "@/custom/useDashProgress";
 
-const Recap = () => {
+export const Component = () => {
   const { user } = useAppSelector((st) => st.user);
 
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
@@ -64,7 +63,8 @@ const Recap = () => {
     },
   ];
   const [ref, { width }] = useMeasure();
-  const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
+  const check =
+    (order.length >= 1 && Allproducts.length > 0 && user.length > 0) || true;
   return (
     <DashMain>
       {check ? (
@@ -82,11 +82,10 @@ const Recap = () => {
           <MainPageCharts width={width} />
         </>
       ) : (
-        <GridLoader cls="loading-recap center" />
+        // <GridLoader cls="loading-recap center" />
+        <> &lt; </>
       )}
       <AdminEmailPop isLoaded={check} />
     </DashMain>
   );
 };
-
-export default Recap;

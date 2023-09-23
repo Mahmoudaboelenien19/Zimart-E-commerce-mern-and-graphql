@@ -27,7 +27,7 @@ const useParams = () => {
   const categoryFilter = searchParams.get("category") || "";
   const featuredProductsFilter = searchParams.get("featured products") || "";
   const showAsideFilter = searchParams.get("showAsideFilter") || "";
-  const showDashBoaedAside = searchParams.get("showDashBoaedAside") || "";
+  const showDashBoaedAside = searchParams.get("showDashBoaedAside") || null;
   const deleteParam = (param: string) => {
     setSearchParams((params) => {
       params.delete(param);
@@ -38,6 +38,7 @@ const useParams = () => {
   const setParam = (param: string, value: "") => {
     setSearchParams((params) => {
       params.set(param, value);
+
       return params;
     });
   };

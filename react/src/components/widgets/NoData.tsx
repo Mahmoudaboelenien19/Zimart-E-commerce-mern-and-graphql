@@ -1,52 +1,18 @@
-import React, { Suspense, useEffect, useState } from "react";
-import FadeElement from "./animation/FadeElement";
-import { ChildrenInterFace } from "../../interfaces/general";
+import React from "react";
 import { AnimatePresence } from "framer-motion";
-import GridLoader from "./loaders/GridLoader";
+import FadeWithY from "./animation/FadeWithY";
 
-interface Props extends ChildrenInterFace {
-  length: boolean;
+interface Props {
   message: string;
-  cls?: string;
-  loading?: boolean;
+  cls: string;
 }
-const NoData = ({ length, children, message, cls, loading = false }: Props) => {
-  const [isPending, setIsPending] = useState(true);
-  const [hasLen, setHasLen] = useState(true);
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    if (!loading) {
-      if (length) {
-        setHasLen(true);
-        setIsPending(false);
-      } else {
-        setHasLen(false);
-        setShow(true);
-        setIsPending(false);
-      }
-    }
-  }, [length, loading]);
-
-  return (
-    <AnimatePresence mode="wait">
-      {isPending || loading ? (
-        <GridLoader cls={`${cls} center` || ""} />
-      ) : (
-        <>
-          {hasLen ? (
-            children
-          ) : (
-            <>
-              <FadeElement cls={`shadow no-data ${cls}`} key={message}>
-                {!loading && show && message}
-              </FadeElement>
-            </>
-          )}
-        </>
-      )}
-    </AnimatePresence>
-  );
-};
+console.log("no data ");
+const NoData = ({ message, cls }: Props) => (
+  <AnimatePresence>
+    <FadeWithY cls={`shadow no-data ${cls}`} key={message} delay={1}>
+      {message}
+    </FadeWithY>
+  </AnimatePresence>
+);
 
 export default NoData;

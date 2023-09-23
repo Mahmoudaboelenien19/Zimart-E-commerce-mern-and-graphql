@@ -14,40 +14,57 @@ footer {
     padding: 15px 0;
     font-weight: 700;
     width: 95%;
-
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: flex-start;
     gap: 4px;
-  }
+    font-weight: normal;
 
-  .about-footer {
-    margin: 0;
-    padding: 0;
-    width: 35%;
-    // min-width: 300px;
-    svg {
-      filter: drop-shadow(var(--forth-shadow));
+    .about-footer {
+      margin: 0 auto;
+      min-width: 320px;
+      margin-bottom: 30px;
+
+      svg {
+        path {
+          color: var(--third);
+          opacity: 0.7;
+        }
+      }
+      svg {
+        filter: drop-shadow(var(--forth-shadow));
+      }
+
+      p {
+        width: 90%;
+        max-width: 350px;
+        color: var(--third);
+        opacity: 0.7;
+        text-align: center;
+
+        &::first-letter {
+          font-weight: normal;
+          color: inherit;
+        }
+      }
     }
-
-    p {
-      width: 90%;
-      color: var(--third);
-    }
   }
-
+  .footer-links-par {
+    gap: 15px;
+  }
   .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    min-width: 180px;
+    gap: 15px;
     align-items: center;
+    justify-content: flex-start;
     flex-grow: 1;
-
+    min-width: 200px;
+    margin-bottom: 30px;
     span {
       a {
-        padding: 6px;
         text-transform: capitalize;
         letter-spacing: 1px;
         color: var(--wheat);
@@ -65,13 +82,15 @@ footer {
   gap: 10px;
   margin: 0 auto;
   flex-grow: 1;
+  min-width: 320px;
+
   h3 {
     align-self: center;
   }
   .icon-parent {
     display: inline-flex;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     justify-content: center;
     align-items: center;
     background: var(--main);
@@ -99,7 +118,7 @@ footer {
 }
 
 .footer-head {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--third);
   text-transform: capitalize;
   letter-spacing: 0.8px;
@@ -145,18 +164,4 @@ footer {
 .social-icons {
   display: flex;
   gap: 10px;
-}
-
-@media (max-width: 800px) {
-  footer .about-footer {
-    min-width: 95%;
-    margin: 0 auto;
-  }
-  .footer-links {
-    margin-top: 30px;
-    min-width: 45% !important;
-  }
-  .icons-footer {
-    margin-top: 30px;
-  }
 }

@@ -1,15 +1,13 @@
 import { viewContext } from "@/context/gridView";
-import useIsMobile from "@/custom/useIsMobile";
 import useParams from "@/custom/useParams";
-import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import useMeasure from "react-use-measure";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { motion } from "framer-motion";
 
 const SkeltonProducts = () => {
   const { gridView } = useContext(viewContext);
-
   const { getParam } = useParams();
   const showAsideFilter = getParam("showAsideFilter");
   const [sectionRef, { width: sectionWidth }] = useMeasure();
@@ -17,13 +15,13 @@ const SkeltonProducts = () => {
   return (
     <>
       {Array.from({ length: 12 }).map((_, index) => (
-        <section
+        <motion.section
           key={index}
           ref={sectionRef}
           className={`product-List center ${
             gridView ? "grid col" : "list between "
           }`}
-          style={{
+          animate={{
             opacity: 0.3,
             height:
               sectionWidth <= 400 && !gridView && showAsideFilter
@@ -33,26 +31,6 @@ const SkeltonProducts = () => {
                 : 380,
           }}
         >
-          {/* <Skeleton count={1}  />
-
-            <div className="center col product-data">
-              <Skeleton count={2} />
-
-              <>
-                {!gridView && sectionWidth >= 400 && (
-                  <Skeleton count={3} width={"100%"} />
-                )}
-              </>
-
-              <Skeleton
-                count={1}
-                className="product-rate-filter center "
-                width={"100%"}
-                height={20}
-                baseColor="green"
-              />
-            </div> */}
-
           <div className={` img-par center ${gridView ? "grid" : "list"}`}>
             <Skeleton
               circle
@@ -81,7 +59,7 @@ const SkeltonProducts = () => {
               <Skeleton width={200} height={40} />
             </div>
           </div>
-        </section>
+        </motion.section>
       ))}
     </>
   );
