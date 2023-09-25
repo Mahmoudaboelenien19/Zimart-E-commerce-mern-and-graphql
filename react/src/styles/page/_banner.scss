@@ -1,13 +1,25 @@
 @import "../variables.scss";
 
 .banner-par {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 50px;
   display: flex !important;
   align-items: flex-start;
   overflow-y: hidden;
+  &.light {
+    color: var(--third-light);
+    .swiper-pagination-bullet {
+      background: var(--third-light) !important;
+    }
+  }
 
+  &.dark {
+    color: var(--third-light);
+    .swiper-pagination-bullet {
+      background: var(--third-dark) !important;
+    }
+  }
   .banner {
     width: 98%;
     height: 100%;
@@ -43,12 +55,11 @@
 .banner-content {
   width: 48%;
   text-shadow: var(--forth-shadow);
-  // padding: 10px 20px;
   padding: 10px;
-  // padding-left: 40px;
-  gap: 10px;
+  gap: 15px !important;
   letter-spacing: 0.1vw;
-  .product-links {
+  .banner-links {
+    gap: 25px;
     background-color: transparent;
     align-self: flex-start;
   }
@@ -64,8 +75,6 @@
     line-height: 4vw;
   }
   p {
-    color: var(--third);
-
     font-size: 1.2rem;
     width: 100%;
     text-transform: lowercase;
@@ -80,16 +89,42 @@
     }
   }
 }
-.swiper-pagination-bullet {
-  background: var(--third) !important;
-}
+
 .swiper-button-prev {
   left: 2px !important;
 }
 .swiper-button-next {
   right: 2px !important;
 }
-.custom-shape-divider-top-1691782077 {
+// .banner-shape {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 120%;
+//   overflow: hidden;
+//   line-height: 0;
+//   transform: rotate(180deg);
+
+//   &.light {
+//     background-color: var(--forth-light);
+//     .shape-fill {
+//       // background-color: var(--third-light);
+
+//       background-color: transparent;
+
+//       position: relative;
+//     }
+//   }
+//   &.dark {
+//     background-color: var(--forth-dark);
+//     .shape-fill {
+//       fill: var(--third-dark);
+//     }
+//   }
+//   // opacity: 0.04;
+// }
+
+.banner-shape {
   position: absolute;
   top: 0;
   left: 0;
@@ -97,11 +132,16 @@
   overflow: hidden;
   line-height: 0;
   transform: rotate(180deg);
-  background-color: var(--third);
+  &.light {
+    background-color: var(--third-light);
+  }
+  &.dark {
+    background-color: var(--third-dark);
+  }
   opacity: 0.03;
 }
 
-.custom-shape-divider-top-1691782077 svg {
+.banner-shape svg {
   position: relative;
   display: block;
   width: calc(221% + 1.3px);
@@ -109,9 +149,9 @@
   transform: rotateY(180deg);
 }
 
-.custom-shape-divider-top-1691782077 .shape-fill {
-  fill: var(--forth);
-}
+// .custom-shape-divider-top-1691782077 .shape-fill {
+//   fill: var(--forth);
+// }
 
 @media (max-width: 499px) {
   .banner-par {

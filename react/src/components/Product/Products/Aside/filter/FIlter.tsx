@@ -3,7 +3,6 @@ import React from "react";
 import useHide from "@/custom/useHide";
 import { ChildrenInterFace } from "@/interfaces/general";
 import { parentVariant } from "@/variants/globals";
-
 import FilterHeader from "./FilterHeader";
 
 interface Props extends ChildrenInterFace {

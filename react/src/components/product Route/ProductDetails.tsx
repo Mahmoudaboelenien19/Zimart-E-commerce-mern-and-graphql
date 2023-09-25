@@ -1,6 +1,6 @@
+import "./product.scss";
 import React, { useEffect, useState, useContext } from "react";
 import { BiCommentEdit, BiShow } from "react-icons/bi";
-
 import { AiFillPlusSquare, AiOutlineCheck } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { productContext } from "./Product";
@@ -10,7 +10,6 @@ import Title from "../widgets/Title";
 import CompareIcons from "../svgs/CompareIcons";
 import StyledPrice from "../widgets/StyledPrice";
 import { toast } from "react-hot-toast";
-
 import BuyBtn from "../payment/BuyBtn";
 import CartBtn from "../widgets/buttons/CartBtn";
 import { isAuthContext } from "@/context/isAuth";
@@ -19,6 +18,8 @@ import { useAppSelector } from "@/custom/reduxTypes";
 import useAvg from "@/custom/useAvg";
 import usePathAndId from "@/custom/usePathAndId";
 import { reviewInterface } from "@/interfaces/product";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,6 +46,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
     },
   };
   const { isAuth } = useContext(isAuthContext);
+  const { theme } = useContext(themeContext);
 
   const { avgRate, reviewLength } = useAvg(rating, reviews);
 
@@ -95,7 +97,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
           {category}
         </h3>
         <br />
-        <div className="title-par">
+        <div className={clsx("title-par", theme)}>
           <h2 className="title  center">
             {title}
             <span className="center heart-par">
@@ -164,7 +166,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
       <div className="details-bottom">
         <StyledPrice price={price} />
 
-        <p style={{ color: "var(--third)" }}>{description}</p>
+        <p className={theme}>{description}</p>
 
         <div className="hr"></div>
 

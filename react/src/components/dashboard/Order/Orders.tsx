@@ -12,37 +12,42 @@ import { Outlet } from "react-router-dom";
 import useMessure from "react-use-measure";
 import { mergeRefs } from "react-merge-refs";
 import Pages from "@/components/Product/Products/Pages";
-import NoData from "@/components/widgets/NoData";
-import { useAppSelector } from "@/custom/reduxTypes";
-import usePagination from "@/custom/useNumberOfPages";
 import { OrderInterface } from "@/interfaces/order";
 import useParams from "@/custom/useParams";
+import { useLazyQuery } from "@apollo/client";
+import { GET_ALL_ORDERS } from "@/graphql/queries";
 
 interface contextInterface {
-  setarrOfOrders: React.Dispatch<React.SetStateAction<string[]>>;
-  arrOfOrders: string[];
-  setSlectALl: React.Dispatch<React.SetStateAction<string | number>>;
-  selectALl: string | number;
   dataShown: OrderInterface[];
 }
+type Data = {
+  data: {
+    orders: {
+      orders: OrderInterface;
+      totalOrders: number;
+    };
+  };
+};
 export const checkContext = createContext({} as contextInterface);
-export const Component = () => {
-  const [selectALl, setSlectALl] = useState<string | number>("");
-  const [arrOfOrders, setarrOfOrders] = useState<string[]>([]);
+export function Component() {
+  const [totalOrders, setTotalOrders] = useState(0);
   const { page, showAsideFilter } = useParams();
-  const { order } = useAppSelector((st) => st.order);
-  const [dataShown, numberOfPages] = usePagination(
-    18,
-    Number(page),
-    order || []
-  );
-  useEffect(() => {
-    setTimeout(() => {
-      document.title = "Dashboaed | Orders";
-    }, 400);
-  }, []);
-  const [ref, { width }] = useMessure();
 
+  const [getOrders, { data }] = useLazyQuery(GET_ALL_ORDERS, {
+    variables: {
+      limit: 18,
+      skip: Number(page) >= 2 ? 18 * (Number(page) - 1) : 0,
+    },
+  });
+
+  useEffect(() => {
+    document.title = "Dashboaed | Orders";
+    getOrders().then(({ data }: Data) => {
+      setTotalOrders(data?.orders?.totalOrders);
+    });
+  }, [page]);
+
+  const [ref, { width }] = useMessure();
   const [wid, setWid] = useState(0);
   const reff = useRef<HTMLDivElement>(null);
 
@@ -52,21 +57,23 @@ export const Component = () => {
 
   return (
     <checkContext.Provider
-      value={{ dataShown, setarrOfOrders, arrOfOrders, setSlectALl, selectALl }}
+      value={{
+        dataShown: data?.orders?.orders || Array.from({ length: 18 }),
+      }}
     >
       <DashMain key={"order-dashmain"}>
-        <span ref={mergeRefs([reff, ref])}>
+        <span ref={mergeRefs([reff, ref])} id={"orders"}>
           {wid >= 700 ? (
-            <NoData message="no orders" length={order.length >= 1} cls="h-50">
-              <OrderTable key={"table-order"} />
-            </NoData>
+            <OrderTable key={"table-order"} />
           ) : (
             <MobileOrders key={"mobile-order"} />
           )}
           <Pages
             key={"order-pages"}
             page={Number(page)}
-            numOfPages={numberOfPages}
+            total={totalOrders}
+            limit={18}
+            to="orders"
           />
 
           <Outlet />
@@ -74,4 +81,4 @@ export const Component = () => {
       </DashMain>
     </checkContext.Provider>
   );
-};
+}

@@ -3,52 +3,53 @@ import DashMain from "../DashMain";
 import DashBoardUsersTable from "./DashBoardUsersTable";
 import MobileDashUser from "./MobileDashUser";
 import useMessure from "react-use-measure";
-
 import { mergeRefs } from "react-merge-refs";
 import Pages from "@/components/Product/Products/Pages";
-import NoData from "@/components/widgets/NoData";
-import { useAppSelector } from "@/custom/reduxTypes";
-import usePagination from "@/custom/useNumberOfPages";
 import useParams from "@/custom/useParams";
+import { GET_ALL_USERS } from "@/graphql/mutations/user";
+import { useLazyQuery } from "@apollo/client";
 
 export const Component = () => {
-  const { user } = useAppSelector((st) => st.user);
   const { page, showDashBoaedAside } = useParams();
-
-  const [dataShown, numberOfPages] = usePagination(
-    18,
-    Number(page),
-    user || []
-  );
   const [ref, { width }] = useMessure();
-
   const [wid, setWid] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const reff = useRef<HTMLDivElement>(null);
-
+  const [getUsers, { data }] = useLazyQuery(GET_ALL_USERS, {
+    variables: {
+      limit: 18,
+      skip: Number(page) >= 2 ? 18 * (Number(page) - 1) : 0,
+    },
+  });
   useEffect(() => {
-    setTimeout(() => {
-      document.title = "Dashboard | Users";
-    }, 400);
-  }, []);
+    document.title = "Dashboard | Users";
+    getUsers().then((res) => {
+      setTotalPages(res.data.users.totalUsers);
+    });
+  }, [page]);
   useLayoutEffect(() => {
     setWid(reff.current?.offsetWidth || 0);
   }, [showDashBoaedAside, width]);
+
+  const orders = data?.users?.users || Array.from({ length: 18 });
   return (
     <DashMain key={"order-dashmain"}>
-      <span ref={mergeRefs([reff, ref])}>
-        <NoData length={user.length >= 0} message="No Users" cls="center h-80">
+      <span ref={mergeRefs([reff, ref])} id={"users"}>
+        <>
           {wid >= 750 ? (
-            <DashBoardUsersTable data={dataShown} key={"table-order"} />
+            <DashBoardUsersTable data={orders} key={"table-order"} />
           ) : (
-            <MobileDashUser data={dataShown} key={"mobile-order"} />
+            <MobileDashUser data={orders} key={"mobile-order"} />
           )}
-        </NoData>
+        </>
       </span>
 
       <Pages
+        total={totalPages}
         key={"order-pages"}
         page={Number(page)}
-        numOfPages={numberOfPages}
+        to="users"
+        limit={18}
       />
     </DashMain>
   );

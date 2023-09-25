@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useShowTitle from "../../custom/useShowTitle";
 import { ChildrenInterFace } from "../../interfaces/general";
+import { themeContext } from "@/context/ThemContext";
+import { clsx } from "clsx";
 interface Props extends ChildrenInterFace {
   title: string;
   dir?: string;
@@ -21,10 +23,10 @@ const Title = ({ title, cls, dir, children, abs, cancelTap = true }: Props) => {
   };
 
   const [bool, show, hide] = useShowTitle();
-
+  const { theme } = useContext(themeContext);
   return (
     <motion.span
-      className={`title-par ${abs ? "" : "relative"} ${cls}`}
+      className={clsx("title-par", !abs && "relative", cls)}
       onHoverStart={show}
       onHoverEnd={hide}
       onTapStart={() => {
@@ -42,7 +44,11 @@ const Title = ({ title, cls, dir, children, abs, cancelTap = true }: Props) => {
             initial="start"
             exit={"exit"}
             animate="end"
-            className={` custom-title ${dir === "left" ? "left" : "right"}`}
+            className={clsx(
+              " custom-title",
+              dir === "left" ? "left" : "right",
+              theme
+            )}
             onHoverStart={hide}
           >
             {" "}

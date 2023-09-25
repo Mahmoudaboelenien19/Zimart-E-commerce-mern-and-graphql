@@ -7,21 +7,14 @@ import { OrderInterface } from "@/interfaces/order";
 import { opacityVariant } from "@/variants/globals";
 
 const MobileOrders = () => {
-  const { setSlectALl, dataShown } = useContext(checkContext);
-
-  // const { handleDeleteOrder } = useDeleteOrder(arrOfOrders);
-
-  useEffect(() => {
-    setSlectALl("");
-  }, []);
-
+  const { dataShown } = useContext(checkContext);
   return (
     <div className="">
       <AnimatePresence>
-        {dataShown.map((order: OrderInterface) => {
+        {dataShown?.map((order: OrderInterface, i: number) => {
           return (
             <motion.div
-              key={order._id}
+              key={i}
               variants={opacityVariant}
               initial="start"
               animate="end"

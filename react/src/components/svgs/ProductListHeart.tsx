@@ -34,7 +34,7 @@ const ProductListHeart = ({
 
     if (fav?.length > 0) {
       for (const image of images as imagesInterface[]) {
-        const check = fav.some((e: favInterface) => image._id == e.productId);
+        const check = fav.some((e: favInterface) => image?._id == e.productId);
         if (check) {
           setIsFavorited(true);
           break;
@@ -47,16 +47,16 @@ const ProductListHeart = ({
 
   const addToFavObj = {
     userId,
-    productId: (images as imagesInterface[])[0]._id,
+    productId: (images as imagesInterface[])[0]?._id,
     price,
-    path: (images as imagesInterface[])[0].productPath,
+    path: (images as imagesInterface[])[0]?.productPath,
     title,
     parentId,
   };
   const { handleAddToFav } = useAddToFav(addToFavObj);
   const { handleRemoveFromFav } = useRemoveFromFav({
     userId,
-    productId: images?.map((image) => image._id) as string[],
+    productId: images?.map((image) => image?._id) as string[],
   });
 
   const handleHeartFns = async () => {

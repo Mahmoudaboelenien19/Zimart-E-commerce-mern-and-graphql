@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import { mergeRefs } from "react-merge-refs";
 import { MdOutlineClear } from "react-icons/md";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { productListContext } from "@/context/FilterData";
+import { productListContext } from "@/context/ProductsContext";
 import useClickOutside from "@/custom/useClickOutside";
 import useIsMobile from "@/custom/useIsMobile";
 import Title from "@/components/widgets/Title";
@@ -22,17 +22,19 @@ type Props = {
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const Search = ({ showSearch, setShowSearch }: Props) => {
-  const { setProducts, setTotalProductsNum, startTransition, products } =
+  const { setProducts, setTotalProductsNum, products } =
     useContext(productListContext);
   //!disover  what i wanted to do
-  // const [showSearch, setShowSearch] = useState(isMobile ? false : true);
+  // const [showSearch, setShowSearch] = (isMobile ? false : true);
+
   const [isActive, setIsActive] = useState(-1);
   const [showRes, setShowRes] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const { search, deleteParam, setParam, getParam } = useParams();
   const [inpVal, setInpVal] = useState(search || "");
-  const { isMidScreen } = useIsMobile();
+  const { isMidScreen, isMobile } = useIsMobile();
   const [fnSearch] = useMutation(Search_Mutaion);
-  const initialRender = useRef(true);
+
   const [ref, animateFn] = useAnimate();
   const [value] = useDebounce(inpVal, 1000);
   const page = getParam("page") || 1;
@@ -59,21 +61,26 @@ const Search = ({ showSearch, setShowSearch }: Props) => {
     setIsActive(-1);
     setInpVal(e.target.value);
     setParam("search", e.target.value);
-  };
+    deleteParam("page");
 
-  useEffect(() => {
-    if (initialRender.current && search) {
-      initialRender.current = false;
-      return;
-    }
-    initialRender.current = false;
-
-    if (inpVal) {
-      deleteParam("page");
-    } else {
+    if (e.target.value === "") {
       deleteParam("search");
     }
-  }, [value, inpVal]);
+  };
+
+  // useEffect(() => {
+  //   if (initialRender.current && search) {
+  //     initialRender.current = false;
+  //     return;
+  //   }
+  //   initialRender.current = false;
+  //   if (inpVal) {
+  //     deleteParam("page");
+  //   } else {
+  //     deleteParam("search");
+  //   }
+  // }, [value, inpVal]);
+
   useEffect(() => {
     animateFn(
       ref.current,
@@ -81,16 +88,16 @@ const Search = ({ showSearch, setShowSearch }: Props) => {
       { delay: 0.6 }
     );
 
-    if (isMidScreen) {
+    if (isMidScreen || isMobile) {
       setShowSearch(false);
     } else {
       setShowSearch(true);
     }
-  }, [isMidScreen]);
+  }, [isMidScreen, isMobile]);
 
   useEffect(() => {
     if (isActive !== -1) {
-      const title = products[isActive].title;
+      const title = products[isActive]?.title || "";
       handleInputValue(title);
     }
   }, [isActive]);
@@ -110,18 +117,22 @@ const Search = ({ showSearch, setShowSearch }: Props) => {
 
   useEffect(() => {
     if (search != "") {
-      startTransition(() => {
-        deleteParam("isFilterApplied");
-        fnSearch({
-          variables: {
-            word: search,
-            skip: Number(page) >= 2 ? 12 * (Number(page) - 1) : 0,
-            limit: 12,
-          },
-        }).then(({ data }) => {
-          setProducts(data?.searchProducts.products);
-          setTotalProductsNum(data?.searchProducts.totalProducts);
-        });
+      setIsPending(true);
+      setProducts(Array.from({ length: 12 }));
+      deleteParam("isFilterApplied");
+      deleteParam("catFilter");
+
+      deleteParam("sort");
+      fnSearch({
+        variables: {
+          word: search,
+          skip: Number(page) >= 2 ? 12 * (Number(page) - 1) : 0,
+          limit: 12,
+        },
+      }).then(({ data }) => {
+        setProducts(data?.searchProducts.products || []);
+        setTotalProductsNum(data?.searchProducts?.totalProducts || 0);
+        setIsPending(false);
       });
     } else {
       handleInputValue("");
@@ -186,7 +197,8 @@ const Search = ({ showSearch, setShowSearch }: Props) => {
           <SearchResults
             isActive={isActive}
             setIsActive={setIsActive}
-            handleInputValue={handleInputValue}
+            isPending={isPending}
+            showSearch={showSearch}
           />
         )}
       </motion.form>

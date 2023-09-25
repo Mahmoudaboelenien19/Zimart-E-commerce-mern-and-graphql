@@ -8,9 +8,15 @@
 
 body {
   font-family: "Roboto", sans-serif;
-
   overflow-x: hidden;
-  background: linear-gradient(120deg, var(--forth), var(--main));
+}
+.main-bg {
+  &.light {
+    background: linear-gradient(rgba(136, 134, 134, 0.4), var(--main-light)) 60%;
+  }
+  &.dark {
+    background: linear-gradient(var(--secondary-dark), var(--main-dark) 40%);
+  }
 }
 :root {
   font-size: clamp(12px, 1vw, 16px);

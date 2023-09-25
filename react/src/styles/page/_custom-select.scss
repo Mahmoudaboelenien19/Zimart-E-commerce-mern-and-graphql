@@ -3,7 +3,22 @@
 .custom-select {
   width: 200px;
   height: 40px;
-  background: var(--secondary);
+  &.light {
+    background: var(--secondary-light);
+    .select-dropdown {
+      background: var(--main-light);
+      color: var(--third-light);
+    }
+  }
+
+  &.dark {
+    background: var(--secondary-dark);
+    .select-dropdown {
+      background: var(--main-dark);
+      color: var(--third-dark);
+    }
+  }
+
   border-radius: 5px;
   position: relative;
   letter-spacing: 0.7px;
@@ -45,7 +60,7 @@
 
 .select-dropdown {
   list-style: none;
-  background: var(--main);
+
   position: absolute;
   top: 102%;
   left: 0;

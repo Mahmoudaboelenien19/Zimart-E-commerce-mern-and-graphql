@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const FILTER_BY_PRICE = gql`
-  mutation ($price: Float!) {
-    filterByPrice(price: $price) {
+export const Sort_Products = gql`
+  mutation ($input: sortProducts!) {
+    SortProducts(input: $input) {
       totalProducts
       products {
         reviews {
@@ -25,33 +25,6 @@ export const FILTER_BY_PRICE = gql`
           productPath
           _id
         }
-      }
-    }
-  }
-`;
-
-export const FILTER_BY_Date = gql`
-  mutation ($date: Int!) {
-    filterByDate(date: $date) {
-      reviews {
-        image
-        user
-        review
-        rate
-        _id
-      }
-      _id
-      price
-      stock
-      title
-      description
-      rating
-      category
-      state
-
-      images {
-        productPath
-        _id
       }
     }
   }
@@ -84,55 +57,31 @@ export const FILTER_BY_STATE = gql`
   }
 `;
 
-export const FILTER_BY_Catagroy = gql`
-  mutation ($category: String!) {
-    filterBycatageory(category: $category) {
-      reviews {
-        image
-        user
-        review
-        rate
+export const Sort_BY_Rate = gql`
+  mutation ($input: sortProductsByRateInput!) {
+    SortByRate(input: $input) {
+      totalProducts
+      products {
+        reviews {
+          image
+          user
+          review
+          rate
+          _id
+        }
         _id
-      }
-      _id
-      price
-      stock
-      title
-      description
-      rating
-      category
-      state
+        price
+        stock
+        state
+        title
+        description
+        rating
+        category
 
-      images {
-        productPath
-        _id
-      }
-    }
-  }
-`;
-
-export const FILTER_BY_Rate = gql`
-  mutation ($rate: Int!) {
-    filterByRate(rate: $rate) {
-      reviews {
-        image
-        user
-        review
-        rate
-        _id
-      }
-      _id
-      price
-      stock
-      state
-      title
-      description
-      rating
-      category
-
-      images {
-        productPath
-        _id
+        images {
+          productPath
+          _id
+        }
       }
     }
   }
@@ -189,25 +138,28 @@ export const Add_Product = gql`
 export const FILTER_All = gql`
   mutation ($input: filterAllInput) {
     filterAllTypes(input: $input) {
-      reviews {
-        image
-        user
-        review
-        rate
+      totalProducts
+      products {
+        reviews {
+          image
+          user
+          review
+          rate
+          _id
+        }
         _id
-      }
-      _id
-      price
-      stock
-      state
-      title
-      description
-      rating
-      category
+        price
+        stock
+        state
+        title
+        description
+        rating
+        category
 
-      images {
-        productPath
-        _id
+        images {
+          productPath
+          _id
+        }
       }
     }
   }

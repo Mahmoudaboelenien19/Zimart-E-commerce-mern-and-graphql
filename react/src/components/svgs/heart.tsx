@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Title from "../widgets/Title";
+import { themeContext } from "@/context/ThemContext";
 interface Props {
   fn: () => void;
   isFavoraited: boolean;
 }
 const HeartSvg = ({ fn, isFavoraited }: Props) => {
+  const { theme } = useContext(themeContext);
   return (
     <div className="heart-parent">
       <Title
@@ -15,7 +17,7 @@ const HeartSvg = ({ fn, isFavoraited }: Props) => {
       >
         <svg
           style={{
-            fill: isFavoraited ? "red" : "var(--third)",
+            fill: isFavoraited ? "red" : `var(--third-${theme})`,
             transition: "0.3s",
           }}
           className="svg-heart"

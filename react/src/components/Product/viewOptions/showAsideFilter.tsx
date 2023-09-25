@@ -1,10 +1,12 @@
+import { themeContext } from "@/context/ThemContext";
 import useParams from "@/custom/useParams";
 import { opacityVariant } from "@/variants/globals";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
 
 const ShowAsideBtn = () => {
   const { showAsideFilter, deleteParam, setParam } = useParams();
+  const { theme } = useContext(themeContext);
   const hideFilter = () => {
     deleteParam("showAsideFilter");
   };
@@ -22,7 +24,7 @@ const ShowAsideBtn = () => {
           animate="end"
           transition={{ duration: 0.4 }}
           key={"show-filter"}
-          style={{ color: "var(--third)" }}
+          style={{ color: `var(--third-${theme})` }}
         >
           Hide Filters
         </motion.span>
@@ -36,7 +38,7 @@ const ShowAsideBtn = () => {
           exit="exit"
           animate="end"
           transition={{ duration: 0.4 }}
-          style={{ color: "var(--third)" }}
+          style={{ color: `var(--third-${theme})` }}
         >
           Show Filters
         </motion.span>

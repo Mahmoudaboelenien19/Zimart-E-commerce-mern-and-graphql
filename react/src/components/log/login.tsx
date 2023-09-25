@@ -13,7 +13,7 @@ import { AiFillWarning } from "react-icons/ai";
 import { isAuthContext } from "@/context/isAuth";
 import { Authenticate_Query } from "@/graphql/mutations/user";
 
-export const Login = () => {
+export const Component = () => {
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     document.title = "Zimart | Login";

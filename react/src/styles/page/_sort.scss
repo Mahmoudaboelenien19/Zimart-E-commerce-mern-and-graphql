@@ -54,6 +54,7 @@
   height: 1px;
   opacity: 0.5;
   width: 96%;
+  z-index: 1;
 }
 
 .search {
@@ -97,7 +98,6 @@
     left: 0;
     background-color: black;
     width: 100%;
-    z-index: 100;
     list-style: none;
     z-index: 4;
     gap: 2px;
@@ -110,6 +110,7 @@
     transition: 0.3s;
     width: 100%;
     height: 30px;
+    z-index: 4;
 
     cursor: pointer;
     &.active {

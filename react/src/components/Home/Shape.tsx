@@ -1,8 +1,11 @@
-import React from "react";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
+import React, { useContext } from "react";
 
 const Shape = () => {
+  const { theme } = useContext(themeContext);
   return (
-    <div className="custom-shape-divider-top-1691782077">
+    <div className={clsx("banner-shape", theme)}>
       <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"

@@ -1,3 +1,4 @@
+import { SkipAndLimit } from "./../interfaces/graqphInterfaces";
 import GraphQLUpload from "graphql-upload";
 import cloudinary from "cloudinary";
 import { Response } from "express";
@@ -33,8 +34,13 @@ interface removeFromFavInterface {
 
 export const userResolver = {
   Query: {
-    async users() {
-      return await userCollection.find();
+    async users(_: unknown, { limit, skip }: SkipAndLimit) {
+      const totalUsers = await userCollection.find().count();
+      const users = await userCollection.find().limit(limit).skip(skip);
+      return {
+        totalUsers,
+        users,
+      };
     },
   },
   Upload: GraphQLUpload,

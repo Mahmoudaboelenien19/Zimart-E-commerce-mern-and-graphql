@@ -3,8 +3,9 @@ import React from "react";
 import TrUser from "./TrUser";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import { opacityVariant } from "@/variants/globals";
+import { UserInterface } from "@/interfaces/user";
 
-const DashBoardUsersTable = ({ data }: { data: any }) => {
+const DashBoardUsersTable = ({ data }: { data: UserInterface[] }) => {
   return (
     <FadeElement delay={0.3} cls="">
       <table className="order box-shadow">
@@ -19,10 +20,10 @@ const DashBoardUsersTable = ({ data }: { data: any }) => {
         </thead>
         <tbody>
           <AnimatePresence mode="wait">
-            {data?.map((user: any, i: number) => {
+            {data?.map((user: UserInterface, i: number) => {
               return (
                 <motion.tr
-                  key={user._id}
+                  key={i}
                   variants={opacityVariant}
                   initial="start"
                   animate="end"

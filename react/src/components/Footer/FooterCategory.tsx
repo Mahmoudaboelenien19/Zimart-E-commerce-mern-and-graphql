@@ -1,29 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Link } from "react-scroll";
 
 import { motion } from "framer-motion";
 import FadeWithY from "../widgets/animation/FadeWithY";
-import useParams from "@/custom/useParams";
 import { categoriesArr } from "@/assets/arries/arries";
-import { productListContext } from "@/context/FilterData";
-import useFilterCategory from "@/custom/useFilterCategory";
+import useFilterByCategory from "@/custom/useFilterByCategory";
 const FooterCategory = () => {
-  const { setProducts } = useContext(productListContext);
-  const { setParam, deleteParam } = useParams();
-  const categoryfn = useFilterCategory();
-
-  const handleCategory = (category: string) => {
-    categoryfn({ variables: { category } }).then(({ data }) => {
-      setProducts(data.filterBycatageory);
-      setParam("category", category);
-      deleteParam("page");
-      deleteParam("search");
-      deleteParam("rate");
-      deleteParam("featured products");
-      deleteParam("price");
-    });
-  };
+  const { handleCategoryFiltering } = useFilterByCategory();
 
   return (
     <FadeWithY once cls=" footer-links">
@@ -37,10 +21,9 @@ const FooterCategory = () => {
                 style={{ cursor: "pointer" }}
                 smooth
                 onClick={() => {
-                  handleCategory(link);
+                  handleCategoryFiltering(link);
                 }}
               >
-                {" "}
                 {link}
               </Link>
             </motion.span>

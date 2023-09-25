@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
   createdAt: Date,
   lastLogIn: Date,
   notificationsCount: Number,
-
   fav: [
     {
       productId: mongoose.SchemaTypes.ObjectId,

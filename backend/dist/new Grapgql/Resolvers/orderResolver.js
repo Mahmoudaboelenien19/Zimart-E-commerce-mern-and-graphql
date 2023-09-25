@@ -25,9 +25,11 @@ exports.orderResolver = {
                 return yield order_1.OrderCollection.findById(args.id);
             });
         },
-        orders() {
+        orders(_, { limit, skip = 0 }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield order_1.OrderCollection.find({});
+                const totalOrders = yield order_1.OrderCollection.count();
+                const orders = yield order_1.OrderCollection.find({}).skip(skip).limit(limit);
+                return { totalOrders, orders };
             });
         },
     },

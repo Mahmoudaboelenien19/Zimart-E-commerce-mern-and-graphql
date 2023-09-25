@@ -1,17 +1,18 @@
 import React from "react";
 import { AnimatePresence } from "framer-motion";
-import FadeWithY from "./animation/FadeWithY";
+
+import FadeElement from "./animation/FadeElement";
 
 interface Props {
   message: string;
   cls: string;
 }
-console.log("no data ");
+
 const NoData = ({ message, cls }: Props) => (
   <AnimatePresence>
-    <FadeWithY cls={`shadow no-data ${cls}`} key={message} delay={1}>
+    <FadeElement cls={`shadow no-data ${cls}`} key={message} delay={0.2}>
       {message}
-    </FadeWithY>
+    </FadeElement>
   </AnimatePresence>
 );
 

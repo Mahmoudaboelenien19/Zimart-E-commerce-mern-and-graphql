@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
-
 import OrderDetailTr from "./OrderDetialTr";
 import Customer from "./Customer";
 import OrderSummery from "./OrderSummery";
@@ -9,8 +8,9 @@ import { motion } from "framer-motion";
 import { GET_ORDER } from "@/graphql/queries";
 import { OrderInterface } from "@/interfaces/order";
 import { parentVariant, reverseVariant } from "@/variants/globals";
-import DashMain from "../../DashMain";
+import DashMain from "@/components/dashboard/DashMain";
 import Animation from "@/components/widgets/animation/Animation";
+import FadeElement from "@/components/widgets/animation/FadeElement";
 
 export const Component = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ export const Component = () => {
     } = data.order;
     return (
       <DashMain>
-        <Animation>
+        <FadeElement cls="order-del-par center ">
           <motion.div
             variants={parentVariant}
             // initial="start"
@@ -70,7 +70,7 @@ export const Component = () => {
               total={cost}
             />
           </motion.div>
-        </Animation>
+        </FadeElement>
       </DashMain>
     );
   } else {

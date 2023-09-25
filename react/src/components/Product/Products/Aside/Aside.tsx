@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Rating from "./filter/Rating";
 import Price from "./filter/Price";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,6 +10,8 @@ import FilterSection from "./filter/FilterSection";
 import useParams from "@/custom/useParams";
 import ResetFiltersBtn from "./ResetFiltersBtn";
 import AsideFilterHead from "./AsideFilterHead";
+import clsx from "clsx";
+import { themeContext } from "@/context/ThemContext";
 
 const Aside = () => {
   const {
@@ -35,6 +37,8 @@ const Aside = () => {
   const startFiltering = Boolean(
     priceFilter != "0" || rateFilter || categoryFilter || featuredProductsFilter
   );
+
+  const { theme } = useContext(themeContext);
   return (
     <motion.aside
       variants={asideVariant}
@@ -43,7 +47,7 @@ const Aside = () => {
       animate="end"
       key={"aside"}
       custom={{ bool: isMobile, w: 280 }}
-      className="aside-products"
+      className={clsx("aside-products  main-txt", theme)}
     >
       <AsideFilterHead startFiltering={startFiltering} />
 

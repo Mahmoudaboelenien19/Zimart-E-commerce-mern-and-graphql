@@ -2,13 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import UserMobile from "./UserMobile";
 import { opacityVariant } from "@/variants/globals";
-const MobileDashUser = ({ data }: { data: any }) => {
+import { UserInterface } from "@/interfaces/user";
+const MobileDashUser = ({ data }: { data: UserInterface[] }) => {
   return (
     <div className="">
-      {data?.map((user: any, i: number) => {
+      {data?.map((user: UserInterface, i: number) => {
         return (
           <motion.div
-            key={user._id}
+            key={i}
             variants={opacityVariant}
             initial="start"
             animate="end"
@@ -16,7 +17,7 @@ const MobileDashUser = ({ data }: { data: any }) => {
             transition={{ duration: 0.5 }}
             className=" mobile-order-par"
           >
-            <UserMobile index={user._id} {...user} />
+            <UserMobile {...user} />
           </motion.div>
         );
       })}

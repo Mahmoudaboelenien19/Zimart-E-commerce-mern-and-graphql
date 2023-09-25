@@ -1,22 +1,24 @@
+import "./blogs.scss";
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BlogParagraph from "./BlogParagraph";
-
 import SuggestedBlogs from "./SuggestedBlogs";
 import { motion } from "framer-motion";
 import { getSingleBlog } from "@/graphql/blog";
 import { BlogPragraph } from "@/interfaces/blog";
 import useModifyUrl from "@/custom/useModifyUrl";
 import FadeElement from "../widgets/animation/FadeElement";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 export const Component = () => {
   const { id } = useParams();
-
+  const { theme } = useContext(themeContext);
   const { data, loading } = useQuery(getSingleBlog, {
     variables: { id },
   });
+
   useEffect(() => {
     document.title = data?.blog.head || "Zimart";
   }, [loading]);
@@ -25,7 +27,7 @@ export const Component = () => {
     const { head, intro, end, image, content } = data.blog;
     const { getlink } = useModifyUrl();
     return (
-      <div className="blog">
+      <div className={clsx("blog main-txt", theme)}>
         <div className="blog-details">
           <h1>{head}</h1>
           <motion.div className="blog-img">

@@ -121,8 +121,12 @@ export const userTypeDefs = gql`
     userId: ID!
   }
 
-  type Query {
+  type UserReturn {
     users: [User]
+    totalUsers: Int
+  }
+  type Query {
+    users(limit: Int, skip: Int): UserReturn
   }
 
   type AuthResult {

@@ -5,16 +5,11 @@ import { motion } from "framer-motion";
 import React from "react";
 
 type Props = {
-  selectValue: string;
-  setSelectValue: React.Dispatch<React.SetStateAction<string>>;
-  setIsSelectFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSelectOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const SortOptions = ({
-  selectValue,
-  setSelectValue,
-  setIsSelectFocus,
-}: Props) => {
-  const { deleteParam } = useParams();
+const SortOptions = ({ setIsSelectOpen }: Props) => {
+  const { deleteParam, setParam, getParam } = useParams();
+  const sort = getParam("sort");
   return (
     <motion.ul
       className="select-dropdown center col"
@@ -28,17 +23,19 @@ const SortOptions = ({
           <motion.li
             className="select-opt"
             style={{
-              color: opt === selectValue ? "var(--wheat)" : "var(--third)",
+              color: opt === sort ? "var(--wheat)" : "var(--third)",
             }}
             variants={opacityVariant}
             onClick={() => {
-              setIsSelectFocus(false);
+              setIsSelectOpen(false);
               deleteParam("search");
+              deleteParam("isFilterApplied");
+              deleteParam("catFilter");
+
               deleteParam("page");
-              setSelectValue(opt);
+              setParam("sort", opt);
             }}
             key={i}
-            // onTapStart={() => setIsOptSelected(true)}
           >
             {opt}
           </motion.li>

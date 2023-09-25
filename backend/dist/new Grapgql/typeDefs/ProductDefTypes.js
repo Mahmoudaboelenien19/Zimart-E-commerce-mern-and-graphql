@@ -47,9 +47,24 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     totalProducts: Int
   }
 
+  type DataCreated {
+    createdAt: Date!
+  }
+
+  type OrderDash {
+    cost: Float
+    createdAt: Date
+  }
+  type getDashBoardData {
+    products: [DataCreated]
+    orders: [OrderDash]
+    users: [DataCreated]
+  }
+
   type Query {
     products(skip: Int, limit: Int): Return
     product(id: ID!): Product
+    getDashBoardData: getDashBoardData
   }
 
   input filterAllInput {
@@ -57,6 +72,7 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     category: [String]
     price: Float
     rate: Int
+    skip: Int
   }
 
   input productInput {
@@ -96,14 +112,25 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     category: String
     createdAt: Date
   }
+
+  input sortProducts {
+    sortTarget: String
+    sortType: Int
+    skip: Int
+    limit: Int
+  }
+  input sortProductsByRateInput {
+    sortType: Int
+    skip: Int
+    limit: Int
+  }
   type Mutation {
-    filterByPrice(price: Float!): [Product]
-    filterByDate(date: Int!): [Product]
-    filterByRate(rate: Int!): [Product]
+    SortProducts(input: sortProducts): Return
+    SortByRate(input: sortProductsByRateInput!): Return
     filterBycatageory(category: String!): [Product]
     filterByState(state: String!): [Product]
-    filterAllTypes(input: filterAllInput): [Product]
-    searchProducts(word: String!): [Product]
+    filterAllTypes(input: filterAllInput): Return
+    searchProducts(word: String!, skip: Int, limit: Int): Return
     updateProduct(input: productInput): StatusMsg
     addReview(input: CreateReviewInput): StatusMsg
     updateReview(input: updateReviewInput): StatusMsg

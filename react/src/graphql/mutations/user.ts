@@ -11,23 +11,26 @@ export const ADD_USER = gql`
 `;
 
 export const GET_ALL_USERS = gql`
-  query {
-    users {
-      _id
-      email
-      name
-      image
-      country
-      phone
-      createdAt
-      lastLogIn
-      role
-      fav {
-        productId
-      }
+  query ($skip: Int, $limit: Int) {
+    users(skip: $skip, limit: $limit) {
+      totalUsers
+      users {
+        _id
+        email
+        name
+        image
+        country
+        phone
+        createdAt
+        lastLogIn
+        role
+        fav {
+          productId
+        }
 
-      cart {
-        productId
+        cart {
+          productId
+        }
       }
     }
   }

@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import React, { useContext, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   checkSvgVariant,
   checkpathVariant,
   parentVarient,
 } from "../variants/CheckSvg";
-import { checkContext } from "../components/dashboard/Order/Orders";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 
 interface Props {
   filter: string | number;
@@ -15,38 +16,10 @@ interface Props {
 
 const Checkbox = ({ filter, index, isChecked }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const { selectALl } = useContext(checkContext);
-  const inview = useInView(ref);
-  // useEffect(() => {
-  //   if (typeof index === "number") {
-  //     if (selectALl === "all" && inview) {
-  //       setarrOfOrders((cur) => [...cur, String(filter)]);
-  //       setIsChecked(filter);
-  //     } else {
-  //       const arr = arrOfOrders?.filter((order) => order != filter);
-  //       setarrOfOrders(arr);
-
-  //       setIsChecked("");
-  //     }
-  //   }
-  // }, [selectALl]);
-
-  // useEffect(() => {
-  //   if (typeof index === "number") {
-  //     if (isChecked) {
-  //       setarrOfOrders((arrOfOrders) => [
-  //         ...new Set([...arrOfOrders, String(filter)]),
-  //       ]);
-  //     } else {
-  //       setarrOfOrders((arrOfOrders) =>
-  //         arrOfOrders?.filter((order) => order != filter)
-  //       );
-  //     }
-  //   }
-  // }, [isChecked]);
+  const { theme } = useContext(themeContext);
   return (
     <motion.div
-      className="custom-check-parent center "
+      className={clsx("custom-check-parent center ")}
       variants={parentVarient}
       initial="start"
       animate="end"
@@ -60,7 +33,7 @@ const Checkbox = ({ filter, index, isChecked }: Props) => {
             viewBox="0 0 24 24"
             width="12px"
             height="12px"
-            className="center custom-check"
+            className={clsx("center custom-check", theme)}
             variants={checkSvgVariant}
             initial="start"
             animate="end"

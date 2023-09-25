@@ -50,6 +50,13 @@
   min-height: 85vh;
   margin-bottom: 25px !important;
   position: relative;
+  &.light {
+    color: var(--third-light);
+  }
+
+  &.dark {
+    color: var(--third-dark);
+  }
 }
 
 .dash-show {

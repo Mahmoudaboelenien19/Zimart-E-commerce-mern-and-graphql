@@ -16,6 +16,8 @@ const ResetFiltersBtn = () => {
     deleteParam("rate");
     deleteParam("category");
     deleteParam("isFilterApplied");
+    deleteParam("catFilter");
+
     deleteParam("featured products");
   };
 

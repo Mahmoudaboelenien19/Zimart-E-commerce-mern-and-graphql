@@ -1,8 +1,10 @@
+import { ProductInterface } from "./../../../../react/src/interfaces/product.d";
 import { SkipAndLimit } from "./../interfaces/graqphInterfaces";
 import cloudinary from "cloudinary";
 import productCollection from "../../mongoose/schema/product.js";
 import { pubsub } from "../context.js";
 import { userCollection } from "../../mongoose/schema/user.js";
+import { OrderCollection } from "../../mongoose/schema/order";
 
 interface filterAllInterface {
   input: {
@@ -10,9 +12,16 @@ interface filterAllInterface {
     category: string[];
     price: number;
     rate: number;
+    skip: number;
+    limit: number;
   };
 }
-
+type Data = {
+  data: {
+    products: ProductInterface[];
+    totalCount: number;
+  }[];
+};
 interface productInterface {
   title: string;
   state: string;
@@ -29,6 +38,7 @@ interface reviewInterface {
   _id: string;
   user: string;
   userId: string;
+
   review: string;
   rate: number;
 }
@@ -36,34 +46,71 @@ interface reviewInterface {
 export const productResolver = {
   Query: {
     async products(_: unknown, { limit, skip }: SkipAndLimit) {
-      const totalProducts = await productCollection.countDocuments();
+      //i run it in two queries as  count() is super fast so no need to use aggerate with facet as i use in AllFIlterType  && search
+      const totalProducts = await productCollection.count();
       const products = await productCollection.find({}).skip(skip).limit(limit);
       return { products, totalProducts };
     },
+
     async product(_: any, args: { id: string }) {
       return await productCollection.findById(args.id);
     },
+    async getDashBoardData() {
+      //return nneeded data for last mwo months
+      const twoMonthsAgo = new Date();
+      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+
+      const orders = await OrderCollection.find(
+        { createdAt: { $gte: twoMonthsAgo } },
+        { createdAt: 1, cost: 1 }
+      );
+      const products = await productCollection.find({}, { createdAt: 1 });
+      const users = await userCollection.find({}, { createdAt: 1 });
+
+      return {
+        orders,
+        products,
+        users,
+      };
+    },
   },
+
   Mutation: {
-    async filterByPrice(_: any, args: { price: number }) {
-      if (args.price === 1) {
-        return productCollection.find({}).sort({ price: 1 });
-      } else if (args.price === -1) {
-        return productCollection.find({}).sort({ price: -1 });
-      } else {
-        return productCollection.find({ price: { $lte: args.price } });
+    async SortProducts(
+      _: any,
+      args: {
+        input: {
+          sortTarget: string;
+          sortType: number;
+          limit: number;
+          skip: number;
+        };
       }
+    ) {
+      const count = await productCollection.find({}).count();
+      const { skip, limit, sortTarget, sortType } = args.input;
+      const sortOptions = {
+        [sortTarget]: sortType,
+      } as any;
+      const sortedProducts = await productCollection
+        .find({})
+        .sort(sortOptions)
+        .skip(skip)
+        .limit(limit);
+
+      return {
+        totalProducts: count,
+        products: sortedProducts,
+      };
     },
 
-    async filterByDate(_: any, args: { date: number }) {
-      if (args.date === 1) {
-        return productCollection.find({}).sort({ createdAt: 1 });
-      } else if (args.date === -1) {
-        return productCollection.find({}).sort({ createdAt: -1 });
-      }
-    },
-    filterByRate(_: any, args: { rate: 1 | -1 }) {
-      return productCollection.aggregate([
+    async SortByRate(
+      _: unknown,
+      args: { input: { limit: number; skip: number; sortType: 1 | -1 } }
+    ) {
+      const { skip, sortType, limit } = args.input;
+      const totalProducts = await productCollection.find({}).count();
+      const products = await productCollection.aggregate([
         {
           $project: {
             _id: 1,
@@ -79,17 +126,20 @@ export const productResolver = {
             avgRate: { $avg: { $concatArrays: ["$rating", "$reviews.rate"] } },
           },
         },
-
-        { $sort: { avgRate: args.rate } },
+        { $sort: { avgRate: sortType } },
+        { $skip: skip },
+        { $limit: limit },
       ]);
+
+      return { products, totalProducts };
     },
-    async filterBycatageory(_: any, args: { category: string }) {
+    async filterBycatageory(_: unknown, args: { category: string }) {
       return productCollection.find({ category: args.category });
     },
-    async filterByState(_: any, args: { state: string }) {
+    async filterByState(_: unknown, args: { state: string }) {
       return productCollection.find({ state: args.state });
     },
-    async filterAllTypes(_: any, args: filterAllInterface) {
+    async filterAllTypes(_: unknown, args: filterAllInterface) {
       try {
         const data = await productCollection.aggregate([
           {
@@ -109,6 +159,7 @@ export const productResolver = {
               },
             },
           },
+
           {
             $match: {
               $or: [{ avgRate: { $lte: args.input.rate } }, { avgRate: null }],
@@ -117,20 +168,57 @@ export const productResolver = {
               state: { $in: args.input.state },
             },
           },
+
+          {
+            $facet: {
+              totalCount: [{ $count: "count" }],
+              products: [
+                { $skip: args.input.skip },
+                { $limit: 12 },
+                { $group: { _id: null, products: { $push: "$$ROOT" } } },
+              ],
+            },
+          },
         ]);
 
-        return data;
+        return {
+          products: data[0].products[0].products || [],
+          totalProducts: data[0].totalCount[0].count || 0,
+        } as unknown as Data;
       } catch (err) {
         console.log((err as Error).message);
       }
     },
-    async searchProducts(_: any, args: { word: string }) {
-      return await productCollection.find({
-        $or: [
-          { category: { $regex: args.word, $options: "i" } },
-          { title: { $regex: args.word, $options: "i" } },
-        ],
-      });
+    async searchProducts(
+      _: unknown,
+      args: { word: string; skip: number; limit: number }
+    ) {
+      const data = await productCollection.aggregate([
+        {
+          $match: {
+            $or: [
+              { category: { $regex: args.word, $options: "i" } },
+              { title: { $regex: args.word, $options: "i" } },
+            ],
+          },
+        },
+        {
+          $facet: {
+            totalCount: [{ $count: "count" }],
+            products: [
+              { $skip: args.skip },
+              { $limit: 12 },
+              { $group: { _id: null, products: { $push: "$$ROOT" } } },
+            ],
+          },
+        },
+      ]);
+
+      return {
+        products: data[0]?.products[0]?.products || null,
+
+        totalProducts: data[0]?.totalCount[0]?.count || 0,
+      };
     },
 
     async updateProduct(_: any, { input }: { input: productInterface }) {

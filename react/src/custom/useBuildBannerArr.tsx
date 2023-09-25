@@ -1,39 +1,15 @@
-import { productListContext } from "@/context/FilterData";
-import { useContext } from "react";
-import { useAppSelector } from "./reduxTypes";
-import useFilterState from "./useFIlterState";
-import useFilterCategory from "./useFilterCategory";
 import useParams from "./useParams";
+import useFilterByCategory from "./useFilterByCategory";
 
 const useBuildBannerArr = () => {
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const categoryfn = useFilterCategory();
-  const { setProducts } = useContext(productListContext);
-  const filterStateFn = useFilterState();
   const { setParam, deleteParam } = useParams();
-  const handleAddCategoryParam = (category: string) => {
-    setParam("category", category);
-    deleteParam("page");
-    deleteParam("search");
-    deleteParam("rate");
-    deleteParam("featured products");
-    deleteParam("price");
-  };
+  const { handleCategoryFiltering } = useFilterByCategory();
 
-  const handleState = (state: string) => {
-    filterStateFn({ variables: { state } }).then(({ data }) => {
-      setProducts(data.filterByState);
-      setParam("featured products", state);
-    });
-  };
-  const handleCategory = (category: string) => {
-    categoryfn({ variables: { category } }).then(({ data }) => {
-      setProducts(data.filterBycatageory);
-      handleAddCategoryParam(category);
-    });
-  };
   const handleGetAllProducts = () => {
-    setProducts(Allproducts);
+    setParam("sort", "relevance");
+    deleteParam("search");
+    deleteParam("isFilterApplied");
+    deleteParam("page");
   };
   const bannerArr = [
     {
@@ -54,7 +30,7 @@ const useBuildBannerArr = () => {
         "Stay Ahead of the Fashion Curve with Our Affordable  items .Look awesome Without Breaking the Bank.",
       button: "watch fashion",
       to: "products",
-      fn: () => handleCategory("fashion"),
+      fn: () => handleCategoryFiltering("fashion"),
     },
 
     {
@@ -65,7 +41,7 @@ const useBuildBannerArr = () => {
       button: "watch laptops",
       header: "Stay connected and Productive",
       to: "products",
-      fn: () => handleCategory("laptops"),
+      fn: () => handleCategoryFiltering("laptops"),
     },
 
     {
@@ -77,7 +53,7 @@ const useBuildBannerArr = () => {
       image:
         "https://res.cloudinary.com/domobky11/image/upload/v1689515916/pngegg_3_oklao1.png",
       to: "products",
-      fn: () => handleState("sale"),
+      fn: () => handleCategoryFiltering("sale", ""),
     },
   ];
   return bannerArr;

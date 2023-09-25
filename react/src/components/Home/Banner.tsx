@@ -1,4 +1,4 @@
-import React, { RefAttributes, useEffect, useState } from "react";
+import React, { RefAttributes, useContext, useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -10,6 +10,8 @@ import Shape from "./Shape";
 import useBuildBannerArr from "@/custom/useBuildBannerArr";
 import useModifyUrl from "@/custom/useModifyUrl";
 import useInnitialRender from "@/custom/useInnitialRender";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 const arrClrs = ["var(--green)", "var(--gmail)", "var(--delete)", "var(--fb)"];
 
 const Banner = () => {
@@ -21,7 +23,7 @@ const Banner = () => {
     document.documentElement.style.setProperty("--nav-btn", `${arrClrs[ind]}`);
     sessionStorage.setItem("banner-index", `${ind}`);
   }, [ind]);
-
+  const { theme } = useContext(themeContext);
   const options: RefAttributes<SwiperRef> & SwiperProps = {
     loop: true,
     spaceBetween: 5,
@@ -39,13 +41,13 @@ const Banner = () => {
   return (
     <>
       <Swiper
-        className="banner-par container "
+        className={clsx("banner-par container ", theme)}
         {...options}
         initialSlide={Number(sessionStorage.getItem("banner-index")) || 0}
         lazyPreloadPrevNext={1}
       >
         <FadeElement cls="" delay={0.6}>
-          <Shape />
+          {/* <Shape /> */}
         </FadeElement>
         {bannerArr.map((ob, index) => {
           return (

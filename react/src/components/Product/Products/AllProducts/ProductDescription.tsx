@@ -18,6 +18,7 @@ const ProductDescription = ({ description }: Props) => {
         transition: { delay: 0.3, duration: 0.3 },
       }}
       style={{ fontWeight: "normal" }}
+      className="txt-center"
     >
       {description}
     </motion.p>

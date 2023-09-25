@@ -12,23 +12,12 @@ const ThemContext = ({ children }: ChildrenInterFace) => {
   const [theme, setTheme] = useState(localstorageTheme || "dark");
 
   useEffect(() => {
-    if (theme == "light") {
-      document.documentElement.style.setProperty("--secondary", "#EFF0F2");
-      document.documentElement.style.setProperty("--third", "#000");
-      document.documentElement.style.setProperty("--main", "#ffffff");
-      document.documentElement.style.setProperty("--forth", " #ffffff");
-      localStorage.setItem("zimart-theme", "light");
+    localStorage.setItem("zimart-theme", theme);
+    document.body.classList.add(theme, "main-bg");
+    if (theme === "light") {
+      document.body.classList.remove("dark");
     } else {
-      document.documentElement.style.setProperty("--main", "#111417");
-      document.documentElement.style.setProperty("--secondary", "#222222");
-      document.documentElement.style.setProperty("--third", "#333333");
-      document.documentElement.style.setProperty("--forth", " #000000");
-
-      document.documentElement.style.setProperty(
-        "--third",
-        "rgb(247, 246, 246)"
-      );
-      localStorage.setItem("zimart-theme", "dark");
+      document.body.classList.remove("light");
     }
   }, [theme]);
   const toggleTheme = () =>

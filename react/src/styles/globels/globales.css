@@ -27,6 +27,14 @@
   --delivered: var(--sale);
   --moderator: var(--sale);
   --nav-btn: #237a44;
+  --secondary-light: #c9cbcd;
+  --third-light: #000;
+  --main-light: #ffffff;
+  --forth-light: #ffffff;
+  --main-dark: #111417;
+  --secondary-dark: #222222;
+  --third-dark: rgb(247, 246, 246);
+  --forth-dark: #000000;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
@@ -42,7 +50,13 @@
 body {
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
-  background: linear-gradient(120deg, var(--forth), var(--main));
+}
+
+.main-bg.light {
+  background: linear-gradient(rgba(136, 134, 134, 0.4), var(--main-light)) 60%;
+}
+.main-bg.dark {
+  background: linear-gradient(var(--secondary-dark), var(--main-dark) 40%);
 }
 
 :root {

@@ -13,7 +13,7 @@ const OrderDetailTr = ({ image, title, price, count }: Props) => {
   }, [title]);
   return (
     <tr>
-      <td className=" ">
+      <td>
         <img width={30} src={image} alt="" />
 
         <span className="table-order       ">{title}</span>

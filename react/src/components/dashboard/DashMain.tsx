@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Animation from "../widgets/animation/Animation";
 import DashboardAside from "./main/DashboardAside";
-import DashNav from "./main/DashNav";
 import useIsMobile from "@/custom/useIsMobile";
 import { ChildrenInterFace } from "@/interfaces/general";
 import useParams from "@/custom/useParams";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 
 const DashMain = ({ children }: ChildrenInterFace) => {
   const { showDashBoaedAside, setParam } = useParams();
@@ -25,11 +25,13 @@ const DashMain = ({ children }: ChildrenInterFace) => {
       sessionStorage.setItem("show-aside", JSON.stringify(null));
     }
   }, [showDashBoaedAside]);
+
+  const { theme } = useContext(themeContext);
   return (
     <div className="center w-100">
       <DashboardAside />
       <motion.section
-        className="dash-product"
+        className={clsx("dash-product", theme)}
         style={{
           width:
             showDashBoaedAside && !isMobile ? "calc(100% - 310px )" : "95%",
@@ -38,32 +40,19 @@ const DashMain = ({ children }: ChildrenInterFace) => {
         }}
       >
         <>
-          <nav
-            className="dash-nav w-100"
-            style={{
-              paddingLeft: showDashBoaedAside && !isMobile ? 310 : 10,
-              background: "var(--main)",
-              color: "var(--third)",
-            }}
-          >
-            <DashNav />
-          </nav>
-
-          <Animation>
-            <AnimatePresence initial={false} mode="wait">
-              <motion.div
-                initial={{ width: "0%" }}
-                animate={{
-                  width: "100%",
-                }}
-                style={{ marginTop: 75 }}
-                transition={{ delay: showDashBoaedAside ? 0.2 : 0.6 }}
-                key="dash-products"
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
-          </Animation>
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              initial={{ width: "0%" }}
+              animate={{
+                width: "100%",
+              }}
+              style={{ marginTop: 75 }}
+              transition={{ delay: showDashBoaedAside ? 0.2 : 0.6 }}
+              key="dash-products"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </>
       </motion.section>
     </div>

@@ -17,11 +17,13 @@ const cloudinary_1 = __importDefault(require("cloudinary"));
 const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
 const context_js_1 = require("../context.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
+const order_1 = require("../../mongoose/schema/order");
 exports.productResolver = {
     Query: {
         products(_, { limit, skip }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const totalProducts = yield product_js_1.default.countDocuments();
+                //i run it in two queries as  count() is super fast so no need to use aggerate with facet as i use in AllFIlterType  && search
+                const totalProducts = yield product_js_1.default.count();
                 const products = yield product_js_1.default.find({}).skip(skip).limit(limit);
                 return { products, totalProducts };
             });
@@ -31,50 +33,67 @@ exports.productResolver = {
                 return yield product_js_1.default.findById(args.id);
             });
         },
+        getDashBoardData() {
+            return __awaiter(this, void 0, void 0, function* () {
+                //return nneeded data for last mwo months
+                const twoMonthsAgo = new Date();
+                twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+                const orders = yield order_1.OrderCollection.find({ createdAt: { $gte: twoMonthsAgo } }, { createdAt: 1, cost: 1 });
+                const products = yield product_js_1.default.find({}, { createdAt: 1 });
+                const users = yield user_js_1.userCollection.find({}, { createdAt: 1 });
+                return {
+                    orders,
+                    products,
+                    users,
+                };
+            });
+        },
     },
     Mutation: {
-        filterByPrice(_, args) {
+        SortProducts(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                if (args.price === 1) {
-                    return product_js_1.default.find({}).sort({ price: 1 });
-                }
-                else if (args.price === -1) {
-                    return product_js_1.default.find({}).sort({ price: -1 });
-                }
-                else {
-                    return product_js_1.default.find({ price: { $lte: args.price } });
-                }
+                const count = yield product_js_1.default.find({}).count();
+                const { skip, limit, sortTarget, sortType } = args.input;
+                const sortOptions = {
+                    [sortTarget]: sortType,
+                };
+                const sortedProducts = yield product_js_1.default
+                    .find({})
+                    .sort(sortOptions)
+                    .skip(skip)
+                    .limit(limit);
+                return {
+                    totalProducts: count,
+                    products: sortedProducts,
+                };
             });
         },
-        filterByDate(_, args) {
+        SortByRate(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                if (args.date === 1) {
-                    return product_js_1.default.find({}).sort({ createdAt: 1 });
-                }
-                else if (args.date === -1) {
-                    return product_js_1.default.find({}).sort({ createdAt: -1 });
-                }
-            });
-        },
-        filterByRate(_, args) {
-            return product_js_1.default.aggregate([
-                {
-                    $project: {
-                        _id: 1,
-                        title: 1,
-                        description: 1,
-                        price: 1,
-                        stock: 1,
-                        category: 1,
-                        state: 1,
-                        images: 1,
-                        rating: 1,
-                        reviews: 1,
-                        avgRate: { $avg: { $concatArrays: ["$rating", "$reviews.rate"] } },
+                const { skip, sortType, limit } = args.input;
+                const totalProducts = yield product_js_1.default.find({}).count();
+                const products = yield product_js_1.default.aggregate([
+                    {
+                        $project: {
+                            _id: 1,
+                            title: 1,
+                            description: 1,
+                            price: 1,
+                            stock: 1,
+                            category: 1,
+                            state: 1,
+                            images: 1,
+                            rating: 1,
+                            reviews: 1,
+                            avgRate: { $avg: { $concatArrays: ["$rating", "$reviews.rate"] } },
+                        },
                     },
-                },
-                { $sort: { avgRate: args.rate } },
-            ]);
+                    { $sort: { avgRate: sortType } },
+                    { $skip: skip },
+                    { $limit: limit },
+                ]);
+                return { products, totalProducts };
+            });
         },
         filterBycatageory(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -115,8 +134,21 @@ exports.productResolver = {
                                 state: { $in: args.input.state },
                             },
                         },
+                        {
+                            $facet: {
+                                totalCount: [{ $count: "count" }],
+                                products: [
+                                    { $skip: args.input.skip },
+                                    { $limit: 12 },
+                                    { $group: { _id: null, products: { $push: "$$ROOT" } } },
+                                ],
+                            },
+                        },
                     ]);
-                    return data;
+                    return {
+                        products: data[0].products[0].products || [],
+                        totalProducts: data[0].totalCount[0].count || 0,
+                    };
                 }
                 catch (err) {
                     console.log(err.message);
@@ -124,13 +156,32 @@ exports.productResolver = {
             });
         },
         searchProducts(_, args) {
+            var _a, _b, _c, _d;
             return __awaiter(this, void 0, void 0, function* () {
-                return yield product_js_1.default.find({
-                    $or: [
-                        { category: { $regex: args.word, $options: "i" } },
-                        { title: { $regex: args.word, $options: "i" } },
-                    ],
-                });
+                const data = yield product_js_1.default.aggregate([
+                    {
+                        $match: {
+                            $or: [
+                                { category: { $regex: args.word, $options: "i" } },
+                                { title: { $regex: args.word, $options: "i" } },
+                            ],
+                        },
+                    },
+                    {
+                        $facet: {
+                            totalCount: [{ $count: "count" }],
+                            products: [
+                                { $skip: args.skip },
+                                { $limit: 12 },
+                                { $group: { _id: null, products: { $push: "$$ROOT" } } },
+                            ],
+                        },
+                    },
+                ]);
+                return {
+                    products: ((_b = (_a = data[0]) === null || _a === void 0 ? void 0 : _a.products[0]) === null || _b === void 0 ? void 0 : _b.products) || null,
+                    totalProducts: ((_d = (_c = data[0]) === null || _c === void 0 ? void 0 : _c.totalCount[0]) === null || _d === void 0 ? void 0 : _d.count) || 0,
+                };
             });
         },
         updateProduct(_, { input }) {

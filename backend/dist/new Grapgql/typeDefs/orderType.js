@@ -30,8 +30,13 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
     user: User
   }
 
-  type Query {
+  type OrderReturn {
+    totalOrders: Int
     orders: [Order]
+  }
+
+  type Query {
+    orders(skip: Int, limit: Int): OrderReturn
     order(id: ID!): Order
   }
 

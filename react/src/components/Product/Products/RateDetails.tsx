@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Star from "./Aside/Star";
 import { IoIosArrowDown } from "react-icons/io";
 import useClickOutside from "@/custom/useClickOutside";
 import { opacityVariant, parentVariant } from "@/variants/globals";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 
 const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
   const [show, setShow] = useState(false);
@@ -13,7 +15,7 @@ const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
   }, show);
 
   const stars = [];
-
+  const { theme } = useContext(themeContext);
   for (let i = 1; i <= 5; i++) {
     const group: React.ReactNode[] = [];
 
@@ -29,7 +31,7 @@ const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
     stars.push(
       <motion.div
         variants={opacityVariant}
-        className="center rate-filter-par"
+        className={clsx("center rate-filter-par ")}
         style={{ width: "fit-content" }}
         key={`group-${i}`}
       >
@@ -58,6 +60,7 @@ const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
                 style={{ [pos]: "140%" }}
                 key={pos}
                 id="star-details"
+                className={theme}
               >
                 {stars}
               </motion.div>

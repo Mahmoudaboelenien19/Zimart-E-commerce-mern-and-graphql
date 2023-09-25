@@ -27,10 +27,25 @@
   --delivered: var(--sale);
   --moderator: var(--sale);
   --nav-btn: #237a44;
+  --secondary-light: #c9cbcd;
+  --third-light: #000;
+  --main-light: #ffffff;
+  --forth-light: #ffffff;
+  --main-dark: #111417;
+  --secondary-dark: #222222;
+  --third-dark: rgb(247, 246, 246);
+  --forth-dark: #000000;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
   --forth-shadow: 0.3px 0.3px 0.2px black;
+}
+
+.main-txt.light {
+  color: var(--third-light);
+}
+.main-txt.dark {
+  color: var(--third-dark);
 }
 
 .center {
@@ -78,13 +93,23 @@
   width: 100% !important;
 }
 .btn.about {
-  border: var(--third) solid 1.5px;
-  color: var(--third) !important;
   transition: 0.3s;
 }
-.btn.about:hover {
-  background: var(--third);
-  color: var(--main) !important;
+.btn.about.dark {
+  border: var(--third-dark) solid 1.5px;
+  color: var(--third-dark) !important;
+}
+.btn.about.dark:hover {
+  background: var(--third-dark);
+  color: var(--main-dark) !important;
+}
+.btn.about.light {
+  border: var(--third-light) solid 1.5px;
+  color: var(--third-light) !important;
+}
+.btn.about.light:hover {
+  background: var(--third-light);
+  color: var(--main-light) !important;
 }
 .btn.main {
   background: var(--green);
@@ -406,9 +431,7 @@
   width: -moz-fit-content;
   width: fit-content;
   padding: 4px 6px;
-  background: var(--secondary);
-  color: var(--third);
-  z-index: 10;
+  z-index: 100 !important;
   white-space: nowrap;
   border-radius: 4px;
   letter-spacing: 0.8px;
@@ -416,6 +439,14 @@
   font-size: 1rem;
   box-shadow: var(--secondary-shadow);
   text-transform: capitalize;
+}
+.custom-title.light {
+  background: var(--secondary-light);
+  color: var(--third-light);
+}
+.custom-title.dark {
+  background: var(--secondary-dark);
+  color: var(--third-dark);
 }
 .custom-title.right {
   right: 0;
@@ -441,9 +472,9 @@
 }
 
 .no-data {
-  width: 100%;
-  height: 70%;
+  width: 100% !important;
   min-height: 100px;
+  min-height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -451,6 +482,13 @@
   font-weight: bold;
   color: var(--third);
   letter-spacing: 1px;
+}
+.no-data.nodata-products {
+  height: 100vh;
+}
+
+.txt-center {
+  text-align: center !important;
 }
 
 .above {

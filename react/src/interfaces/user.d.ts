@@ -52,3 +52,15 @@ interface authContextInterface extends userDataState {
   setUserData: React.Dispatch<React.SetStateAction<userDataState>>;
   isAdmin: boolean;
 }
+
+interface UserInterface {
+  _id: string;
+  name: string;
+  email: string;
+  country?: string;
+  phone?: string;
+  role: string;
+  image?: string;
+  createdAt: string;
+  lastLogIn: string;
+}

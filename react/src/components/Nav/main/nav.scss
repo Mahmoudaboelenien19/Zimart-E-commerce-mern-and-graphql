@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import "../../../styles/variables.scss";
 nav {
   width: 100%;
   max-width: 100%;
@@ -10,6 +10,7 @@ nav {
   display: flex;
   justify-content: space-between;
   padding: 0 25px;
+
   transition: 0.1s;
   .links-par {
     display: flex;
@@ -144,8 +145,13 @@ nav {
     width: 100%;
     height: calc(100vh);
     right: 0;
-    background-color: var(--secondary);
     z-index: 5;
+    .light {
+      background-color: var(--secondary-light);
+    }
+    .dark {
+      background-color: var(--secondary-dark);
+    }
     .links {
       height: 100%;
       flex-direction: column;
@@ -154,7 +160,7 @@ nav {
 
       a {
         font-size: 20px;
-        color: var(--third);
+
         &:before,
         &:after {
           content: initial;

@@ -1,10 +1,11 @@
-@import "../variables.scss";
+@import "../../styles/variables.scss";
 
 .product-par {
   display: flex;
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
+
   .slider-products-par {
     width: 100%;
     height: 450px;
@@ -81,8 +82,11 @@
     .title-par {
       display: flex;
       gap: 20px;
-      > * {
-        color: var(--third);
+      &.light {
+        color: var(--third-light);
+      }
+      &.dark {
+        color: var(--third-dark);
       }
     }
     .product-btn {
@@ -121,7 +125,12 @@ p {
   width: 100%;
   text-align: justify;
   letter-spacing: 0.8px;
-  color: var(--secondary);
+  &.light {
+    color: var(--third-light);
+  }
+  &.dark {
+    color: var(--third-dark);
+  }
   margin: 10px 0;
   margin-top: 15px;
   &::first-letter {
@@ -150,6 +159,7 @@ p {
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
+  background: transparent !important;
 
   svg {
     transform: scale(0.4);
@@ -196,7 +206,12 @@ p {
     font-weight: bold;
   }
   .stock-card {
-    color: var(--third);
+    &.light {
+      color: var(--third-light);
+    }
+    &.dark {
+      color: var(--third-dark);
+    }
   }
 }
 
@@ -217,7 +232,13 @@ p {
   letter-spacing: 0.8px;
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--secondary);
+  &.dark {
+    color: var(--secondary-dark);
+  }
+
+  &.light {
+    color: var(--secondary-light);
+  }
 }
 
 @media (max-width: 650px) {

@@ -9,7 +9,6 @@ import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import SelectCOuntry from "../user/SelectCOuntry";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Animation from "../widgets/animation/Animation";
 import LogInWithGoogle from "./LogInWithGoogle";
 import FormAnimation from "../widgets/forms/FormAnimation";
 import useFormSchema from "@/custom/useFormSchema";
@@ -20,7 +19,7 @@ interface oAuthInterface {
   name: string;
 }
 
-export const Signup = () => {
+export const Component = () => {
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     document.title = "Zimart | Signup";
@@ -84,57 +83,55 @@ export const Signup = () => {
     handleSignUp();
   };
   return (
-    <Animation>
-      <motion.div className="log-in center">
-        <FormProvider {...methods}>
-          <FormAnimation fn={handleSubmit(OnSubmit)} cls="center log-in">
-            <h2
-              className="underline header white"
-              style={{ color: "var(--white)" }}
-            >
-              {" "}
-              sign Up
-            </h2>
-            <Input
-              placeholder={"name"}
-              err={errors?.name?.message?.toString()}
-              defaultVal={userObj?.name || ""}
-            />
-            <Input
-              placeholder={"email"}
-              defaultVal={userObj?.email || ""}
-              err={errors?.email?.message?.toString()}
-            />{" "}
-            <Input
-              placeholder={"password"}
-              err={errors?.password?.message?.toString()}
-              type="password"
-            />
-            <Input
-              placeholder={"confirm"}
-              err={errors?.confirm?.message?.toString()}
-              type="password"
-            />
-            <SelectCOuntry setCountry={setCountry} country={country} />
-            <MainBtn
-              btn="sign up"
-              cls="btn main w-80"
-              fn={() => null}
-              type="submit"
-              parCls="w-100"
-              isPending={isPending}
-            />
-            <div className="redirect">
-              <span> have an account</span>
-              <NavLink to={`/login`}>log in</NavLink>
-            </div>
-            <div className="or center">
-              <span>or </span>
-            </div>
-            <LogInWithGoogle type="sign" />
-          </FormAnimation>
-        </FormProvider>
-      </motion.div>
-    </Animation>
+    <motion.div className="log-in center">
+      <FormProvider {...methods}>
+        <FormAnimation fn={handleSubmit(OnSubmit)} cls="center log-in">
+          <h2
+            className="underline header white"
+            style={{ color: "var(--white)" }}
+          >
+            {" "}
+            sign Up
+          </h2>
+          <Input
+            placeholder={"name"}
+            err={errors?.name?.message?.toString()}
+            defaultVal={userObj?.name || ""}
+          />
+          <Input
+            placeholder={"email"}
+            defaultVal={userObj?.email || ""}
+            err={errors?.email?.message?.toString()}
+          />{" "}
+          <Input
+            placeholder={"password"}
+            err={errors?.password?.message?.toString()}
+            type="password"
+          />
+          <Input
+            placeholder={"confirm"}
+            err={errors?.confirm?.message?.toString()}
+            type="password"
+          />
+          <SelectCOuntry setCountry={setCountry} country={country} />
+          <MainBtn
+            btn="sign up"
+            cls="btn main w-80"
+            fn={() => null}
+            type="submit"
+            parCls="w-100"
+            isPending={isPending}
+          />
+          <div className="redirect">
+            <span> have an account</span>
+            <NavLink to={`/login`}>log in</NavLink>
+          </div>
+          <div className="or center">
+            <span>or </span>
+          </div>
+          <LogInWithGoogle type="sign" />
+        </FormAnimation>
+      </FormProvider>
+    </motion.div>
   );
 };

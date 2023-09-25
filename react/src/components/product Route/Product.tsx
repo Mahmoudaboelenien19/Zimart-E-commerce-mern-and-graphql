@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import ProductImages from "./images/images";
 import ProductDetails from "./ProductDetails";
 import Reviews from "./Review/Reviews";
@@ -10,6 +10,7 @@ import { GET_Product_By_Id } from "@/graphql/general";
 import { Single_Updated_Product_Subscription } from "@/graphql/mutations/product";
 import { ProductInterface, reviewInterface } from "@/interfaces/product";
 import { useAppSelector } from "@/custom/reduxTypes";
+import { themeContext } from "@/context/ThemContext";
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
   bigImgInd: number;
@@ -17,6 +18,7 @@ export interface productContextInterface extends ProductInterface {
 }
 export const productContext = createContext({} as productContextInterface);
 export const Component = () => {
+  const { theme } = useContext(themeContext);
   const [ind, setInd] = useState(-1);
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const [productData, setProductData] = useState({} as ProductInterface);
@@ -72,7 +74,7 @@ export const Component = () => {
     } = ind === -1 ? productData : Allproducts[ind];
 
     return (
-      <Animation cls="product-par">
+      <Animation cls={`product-par main-bg ${theme}`}>
         <div>
           {data?.product ? (
             <productContext.Provider
@@ -115,6 +117,6 @@ export const Component = () => {
       </Animation>
     );
   } else {
-    return <>&lt; &#60;</>;
+    return <>&lt;</>;
   }
 };

@@ -1,21 +1,24 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_ORDERS = gql`
-  query {
-    orders {
-      _id
-      state
-      cost
-      productId {
-        id
-        count
-        image
-        title
-        price
+  query ($limit: Int, $skip: Int) {
+    orders(skip: $skip, limit: $limit) {
+      totalOrders
+      orders {
+        _id
+        state
+        cost
+        productId {
+          id
+          count
+          image
+          title
+          price
+        }
+        userId
+        createdAt
+        deliveredAt
       }
-      userId
-      createdAt
-      deliveredAt
     }
   }
 `;

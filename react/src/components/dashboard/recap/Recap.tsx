@@ -3,21 +3,21 @@ import DashMain from "../DashMain";
 import DashBoardRecap from "./DashBoardRecap";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrProductHunt } from "react-icons/gr";
-
 import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
 import useMeasure from "react-use-measure";
-
 import AdminEmailPop from "../AdminEmailPop";
-import { useAppSelector } from "@/custom/reduxTypes";
+
 import useDashProgress from "@/custom/useDashProgress";
+import { useQuery } from "@apollo/client";
+import { GET_NEEDED_DASHBOARD_DATA } from "@/graphql/general";
 
 export const Component = () => {
-  const { user } = useAppSelector((st) => st.user);
+  const { data } = useQuery(GET_NEEDED_DASHBOARD_DATA);
 
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { order = [] } = useAppSelector((st) => st.order);
-
+  const user = data?.getDashBoardData?.users || [];
+  const order = data?.getDashBoardData?.orders || [];
+  const Allproducts = data?.getDashBoardData?.products || [];
   const [productProgress] = useDashProgress(Allproducts);
   const [userProgress] = useDashProgress(user);
   const [orderProgress, orderEaring, orderEaringProgress] = useDashProgress(
@@ -30,7 +30,6 @@ export const Component = () => {
       to: "/dashboard/orders",
       head: "orders",
       percentage: Number(orderProgress.toFixed(2)),
-
       analytics: String(order.length),
       link: "orders",
       Icon: AiOutlineShoppingCart,
@@ -40,7 +39,6 @@ export const Component = () => {
       to: "/dashboard/products",
       head: "products",
       percentage: Number(productProgress.toFixed(2)),
-
       analytics: String(Allproducts.length),
       link: "products",
       Icon: GrProductHunt,
@@ -63,8 +61,8 @@ export const Component = () => {
     },
   ];
   const [ref, { width }] = useMeasure();
-  const check =
-    (order.length >= 1 && Allproducts.length > 0 && user.length > 0) || true;
+
+  const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
   return (
     <DashMain>
       {check ? (
@@ -79,10 +77,14 @@ export const Component = () => {
             })}
           </div>
 
-          <MainPageCharts width={width} />
+          <MainPageCharts
+            AllProducts={Allproducts}
+            order={order}
+            user={user}
+            width={width}
+          />
         </>
       ) : (
-        // <GridLoader cls="loading-recap center" />
         <> &lt; </>
       )}
       <AdminEmailPop isLoaded={check} />

@@ -1,115 +1,86 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useMutation } from "@apollo/client";
 import { MdOutlineSort } from "react-icons/md";
 import { BiDownArrow } from "react-icons/bi";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { productListContext } from "@/context/FilterData";
+import { productListContext } from "@/context/ProductsContext";
 import useClickOutside from "@/custom/useClickOutside";
-import {
-  FILTER_BY_PRICE,
-  FILTER_BY_Rate,
-  FILTER_BY_Date,
-} from "@/graphql/mutations/product";
 import useParams from "@/custom/useParams";
-import useSortByPrice from "@/custom/useSortByPrice";
 import SortOptions from "./selectFIlter/Options";
+import clsx from "clsx";
+import { themeContext } from "@/context/ThemContext";
+import useSortProducts from "@/custom/useSortProducts";
+import useSortByRate from "@/custom/useSortByRate";
 
 const SelectFilter = () => {
-  const [isOptSelected, setIsOptSelected] = useState(false);
+  const sortAr = [
+    "relevance",
+    "lowest price",
+    "highest price",
+    "newest",
+    "oldest",
+    "highest rate",
+    "lowest rate",
+  ];
 
-  const { sortByPrice } = useSortByPrice();
+  const { HandleSortProducts } = useSortProducts();
+  const { HandleSortProductsByRate } = useSortByRate();
+  const { setProducts } = useContext(productListContext);
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const { getParam, deleteParam } = useParams();
+  const sort = getParam("sort") || "";
+  const page = getParam("page") || 1;
 
-  const { setProducts, isPending, startTransition } =
-    useContext(productListContext);
-  const [selectValue, setSelectValue] = useState("relevance");
-  const [isSelectFocus, setIsSelectFocus] = useState(false);
-  const { deleteParam } = useParams();
-  const deleteSearchAndFIlterParams = () => {
-    deleteParam("search");
-    deleteParam("page");
-    deleteParam("isFilterApplied");
-  };
-
-  const [fnRate] = useMutation(FILTER_BY_Rate);
-  const [fnDate] = useMutation(FILTER_BY_Date);
   useEffect(() => {
-    switch (selectValue) {
-      case "relevance":
-        return;
-      case "lowest price":
-        return sortByPrice(1);
+    if (sort) {
+      setProducts(Array.from({ length: 12 }));
+      switch (sort) {
+        case "relevance":
+          return deleteParam("sort");
 
-      case "highest price":
-        return sortByPrice(-1);
+        case "lowest price":
+          return HandleSortProducts("price", 1);
+
+        case "highest price":
+          return HandleSortProducts("price", -1);
+
+        case "newest":
+          return HandleSortProducts("createdAt", -1);
+        case "oldest":
+          return HandleSortProducts("createdAt", 1);
+
+        case "highest rate":
+          return HandleSortProductsByRate(-1);
+        case "lowest rate":
+          return HandleSortProductsByRate(1);
+
+        default:
+          return deleteParam("");
+      }
     }
-    // if (selectValue === "relevance") {
-    //   startTransition(() => setProducts(Allproducts));
+  }, [sort, page]);
 
-    // } else if (selectValue === "lowest rate") {
-    //   fnRate({
-    //     variables: {
-    //       rate: 1,
-    //     },
-    //   }).then(({ data }) =>
-    //     startTransition(() => setProducts(data.filterByRate))
-    //   );
-    // } else if (selectValue === "highest rate") {
-    //   fnRate({
-    //     variables: {
-    //       rate: -1,
-    //     },
-    //   }).then(({ data }) =>
-    //     startTransition(() => setProducts(data.filterByRate))
-    //   );
-    // } else if (selectValue === "newest") {
-    //   fnDate({
-    //     variables: {
-    //       date: -1,
-    //     },
-    //   }).then(({ data }) =>
-    //     startTransition(() => setProducts(data.filterByDate))
-    //   );
-    // } else if (selectValue === "oldest") {
-    //   fnDate({
-    //     variables: {
-    //       date: 1,
-    //     },
-    //   }).then(({ data }) =>
-    //     startTransition(() => setProducts(data.filterByDate))
-    //   );
-    // }
-  }, [selectValue]);
-
+  const { theme } = useContext(themeContext);
   const ref = useClickOutside<HTMLDivElement>(() => {
-    if (isSelectFocus) {
-      setIsSelectFocus(false);
+    if (isSelectOpen) {
+      setIsSelectOpen(false);
     }
-  }, isSelectFocus);
+  }, isSelectOpen);
   return (
     <div
-      className="custom-select"
-      onClick={() => setIsSelectFocus(!isSelectFocus)}
+      className={clsx("custom-select", theme)}
+      onClick={() => setIsSelectOpen(!isSelectOpen)}
       ref={ref}
     >
-      <BiDownArrow
-        className="  box-shadow: 0.25px 0.25px 2px black;
- select-icon arrow"
-      />
-      <span className="icon select-icon sort center">
+      <BiDownArrow className=" select-icon arrow" />
+      <span className="icon select-icon sort center ">
         <MdOutlineSort /> sort:
-        <FadeElement key={selectValue} cls="value" transition={0.3}>
-          {selectValue}
+        <FadeElement key={sort} cls="value" transition={0.3}>
+          {sortAr.includes(sort) ? sort : "relevance"}
         </FadeElement>
       </span>
       <AnimatePresence>
-        {isSelectFocus && (
-          <SortOptions
-            selectValue={selectValue}
-            setIsSelectFocus={setIsSelectFocus}
-            setSelectValue={setSelectValue}
-          />
-        )}
+        {isSelectOpen && <SortOptions setIsSelectOpen={setIsSelectOpen} />}
       </AnimatePresence>
     </div>
   );

@@ -1,3 +1,4 @@
+import { SkipAndLimit } from "./../interfaces/graqphInterfaces";
 import { getAmount } from "../../middlewares/getAmount";
 import { OrderCollection } from "../../mongoose/schema/order";
 import { userCollection } from "../../mongoose/schema/user";
@@ -14,8 +15,10 @@ export const orderResolver = {
     async order(_: any, args: IdInterface) {
       return await OrderCollection.findById(args.id);
     },
-    async orders() {
-      return await OrderCollection.find({});
+    async orders(_: unknown, { limit, skip = 0 }: SkipAndLimit) {
+      const totalOrders = await OrderCollection.count();
+      const orders = await OrderCollection.find({}).skip(skip).limit(limit);
+      return { totalOrders, orders };
     },
   },
   OrderProduct: {

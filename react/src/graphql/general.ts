@@ -66,3 +66,20 @@ export const Get_All_Products = gql`
     }
   }
 `;
+
+export const GET_NEEDED_DASHBOARD_DATA = gql`
+  query {
+    getDashBoardData {
+      orders {
+        createdAt
+        cost
+      }
+      products {
+        createdAt
+      }
+      users {
+        createdAt
+      }
+    }
+  }
+`;

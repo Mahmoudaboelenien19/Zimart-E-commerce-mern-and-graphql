@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsListTask } from "react-icons/bs";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { IoFilter } from "react-icons/io5";
@@ -6,21 +6,20 @@ import { AnimatePresence } from "framer-motion";
 import SelectFilter from "./SelectFilter";
 import Search from "./Search/Search";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { productListContext } from "@/context/FilterData";
 import { viewContext } from "@/context/gridView";
 import useIsMobile from "@/custom/useIsMobile";
 import Title from "@/components/widgets/Title";
 import ShowAsideBtn from "./showAsideFilter";
+import { themeContext } from "@/context/ThemContext";
+import clsx from "clsx";
 const Sort = () => {
-  const { startTransition } = useContext(productListContext);
-
   const { setGridView, gridView } = useContext(viewContext);
-
   const { isMobile, isMidScreen } = useIsMobile();
   const [showSearch, setShowSearch] = useState(false);
 
+  const { theme } = useContext(themeContext);
   return (
-    <div className="sort-par  center between">
+    <div className={clsx("sort-par  center between main-txt", theme)}>
       <Search showSearch={showSearch} setShowSearch={setShowSearch} />
       <AnimatePresence mode="wait">
         {(!isMidScreen || (isMidScreen && !showSearch)) && (
@@ -28,15 +27,11 @@ const Sort = () => {
             <div className="hide-filter-par">
               <button className="center">
                 <ShowAsideBtn />
-                <IoFilter color="var(--secondary)" />
+                <IoFilter color={`var(--third-${theme})`} />
               </button>
             </div>
             <div className="view-par  ">
-              {!isMobile && (
-                <span className="display" style={{ color: "var(--third)" }}>
-                  Display
-                </span>
-              )}
+              {!isMobile && <span className="display">Display</span>}
 
               {!isMobile && (
                 <span className="center gap view-type">
@@ -44,11 +39,13 @@ const Sort = () => {
                     <BsListTask
                       onClick={() => {
                         if (gridView) {
-                          startTransition(() => setGridView(false));
+                          setGridView(false);
                         }
                       }}
                       style={{
-                        color: gridView ? "var(--third)" : "var(--green)",
+                        color: gridView
+                          ? `var(--third-${theme})`
+                          : "var(--green)",
                       }}
                       className={`view-icon  ${
                         gridView ? " icon-shadow" : ""
@@ -59,11 +56,13 @@ const Sort = () => {
                     <HiOutlineViewGrid
                       onClick={() => {
                         if (!gridView) {
-                          startTransition(() => setGridView(true));
+                          setGridView(true);
                         }
                       }}
                       style={{
-                        color: gridView ? "var(--green)" : "var(--third)",
+                        color: gridView
+                          ? "var(--green)"
+                          : `var(--third-${theme}`,
                       }}
                       className={`view-icon  ${
                         !gridView ? " icon-shadow" : ""

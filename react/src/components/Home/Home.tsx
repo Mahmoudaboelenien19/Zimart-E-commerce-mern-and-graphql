@@ -4,7 +4,6 @@ import NewsLetter from "../NewsLetter/NewsLetter";
 import Products from "../Product/Products/Products";
 import StripeSuccess from "../payment/StripeSuccess";
 import Banner from "./Banner";
-import Animation from "../widgets/animation/Animation";
 
 export function Component() {
   useEffect(() => {
@@ -12,13 +11,13 @@ export function Component() {
   }, []);
 
   return (
-    <Animation>
+    <div>
       <Banner />
       <Products />
       <StripeSuccess />
 
       <NewsLetter />
       <Footer />
-    </Animation>
+    </div>
   );
 }

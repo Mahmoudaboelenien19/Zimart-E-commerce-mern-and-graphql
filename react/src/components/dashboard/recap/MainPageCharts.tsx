@@ -6,9 +6,10 @@ import { Bar, Pie, Line } from "react-chartjs-2";
 import useChartData from "./useChartData";
 import { motion, useInView } from "framer-motion";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { useAppSelector } from "@/custom/reduxTypes";
 import { ChildrenInterFace } from "@/interfaces/general";
 import LatestOrders from "./LatestOrders";
+import { ProductInterface } from "@/interfaces/product";
+import { OrderInterface } from "@/interfaces/order";
 
 interface Props extends ChildrenInterFace {
   head: string;
@@ -34,12 +35,15 @@ const InViewPar = ({ head, children }: Props) => {
     </motion.div>
   );
 };
-const MainPageCharts = ({ width }: { width: number }) => {
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
-  const { user } = useAppSelector((st) => st.user);
 
-  const { order } = useAppSelector((st) => st.order);
-  const productChartData = useChartData(Allproducts, "products");
+type MainProps = {
+  width: number;
+  AllProducts: ProductInterface[];
+  order: OrderInterface[];
+  user: { createdAt: string }[];
+};
+const MainPageCharts = ({ width, AllProducts, user, order }: MainProps) => {
+  const productChartData = useChartData(AllProducts, "products");
   const orderChartData = useChartData(order, "Orders");
   const EarningChartData = useChartData(order, "Earnings", "earn");
   const userChartData = useChartData(user, "users");
@@ -78,6 +82,7 @@ const MainPageCharts = ({ width }: { width: number }) => {
           <InViewPar head="Users Per Time">
             <Line data={userChartData || []} options={options} />
           </InViewPar>
+
           <InViewPar head="Latest Orders">
             <LatestOrders />
           </InViewPar>

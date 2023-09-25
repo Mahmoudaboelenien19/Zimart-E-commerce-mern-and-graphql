@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoSvg from "@/components/svgs/LogoSvg";
 import ThemeToggle from "@/components/theme/ThemeToggle";
@@ -8,6 +8,7 @@ import useNavTransition from "@/custom/useNavTransition";
 import IsAuth from "./IsAuth";
 import LinksAside from "./LinksAside";
 import NavLinks from "./NavLinks";
+import "./nav.scss";
 
 const Nav = () => {
   const { LinkClr, boxShadow, navClr, navRef } =

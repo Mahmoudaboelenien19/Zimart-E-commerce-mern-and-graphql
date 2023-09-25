@@ -1,4 +1,5 @@
 import React from "react";
+import "./_loading.scss";
 import { motion } from "framer-motion";
 
 const Loading = () => {

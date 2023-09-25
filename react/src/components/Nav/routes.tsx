@@ -1,49 +1,60 @@
 import React, { useContext } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Loading from "@/components/widgets/loaders/Loading";
+import Loading from "@/loading/Loading";
 import ProtectedRoutes from "./ProtectedRoutes";
-import Layout from "../Layout";
+import Layout from "@/components/Layout";
 import { NotAuthedRoutes } from "./NotAuthedRoutes";
 import { isAuthContext } from "@/context/isAuth";
-import { Login } from "../log/login";
-import { Signup } from "../log/SignUp";
+import useInnitialRender from "@/custom/useInnitialRender";
+import DashboardLayout from "../dashboard/dashboardLayout";
 
 const AppRoutes = () => {
+  /* 
+  if user goes directly to a proected or unAuthed Route
+  this delayed state to ensure isAuth value is done 
+  and to make this delay only once 
+  */
+  const { isInitialRender } = useInnitialRender(1500);
+  const { isAuth } = useContext(isAuthContext);
   const dashBoardRoutes = {
     path: "dashboard",
-    lazy: () => import("@/components/dashboard/Dashboard"),
+    element: <DashboardLayout />,
     children: [
-      { path: "", lazy: () => import("@/components/dashboard/recap/Recap") },
       {
-        path: "users",
-        lazy: () => import("@/components/dashboard/User/UsersDashboard"),
-      },
-      {
-        path: "products",
-        lazy: () => import("@/components/dashboard/dash-products/DashProducts"),
-      },
+        path: "",
+        lazy: () => import("@/components/dashboard/Dashboard"),
+        children: [
+          {
+            path: "",
+            lazy: () => import("@/components/dashboard/recap/Recap"),
+          },
+          {
+            path: "users",
+            lazy: () => import("@/components/dashboard/User/UsersDashboard"),
+          },
+          {
+            path: "products",
+            lazy: () =>
+              import("@/components/dashboard/dash-products/DashProducts"),
+          },
 
-      {
-        path: "products/add",
-        lazy: () => import("@/components/dashboard/form/DashAddProduct"),
-      },
-      // {
-      //   path: "dashboard/products/:id",
-      //   lazy: () => import("@/components/dashboard/form/DashUpdateProduct"),
-      // },
-      {
-        path: "orders",
-        lazy: () => import("@/components/dashboard/Order/Orders"),
-      },
-      {
-        path: "dashboard/orders/:id",
-        lazy: () =>
-          import("@/components/dashboard/Order/OrderDetails/OrderDetails"),
+          {
+            path: "products/add",
+            lazy: () => import("@/components/dashboard/form/DashAddProduct"),
+          },
+          {
+            path: "orders",
+            lazy: () => import("@/components/dashboard/Order/Orders"),
+          },
+          {
+            path: "orders/:id",
+            lazy: () =>
+              import("@/components/dashboard/Order/OrderDetails/OrderDetails"),
+          },
+        ],
       },
     ],
   };
-
-  const { isAuth } = useContext(isAuthContext);
 
   const routes = [
     {
@@ -59,26 +70,33 @@ const AppRoutes = () => {
         },
 
         {
-          // loader: async () => await getnewAccess(),
-
           path: "",
-          element: <NotAuthedRoutes isAuth={isAuth} />,
+          element: (
+            <NotAuthedRoutes
+              isAuth={isAuth}
+              isInitialRender={isInitialRender}
+            />
+          ),
+
           children: [
             {
               path: "login",
-              // lazy: () => import("../log/login"),
-              element: <Login />,
+              lazy: () => import("@/components/log/login"),
             },
             {
               path: "signup",
-              // lazy: () => import("../log/SignUp"),
-              element: <Signup />,
+
+              lazy: () => import("@/components/log/SignUp"),
             },
           ],
         },
-
         {
-          element: <ProtectedRoutes />,
+          element: (
+            <ProtectedRoutes
+              isAuth={isAuth}
+              // isInitialRender={isInitialRender}
+            />
+          ),
           path: "",
           children: [
             { ...dashBoardRoutes },
@@ -132,13 +150,7 @@ const AppRoutes = () => {
 
   //@ts-ignore
   const router = createBrowserRouter(routes);
-  return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<Loading />}
-      key={"main-route"}
-    />
-  );
+  return <RouterProvider router={router} fallbackElement={<Loading />} />;
 };
 
 export default AppRoutes;
