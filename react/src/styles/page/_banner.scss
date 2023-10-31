@@ -1,179 +1,106 @@
 @import "../variables.scss";
 
 .banner-par {
-  height: calc(100vh - 50px);
-  margin: 0 auto;
-  margin-top: 50px;
-  display: flex !important;
-  align-items: flex-start;
-  overflow-y: hidden;
-  &.light {
-    color: var(--third-light);
-    .swiper-pagination-bullet {
-      background: var(--third-light) !important;
-    }
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(-210deg, rgba(245, 222, 179, 0.3), var(--main));
+  }
+  &.swiper {
+    position: static;
   }
 
-  &.dark {
-    color: var(--third-light);
-    .swiper-pagination-bullet {
-      background: var(--third-dark) !important;
-    }
-  }
   .banner {
-    width: 98%;
-    height: 100%;
+    width: 96%;
+    height: 90vh;
     margin: 0 auto;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1250px;
     .banner-image {
       width: 40%;
-      display: flex !important;
-      justify-content: flex-end !important;
-      align-items: flex-end !important;
-      height: 100%;
-      position: relative;
-      padding-top: 20px;
-      align-self: flex-end !important;
+      height: 95%;
+      align-self: flex-end;
 
       img {
-        width: clamp(200px, 40vw, 400px);
-        height: 100%;
+        height: fit-content;
+        width: 100%;
         object-fit: contain;
       }
     }
   }
-}
-
-.banner-btn {
-  display: inline-flex;
-  align-items: center;
-}
-
-.banner-content {
-  width: 48%;
-  text-shadow: var(--forth-shadow);
-  padding: 10px;
-  gap: 15px !important;
-  letter-spacing: 0.1vw;
-  .banner-links {
-    gap: 25px;
-    background-color: transparent;
-    align-self: flex-start;
+  .banner-btn {
+    display: inline-flex;
+    align-items: center;
   }
-  h1 {
-    width: 100%;
-    font-size: 4vw;
-    letter-spacing: 0.25vw;
-
-    color: var(--green);
-    font-weight: 600;
-    text-transform: capitalize;
-
-    line-height: 4vw;
-  }
-  p {
-    font-size: 1.2rem;
-    width: 100%;
-    text-transform: lowercase;
-    text-align: initial;
-    letter-spacing: 0.5px;
-    &::first-letter {
-      font-size: inherit;
-      font-weight: normal;
-      color: inherit;
-
-      margin: 0;
+  .banner-content {
+    display: flex;
+    width: 45%;
+    text-shadow: var(--forth-shadow);
+    gap: 1.2rem;
+    .banner-links {
+      gap: 1.5rem;
+      background-color: transparent;
+      align-self: flex-start;
+    }
+    h2 {
+      width: 18ch;
+      font-size: 3.5vw;
+      font-weight: 600;
+      text-transform: capitalize;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.5rem;
+      font-family: cursive;
+      color: var(--third);
+      .special-word {
+        transition: 0.15s;
+      }
+      .special-head-line {
+        padding: 0;
+        z-index: -1;
+        position: absolute;
+        bottom: 15%;
+        left: 0;
+        border-radius: 0.25rem;
+        width: 100%;
+        height: 15%;
+        transition: 0.2s;
+      }
+    }
+    p {
+      font-size: 1.2rem;
+      width: 90%;
     }
   }
 }
 
-.swiper-button-prev {
-  left: 2px !important;
-}
-.swiper-button-next {
-  right: 2px !important;
-}
-// .banner-shape {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 120%;
-//   overflow: hidden;
-//   line-height: 0;
-//   transform: rotate(180deg);
-
-//   &.light {
-//     background-color: var(--forth-light);
-//     .shape-fill {
-//       // background-color: var(--third-light);
-
-//       background-color: transparent;
-
-//       position: relative;
-//     }
-//   }
-//   &.dark {
-//     background-color: var(--forth-dark);
-//     .shape-fill {
-//       fill: var(--third-dark);
-//     }
-//   }
-//   // opacity: 0.04;
-// }
-
-.banner-shape {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120%;
-  overflow: hidden;
-  line-height: 0;
-  transform: rotate(180deg);
-  &.light {
-    background-color: var(--third-light);
-  }
-  &.dark {
-    background-color: var(--third-dark);
-  }
-  opacity: 0.03;
-}
-
-.banner-shape svg {
-  position: relative;
-  display: block;
-  width: calc(221% + 1.3px);
-  height: calc(150vh - 40px);
-  transform: rotateY(180deg);
-}
-
-// .custom-shape-divider-top-1691782077 .shape-fill {
-//   fill: var(--forth);
-// }
-
 @media (max-width: 499px) {
   .banner-par {
     .banner {
-      gap: 6vh;
-
+      gap: 1vh;
       max-width: initial;
       flex-direction: column;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 0 auto;
-      margin-top: 20px;
+      justify-content: center;
+      margin-top: 1.25rem;
 
       .banner-image {
         width: 100%;
-        height: 45vh;
+        height: 55vh;
         justify-content: center !important;
         align-items: flex-end !important;
 
         img {
-          object-fit: contain;
-          width: 60vw;
+          object-fit: cover;
+          object-position: top;
+          height: 100%;
+          width: 80vw !important;
         }
       }
       .banner-content {
@@ -185,7 +112,7 @@
         h1 {
           font-size: 9vw;
           letter-spacing: 0.3vw;
-          line-height: 12vw;
+          line-height: 9vw;
         }
 
         .product-links {
@@ -205,24 +132,44 @@
             width: 100% !important;
             text-align: center;
             span {
-              width: 100% !important;
-              span {
-                width: 100% !important;
-              }
+              width: fit-content;
             }
           }
         }
       }
     }
   }
+}
 
-  .custom-shape-divider-top-1691782077 {
-    width: 100%;
-    top: initial;
-    bottom: 0;
-    left: 0;
+.hidden {
+  overflow: hidden;
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 25px;
+  background: var(--wheat-lighter);
+  z-index: 4;
+  border-radius: 20px 0 0 20px;
+  transition: 0.3s;
+
+  &:hover {
+    width: 25px;
+    background: var(--wheat-light);
   }
-  .custom-shape-divider-top-1691782077 svg {
-    height: 40vh;
+  &.next-slide {
+    right: 0;
+
+    width: calc(20px + 4px); //add scroll width
+    border-radius: 20px 0 0 20px;
+    &:hover {
+      width: calc(25px + 4px); //add scroll width
+    }
+  }
+  &.prev-slide {
+    left: 0;
+    border-radius: 0 20px 20px 0;
   }
 }

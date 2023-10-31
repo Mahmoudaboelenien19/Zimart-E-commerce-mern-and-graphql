@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAppSelector } from "../custom/reduxTypes";
-import { favInterface } from "../interfaces/user";
+import { favInterface } from "../interfaces/user.interface";
 import { productContext } from "../components/product Route/Product";
 import { isAuthContext } from "../context/isAuth";
 import useRemoveFromFav from "../custom/useRemoveFeomFav";

@@ -1,25 +1,12 @@
-import React from "react";
-import { motion } from "framer-motion";
 import UserMobile from "./UserMobile";
-import { opacityVariant } from "@/variants/globals";
-import { UserInterface } from "@/interfaces/user";
-const MobileDashUser = ({ data }: { data: UserInterface[] }) => {
+import { UserInterface } from "@/interfaces/user.interface";
+import { useAppSelector } from "@/custom/reduxTypes";
+const MobileDashUser = () => {
+  const { user } = useAppSelector((st) => st.user);
   return (
-    <div className="">
-      {data?.map((user: UserInterface, i: number) => {
-        return (
-          <motion.div
-            key={i}
-            variants={opacityVariant}
-            initial="start"
-            animate="end"
-            exit="exit"
-            transition={{ duration: 0.5 }}
-            className=" mobile-order-par"
-          >
-            <UserMobile {...user} />
-          </motion.div>
-        );
+    <div className="mobile-dashboard col gap">
+      {user?.map((user: UserInterface, i: number) => {
+        return <UserMobile {...user} key={i} />;
       })}
     </div>
   );

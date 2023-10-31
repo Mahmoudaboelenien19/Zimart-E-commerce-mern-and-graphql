@@ -59,12 +59,13 @@ exports.productTypeDefs = (0, apollo_server_express_1.gql) `
     products: [DataCreated]
     orders: [OrderDash]
     users: [DataCreated]
+    notificationsCount: Int
   }
 
   type Query {
     products(skip: Int, limit: Int): Return
     product(id: ID!): Product
-    getDashBoardData: getDashBoardData
+    getDashBoardData(id: ID): getDashBoardData
   }
 
   input filterAllInput {

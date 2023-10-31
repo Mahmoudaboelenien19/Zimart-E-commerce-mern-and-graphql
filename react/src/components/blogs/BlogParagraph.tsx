@@ -1,5 +1,4 @@
 import { BlogPragraph } from "@/interfaces/blog";
-import React from "react";
 
 interface Props extends BlogPragraph {
   i: number;

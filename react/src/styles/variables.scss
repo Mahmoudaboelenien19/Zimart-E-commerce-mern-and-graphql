@@ -1,11 +1,11 @@
 :root {
-  // --green: #367e53;
-  --green: #237a44;
+  --green: rgb(35, 122, 68);
+  --green-light: rgb(35, 122, 68, 0.6);
+  --wheat-title: rgba(220, 204, 174);
   --wheat: rgb(170, 136, 73);
   --white: rgb(247, 246, 246);
   --wheat-light: #c5af87c9;
   --wheat-lighter: #dcccaec9;
-  --wheat-title: #dcccae;
   --twitter: #1da1f2;
   --fb: #1877f2;
   --gmail: #ea4335;
@@ -27,15 +27,6 @@
   --admin: rgb(4, 81, 4);
   --delivered: var(--sale);
   --moderator: var(--sale);
-  --nav-btn: #237a44;
-  --secondary-light: #c9cbcd;
-  --third-light: #000;
-  --main-light: #ffffff;
-  --forth-light: #ffffff;
-  --main-dark: #111417;
-  --secondary-dark: #222222;
-  --third-dark: rgb(247, 246, 246);
-  --forth-dark: #000000;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;

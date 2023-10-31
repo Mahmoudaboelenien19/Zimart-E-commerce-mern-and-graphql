@@ -1,10 +1,8 @@
-import React, { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import AvatarEditor from "react-avatar-editor";
 import MainBtn from "../widgets/buttons/MainBtn";
-import MobileCloseDropDown from "../widgets/dropdowns/MobileCloseDropDown";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-hot-toast";
-import UploadingLoader from "../widgets/loaders/UploadingLoader";
 import { isAuthContext } from "@/context/isAuth";
 import { Update_Profile_Img } from "@/graphql/mutations/user";
 interface Props {
@@ -14,7 +12,6 @@ interface Props {
   setFileKey: React.Dispatch<React.SetStateAction<number>>;
 }
 const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
-  const [isUpdating, setIsUpdating] = useState(false);
   const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
   const editorRef = useRef<AvatarEditor | null>(null);
 
@@ -27,13 +24,12 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
   };
 
   const { userId, setProfile } = useContext(isAuthContext);
-  const [uploadImgFn] = useMutation(Update_Profile_Img, {});
+  const [uploadImgFn] = useMutation(Update_Profile_Img);
   async function handleSaveButtonClick() {
     setFileKey((prev) => prev + 1);
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas();
       const croppedImage = canvas.toDataURL();
-      setIsUpdating(true);
 
       if (croppedImage) {
         const blob = await fetch(croppedImage).then((res) => res.blob());
@@ -43,18 +39,23 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
           `cropped Image-${Date.now()}-${Math.random().toString(16)}`
         );
 
-        const res = await uploadImgFn({
+        const res = uploadImgFn({
           variables: {
             _id: userId,
             image: file,
           },
         });
-        if (res.data.updateUserImage.status === 200) {
-          toast.success(res.data.updateUserImage.msg);
-          setEdit(false);
-          setProfile(croppedImage as string);
-          setIsUpdating(false);
-        }
+        toast.promise(res, {
+          loading: "updating ...  !",
+          success: (res) => {
+            if (res.data.updateUserImage.status === 200) {
+              setEdit(false);
+              setProfile(croppedImage as string);
+              return res.data.updateUserImage.msg;
+            }
+          },
+          error: "error",
+        });
       }
     }
   }
@@ -65,10 +66,8 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
   };
 
   return (
-    <>
-      <h3 className="header underline  underline-sm header-sm avatar-head">
-        update your profile image
-      </h3>
+    <div className="col center">
+      <h2 className="header avater-head ">update your profile image</h2>
       <AvatarEditor
         style={{ backgroundColor: "white", border: "0" }}
         ref={editorRef}
@@ -81,30 +80,31 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
         onPositionChange={handlePositionChange}
         scale={1 + scale}
       />
-      <MobileCloseDropDown setter={setEdit} title={"close"} />
-      <div className="zoom-cont col center start w-100">
-        <label htmlFor="zoom" className="zoom">
-          {" "}
-          zoom
-        </label>
-        <input
-          type="range"
-          id="zoom"
-          onChange={handleScaleChange}
-          min="0"
-          max="1"
-          step=".01"
-          defaultValue={0.01}
-          className="w-100"
+
+      <input
+        type="range"
+        id="zoom"
+        onChange={handleScaleChange}
+        min="0"
+        max="1"
+        step=".01"
+        defaultValue={0.01}
+        className="w-100"
+      />
+
+      <div className=" center avatar-btns ">
+        <MainBtn
+          onClick={handleSaveButtonClick}
+          btn="Save"
+          className="btn main border"
+        />
+        <MainBtn
+          onClick={handleCancel}
+          btn="cancel"
+          className="btn cancel-outline"
         />
       </div>
-      <div className=" center gap " style={{ gap: 30, marginTop: 6 }}>
-        <MainBtn fn={handleSaveButtonClick} btn="Save" cls="btn main border" />
-        <MainBtn fn={handleCancel} btn="cancel" cls="btn cancel-outline" />
-      </div>
-
-      <UploadingLoader bool={isUpdating} />
-    </>
+    </div>
   );
 };
 

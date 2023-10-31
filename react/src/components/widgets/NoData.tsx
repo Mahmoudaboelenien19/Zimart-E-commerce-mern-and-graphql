@@ -1,16 +1,20 @@
-import React from "react";
 import { AnimatePresence } from "framer-motion";
 
 import FadeElement from "./animation/FadeElement";
 
 interface Props {
   message: string;
-  cls: string;
+  className: string;
 }
 
-const NoData = ({ message, cls }: Props) => (
+const NoData = ({ message, className }: Props) => (
   <AnimatePresence>
-    <FadeElement cls={`shadow no-data ${cls}`} key={message} delay={0.2}>
+    <FadeElement
+      className={`shadow no-data ${className}`}
+      key={message}
+      delay={0.2}
+      endOpacity={0.7}
+    >
       {message}
     </FadeElement>
   </AnimatePresence>

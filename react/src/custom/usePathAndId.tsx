@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { imagesInterface } from "../interfaces/user";
+import { imagesInterface } from "../interfaces/user.interface";
 
 const usePathAndId = (arr: imagesInterface[] = [], index: number) => {
   const [id, setId] = useState("");

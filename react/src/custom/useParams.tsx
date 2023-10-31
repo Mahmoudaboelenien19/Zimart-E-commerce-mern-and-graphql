@@ -1,4 +1,4 @@
-import { SetURLSearchParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const useParams = () => {
   interface Params {
@@ -14,12 +14,12 @@ const useParams = () => {
     deleteParam: (param: string) => void;
     getParam: (target: string) => string | undefined;
     setParam: (param: string, value: string) => void;
-    setSearchParams: SetURLSearchParams;
     [key: string]: string | any;
   }
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  //i don't get all params just most used params  but to get the param i use getParam Fn
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
   const priceFilter = searchParams.get("price") || "0";
@@ -28,6 +28,7 @@ const useParams = () => {
   const featuredProductsFilter = searchParams.get("featured products") || "";
   const showAsideFilter = searchParams.get("showAsideFilter") || "";
   const showDashBoaedAside = searchParams.get("showDashBoaedAside") || null;
+
   const deleteParam = (param: string) => {
     setSearchParams((params) => {
       params.delete(param);
@@ -58,7 +59,6 @@ const useParams = () => {
     showDashBoaedAside,
     setParam,
     getParam,
-    setSearchParams,
   } as Params;
 };
 

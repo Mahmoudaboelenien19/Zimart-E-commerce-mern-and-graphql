@@ -1,16 +1,14 @@
-import React from "react";
-
 import { Link } from "react-scroll";
 
 import { motion } from "framer-motion";
-import FadeWithY from "../widgets/animation/FadeWithY";
+import InViewAnimation from "../widgets/animation/InViewAnimation";
 import { categoriesArr } from "@/assets/arries/arries";
 import useFilterByCategory from "@/custom/useFilterByCategory";
 const FooterCategory = () => {
   const { handleCategoryFiltering } = useFilterByCategory();
 
   return (
-    <FadeWithY once cls=" footer-links">
+    <InViewAnimation once className="">
       <div className="footer-links-par center col start">
         <h3 className="  footer-head">category</h3>
         {categoriesArr.map((link, i) => {
@@ -30,7 +28,7 @@ const FooterCategory = () => {
           );
         })}
       </div>
-    </FadeWithY>
+    </InViewAnimation>
   );
 };
 

@@ -56,7 +56,7 @@ export const orderDefType = gql`
 
   input createdOrderInput {
     products: [ProductOrderinput]
-    email: String
+    name: String
     userId: String
   }
 

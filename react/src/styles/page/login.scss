@@ -1,17 +1,21 @@
-.log-in {
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  flex-direction: column;
-  margin-top: 50px;
-  margin-bottom: 20px;
+.form-container {
   overflow: hidden;
-  .header {
-    margin-bottom: 0;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+}
+form.main.log-in {
+  &.signup {
+    margin-top: 10vh;
   }
+  .main {
+    svg {
+      font-size: 18px;
+    }
+  }
+  .sign {
+    color: var(--wheat-light);
+  }
+
   .redirect {
-    color: var(--white);
+    color: var(--third-light);
     letter-spacing: 1.1px;
     a {
       display: inline-block;
@@ -31,6 +35,7 @@
     }
   }
   .google-log {
+    border: 0;
     height: 40px;
     padding: 0 10px;
     border-radius: 5px;
@@ -43,114 +48,80 @@
     letter-spacing: 1px;
     cursor: pointer;
     white-space: nowrap;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     justify-content: center;
-  }
-  form {
-    background: #222222;
-    width: clamp(320px, 95vw, 400px);
-    height: fit-content;
-    padding: 20px 0;
-    border-radius: 5px;
-    flex-direction: column;
-    box-shadow: 0.5px 0.5px 2px black;
-    padding-bottom: 40px;
-
-    gap: 25px;
-    overflow: hidden;
-    h2 {
-      color: white;
-    }
-    input {
-      height: 40px;
-      padding-right: 20px;
-      background-color: var(--main);
-      color: var(--third);
-      box-shadow: var(--third-shadow);
-      border-radius: 5px;
-    }
-    button {
-      height: 40px;
-
-      margin: 0 auto;
-    }
+    color: var(--third);
+    background: var(--main) !important;
   }
 }
-
-.or {
-  position: relative;
-  top: 10px;
+.hr {
   span {
-    background: #222222;
+    background: var(--secondary);
+    padding: 2px;
+    font-size: min(1.4rem, 14px);
   }
 }
 
 .inp-parent {
   position: relative;
-  width: 80%;
+
   input {
+    min-height: 40px;
     width: 100%;
   }
-  .placeholder {
-    position: absolute;
-    color: var(--main);
-    text-transform: capitalize;
-    letter-spacing: 0.8px;
-    transform: translateY(-50%);
-    padding: 1px 4px;
-    font-weight: bold;
-    font-size: 0.8rem;
-    &.placeholder-center {
-      left: 5px;
-      color: var(--wheat);
-    }
-    &.placeholder-top {
-      left: 5px;
-      color: var(--white);
-      text-shadow: 1px 0.5px 1px black;
-      transform: translateY(-50%);
-      background: var(--trending);
-      border-radius: 2px;
-      border-right: 2px solid var(--sale);
-      border-left: 2px solid var(--sale);
-    }
-  }
-  .inp-controls {
-    position: absolute;
-    right: 5px;
-    top: 0;
-    height: 100%;
-    svg {
-      font-size: 1.2rem;
-      cursor: pointer;
-
-      color: var(--gmail);
-
-      &.pass-icon {
-        position: relative;
-        z-index: 4;
-        color: var(--wheat-light);
-      }
-    }
+}
+.inp-icon {
+  transition: 0.3s;
+  position: absolute;
+  right: 8px;
+  font-size: 16px;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: var(--third-light);
+  opacity: 0.4;
+  &:hover,
+  &.inp-icon-focus {
+    opacity: 0.8;
   }
 }
 
-.err-form {
+#err-form {
   display: inline-block;
   width: 100%;
-  position: absolute;
   text-align: center;
-  top: 105%;
-  left: 0;
-  color: var(--gmail);
-  font-weight: bold;
-  font-size: 0.8rem;
-  text-shadow: var(--third-shadow);
+  color: var(--delete);
+  text-transform: lowercase;
+  width: 90%;
+  text-wrap: balance;
+  font-family: cursive;
+  font-size: min(12px, 1rem);
+  &::first-letter {
+    text-transform: capitalize;
+  }
 }
 
-input:focus {
-  box-sizing: border-box;
-  &:focus {
-    border: solid var(--green) 2px;
+.abs-err {
+  #err-form {
+    position: absolute;
+    top: 105%;
+    left: 0;
+  }
+}
+
+.home-link {
+  color: var(--third-light);
+  position: absolute;
+  top: -30px;
+  font-weight: 600;
+  left: 4px;
+  width: fit-content !important;
+}
+
+@media (max-width: 600px) {
+  form.main.signup {
+    margin-top: 9vh;
+  }
+  form.main.signin {
+    margin-top: 15vh;
   }
 }

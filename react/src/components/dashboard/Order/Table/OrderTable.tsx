@@ -1,24 +1,22 @@
-import React, { useContext } from "react";
-import { checkContext } from "../Orders";
 import Order from "./Order";
-import { OrderInterface } from "@/interfaces/order";
+import { OrderInterface } from "@/interfaces/order.interface";
+import { useAppSelector } from "@/custom/reduxTypes";
 
 const OrderTable = () => {
-  const { dataShown } = useContext(checkContext);
-
+  const { order } = useAppSelector((st) => st.order);
   return (
-    <table className="order box-shadow">
+    <table className="dash-table">
       <thead>
         <tr>
-          <th className="first-table-head"> order id</th>
-          <th> created At</th>
-          <th>delivered At</th>
-          <th> total </th>
-          <th> order state </th>
+          <th className="first-table-head"> Id</th>
+          <th> Created at</th>
+          <th>Delivered at</th>
+          <th> Total </th>
+          <th> State </th>
         </tr>
       </thead>
-      <tbody style={{ overflow: "hidden" }}>
-        {dataShown.map((order: OrderInterface, i: number) => {
+      <tbody>
+        {order.map((order: OrderInterface, i: number) => {
           return <Order key={i} {...order} />;
         })}
       </tbody>

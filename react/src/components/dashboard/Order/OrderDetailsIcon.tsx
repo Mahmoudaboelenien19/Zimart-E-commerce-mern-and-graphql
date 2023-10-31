@@ -1,18 +1,23 @@
-import React from "react";
 import { BsInfoCircleFill } from "react-icons/bs";
-import Title from "../../widgets/Title";
 import { useNavigate } from "react-router-dom";
+import useParams from "@/custom/useParams";
+import Title from "@/components/widgets/Title";
 
 const OrderDetailsIcon = ({ _id }: { _id: string }) => {
   const navigate = useNavigate();
-
+  const { showDashBoaedAside } = useParams();
+  const handleLink = () =>
+    navigate(
+      `/dashboard/orders/${_id}` +
+        `${showDashBoaedAside ? "?showDashBoaedAside=true" : ""}`
+    );
   return (
     <Title title={`see order details`}>
       <BsInfoCircleFill
         className="icon"
         color="grey"
         fontSize={14}
-        onClick={() => navigate(`/dashboard/orders/${_id}`)}
+        onClick={handleLink}
       />
     </Title>
   );

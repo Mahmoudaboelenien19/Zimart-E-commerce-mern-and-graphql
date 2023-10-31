@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { BsListTask } from "react-icons/bs";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { IoFilter } from "react-icons/io5";
@@ -6,77 +6,77 @@ import { AnimatePresence } from "framer-motion";
 import SelectFilter from "./SelectFilter";
 import Search from "./Search/Search";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { viewContext } from "@/context/gridView";
 import useIsMobile from "@/custom/useIsMobile";
 import Title from "@/components/widgets/Title";
-import ShowAsideBtn from "./showAsideFilter";
-import { themeContext } from "@/context/ThemContext";
+import ShowAsideButton from "./ShowAsideButton";
+import useParams from "@/custom/useParams";
 import clsx from "clsx";
 const Sort = () => {
-  const { setGridView, gridView } = useContext(viewContext);
   const { isMobile, isMidScreen } = useIsMobile();
   const [showSearch, setShowSearch] = useState(false);
+  const { setParam, getParam, deleteParam } = useParams();
+  const view = getParam("view") || "grid";
 
-  const { theme } = useContext(themeContext);
   return (
-    <div className={clsx("sort-par  center between main-txt", theme)}>
+    <div className={"sort-par  center between main-txt"}>
       <Search showSearch={showSearch} setShowSearch={setShowSearch} />
       <AnimatePresence mode="wait">
         {(!isMidScreen || (isMidScreen && !showSearch)) && (
-          <FadeElement cls=" center view-opt" key={"sort-mobile"} delay={0.1}>
-            <div className="hide-filter-par">
-              <button className="center">
-                <ShowAsideBtn />
-                <IoFilter color={`var(--third-${theme})`} />
-              </button>
+          <FadeElement
+            className=" center view-opt"
+            key={"sort-mobile"}
+            delay={0.1}
+          >
+            <div className="hide-filter-par txt center gap">
+              <ShowAsideButton />
+              <IoFilter color={`var(--third)`} />
             </div>
-            <div className="view-par  ">
-              {!isMobile && <span className="display">Display</span>}
+            <p className="view-par">
+              {!isMobile && <span>Display</span>}
 
               {!isMobile && (
                 <span className="center gap view-type">
-                  <Title title="list view" cls="" cancelTap={false}>
+                  <Title title="list view">
                     <BsListTask
                       onClick={() => {
-                        if (gridView) {
-                          setGridView(false);
+                        if (view === "grid") {
+                          setParam("view", "list");
                         }
                       }}
                       style={{
-                        color: gridView
-                          ? `var(--third-${theme})`
-                          : "var(--green)",
+                        color:
+                          view !== "list" ? `var(--third)` : "var(--green)",
                       }}
                       className={`view-icon  ${
-                        gridView ? " icon-shadow" : ""
+                        view === "list" ? " icon-shadow" : ""
                       } `}
                     />
                   </Title>
-                  <Title title="grid view" cls="" cancelTap={false}>
+                  <Title title="grid view">
                     <HiOutlineViewGrid
                       onClick={() => {
-                        if (!gridView) {
-                          setGridView(true);
+                        if (view) {
+                          deleteParam("view");
                         }
                       }}
                       style={{
-                        color: gridView
-                          ? "var(--green)"
-                          : `var(--third-${theme}`,
+                        color:
+                          view === "grid" ? "var(--green)" : `var(--third)`,
                       }}
-                      className={`view-icon  ${
-                        !gridView ? " icon-shadow" : ""
-                      } `}
+                      className={clsx(
+                        "view-icon  ",
+                        view === "grid" && " icon-shadow"
+                      )}
                     />
                   </Title>
                 </span>
               )}
-            </div>
+            </p>
             <SelectFilter />
           </FadeElement>
         )}
       </AnimatePresence>
-      <div className="hr sort-hr"></div>
+      <div className="hr sort-hr" />
     </div>
   );
 };

@@ -1,5 +1,3 @@
-import React from "react";
-
 const StyledPrice = ({ price }: { price: number }) => {
   return (
     <span className="price-product center">

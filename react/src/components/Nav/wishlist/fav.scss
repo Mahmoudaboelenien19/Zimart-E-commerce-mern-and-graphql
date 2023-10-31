@@ -1,0 +1,71 @@
+@import "@/styles/variables.scss";
+
+.dropdown.fav-drop {
+  padding: 8px;
+  width: 400px;
+  border-radius: 5px;
+  overflow: auto;
+  box-shadow: var(--secondary-shadow);
+  gap: 8px;
+  &.mobile {
+    width: 100vw;
+  }
+  button {
+    box-shadow: initial;
+    position: relative;
+    z-index: 3;
+  }
+  .fav-product {
+    box-shadow: var(--main-shadow);
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    background: var(--wheat-lighter);
+    position: relative;
+    color: var(--main);
+
+    .fav-content {
+      flex-direction: column;
+      width: 60%;
+      height: 100%;
+      justify-content: space-between;
+      padding: 6px;
+    }
+
+    .fav-title {
+      color: var(--third);
+      white-space: nowrap;
+      overflow: hidden;
+      width: 90%;
+      font-size: 1.1rem;
+      text-align: center;
+      text-overflow: ellipsis;
+      text-transform: capitalize;
+    }
+    .fav-price {
+      color: var(--wheat);
+      position: relative;
+      top: 5px;
+      transform: scale(1.4);
+      margin: 0;
+    }
+    .product-links {
+      align-self: center;
+      margin: 0;
+    }
+    .fav-img {
+      width: 40%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 2;
+      display: flex !important;
+      img {
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+        filter: drop-shadow(2px 6px 4px black);
+      }
+    }
+  }
+}

@@ -23,7 +23,7 @@ const notificatinsSlice = createSlice({
   reducers: {
     addToNotificatinsRedux(state, action) {
       if (Array.isArray(action.payload)) {
-        state.notificatins = [...action.payload, ...state.notificatins];
+        state.notificatins = [...state.notificatins, ...action.payload];
       } else {
         state.notificatins = [action.payload, ...state.notificatins];
       }
@@ -42,6 +42,9 @@ const notificatinsSlice = createSlice({
       state.notificatins = [];
     },
 
+    skeltonNotificationsRedux(state) {
+      state.notificatins = Array.from({ length: 16 });
+    },
     toggleReadNotificatinsRedux(state, action) {
       state.notificatins = state.notificatins.map((e) => {
         return e._id === action.payload.id
@@ -65,5 +68,7 @@ export const {
   changeNotificationCount,
   clearNotificationRedux,
   MarkAllAsReadNotificationRedux,
+  skeltonNotificationsRedux,
 } = notificatinsSlice.actions;
+
 export default notificatinsSlice.reducer;

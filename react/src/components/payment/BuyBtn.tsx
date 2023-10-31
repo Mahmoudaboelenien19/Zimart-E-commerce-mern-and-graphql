@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import MainBtn from "../widgets/buttons/MainBtn";
 import { BiPurchaseTagAlt } from "react-icons/bi";
@@ -55,12 +55,11 @@ const BuyBtn = ({ products, disabled = false }: Props) => {
   return (
     <>
       <MainBtn
-        cls="btn btn-buy center gap"
-        fn={getSecretKey}
+        className="btn btn-buy center gap"
+        onClick={getSecretKey}
         Icon={BiPurchaseTagAlt}
         btn="Buy Now"
-        disabled={disabled}
-        isPending={Boolean(clientSecret) || isClicked}
+        disabled={disabled || Boolean(clientSecret) || isClicked}
       />
       {clientSecret && (
         <Navigate to="/payment" state={{ products, clientSecret }} />

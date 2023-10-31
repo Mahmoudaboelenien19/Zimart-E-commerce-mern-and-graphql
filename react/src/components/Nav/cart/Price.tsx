@@ -1,6 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { opacityVariant } from "@/variants/globals";
+import { opacityVariant } from "@/lib/variants/globals";
 
 const Price = ({ num }: { num: number }) => {
   return (

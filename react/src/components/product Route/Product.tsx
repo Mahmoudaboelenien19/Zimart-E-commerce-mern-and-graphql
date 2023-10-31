@@ -1,16 +1,16 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import ProductImages from "./images/images";
 import ProductDetails from "./ProductDetails";
 import Reviews from "./Review/Reviews";
 import { useParams } from "react-router-dom";
-import Animation from "../widgets/animation/Animation";
 import SLiderComponent from "../widgets/SLider";
 import { OnDataOptions, useQuery, useSubscription } from "@apollo/client";
 import { GET_Product_By_Id } from "@/graphql/general";
 import { Single_Updated_Product_Subscription } from "@/graphql/mutations/product";
 import { ProductInterface, reviewInterface } from "@/interfaces/product";
 import { useAppSelector } from "@/custom/reduxTypes";
-import { themeContext } from "@/context/ThemContext";
+import { AnimatePresence, motion } from "framer-motion";
+
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];
   bigImgInd: number;
@@ -18,7 +18,6 @@ export interface productContextInterface extends ProductInterface {
 }
 export const productContext = createContext({} as productContextInterface);
 export const Component = () => {
-  const { theme } = useContext(themeContext);
   const [ind, setInd] = useState(-1);
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const [productData, setProductData] = useState({} as ProductInterface);
@@ -30,31 +29,32 @@ export const Component = () => {
     },
   });
 
-  // useSubscription(Single_Updated_Product_Subscription, {
-  //   onData: (
-  //     data: OnDataOptions<{ singleProductUpdate: ProductInterface }>
-  //   ) => {
-  //     setProductData(data?.data?.data?.singleProductUpdate as ProductInterface);
-  //   },
-  //   variables: {
-  //     id,
-  //   },
-  // });
+  //to catch  product changes
+  useSubscription(Single_Updated_Product_Subscription, {
+    onData: (
+      data: OnDataOptions<{ singleProductUpdate: ProductInterface }>
+    ) => {
+      setProductData(data?.data?.data?.singleProductUpdate as ProductInterface);
+    },
+    variables: {
+      id,
+    },
+  });
 
   useEffect(() => {
     if (Allproducts.length) {
-      const index = Allproducts.findIndex((ob) => ob._id === id);
+      const index = Allproducts.findIndex((ob) => ob?._id === id);
       setInd(index);
       document.title = Allproducts[index]?.title;
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (ind === -1 && data?.product?._id) {
       document.title = data?.product?.title;
       setProductData(data?.product);
     }
-  }, [data?.product, ind]);
+  }, [data?.product?.title, ind]);
 
   const [showPop, setShowPop] = useState(false);
 
@@ -74,9 +74,10 @@ export const Component = () => {
     } = ind === -1 ? productData : Allproducts[ind];
 
     return (
-      <Animation cls={`product-par main-bg ${theme}`}>
-        <div>
-          {data?.product ? (
+      <div className="product-par">
+        {" "}
+        <section className="product-page">
+          {data?.product?._id ? (
             <productContext.Provider
               value={{
                 setBigImgInd,
@@ -94,27 +95,21 @@ export const Component = () => {
                 state,
               }}
             >
-              <section className="product-page">
-                <ProductImages key={_id} />
+              <ProductImages key={_id} />
 
-                <ProductDetails
-                  key={`product-${_id}`}
-                  setShowPop={setShowPop}
-                />
-                <Reviews
-                  key={`review-${_id}`}
-                  setShowPop={setShowPop}
-                  bool={showPop}
-                />
-              </section>
+              <ProductDetails key={`product-${_id}`} setShowPop={setShowPop} />
+              <Reviews
+                key={`review-${_id}`}
+                setShowPop={setShowPop}
+                bool={showPop}
+              />
             </productContext.Provider>
           ) : (
             <>&lt; </>
           )}
-        </div>
-
-        {Allproducts.length && <SLiderComponent />}
-      </Animation>
+        </section>
+        <SLiderComponent />
+      </div>
     );
   } else {
     return <>&lt;</>;

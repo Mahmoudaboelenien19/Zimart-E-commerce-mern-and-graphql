@@ -1,28 +1,29 @@
-import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import OrderDetailsIcon from "../OrderDetailsIcon";
-import DashDropDown from "../DashDropDown";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-
 import Skeleton from "react-loading-skeleton";
-
-interface Props {
-  state: string;
-  _id: string;
-  cost: number;
-  count: number;
-  createdAt: string;
-  deliveredAt: string;
-}
-const Order = ({ deliveredAt, state, _id, cost, createdAt }: Props) => {
-  const [orderState, setOrderState] = useState(state);
+import useUpdateOrder from "@/custom/useUpdateOrder";
+import { OrderInterface } from "@/interfaces/order.interface";
+import DashDropDown from "../../DashDropDown";
+const orderArr = ["pending", "shipped", "delivered", "canceled", "on hold"];
+const Order = ({
+  deliveredAt,
+  state,
+  _id,
+  cost,
+  createdAt,
+}: OrderInterface) => {
+  const { handleUpdateOrder } = useUpdateOrder();
+  const updateState = (st: string) => {
+    handleUpdateOrder(_id, st);
+  };
 
   return (
     <tr>
       <td className="first-table-head">
         {_id || <Skeleton height={12} width={80} />}
       </td>
-      <td className="created-at">
+      <td className="w-25">
         {createdAt ? (
           <>
             {new Date(createdAt).toLocaleDateString()} -
@@ -32,19 +33,19 @@ const Order = ({ deliveredAt, state, _id, cost, createdAt }: Props) => {
           <Skeleton height={12} width={60} />
         )}
       </td>
-      <td className="delivered">
+      <td className="w-25">
         <AnimatePresence mode="wait">
           {!_id ? (
             <Skeleton height={12} width={30} />
           ) : (
             <>
               {deliveredAt ? (
-                <FadeElement cls="" key={`order${deliveredAt}`}>
+                <FadeElement key={`order${deliveredAt}`}>
                   {new Date(deliveredAt).toLocaleDateString()} -
                   {new Date(deliveredAt).toLocaleTimeString()}
                 </FadeElement>
               ) : (
-                <FadeElement cls="" key={"underscore" + deliveredAt}>
+                <FadeElement key={"underscore" + deliveredAt}>
                   &#95;
                 </FadeElement>
               )}
@@ -52,33 +53,31 @@ const Order = ({ deliveredAt, state, _id, cost, createdAt }: Props) => {
           )}
         </AnimatePresence>
       </td>
-      <td className="tota1">
+      <td className="w-10">
         {cost ? +cost + "$" : <Skeleton height={12} width={30} />}{" "}
       </td>
 
-      <td
-        className="order-state"
-        style={{
-          color: `var(--${state?.split(" ").slice(-1)})`,
-        }}
-      >
+      <td className="state-word">
         <div className="  center ">
           {_id ? (
             <>
               <AnimatePresence mode="wait">
-                <FadeElement cls="w-100" key={state}>
-                  <span>{state}</span>
+                <FadeElement
+                  className="state"
+                  key={state}
+                  duration={0.15}
+                  style={{
+                    color: `var(--${state?.split(" ").slice(-1)})`,
+                  }}
+                >
+                  {state}
                 </FadeElement>
               </AnimatePresence>
-              <DashDropDown
-                arr={["pending", "shipped", "delivered", "canceled", "on hold"]}
-                _id={_id}
-                setter={setOrderState}
-                state={orderState}
-              />
-              <span className="order-detail-par">
+
+              <>
+                <DashDropDown state={state} arr={orderArr} fn={updateState} />
                 <OrderDetailsIcon _id={_id} />
-              </span>
+              </>
             </>
           ) : (
             <Skeleton height={12} width={30} />

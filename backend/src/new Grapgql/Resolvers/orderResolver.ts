@@ -17,7 +17,10 @@ export const orderResolver = {
     },
     async orders(_: unknown, { limit, skip = 0 }: SkipAndLimit) {
       const totalOrders = await OrderCollection.count();
-      const orders = await OrderCollection.find({}).skip(skip).limit(limit);
+      const orders = await OrderCollection.find({})
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
       return { totalOrders, orders };
     },
   },
@@ -101,34 +104,6 @@ export const orderResolver = {
             singleProductUpdate: product,
           });
 
-          const notificationObj = {
-            isRead: false,
-            content: `${input.email} created a new order`,
-            createdAt: new Date().toISOString(),
-            link: `/dashboard/orders/${order._id}`,
-          };
-          await userCollection.updateMany(
-            { role: { $in: ["admin", "moderator", "owner", "user"] } },
-            {
-              $push: {
-                notifications: notificationObj,
-              },
-              $inc: {
-                notificationsCount: +1,
-              },
-            }
-          );
-
-          const newNotification = await userCollection.findOne(
-            { role: { $in: ["admin", "moderator", "owner", "user"] } },
-            {
-              notifications: { $slice: [-1, 1] },
-            }
-          );
-          pubsub.publish("Notification_Created", {
-            NotificationAdded: newNotification?.notifications[0],
-          });
-
           if (product?._id && (product?.stock <= 5 || product?.stock === 0)) {
             const notificationObj = {
               isRead: false,
@@ -160,6 +135,34 @@ export const orderResolver = {
               NotificationAdded: newNotification?.notifications[0],
             });
           }
+        });
+
+        const notificationObj = {
+          isRead: false,
+          content: `${input.name} created a new order`,
+          createdAt: new Date().toISOString(),
+          link: `/dashboard/orders/${order._id}`,
+        };
+        await userCollection.updateMany(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            $push: {
+              notifications: notificationObj,
+            },
+            $inc: {
+              notificationsCount: +1,
+            },
+          }
+        );
+
+        const newNotification = await userCollection.findOne(
+          { role: { $in: ["admin", "moderator", "owner", "user"] } },
+          {
+            notifications: { $slice: [-1, 1] },
+          }
+        );
+        pubsub.publish("Notification_Created", {
+          NotificationAdded: newNotification?.notifications[0],
         });
 
         return { status: 200, orderId: order._id };

@@ -68,12 +68,14 @@ export const Get_All_Products = gql`
 `;
 
 export const GET_NEEDED_DASHBOARD_DATA = gql`
-  query {
-    getDashBoardData {
+  query ($id: ID) {
+    getDashBoardData(id: $id) {
+      notificationsCount
       orders {
         createdAt
         cost
       }
+
       products {
         createdAt
       }

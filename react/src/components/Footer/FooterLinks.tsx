@@ -1,16 +1,15 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
 import { motion } from "framer-motion";
 import { linksArr } from "../../assets/arries/LinksArr";
-import FadeWithY from "../widgets/animation/FadeWithY";
+import InViewAnimation from "../widgets/animation/InViewAnimation";
 const FooterLinks = () => {
   const arr = [
     ...linksArr.filter((obj) => obj.link !== "Home"),
     { link: "Faq", to: "/faq" },
   ];
   return (
-    <FadeWithY once cls=" footer-links ">
+    <InViewAnimation once>
       <div className="center start col footer-links-par">
         <h3 className=" footer-head ">links</h3>
         <motion.span
@@ -28,7 +27,7 @@ const FooterLinks = () => {
           );
         })}
       </div>
-    </FadeWithY>
+    </InViewAnimation>
   );
 };
 

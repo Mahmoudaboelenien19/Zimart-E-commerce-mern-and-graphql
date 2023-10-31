@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Price from "./Price";
 import BuyBtn from "@/components/payment/BuyBtn";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import { cartInterface } from "@/interfaces/user";
+import { cartInterface } from "@/interfaces/user.interface";
 
 const TotalPrice = ({
   subTotal,
@@ -57,7 +57,7 @@ const TotalPrice = ({
   const lineVariant = {
     start: { width: 0 },
     end: {
-      width: "40%",
+      width: "110%",
       opacity: 1,
       transition: { delay: 0.4, duration: 0.4 },
     },
@@ -88,7 +88,7 @@ const TotalPrice = ({
     return (
       <AnimatePresence>
         <FadeElement
-          cls="totel-price center between col box-shadow"
+          className="totel-price center between col box-shadow"
           delay={1.5}
           key="cart-total-price"
         >
@@ -123,7 +123,6 @@ const TotalPrice = ({
                   animate="end"
                   exit="exit"
                   key={"price"}
-                  className="order-val"
                 >
                   $ {cart.length ? 10 : 0}
                 </motion.span>

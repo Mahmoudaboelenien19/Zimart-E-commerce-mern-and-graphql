@@ -1,22 +1,25 @@
-import React from "react";
 import Title from "./Title";
 import useParams from "@/custom/useParams";
 
 interface Props {
   hideMsg: string;
-  target: string;
+  target?: string;
   showMsg: string;
+  setter?: React.Dispatch<React.SetStateAction<boolean>>;
+  bool?: boolean;
 }
-const MenuTogglar = ({ target, hideMsg, showMsg }: Props) => {
-  const { deleteParam, setParam, [target]: value } = useParams();
+const MenuTogglar = ({ setter, bool, target, hideMsg, showMsg }: Props) => {
+  const { deleteParam, getParam, setParam } = useParams();
+  const value = getParam(target || "");
   const handleShow = () => {
-    if (target === "showDashBoaedAside") {
-      sessionStorage.removeItem("show-aside");
-    }
-    if (value) {
-      deleteParam(target);
-    } else {
-      setParam(target, "true");
+    if (target) {
+      if (value && target) {
+        deleteParam(target);
+      } else {
+        setParam(target, "true");
+      }
+    } else if (setter) {
+      setter(!bool);
     }
   };
   return (

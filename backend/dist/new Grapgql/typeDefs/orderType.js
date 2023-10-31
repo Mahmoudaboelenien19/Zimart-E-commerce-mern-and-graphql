@@ -58,7 +58,7 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
 
   input createdOrderInput {
     products: [ProductOrderinput]
-    email: String
+    name: String
     userId: String
   }
 

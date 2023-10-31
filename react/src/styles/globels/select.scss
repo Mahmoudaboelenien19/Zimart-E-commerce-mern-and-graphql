@@ -1,0 +1,32 @@
+@import "@/styles/variables.scss";
+.select {
+  border: solid var(--third-light) 1.5px;
+  position: relative;
+  color: var(--third);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  border-radius: 5px;
+  height: 40px;
+  text-transform: capitalize;
+
+  cursor: pointer;
+  .select-value {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    width: 80%;
+    overflow: hidden;
+    text-align: start;
+    padding: 0 5px;
+  }
+  &.select-filter {
+    width: 200px;
+    height: 40px;
+    border: 0;
+    background-color: var(--secondary);
+    box-shadow: var(--forth-shadow);
+  }
+}

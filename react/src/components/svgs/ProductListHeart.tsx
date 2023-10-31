@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import HeartSvg from "./heart";
 
 import { isAuthContext } from "../../context/isAuth";
 import { useAppSelector } from "@/custom/reduxTypes";
 import useAddToFav from "@/custom/useAddToFav";
 import useRemoveFromFav from "@/custom/useRemoveFeomFav";
-import { imagesInterface, favInterface } from "@/interfaces/user";
+import { imagesInterface, favInterface } from "@/interfaces/user.interface";
 
 interface Props {
   setIsFavorited: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +19,7 @@ interface Props {
 const ProductListHeart = ({
   isFavoraited,
   setIsFavorited,
-  images,
+  images = [],
   price,
   title,
   parentId,
@@ -70,11 +70,7 @@ const ProductListHeart = ({
       handleRemoveFromFav();
     }
   };
-  return (
-    <>
-      <HeartSvg fn={handleHeartFns} isFavoraited={isFavoraited} />
-    </>
-  );
+  return <HeartSvg fn={handleHeartFns} isFavoraited={isFavoraited} />;
 };
 
 export default ProductListHeart;

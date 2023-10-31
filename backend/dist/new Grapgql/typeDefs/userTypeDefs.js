@@ -13,9 +13,8 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     parentId: ID
     _id: ID
     path: String
-    price: Float
-    title: String
     msg: String
+    product: Product
   }
 
   type Cart {
@@ -51,7 +50,6 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     name: String
     image: String
     email: String
-    password: String
     msg: String
     country: String
     role: String
@@ -63,7 +61,6 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     createdAt: Date
     lastLogIn: Date
     notificationsCount: Int
-    notifications: [Notification]
   }
 
   input AddUserInput {
@@ -123,28 +120,50 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     userId: ID!
   }
 
+  type UsersData {
+    name: String
+    _id: ID
+    email: String
+    status: Int
+    createdAt: Date
+    lastLogIn: Date
+    role: String
+  }
+
   type UserReturn {
-    users: [User]
+    users: [UsersData]
     totalUsers: Int
+  }
+
+  input NotificationInput {
+    id: ID!
+    limit: Int
+    skip: Int
+    type: String
   }
   type Query {
     users(limit: Int, skip: Int): UserReturn
+    getUserData(id: ID!): User
+    getNotifications(input: NotificationInput): [Notification]
   }
 
   type AuthResult {
     msg: String!
     status: Int
-    user: User
   }
 
   type Subscription {
-    AddUser: User
+    NeWUser: User
   }
 
+  input updateUserDataInput {
+    _id: ID!
+    target: String!
+    value: String!
+  }
   type Mutation {
     addUser(input: AddUserInput): User
     authenticate(password: String!, email: String!): AuthResult
-    getUserData(id: ID!): User
     addToCart(input: AddToCartInput): Cart
     removeFromCart(input: removeFromCartInput): StatusMsg
     changeCartCount(input: changeCartCountInput): StatusMsg
@@ -160,10 +179,7 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     ClearNotification(userId: ID!): StatusMsg
     ClearFav(userId: ID!): StatusMsg
     MarkAllAsReadNotification(userId: ID!): StatusMsg
-    updateUserName(_id: ID!, name: String!): StatusMsg
-    updateUserCountry(_id: ID!, country: String!): StatusMsg
-    updateUserPhone(_id: ID!, phone: String!): StatusMsg
-    updateEmail(_id: ID!, email: String!): StatusMsg
+    updateUserData(input: updateUserDataInput): StatusMsg
     updatePassword(
       _id: ID!
       oldPassword: String!

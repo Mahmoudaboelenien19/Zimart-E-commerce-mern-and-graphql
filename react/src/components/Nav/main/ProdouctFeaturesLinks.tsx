@@ -1,5 +1,5 @@
-import { motion, MotionValue } from "framer-motion";
-import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { IoGitCompareSharp } from "react-icons/io5";
@@ -9,21 +9,20 @@ import WishList from "../wishlist/WishList";
 import Title from "@/components/widgets/Title";
 import { useAppSelector } from "@/custom/reduxTypes";
 import useHideScroll from "@/custom/useHideScroll";
+import useIsMobile from "@/custom/useIsMobile";
 
-interface Props {
-  LinkClr?: MotionValue | string;
-}
-const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
-  const [showFav, setShowFav] = useState(false);
+const ProdouctFeaturesLinks = () => {
   const { cart } = useAppSelector((state) => state.cart);
   const { compare } = useAppSelector((state) => state.compare);
   const { fav } = useAppSelector((state) => state.fav);
+  const [showFav, setShowFav] = useState(false);
+  const { isMobile } = useIsMobile();
+  useHideScroll(showFav, isMobile);
 
-  useHideScroll(showFav);
   return (
     <ul>
       <NavLink to="/cart" className="cart-active-link ">
-        <motion.li id="cart-link-par" style={{ color: LinkClr }}>
+        <motion.li id="cart-link-par">
           <Title title="go to your cart">
             <ShowCount
               length={
@@ -35,18 +34,14 @@ const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
         </motion.li>
       </NavLink>
       <NavLink to="/compare" className="cart-active-link ">
-        <motion.li id="cart-link-par" style={{ color: LinkClr }}>
+        <motion.li id="cart-link-par">
           <Title title="compare products list">
             <ShowCount length={compare.length} />
             <IoGitCompareSharp fontSize={"1.2rem"} />
           </Title>
         </motion.li>
       </NavLink>
-
-      <motion.li
-        style={{ color: showFav ? "var(--delete)" : LinkClr }}
-        className="fav-par center"
-      >
+      <motion.li className="fav-par center">
         <WishList showFav={showFav} setter={setShowFav} />
         <Title title={!showFav ? "show your wishlist" : "hide your wishList"}>
           <ShowCount length={fav.length} />
@@ -54,7 +49,6 @@ const ProdouctFeaturesLinks = ({ LinkClr = "white" }: Props) => {
           <AiFillHeart fontSize={"1.2rem"} onClick={() => setShowFav(true)} />
         </Title>
       </motion.li>
-      {/* <motion.li className="center auth-par"></motion.li> */}
     </ul>
   );
 };

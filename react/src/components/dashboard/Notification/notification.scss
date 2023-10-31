@@ -1,0 +1,126 @@
+@import "@/styles/variables.scss";
+
+.notification-par {
+  width: 350px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: initial;
+  &.mobile {
+    width: 100vw;
+  }
+
+  .notifications {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 5px;
+    min-height: 80%;
+  }
+  .notification-btns {
+    > * {
+      button {
+        transition: 0.3s;
+        font-weight: bold;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        color: var(--third);
+        text-shadow: var(--third-shadow);
+      }
+    }
+  }
+  .notification {
+    background: var(--main);
+    box-shadow: 0.2px 0.2px 0.5px black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 4px;
+    min-height: 40px;
+    color: var(--third);
+    width: 95%;
+    margin: 0 auto;
+    .content {
+      width: 90%;
+      align-self: flex-start;
+      font-size: 0.7rem;
+      line-height: 0.8rem;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+    }
+    .time {
+      font-size: 0.6rem;
+      color: var(--twitter);
+      font-weight: bold;
+    }
+    .dots {
+      position: absolute;
+      top: 4px;
+      right: 2px;
+      color: var(--wheat);
+    }
+    .is-read {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: var(--twitter);
+      border-radius: 50%;
+      position: absolute;
+      right: 4px;
+      bottom: 10%;
+    }
+  }
+}
+
+.notification-btns {
+  button {
+    background-color: transparent;
+    padding: 0px 4px;
+    font-size: 8px;
+    border: 0;
+  }
+}
+
+.notification-loader {
+  min-height: 40px;
+}
+
+.notification-drop {
+  position: absolute;
+
+  top: 20px;
+  // right: -3px;
+  left: 0;
+  width: 90px;
+  z-index: 5;
+  padding: 4px;
+  font-size: 0.8rem;
+  &.notification-actions {
+    width: 160px !important;
+    font-size: 10px;
+    border-radius: 3px;
+    background: var(--main);
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: -16px;
+    right: 0;
+    border-style: solid;
+    border-width: 8px;
+    border-color: transparent transparent var(--wheat) transparent;
+  }
+}
+
+.state-par {
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .mobile {
+    padding: 4px;
+    border-radius: 5px;
+  }
+}

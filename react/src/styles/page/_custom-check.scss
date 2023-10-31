@@ -8,12 +8,7 @@
   box-shadow: var(--forth-shadow);
   .custom-check {
     width: fit-content;
-    &.light {
-      background: var(--third-light);
-    }
-    &.dark {
-      background: var(--third-dark);
-    }
+    background: var(--third);
     border-radius: 2px;
   }
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import Star from "../../Product/Products/Aside/Star";
 import { motion } from "framer-motion";
 

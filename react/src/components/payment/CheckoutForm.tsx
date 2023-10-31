@@ -1,24 +1,24 @@
-import React, { PaymentElement } from "@stripe/react-stripe-js";
+import { PaymentElement } from "@stripe/react-stripe-js";
 import { FormEvent, useContext, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 
-import SmallLoader from "../widgets/loaders/SmallLoader";
 import { Navigate } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 import { isAuthContext } from "@/context/isAuth";
 import { create_Order } from "@/graphql/mutations/order";
 import { ProductInterface } from "@/interfaces/product";
+import FetchLoading from "../widgets/loaders/FetchLoading";
 
 export default function CheckoutForm({
   products,
 }: {
   products: ProductInterface[];
 }) {
-  const { email, userId } = useContext(isAuthContext);
+  const { name, userId } = useContext(isAuthContext);
   const [fn] = useMutation(create_Order, {
     variables: {
-      input: { products, email, userId },
+      input: { products, name, userId },
     },
   });
   const [isComplete, setIsComplete] = useState(false);
@@ -32,16 +32,6 @@ export default function CheckoutForm({
     if (!elements || !stripe || !isComplete) {
       return;
     } else {
-      const emptyFields = [];
-      for (const input of document.querySelectorAll("input")) {
-        if (input.value === "") {
-          emptyFields.push(input.name);
-        }
-      }
-
-      if (emptyFields.length > 0) {
-        return;
-      }
       setIsProcessing(true);
       const { data } = await fn();
 
@@ -77,7 +67,7 @@ export default function CheckoutForm({
         disabled={isProcessing || !stripe || !elements}
         className="btn main center gap"
       >
-        {isProcessing && <SmallLoader />}Pay now
+        {isProcessing && <FetchLoading />}Pay now
       </button>
       {orderId && <Navigate to="/?success=true" state={{ orderId }} />}
     </form>

@@ -1,6 +1,6 @@
 import "./blogs.scss";
 import { useQuery } from "@apollo/client";
-import React, { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BlogParagraph from "./BlogParagraph";
@@ -10,11 +10,10 @@ import { getSingleBlog } from "@/graphql/blog";
 import { BlogPragraph } from "@/interfaces/blog";
 import useModifyUrl from "@/custom/useModifyUrl";
 import FadeElement from "../widgets/animation/FadeElement";
-import { themeContext } from "@/context/ThemContext";
 import clsx from "clsx";
 export const Component = () => {
   const { id } = useParams();
-  const { theme } = useContext(themeContext);
+
   const { data, loading } = useQuery(getSingleBlog, {
     variables: { id },
   });
@@ -27,11 +26,16 @@ export const Component = () => {
     const { head, intro, end, image, content } = data.blog;
     const { getlink } = useModifyUrl();
     return (
-      <div className={clsx("blog main-txt", theme)}>
+      <div className={clsx("blog main-txt")}>
         <div className="blog-details">
           <h1>{head}</h1>
           <motion.div className="blog-img">
-            <LazyLoadImage effect="blur" src={getlink(image, 800)} alt={head} />
+            <LazyLoadImage
+              effect="blur"
+              wrapperClassName="w-100 h-100"
+              src={getlink(image, 1000)}
+              alt={head}
+            />
           </motion.div>
           <FadeElement delay={0.3}>
             <p>{intro}</p>
@@ -42,7 +46,7 @@ export const Component = () => {
 
           <p>{end}</p>
         </div>
-        <SuggestedBlogs id={id!} />
+        <SuggestedBlogs id={id || ""} />
       </div>
     );
   } else {

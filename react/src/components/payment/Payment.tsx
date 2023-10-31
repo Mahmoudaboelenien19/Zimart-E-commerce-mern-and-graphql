@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { Stripe, loadStripe } from "@stripe/stripe-js";
@@ -11,11 +11,10 @@ import OrderedProductDetail from "./OrderedProductDetail";
 import { useQuery } from "@apollo/client";
 import { themeContext } from "@/context/ThemContext";
 import { get_Stripe_PublicKey } from "@/graphql/stripe";
-import { OrderInterface } from "@/interfaces/order";
+import { OrderInterface } from "@/interfaces/order.interface";
 
 export const Component = () => {
   const location = useLocation();
-
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
   const clientSecret = location.state?.clientSecret || null;
   const products = location.state?.products || [];
@@ -40,7 +39,7 @@ export const Component = () => {
     <div className=" payment between ">
       {stripePromise && clientSecret ? (
         <>
-          <FadeElement cls="ordered-products col" delay={0.4}>
+          <FadeElement className="ordered-products col" delay={0.4}>
             {products?.map(
               (
                 ar: { title: string; price: number; count: number },
@@ -72,9 +71,7 @@ export const Component = () => {
           </Elements>
         </>
       ) : (
-        <>
-          <GridLoader cls="loading center" />
-        </>
+        <> </>
       )}
     </div>
   );

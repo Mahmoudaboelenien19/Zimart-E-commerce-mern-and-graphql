@@ -1,5 +1,4 @@
 @import "../variables.scss";
-
 * {
   margin: 0;
   padding: 0;
@@ -9,21 +8,31 @@
 body {
   font-family: "Roboto", sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
+  background: var(--main);
+  background: linear-gradient(60deg, var(--secondary), var(--main));
 }
-.main-bg {
-  &.light {
-    background: linear-gradient(rgba(136, 134, 134, 0.4), var(--main-light)) 60%;
-  }
-  &.dark {
-    background: linear-gradient(var(--secondary-dark), var(--main-dark) 40%);
-  }
+
+body {
+  --secondary: #fffeff;
+  --third: #000;
+  --third-light: rgb(0, 0, 0, 0.7);
+  --main: #e2e4e9;
 }
+body.dark {
+  --main: #131d22;
+  --secondary: #263238;
+  --third: rgb(227, 227, 227);
+  --third-light: rgb(227, 227, 227, 7);
+}
+
 :root {
   font-size: clamp(12px, 1vw, 16px);
 }
 
-a {
-  text-decoration: none;
+p {
+  color: var(--third-light);
+  opacity: 0.6;
 }
 
 *::-webkit-scrollbar-track {
@@ -31,7 +40,7 @@ a {
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -43,4 +52,133 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+form.main {
+  background: var(--secondary);
+  height: fit-content;
+  border-radius: 5px;
+  flex-direction: column;
+  gap: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  &.animeted {
+    box-shadow: 0.5px 0.5px 2px black;
+    padding: 40px;
+    width: clamp(320px, 95vw, 450px);
+    padding: 40px;
+    & > * {
+      opacity: 0;
+    }
+  }
+  .placeholder {
+    position: absolute;
+    text-transform: capitalize;
+    letter-spacing: 0.8px;
+    transform: translateY(-50%);
+    transition: font-size 0.3s;
+    &.placeholder-center {
+      left: 8px;
+      color: var(--third);
+      font-size: 1rem;
+    }
+    &.placeholder-top {
+      left: 5px;
+      color: var(--main);
+      transform: translateY(-50%);
+      background: var(--third);
+      border-radius: 3px;
+      border-right: 3px solid var(--green);
+      border-left: 3px solid var(--green);
+      font-size: 0.85rem;
+    }
+  }
+  button {
+    height: 40px;
+    text-transform: lowercase;
+    .btn-txt {
+      gap: 8px;
+    }
+  }
+  & > * {
+    width: 100%;
+    text-align: center;
+  }
+
+  p {
+    text-wrap: balance;
+    color: var(--third-light);
+    width: 80%;
+    margin-top: -5px;
+    font-size: min(1rem, 14px);
+  }
+}
+input {
+  background: transparent;
+  outline: 0;
+  height: 40px;
+  padding: 0 6px 0 5px;
+  border-radius: 5px;
+  border: solid var(--third-light) 1.5px;
+  color: var(--third);
+  &:focus {
+    border: solid var(--green) 1.5px;
+  }
+}
+textarea {
+  outline: 0;
+  border: 0;
+  border-radius: 5px;
+  border: solid var(--third-light) 1.5px;
+  color: var(--third);
+  width: 100%;
+  height: 120px;
+  background: var(--secondary);
+  padding: 5px;
+  &:focus {
+    border: solid var(--green) 1.5px;
+  }
+}
+
+nav {
+  height: 50px;
+  position: fixed;
+  top: 0;
+  background-color: var(--main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  z-index: 5;
+  .nav-children {
+    width: 100%;
+    max-width: 1250px;
+    height: 100%;
+    margin: 0 auto;
+  }
+  svg {
+    color: var(--third);
+  }
+}
+
+a {
+  transition: 0.3s;
+  text-decoration: none;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+}
+
+select {
+  opacity: 0;
+  position: absolute;
+}
+
+h2 {
+  color: var(--third);
+  font-size: min(35px, 2rem);
+  font-weight: 600;
+  font-family: cursive;
+  text-transform: capitalize;
 }

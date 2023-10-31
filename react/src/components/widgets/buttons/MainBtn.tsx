@@ -1,64 +1,53 @@
-import { motion } from "framer-motion";
-import React from "react";
-import Title from "../Title";
-import SmallLoader from "../loaders/SmallLoader";
-interface Props {
-  fn: () => void;
-  btn: string;
-  cls: string;
-  Icon?: React.ComponentType;
-  title?: string;
+import { motion, MotionProps } from "framer-motion";
+import { ButtonHTMLAttributes } from "react";
+import clsx from "clsx";
+import { IconType } from "react-icons/lib";
+import FetchLoading from "../loaders/FetchLoading";
+
+type Props = {
   pos?: string;
-  parCls?: string;
-  type?: "submit" | "button" | "reset";
-  isPending?: boolean;
-  disabled?: boolean;
-}
+  btn?: string;
+  Icon?: IconType;
+  opacity?: number;
+} & ButtonHTMLAttributes<HTMLButtonElement> &
+  MotionProps;
+
 const MainBtn = ({
-  type = "button",
   pos = "left",
-  parCls,
-  fn,
   btn,
-  cls,
   Icon,
-  title,
-  isPending = false,
-  disabled = false,
+  opacity,
+  className,
+  disabled,
+  ...props
 }: Props) => {
   return (
-    <Title title={title ? title : ""} cls={parCls}>
-      <motion.button
-        key={"apply-btn"}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isPending || disabled ? 0.7 : 1 }}
-        transition={{ duration: 0.4 }}
-        disabled={isPending}
-        className={`center ${cls}`}
-        onClick={fn}
-        style={{
-          color: "var(--white)",
-        }}
-        type={type}
-      >
-        <>
-          <>
-            {Icon && pos === "left" && (isPending ? <SmallLoader /> : <Icon />)}
+    <motion.button
+      {...props}
+      key={"apply-btn" + btn}
+      initial={{
+        opacity: 0,
+        // , borderRadius: 5
+      }}
+      animate={{
+        opacity: disabled ? [1, 0.7] : opacity || 1,
+      }}
+      // whileHover={{ borderRadius: 0 }}
+      transition={{ duration: 0.4 }}
+      className={clsx(`center`, className)}
+    >
+      {Icon && pos === "left" && (disabled ? <FetchLoading /> : <Icon />)}
+      {!Icon && disabled ? (
+        <span className="gap btn-txt center ">
+          <FetchLoading />
+          <span>{btn}</span>
+        </span>
+      ) : (
+        btn
+      )}
 
-            {!Icon && isPending ? (
-              <span className="gap center">
-                <SmallLoader />
-                {btn}
-              </span>
-            ) : (
-              btn
-            )}
-          </>
-
-          {Icon && pos === "right" && <Icon />}
-        </>
-      </motion.button>
-    </Title>
+      {Icon && pos === "right" && <Icon />}
+    </motion.button>
   );
 };
 

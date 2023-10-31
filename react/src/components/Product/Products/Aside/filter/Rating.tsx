@@ -1,18 +1,13 @@
-import React from "react";
-
 import { motion } from "framer-motion";
-
 import Star from "../Star";
-
 import FIlter from "./FIlter";
 import Checkbox from "@/custom SVGs/checkbox";
-import { opacityVariant, parentVariant } from "@/variants/globals";
-import { useSearchParams } from "react-router-dom";
+import { opacityVariant } from "@/lib/variants/globals";
+import useParams from "@/custom/useParams";
 
 const Rating = () => {
-  const [searchParams, seSearchParams] = useSearchParams();
-  const filter = searchParams.get("rate");
-
+  const { deleteParam, setParam, getParam } = useParams();
+  const rate = getParam("rate");
   const stars = [];
 
   for (let i = 1; i <= 5; i++) {
@@ -30,35 +25,24 @@ const Rating = () => {
     stars.push(
       <motion.div
         variants={opacityVariant}
-        className="center rate-filter-par"
-        style={{ width: "fit-content" }}
+        className=" center "
         key={`group-${i}`}
         onClick={() => {
-          seSearchParams((params) => {
-            params.set(
-              "rate",
-              `${String(6 - i) === filter ? "" : String(6 - i)}`
-            );
-            if (String(6 - i) === filter) {
-              params.delete("rate");
-            }
-            return params;
-          });
+          if (!rate || rate !== String(6 - i)) {
+            setParam("rate", `${String(6 - i) === rate ? "" : String(6 - i)}`);
+          }
+          if (String(6 - i) === rate) {
+            deleteParam("rate");
+          }
         }}
       >
-        <Checkbox isChecked={String(6 - i) === filter} filter={String(6 - i)} />
+        <Checkbox isChecked={String(6 - i) === rate} filter={String(6 - i)} />
         <span className="rate-filter">{group}</span>
       </motion.div>
     );
   }
 
-  return (
-    <FIlter head="rating">
-      <motion.div variants={parentVariant} key={"rating-parent"}>
-        {stars}
-      </motion.div>
-    </FIlter>
-  );
+  return <FIlter head="rating">{stars}</FIlter>;
 };
 
 export default Rating;

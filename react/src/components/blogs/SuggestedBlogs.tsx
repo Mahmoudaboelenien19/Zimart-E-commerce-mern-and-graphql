@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import SuggestedBlog from "./SuggestedBlog";
 import { stagger, useAnimate, useInView } from "framer-motion";

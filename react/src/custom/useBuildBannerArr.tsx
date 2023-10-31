@@ -9,6 +9,7 @@ const useBuildBannerArr = () => {
     setParam("sort", "relevance");
     deleteParam("search");
     deleteParam("isFilterApplied");
+    deleteParam("catFilter");
     deleteParam("page");
   };
   const bannerArr = [
@@ -17,15 +18,16 @@ const useBuildBannerArr = () => {
         "https://res.cloudinary.com/domobky11/image/upload/v1689516849/pngwing.com_1_jpjjnq.png",
       slogan: `feel the  difference with our collection. Our high quality items  are designed to exceed your expectations.`,
       button: "shop now",
-      header: "Unlock Your Fashion Potential",
+      header: "Emancipate Your Fashion Potential. !",
       to: "products",
       fn: () => handleGetAllProducts(),
     },
+
     {
       image:
         "https://res.cloudinary.com/domobky11/image/upload/v1689516668/kisspng-ranbir-kapoor-jeans-roy-t-shirt-denim-ranveer-kapoor-5b377a066ed380.816650471530362374454_adktpe.png", // header: "Elevate your wardrobe game",
 
-      header: "Shop  latest fashion trends",
+      header: "watch what's trending now. !",
       slogan:
         "Stay Ahead of the Fashion Curve with Our Affordable  items .Look awesome Without Breaking the Bank.",
       button: "watch fashion",
@@ -39,16 +41,16 @@ const useBuildBannerArr = () => {
       slogan:
         "Unlock Your Potential with High Performance Laptops and pcs. From lighweight ultrabooks to  gaming laptops.",
       button: "watch laptops",
-      header: "Stay connected and Productive",
+      header: "upercharge Your Work Productivity. !",
       to: "products",
       fn: () => handleCategoryFiltering("laptops"),
     },
 
     {
       slogan:
-        "Don't miss out on our limited time offer! Shop now and enjoy huge savings on our top items. From electronics to fashion,",
+        "Don't miss out on our limited time offer! Shop now and enjoy huge savings on our top items. From electronics to fashion.",
 
-      header: "Save Big on Our Top Products",
+      header: "Unrestraint Your Fashion Style. ! ",
       button: "watch Sales",
       image:
         "https://res.cloudinary.com/domobky11/image/upload/v1689515916/pngegg_3_oklao1.png",

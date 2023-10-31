@@ -1,9 +1,8 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import SmallLoader from "@/components/widgets/loaders/SmallLoader";
-import { productListContext } from "@/context/ProductsContext";
-import FadeElement from "@/components/widgets/animation/FadeElement";
+import { useAppSelector } from "@/custom/reduxTypes";
+import FetchLoading from "@/components/widgets/loaders/FetchLoading";
 
 interface Props {
   isActive: number;
@@ -17,7 +16,8 @@ const SearchResults = ({
   isPending,
   showSearch,
 }: Props) => {
-  const { products } = useContext(productListContext);
+  const { Allproducts } = useAppSelector((st) => st.Allproducts);
+
   const navigate = useNavigate();
   return (
     <>
@@ -27,54 +27,52 @@ const SearchResults = ({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0 }}
         >
-          {products.length >= 1 && !isPending ? (
+          {Allproducts.length >= 1 && !isPending ? (
             <ul className="dropdown-search col center start">
               <>
-                {products
-                  .slice(0, 5)
-                  .map(
-                    (
-                      ob: { _id: string; title: string; category: string },
-                      i: number
-                    ) => {
-                      return (
-                        <Fragment key={ob?.title || i}>
-                          <motion.li
-                            onHoverStart={() => {
-                              setIsActive(i);
-                            }}
-                            className={`search-res  center between ${
-                              i === isActive ? "active" : ""
-                            }`}
-                            onClick={() => {
-                              if (ob?._id) {
-                                navigate(`/${ob?._id}`);
-                              }
-                            }}
-                          >
-                            {ob?.title}
-                          </motion.li>
-                          <div
-                            className="hr "
-                            style={{
-                              height: 0.5,
-                              background: "var(--wheat-lighter)",
-                              margin: "0 auto",
-                              display:
-                                i === products.length - 1 || i === 4
-                                  ? "none"
-                                  : "block",
-                            }}
-                          ></div>
-                        </Fragment>
-                      );
-                    }
-                  )}
+                {Allproducts.slice(0, 5).map(
+                  (
+                    ob: { _id: string; title: string; category: string },
+                    i: number
+                  ) => {
+                    return (
+                      <Fragment key={ob?.title || i}>
+                        <motion.li
+                          onHoverStart={() => {
+                            setIsActive(i);
+                          }}
+                          className={`search-res  center between ${
+                            i === isActive ? "active" : ""
+                          }`}
+                          onClick={() => {
+                            if (ob?._id) {
+                              navigate(`/${ob?._id}`);
+                            }
+                          }}
+                        >
+                          {ob?.title}
+                        </motion.li>
+                        <div
+                          className="hr "
+                          style={{
+                            height: 0.5,
+                            background: "var(--wheat-lighter)",
+                            margin: "0 auto",
+                            display:
+                              i === Allproducts.length - 1 || i === 4
+                                ? "none"
+                                : "block",
+                          }}
+                        ></div>
+                      </Fragment>
+                    );
+                  }
+                )}
               </>
             </ul>
           ) : (
             <div className="pending-search search-res center">
-              {isPending ? <SmallLoader /> : <span>No Results</span>}
+              {isPending ? <FetchLoading /> : <span>No Results</span>}
             </div>
           )}
         </motion.div>

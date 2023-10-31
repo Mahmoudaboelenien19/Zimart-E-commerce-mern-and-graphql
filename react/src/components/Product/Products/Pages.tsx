@@ -1,10 +1,10 @@
-import React from "react";
 import { BiRightArrowAlt, BiLeftArrowAlt } from "react-icons/bi";
 import { Link as ScrollLink } from "react-scroll";
 import clsx from "clsx";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import useParams from "@/custom/useParams";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { Fragment } from "react";
 interface Props {
   total: number;
   page: number;
@@ -15,17 +15,13 @@ const Pages = ({ total, page, to, limit = 12 }: Props) => {
   const { setParam } = useParams();
   const numOfPages = Math.ceil(total / limit);
   return (
-    <FadeElement delay={1} cls="">
+    <FadeElement delay={1} className="pages-par center w-100">
       {numOfPages > 1 && (
-        <div className="pages-par center">
+        <Fragment>
           <ScrollLink
             smooth
             to={to && page >= 2 ? to : "#"}
-            className={clsx(
-              "page center",
-              page > 1 ? "wheat" : "wheat-lighter"
-            )}
-            delay={1400}
+            className={clsx("page center active ", !(page > 1) && "disabled")}
             onClick={() => {
               if (page >= 2) {
                 setParam("page", `${page >= 2 && page - 1}`);
@@ -35,29 +31,17 @@ const Pages = ({ total, page, to, limit = 12 }: Props) => {
             <BiLeftArrowAlt />
           </ScrollLink>
           <AnimatePresence initial={false}>
-            <div className="center-pages-par">
+            <div className="pages center ">
               {Array.from({ length: numOfPages })?.map((_, index) => {
                 {
                   return (
-                    <motion.span
-                      key={index}
-                      initial={{
-                        scale: page !== index + 1 ? 1.3 : 1,
-                        boxShadow: "0 0 0 000000 ",
-                      }}
-                      animate={{
-                        scale: page === index + 1 ? 1.3 : 1,
-                        boxShadow:
-                          page === index + 1
-                            ? "0.3px 0.3px 0.2px 000000"
-                            : "0 0 0 000000 ",
-                      }}
-                      transition={{ duration: 0.3 }}
-                    >
+                    <span key={index}>
                       <ScrollLink
-                        className={clsx("page center bg-green ")}
+                        className={clsx(
+                          "page center",
+                          page === index + 1 && "active"
+                        )}
                         smooth
-                        delay={1400}
                         to={to && page !== index + 1 ? to : "#"}
                         onClick={() => {
                           if (page !== index + 1) {
@@ -68,7 +52,7 @@ const Pages = ({ total, page, to, limit = 12 }: Props) => {
                         {" "}
                         {index + 1}
                       </ScrollLink>
-                    </motion.span>
+                    </span>
                   );
                 }
               })}
@@ -76,19 +60,18 @@ const Pages = ({ total, page, to, limit = 12 }: Props) => {
           </AnimatePresence>
           <ScrollLink
             className={clsx(
-              "page center",
-              page < numOfPages ? "wheat" : "wheat-lighter"
+              "page center active ",
+              !(page < numOfPages) && "disabled"
             )}
             smooth
-            delay={1400}
-            to={to && numOfPages > page ? to : ""}
+            to={to && numOfPages > page ? to : "#"}
             onClick={() =>
               setParam("page", `${numOfPages === page ? page : page + 1}`)
             }
           >
             <BiRightArrowAlt />
           </ScrollLink>
-        </div>
+        </Fragment>
       )}
     </FadeElement>
   );

@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
-import InpErr from "@/components/widgets/forms/InpErr";
-import { opacityVariant } from "@/variants/globals";
+import InpErr from "@/components/widgets/shared/forms/InpErr";
+import { opacityVariant } from "@/lib/variants/globals";
+import FadeElement from "@/components/widgets/animation/FadeElement";
 
 interface Props {
   err: string;
@@ -18,50 +19,45 @@ const CustomFIleInput = ({ err }: Props) => {
   const watchfiles = watch("images", []);
 
   return (
-    <div className="inp-parent custom-file">
-      <InpErr key={"description"} err={err} />
-      <input
-        {...(register("images"),
-        {
-          ref: fileRef,
-          onChange(e) {
-            setValue("images", e.target.files, { shouldValidate: true });
-          },
-        })}
-        type="file"
-        className=" inp relative
+    <div className=" center w-100  gap col">
+      <div className="inp-parent custom-file w-100">
+        <input
+          {...(register("images"),
+          {
+            ref: fileRef,
+            onChange(e) {
+              setValue("images", e.target.files, { shouldValidate: true });
+            },
+          })}
+          type="file"
+          className=" inp relative
         update-product
         "
-        multiple
-      />
-      <button
-        type="button"
-        className="main btn btn-file"
-        onClick={() => {
-          if (fileRef?.current) {
-            fileRef?.current.click();
-          }
-        }}
-      >
-        upload
-      </button>
-      <AnimatePresence>
-        <motion.div
-          key={"number of files"}
-          variants={opacityVariant}
-          transition={{ duration: 0.4, delay: 0.4 }}
-          initial="start"
-          animate="end"
-          exit="exit"
-          className="span-file"
+          multiple
+        />
+        <button
+          type="button"
+          className="main btn btn-file"
+          onClick={() => {
+            if (fileRef?.current) {
+              fileRef?.current.click();
+            }
+          }}
         >
-          {watchfiles?.length >= 1 ? (
-            watchfiles?.length + " file selected"
-          ) : (
-            <span style={{ color: "var(--wheat)" }}>upload 4 images</span>
-          )}
-        </motion.div>
-      </AnimatePresence>
+          upload
+        </button>
+        <AnimatePresence mode="wait">
+          <FadeElement
+            duration={0.3}
+            className="custom-file-value"
+            key={"custom-file" + watchfiles?.length}
+          >
+            {watchfiles?.length >= 1
+              ? `${watchfiles?.length} file selected`
+              : "upload 4 images"}
+          </FadeElement>
+        </AnimatePresence>
+      </div>
       <InpErr err={errors.images?.message?.toString()} />
     </div>
   );

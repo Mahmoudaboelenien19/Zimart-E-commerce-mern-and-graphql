@@ -1,19 +1,17 @@
-@import "../../../styles/variables.scss";
-nav {
-  width: 100%;
-  max-width: 100%;
-  height: 45px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 25px;
+@import "@/styles/variables.scss";
 
-  transition: 0.1s;
+nav.main {
+  transition: 0.3s ease-in-out;
+  left: 0;
+  width: 100vw;
+
   .links-par {
     display: flex;
+  }
+  .nav-children {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   ul {
     margin-left: 20px;
@@ -25,61 +23,15 @@ nav {
       position: relative;
       margin: 5px;
       a {
-        white-space: nowrap;
-        transition: 0.15s;
-        color: inherit;
+        transition: 0.3s;
+        color: var(--third);
         font-weight: bold;
-        letter-spacing: 1px;
-        text-transform: capitalize;
-        font-size: 1rem;
-
-        &.cart-active-link.active {
+        &.active {
           color: var(--green);
         }
-        &.link {
-          &::before {
-            transition: 0.5s;
-            content: "";
-            position: absolute;
-            height: 3px;
-            top: 120%;
-            left: 50%;
-            background: var(--wheat);
-            width: 0;
-          }
-
-          &::after {
-            transition: 0.5s;
-            content: "";
-            position: absolute;
-            height: 3px;
-            top: 120%;
-            right: 50%;
-            background: var(--wheat);
-            width: 0;
-          }
-          &:hover:not(&.active) {
-            color: var(--green);
-            opacity: 0.9;
-          }
-          &.active:before {
-            border-bottom-right-radius: 3px;
-            width: 50%;
-          }
-
-          &.active:after {
-            width: 50%;
-            border-bottom-left-radius: 3px;
-          }
-          &.active {
-            color: var(--green);
-            font-weight: 800;
-
-            &.active:before,
-            &.active:after {
-              width: 50%;
-            }
-          }
+        &:hover:not(&.active) {
+          color: var(--green);
+          opacity: 0.7;
         }
       }
     }
@@ -90,19 +42,17 @@ nav {
     align-items: center;
     width: 140px;
     margin-left: 10px;
-    // margin: 0 15px;
     gap: 5px;
   }
 }
 
 .no-data-fav {
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 80px);
   text-transform: capitalize;
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 0.8px;
-  color: var(--green);
 }
 
 .theme {
@@ -113,7 +63,7 @@ nav {
   align-items: center;
   padding: 2px;
   position: relative;
-  z-index: 10;
+  z-index: 5;
   .toggle-icon {
     width: 20px;
     height: 20px;
@@ -146,12 +96,7 @@ nav {
     height: calc(100vh);
     right: 0;
     z-index: 5;
-    .light {
-      background-color: var(--secondary-light);
-    }
-    .dark {
-      background-color: var(--secondary-dark);
-    }
+    background-color: var(--secondary);
     .links {
       height: 100%;
       flex-direction: column;
@@ -160,7 +105,7 @@ nav {
 
       a {
         font-size: 20px;
-
+        color: var(--third);
         &:before,
         &:after {
           content: initial;
@@ -174,4 +119,13 @@ nav {
   filter: drop-shadow(var(--third-shadow));
   transition: 0.3s;
   transform-origin: 0 0;
+}
+
+div.active {
+  height: 3px;
+  bottom: -20%;
+  left: 0;
+  background: var(--green);
+  width: 100%;
+  border-radius: 5px;
 }

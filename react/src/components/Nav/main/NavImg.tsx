@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import UserDropDown from "./userDropDown";
 import ProfileImg from "@/components/user/ProfileImg";

@@ -11,7 +11,8 @@ import { clearNotificationRedux } from "../redux/notificationsSlice";
 import { clearCompare } from "../redux/compareSlice";
 
 const useLogOut = () => {
-  const { setIsAuth, userId, setUserData } = useContext(isAuthContext);
+  const { setIsAuth, userId, setProfile, setUserId } =
+    useContext(isAuthContext);
   const dispatch = useAppDispatch();
   const [fn] = useMutation(LogOut_Mutation);
   const navigate = useNavigate();
@@ -25,28 +26,17 @@ const useLogOut = () => {
         credentials: "include",
       },
     });
-    if (data?.logOut.msg) {
+    if (data?.logOut?.msg) {
+      setUserId("");
       toast.success(data?.logOut.msg);
-      navigate("/login");
       setIsAuth(false);
-      setUserData({
-        _id: "",
-        email: "",
-        name: "",
-        fav: [],
-        cart: [],
-        compare: [],
-        notificatins: [],
-        country: "",
-        phone: "",
-        role: "",
-        image: "",
-      });
       dispatch(clearCart());
       dispatch(clearAllFav());
       dispatch(clearNotificationRedux());
+      dispatch(clearCompare());
+      navigate("/");
+      setProfile("");
     }
-    dispatch(clearCompare());
   };
 
   return { handleLogOut };

@@ -75,3 +75,5 @@ export const optionsArr = [
   "newest",
   "oldest",
 ];
+
+export const arrClrs = ["#237a44", "#ea4335", "#751d15", "#1877f2"];

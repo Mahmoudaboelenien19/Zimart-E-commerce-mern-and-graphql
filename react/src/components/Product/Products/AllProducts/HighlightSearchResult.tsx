@@ -1,17 +1,16 @@
 import useParams from "@/custom/useParams";
-import React from "react";
+import { HTMLAttributes } from "react";
 
 type Props = {
   Element: "span" | "h5";
   bool: boolean;
   value: string;
-  className: string;
-};
+} & HTMLAttributes<HTMLElement>;
 
-const HighlightSearchResult = ({ className, Element, bool, value }: Props) => {
+const HighlightSearchResult = ({ Element, bool, value, ...props }: Props) => {
   const { search } = useParams();
   return (
-    <Element className={className}>
+    <Element {...props}>
       {bool
         ? value.split(new RegExp(`(${search})`, "gi")).map((part, index) => {
             if (part?.toLowerCase() === search.toLowerCase()) {

@@ -17,7 +17,7 @@ import { graphQLRoute, webSocketGraphQLRoute } from "./assets/routes.js";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
-import { getnewAccess } from "./lib/getNewAccess";
+import { getnewAccess } from "./lib/functions/getNewAccess";
 
 const wsLink = new GraphQLWsLink(
   createClient({
@@ -54,6 +54,11 @@ const client = new ApolloClient({
   // uri: graphQLRoute,
   link: from([middleware as ApolloLink, splitLink]),
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: "cache-and-network",
+    },
+  },
   credentials: "include",
 });
 

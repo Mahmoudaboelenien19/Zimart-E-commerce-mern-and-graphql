@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useInView } from "framer-motion";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import { useAnimate } from "framer-motion";
 import { BlogInterface } from "@/interfaces/blog";
 import useModifyUrl from "@/custom/useModifyUrl";
 import clsx from "clsx";
-import { themeContext } from "@/context/ThemContext";
 
 interface Props extends BlogInterface {
   i: number;
@@ -19,7 +18,6 @@ const Blog = ({ head, intro, image, _id, i }: Props) => {
   const inView = useInView(scope, { once: true, amount: 0.5 });
   const isReversed = i === 0 || i % 2 === 0;
 
-  const { theme } = useContext(themeContext);
   useEffect(() => {
     if (inView) {
       animate(
@@ -45,11 +43,11 @@ const Blog = ({ head, intro, image, _id, i }: Props) => {
   return (
     <div
       ref={scope}
-      className={clsx(`main-blog container`, isReversed && "blog-reversed ")}
+      className={clsx(`main-blog `, isReversed && "blog-reversed ")}
     >
       <div className="main-img-blog">
         <LazyLoadImage effect="blur" src={getlink(image, 600)} alt={head} />{" "}
-        <div className={clsx("blog-background  ", theme)}></div>
+        <div className={clsx("blog-background  ")}></div>
       </div>
 
       <div className="main-blog-content">
@@ -58,8 +56,8 @@ const Blog = ({ head, intro, image, _id, i }: Props) => {
         <MainBtn
           Icon={BiRightArrowAlt}
           btn="see more"
-          cls="btn main center gap blog-btn"
-          fn={() => navigate(`/blogs/${_id}`)}
+          className="btn main center gap blog-btn"
+          onClick={() => navigate(`/blogs/${_id}`)}
           pos="right"
         />
       </div>

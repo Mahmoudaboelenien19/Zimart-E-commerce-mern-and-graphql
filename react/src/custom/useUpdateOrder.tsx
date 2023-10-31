@@ -1,8 +1,8 @@
 import { toast } from "react-hot-toast";
-import { updateOrderRedux } from "../redux/OrderSlice";
 import { useAppDispatch } from "./reduxTypes";
 import { useMutation } from "@apollo/client";
 import { update_Order } from "../graphql/mutations/order";
+import { updateOrderRedux } from "@/redux/orderSlice";
 
 const useUpdateOrder = () => {
   const date = () => new Date();
@@ -26,7 +26,7 @@ const useUpdateOrder = () => {
             state,
           })
         );
-        toast.success((await res).data.updateOrder.msg);
+        toast.success(res?.data?.updateOrder?.msg);
       }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {

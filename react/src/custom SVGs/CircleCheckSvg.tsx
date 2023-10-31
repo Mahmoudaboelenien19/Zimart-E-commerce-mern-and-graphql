@@ -1,21 +1,9 @@
-import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  checkSvgVariant,
-  checkpathVariant,
-  parentVarient,
-} from "../variants/CheckSvg.js";
+import { motion } from "framer-motion";
+import { checkSvgVariant, checkpathVariant } from "../lib/variants/CheckSvg.js";
 
 const CircleCheckSvg = ({ check }: { check: boolean }) => {
   return (
-    <motion.div
-      className="circle-check-parent center"
-      variants={parentVarient}
-      initial="start"
-      animate="end"
-      exit={"exit"}
-      custom={check}
-    >
+    <motion.div className="circle-check-parent center" custom={check}>
       <motion.svg
         viewBox="0 0 24 24"
         width="12px"

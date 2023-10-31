@@ -1,18 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Title from "../Title";
 import useParams from "@/custom/useParams";
-import { opacityVariant } from "@/variants/globals";
+import { opacityVariant } from "@/lib/variants/globals";
 import useIsMobile from "@/custom/useIsMobile";
 interface Props {
   target?: string;
-  title: string;
   bool?: boolean;
   setter?: React.Dispatch<React.SetStateAction<boolean>>;
   fn?: () => void;
 }
-const MobileCloseDropDown = ({ setter, target, title, bool, fn }: Props) => {
+const MobileCloseDropDown = ({ setter, target, bool, fn }: Props) => {
   const { isMobile } = useIsMobile();
   const { deleteParam } = useParams();
   const closeTarget = () => {
@@ -26,10 +24,6 @@ const MobileCloseDropDown = ({ setter, target, title, bool, fn }: Props) => {
         deleteParam(target);
       }
     }
-
-    if (target === "showDashBoaedAside") {
-      sessionStorage.removeItem("show-aside");
-    }
   };
   return (
     <AnimatePresence>
@@ -41,7 +35,7 @@ const MobileCloseDropDown = ({ setter, target, title, bool, fn }: Props) => {
           className="close-pop"
           onClick={closeTarget}
         >
-          <Title title={title}>
+          <Title title={"close"}>
             <AiFillCloseCircle className="icon red" />
           </Title>
         </motion.span>

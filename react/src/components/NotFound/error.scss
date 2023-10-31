@@ -1,0 +1,25 @@
+.error {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  .center {
+    gap: 20px;
+  }
+
+  h1 {
+    text-transform: capitalize;
+    font-size: 2.2rem;
+    color: var(--third);
+  }
+  p {
+    font-size: 1.2rem;
+  }
+  .btn {
+    color: rgb(51, 156, 51);
+    box-shadow: initial;
+    font-weight: normal;
+    text-shadow: initial;
+    font-size: 1.2rem;
+  }
+}

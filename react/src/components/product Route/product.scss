@@ -8,7 +8,6 @@
 
   .slider-products-par {
     width: 100%;
-    height: 450px;
   }
 }
 .product-page {
@@ -78,16 +77,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    p {
+      width: 100%;
+      text-align: center;
+      letter-spacing: 0.8px;
+      margin: 10px auto;
+      margin-top: 15px;
+    }
     .title-par {
       display: flex;
       gap: 20px;
-      &.light {
-        color: var(--third-light);
-      }
-      &.dark {
-        color: var(--third-dark);
-      }
+      color: var(--third);
     }
     .product-btn {
       display: flex;
@@ -121,26 +121,6 @@
   }
 }
 
-p {
-  width: 100%;
-  text-align: justify;
-  letter-spacing: 0.8px;
-  &.light {
-    color: var(--third-light);
-  }
-  &.dark {
-    color: var(--third-dark);
-  }
-  margin: 10px 0;
-  margin-top: 15px;
-  &::first-letter {
-    color: var(--green);
-    font-size: 1.2rem;
-    margin-left: 20px;
-    font-weight: bold;
-  }
-}
-
 .add-rate {
   justify-content: space-between;
   width: 90%;
@@ -151,18 +131,6 @@ p {
     outline: 0;
     font-size: 1rem;
     white-space: nowrap;
-  }
-}
-
-.heart-parent {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.8rem;
-  background: transparent !important;
-
-  svg {
-    transform: scale(0.4);
   }
 }
 
@@ -188,44 +156,6 @@ p {
   top: -3px;
   white-space: nowrap;
   padding: 0 10px;
-}
-
-.heading-slider {
-  margin: 0;
-  margin-top: 50px !important;
-}
-
-.stock-par {
-  color: var(--light-text);
-  white-space: nowrap;
-
-  .stock {
-    color: var(--green);
-    margin: 3px;
-    margin-left: 4px;
-    font-weight: bold;
-  }
-  .stock-card {
-    &.light {
-      color: var(--third-light);
-    }
-    &.dark {
-      color: var(--third-dark);
-    }
-  }
-}
-
-.stock-icon {
-  color: var(--light-text);
-  display: inline-flex;
-  width: fit-content;
-  height: fit-content;
-  padding: 2.5px;
-  background: var(--wheat-lighter);
-  border-radius: 50%;
-  svg {
-    font-size: 0.8rem;
-  }
 }
 
 .title {

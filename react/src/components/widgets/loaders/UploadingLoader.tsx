@@ -1,4 +1,3 @@
-import React from "react";
 import FadeElement from "../animation/FadeElement";
 import GridLoader from "./GridLoader";
 
@@ -6,8 +5,8 @@ const UploadingLoader = ({ bool }: { bool: boolean }) => {
   return (
     <>
       {bool && (
-        <FadeElement cls="updating">
-          <GridLoader cls="loading center" />
+        <FadeElement className="updating">
+          <GridLoader className="loading center" />
         </FadeElement>
       )}
     </>

@@ -1,16 +1,20 @@
-import { productListContext } from "@/context/ProductsContext";
 import { Sort_BY_Rate } from "@/graphql/mutations/product";
 import { useMutation } from "@apollo/client";
-import { useContext } from "react";
 import useParams from "./useParams";
-
+import { useAppDispatch } from "./reduxTypes";
+import {
+  skeltonProductSlice,
+  addToProductRedux,
+  changeTotalProductsCount,
+} from "@/redux/productSlice";
 const useSortByRate = () => {
   const [sortProductsbyRate] = useMutation(Sort_BY_Rate);
-  const { setProducts, setTotalProductsNum } = useContext(productListContext);
-
+  const dispatch = useAppDispatch();
   const { getParam } = useParams();
   const HandleSortProductsByRate = (sortType: number) => {
     const page = getParam("page") || 1;
+    dispatch(skeltonProductSlice());
+
     sortProductsbyRate({
       variables: {
         input: {
@@ -20,9 +24,9 @@ const useSortByRate = () => {
         },
       },
     }).then(({ data }) => {
-      console.log(data);
-      setProducts(data.SortByRate.products);
-      setTotalProductsNum(data.SortByRate.totalProducts);
+      const res = data?.SortByRate;
+      dispatch(addToProductRedux(res?.products));
+      dispatch(changeTotalProductsCount(res?.totalProducts));
     });
   };
 

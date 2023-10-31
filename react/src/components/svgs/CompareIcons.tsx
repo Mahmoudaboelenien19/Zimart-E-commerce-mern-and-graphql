@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import Title from "../widgets/Title";
 import { MdPlaylistAdd, MdPlaylistRemove } from "react-icons/md";
-
 import { useMutation } from "@apollo/client";
-
 import { toast } from "react-hot-toast";
 import { isAuthContext } from "@/context/isAuth";
 import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
 import useRemoveFromCompareList from "@/custom/useRemoveFromCompareList";
 import { AddTo_Compare } from "@/graphql/mutations/user";
 import { addToCompareRedux } from "@/redux/compareSlice";
-import { opacityVariant } from "@/variants/globals";
+import FadeElement from "../widgets/animation/FadeElement";
 
 interface Props {
   id: string;
@@ -24,7 +22,7 @@ const CompareIcons = ({ id, title }: Props) => {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const check = compare.some((obj) => obj.productId === id);
+    const check = compare.some((obj) => obj?.productId === id);
     if (check) {
       setAtCompare(true);
     } else {
@@ -53,39 +51,21 @@ const CompareIcons = ({ id, title }: Props) => {
     productId: id,
   });
   return (
-    <div>
-      <AnimatePresence mode="wait">
-        {atCompare ? (
-          <motion.span
-            key={"remove-from-compare"}
-            variants={opacityVariant}
-            transition={{ duration: 0.8 }}
-            initial="start"
-            animate="end"
-            exit={"exit"}
-            onClick={handleRemoveFromCompare}
-          >
-            <Title title="remove from compareList">
-              <MdPlaylistRemove fontSize={16} />
-            </Title>
-          </motion.span>
-        ) : (
-          <motion.span
-            key={"add-to-compare"}
-            variants={opacityVariant}
-            transition={{ duration: 0.8 }}
-            initial="start"
-            animate="end"
-            exit={"exit"}
-            onClick={handleAddToCompare}
-          >
-            <Title title="add to compareList">
-              <MdPlaylistAdd fontSize={16} />
-            </Title>
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </div>
+    <AnimatePresence mode="wait">
+      {atCompare ? (
+        <Title title="remove from compareList" key={"remove-from-compare"}>
+          <FadeElement onClick={handleRemoveFromCompare} className="center">
+            <MdPlaylistRemove size={16} />
+          </FadeElement>
+        </Title>
+      ) : (
+        <Title title="add to compareList" key={"add-to-compare"}>
+          <FadeElement onClick={handleAddToCompare} className="center">
+            <MdPlaylistAdd size={16} />
+          </FadeElement>
+        </Title>
+      )}
+    </AnimatePresence>
   );
 };
 

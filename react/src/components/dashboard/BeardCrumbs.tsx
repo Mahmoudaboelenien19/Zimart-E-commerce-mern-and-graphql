@@ -1,11 +1,15 @@
-import { AnimatePresence } from "framer-motion";
-import React from "react";
-import { FaGreaterThan } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
+import { LiaGreaterThanSolid } from "react-icons/lia";
 import { NavLink, useLocation } from "react-router-dom";
 import FadeElement from "../widgets/animation/FadeElement";
+import useParams from "@/custom/useParams";
+import useIsMobile from "@/custom/useIsMobile";
+import { AiFillHome } from "react-icons/ai";
 
 const BeardCrumbs = () => {
   const location = useLocation();
+  const { showDashBoaedAside } = useParams();
+
   let to = ``;
   const crumbsArr = location.pathname.split("/");
   const crumbs = crumbsArr
@@ -14,33 +18,52 @@ const BeardCrumbs = () => {
     .map((crumb, i, arr) => {
       to += `/${crumb}`;
       return (
-        <FadeElement cls="center gap" key={crumb + i} delay={0.1}>
-          <NavLink className={"crumb-link"} to={to}>
-            {crumb}
-          </NavLink>
+        <AnimatePresence key={crumb + i}>
+          <FadeElement className="center gap" delay={0.1}>
+            <NavLink
+              className={"crumb-link"}
+              to={
+                to + `${showDashBoaedAside ? "?showDashBoaedAside=true" : ""}`
+              }
+            >
+              {crumb}
+            </NavLink>
 
-          <AnimatePresence>
             {i !== arr.length - 1 && (
-              <FaGreaterThan
+              <LiaGreaterThanSolid
                 key={crumb + "greaterThan"}
                 fontSize={".8rem"}
-                color="var(--wheat-light)"
+                size={"min(12px, 1.2rem)"}
+                color="var(--wheat-lighter)"
                 className="crumb-icon"
               />
             )}
-          </AnimatePresence>
-        </FadeElement>
+          </FadeElement>
+        </AnimatePresence>
       );
     });
-
+  const { isMobile } = useIsMobile();
   return (
-    <div className="crumbs ">
-      <NavLink className={"crumb-link"} to={"/"}>
-        Home
-      </NavLink>
-      {crumbsArr.length > 2 && <div className="crumbs-line"></div>}
-      <AnimatePresence>{crumbs}</AnimatePresence>
-    </div>
+    <AnimatePresence initial={false}>
+      <motion.div
+        className="crumbs  center relative"
+        animate={{ left: showDashBoaedAside && !isMobile ? 310 : 20 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.3,
+          //  ease: "easeInOut"
+        }}
+      >
+        <div className="home center gap">
+          <AiFillHome color="var(--third-light)" size={"min(12px, 1.2rem)"} />
+          <NavLink className={" crumb-link  gap"} to={"/"}>
+            Home
+          </NavLink>
+        </div>
+        {crumbsArr.length > 2 && <div className="crumbs-line" />}
+        {crumbs}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

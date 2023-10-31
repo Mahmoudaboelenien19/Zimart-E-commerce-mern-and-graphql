@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductInterface } from "../interfaces/product";
 
-const initialState: { Allproducts: ProductInterface[] } = {
+type ProductSlice = { Allproducts: ProductInterface[]; totalProducts: number };
+const initialState: ProductSlice = {
   Allproducts: [],
+  totalProducts: 0,
 };
 
 const productSlice = createSlice({
@@ -11,7 +13,7 @@ const productSlice = createSlice({
   reducers: {
     addToProductRedux(state, action) {
       if (Array.isArray(action.payload)) {
-        state.Allproducts = [...action.payload, ...state.Allproducts];
+        state.Allproducts = action.payload;
       } else {
         state.Allproducts = [action.payload, ...state.Allproducts];
       }
@@ -29,13 +31,24 @@ const productSlice = createSlice({
         obj._id === action.payload._id ? { ...obj, ...action.payload.obj } : obj
       );
     },
+    changeTotalProductsCount(state, action) {
+      state.totalProducts = action.payload;
+    },
+    skeltonProductSlice(state) {
+      state.Allproducts = Array.from({ length: 12 });
+    },
+    clearProductRedux(state) {
+      state.Allproducts = [];
+    },
   },
 });
 
 export const {
   addToProductRedux,
   removeFromProductRedux,
-
+  skeltonProductSlice,
   updateProductRedux,
+  clearProductRedux,
+  changeTotalProductsCount,
 } = productSlice.actions;
 export default productSlice.reducer;

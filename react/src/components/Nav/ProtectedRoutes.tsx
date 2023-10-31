@@ -1,11 +1,19 @@
-import React from "react";
+import { isAuthContext } from "@/context/isAuth";
+import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-type Props = {
-  isAuth: boolean;
-};
-const ProtectedRoutes = ({ isAuth }: Props) => {
-  return <>{isAuth ? <Outlet /> : <Navigate to="/login" />}</>;
+const ProtectedRoutes = () => {
+  const { isAuth } = useContext(isAuthContext);
+  console.log({ isAuth });
+  if (isAuth) {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
+  } else {
+    return <Navigate to="/login" />;
+  }
 };
 
 export default ProtectedRoutes;

@@ -1,46 +1,58 @@
-import { AnimatePresence } from "framer-motion";
-import React from "react";
-
+import { AnimatePresence, motion } from "framer-motion";
 import MobileCloseDropDown from "./MobileCloseDropDown";
 import useClickOutside from "@/custom/useClickOutside";
 import { ChildrenInterFace } from "@/interfaces/general";
-
+import clsx from "clsx";
+import { dropdownVariant } from "@/lib/variants/globals";
+import useIsMobile from "@/custom/useIsMobile";
 interface Props extends ChildrenInterFace {
   bool: boolean;
-  head?: string;
-  cls: string;
-  title: string;
+  className?: string;
   isUser?: boolean;
+  addCloseIcon?: boolean;
+  height?: number;
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DropDown = ({ bool, head, cls, setter, title, children }: Props) => {
+const DropDown = ({
+  bool,
+  className,
+  setter,
+  height,
+  addCloseIcon,
+  children,
+}: Props) => {
   const ref = useClickOutside<HTMLDivElement>(() => {
     setter(false);
   }, bool);
-
+  const { isMobile } = useIsMobile();
+  const h: string | number = !height
+    ? "auto"
+    : isMobile && addCloseIcon
+    ? "100vh"
+    : height;
   return (
     <section ref={ref}>
       <AnimatePresence mode="wait">
         {bool && (
-          <div className={`dropdown ${cls}`}>
-            {cls !== "user-drop" && (
-              <MobileCloseDropDown setter={setter} title={title} />
+          <motion.div
+            className={clsx(
+              "dropdown",
+              className,
+              isMobile && addCloseIcon && "mobile"
             )}
-            {head && (
-              <h3
-                className="underline header header-sm underline-sm"
-                style={{
-                  width: "fit-content",
-                  margin: "10px 0 10px 5px",
-                }}
-              >
-                {head}
-              </h3>
+            variants={dropdownVariant}
+            initial="start"
+            animate="end"
+            exit={"exit"}
+            custom={h}
+          >
+            {addCloseIcon && isMobile && (
+              <MobileCloseDropDown setter={setter} />
             )}
 
             {children}
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>

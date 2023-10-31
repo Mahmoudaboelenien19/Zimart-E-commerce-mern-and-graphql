@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 
 const CountUpAnimation = ({
@@ -29,7 +29,7 @@ const CountUpAnimation = ({
     });
   }, [num, springValue]);
 
-  return <span ref={ref}></span>;
+  return <span ref={ref} />;
 };
 
 export default CountUpAnimation;

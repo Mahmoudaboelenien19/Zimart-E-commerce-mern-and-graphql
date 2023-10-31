@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-
 import DashForm from "./DashForm";
 import { useMutation } from "@apollo/client";
 import { Add_Product } from "@/graphql/mutations/product";
+import useTitle from "@/custom/useTitle";
 
 export const Component = () => {
   const [addProductFn] = useMutation(Add_Product);
-  useEffect(() => {
-    setTimeout(() => {
-      document.title = "Dashboaed | Add Product";
-    }, 1000);
-  }, []);
+  useTitle("Dashboaed | Add Product");
+
   return (
     <DashForm
       key={"addProduct"}

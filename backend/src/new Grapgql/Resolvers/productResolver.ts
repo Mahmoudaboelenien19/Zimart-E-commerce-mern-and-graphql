@@ -1,10 +1,10 @@
-import { ProductInterface } from "./../../../../react/src/interfaces/product.d";
 import { SkipAndLimit } from "./../interfaces/graqphInterfaces";
 import cloudinary from "cloudinary";
 import productCollection from "../../mongoose/schema/product.js";
 import { pubsub } from "../context.js";
 import { userCollection } from "../../mongoose/schema/user.js";
 import { OrderCollection } from "../../mongoose/schema/order";
+import { productInterface } from "../interfaces/product";
 
 interface filterAllInterface {
   input: {
@@ -18,20 +18,10 @@ interface filterAllInterface {
 }
 type Data = {
   data: {
-    products: ProductInterface[];
+    products: productInterface[];
     totalCount: number;
   }[];
 };
-interface productInterface {
-  title: string;
-  state: string;
-  _id: string;
-  stock: number;
-  price: number;
-  description: string;
-  category: string;
-  createdAt?: string;
-}
 
 interface reviewInterface {
   image: string;
@@ -55,22 +45,20 @@ export const productResolver = {
     async product(_: any, args: { id: string }) {
       return await productCollection.findById(args.id);
     },
-    async getDashBoardData() {
-      //return nneeded data for last mwo months
-      const twoMonthsAgo = new Date();
-      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
-      const orders = await OrderCollection.find(
-        { createdAt: { $gte: twoMonthsAgo } },
-        { createdAt: 1, cost: 1 }
-      );
+    async getDashBoardData(_: unknown, { id }: { id: string }) {
+      const orders = await OrderCollection.find({}, { createdAt: 1, cost: 1 });
       const products = await productCollection.find({}, { createdAt: 1 });
       const users = await userCollection.find({}, { createdAt: 1 });
+      const notificationsCount = (await userCollection.findById(id, {
+        notificationsCount: 1,
+        _id: 0,
+      })) as { notificationsCount: number };
 
       return {
         orders,
         products,
         users,
+        notificationsCount: notificationsCount?.notificationsCount || 0,
       };
     },
   },
@@ -133,12 +121,7 @@ export const productResolver = {
 
       return { products, totalProducts };
     },
-    async filterBycatageory(_: unknown, args: { category: string }) {
-      return productCollection.find({ category: args.category });
-    },
-    async filterByState(_: unknown, args: { state: string }) {
-      return productCollection.find({ state: args.state });
-    },
+
     async filterAllTypes(_: unknown, args: filterAllInterface) {
       try {
         const data = await productCollection.aggregate([
@@ -418,6 +401,9 @@ export const productResolver = {
         );
         pubsub.publish("Single_Product_Updated", {
           singleProductUpdate: newReview,
+        });
+        pubsub.publish("Product_Updated", {
+          productUpdated: newReview,
         });
         return { msg: "review updated successfully" };
       } catch (err) {

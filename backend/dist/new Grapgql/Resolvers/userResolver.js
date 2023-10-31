@@ -22,16 +22,80 @@ const hashPassword_js_1 = require("../../middlewares/hashPassword.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
 const context_js_1 = require("../context.js");
 const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
+const mongodb_1 = require("mongodb");
 exports.userResolver = {
     Query: {
         users(_, { limit, skip }) {
             return __awaiter(this, void 0, void 0, function* () {
                 const totalUsers = yield user_js_1.userCollection.find().count();
-                const users = yield user_js_1.userCollection.find().limit(limit).skip(skip);
+                const users = yield user_js_1.userCollection
+                    .find()
+                    .sort({ createdAt: -1 })
+                    .limit(limit)
+                    .skip(skip);
                 return {
                     totalUsers,
                     users,
                 };
+            });
+        },
+        getNotifications(_, { input: { id, skip, limit, type }, }) {
+            var _a;
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    if (type === "unread") {
+                        const data = yield user_js_1.userCollection.aggregate([
+                            {
+                                $match: {
+                                    _id: new mongodb_1.ObjectId(id),
+                                },
+                            },
+                            {
+                                $project: {
+                                    notifications: {
+                                        $filter: {
+                                            input: "$notifications",
+                                            as: "notification",
+                                            cond: { $eq: ["$$notification.isRead", false] },
+                                        },
+                                    },
+                                },
+                            },
+                            {
+                                $project: {
+                                    data: {
+                                        $sortArray: {
+                                            input: "$notifications",
+                                            sortBy: { createdAt: -1 },
+                                        },
+                                    },
+                                },
+                            },
+                            {
+                                $project: {
+                                    data: {
+                                        $slice: ["$data", skip, limit],
+                                    },
+                                },
+                            },
+                        ]);
+                        return ((_a = data[0]) === null || _a === void 0 ? void 0 : _a.data) || [];
+                    }
+                    else {
+                        const data = yield user_js_1.userCollection.findById(id, {
+                            notifications: 1,
+                        });
+                        return (data === null || data === void 0 ? void 0 : data.notifications.reverse().slice(skip, limit + skip)) || [];
+                    }
+                }
+                catch (er) {
+                    console.log(er);
+                }
+            });
+        },
+        getUserData(_, args) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield user_js_1.userCollection.findById(args.id);
             });
         },
     },
@@ -53,6 +117,13 @@ exports.userResolver = {
             });
         },
     },
+    Fav: {
+        product(par) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield product_js_1.default.findById(par.parentId);
+            });
+        },
+    },
     Mutation: {
         addUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             const check = yield user_js_1.userCollection.find({ email: input.email });
@@ -66,8 +137,8 @@ exports.userResolver = {
             else {
                 const res = yield user_js_1.userCollection.create(Object.assign(Object.assign({}, input), { createdAt: new Date().toISOString(), image: input.image ||
                         "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png", password: (0, hashPassword_js_1.hashPassword)(input.password), role: "user" }));
-                context_js_1.pubsub.publish("User_Added", {
-                    AddUser: res,
+                context_js_1.pubsub.publish("NEW_USER", {
+                    NeWUser: res,
                 });
                 const notificationObj = {
                     isRead: false,
@@ -126,11 +197,6 @@ exports.userResolver = {
                 return err.message;
             }
         }),
-        getUserData(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return yield user_js_1.userCollection.findById(args.id);
-            });
-        },
         addToCart: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const res = yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
@@ -278,44 +344,40 @@ exports.userResolver = {
                 return { status: 200 };
             });
         },
-        updateUserName(_, args) {
+        updateUserData(_, { input: { _id, target, value } }) {
             return __awaiter(this, void 0, void 0, function* () {
-                yield user_js_1.userCollection.findByIdAndUpdate(args._id, { name: args.name });
-                return { status: 200, msg: "username is successfully updated  " };
-            });
-        },
-        updateUserCountry(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
-                    country: args.country,
-                });
-                return { status: 200, msg: "your country  is successfully updated  " };
-            });
-        },
-        updateUserPhone(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                yield user_js_1.userCollection.findByIdAndUpdate(args._id, { phone: args.phone });
-                return { status: 200 };
-            });
-        },
-        updateEmail(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const check = yield user_js_1.userCollection.find({ email: args.email });
-                if (check.length) {
-                    return { msg: "this email already used", status: 401 };
+                try {
+                    if (target != "email") {
+                        const res = yield user_js_1.userCollection.findByIdAndUpdate(_id, {
+                            [target]: value,
+                        });
+                        return { status: 200, msg: "data is updated successfully" };
+                    }
+                    else if (target === "email") {
+                        const check = yield user_js_1.userCollection.find({ email: value });
+                        if (check.length) {
+                            return { msg: "this email already used", status: 401 };
+                        }
+                        else {
+                            yield user_js_1.userCollection.findByIdAndUpdate(_id, {
+                                email: value,
+                            });
+                            return { msg: "your email is updated successfully", status: 200 };
+                        }
+                    }
+                    return null;
                 }
-                else {
-                    yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
-                        email: args.email,
-                    });
-                    return { msg: "your email is updated successfully", status: 200 };
+                catch (err) {
+                    console.log(err);
                 }
             });
         },
         updatePassword(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
+                console.log("worked");
                 const result = yield (0, authenticate_js_1.checkOldPass)(args._id, args.oldPassword);
                 if (result) {
+                    console.log({ result });
                     yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
                         password: (0, hashPassword_js_1.hashPassword)(args.newPassword),
                     });
@@ -328,36 +390,41 @@ exports.userResolver = {
         },
         updateUserImage(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                const result = yield new Promise((resolve, reject) => {
-                    const stream = args.image.file.createReadStream();
-                    const uploadStream = cloudinary_1.default.v2.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
-                        if (error) {
-                            reject(error);
-                        }
-                        else {
-                            resolve(result);
-                        }
+                try {
+                    const result = yield new Promise((resolve, reject) => {
+                        const stream = args.image.file.createReadStream();
+                        const uploadStream = cloudinary_1.default.v2.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
+                            if (error) {
+                                reject(error);
+                            }
+                            else {
+                                resolve(result);
+                            }
+                        });
+                        stream.pipe(uploadStream);
                     });
-                    stream.pipe(uploadStream);
-                });
-                const url = result.secure_url;
-                if (url) {
-                    yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
-                        image: url,
-                    });
-                    return { status: 200, msg: "you profile successfully updated" };
+                    const url = result.secure_url;
+                    if (url) {
+                        yield user_js_1.userCollection.findByIdAndUpdate(args._id, {
+                            image: url,
+                        });
+                        return { status: 200, msg: "you profile successfully updated" };
+                    }
+                    else {
+                        return { status: 404, msg: "faild to upload" };
+                    }
                 }
-                else {
-                    return { status: 404, msg: "faild to upload" };
+                catch (err) {
+                    console.log(err);
                 }
             });
         },
     },
     Subscription: {
-        AddUser: {
+        NeWUser: {
             subscribe() {
                 return __awaiter(this, void 0, void 0, function* () {
-                    return context_js_1.pubsub.asyncIterator("User_Added");
+                    return context_js_1.pubsub.asyncIterator("NEW_USER");
                 });
             },
         },

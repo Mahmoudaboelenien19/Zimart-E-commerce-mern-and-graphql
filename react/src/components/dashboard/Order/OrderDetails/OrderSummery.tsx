@@ -1,8 +1,7 @@
-import React from "react";
 import OrderDetail from "../Table/OrderDetail";
 
 import { motion } from "framer-motion";
-import { reverseVariant } from "@/variants/globals";
+import { reverseVariant } from "@/lib/variants/globals";
 interface Props {
   delivered: string;
   created: string;

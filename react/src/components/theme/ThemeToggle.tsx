@@ -1,27 +1,28 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { TbMoonFilled } from "react-icons/tb";
 import { themeContext } from "../../context/ThemContext";
 import Title from "../widgets/Title";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaSun } from "react-icons/fa";
-import useNavTransition from "@/custom/useNavTransition";
+import useIsMobile from "@/custom/useIsMobile";
 
-const ThemeToggle = ({ isDash = false }: { isDash?: boolean }) => {
+const variant = {
+  start: (theme: string) => ({ x: theme === "light" ? 0 : 10 }),
+  end: (theme: string) => ({
+    x: theme === "dark" ? 0 : 10,
+    rotate: theme === "light" ? 360 : -360,
+  }),
+};
+const ThemeToggle = () => {
   const { toggleTheme, theme } = useContext(themeContext);
-  const variant = {
-    start: { x: theme === "light" ? 0 : 10 },
-    end: {
-      x: theme === "dark" ? 0 : 10,
-      rotate: theme === "light" ? 360 : -360,
-    },
-  };
 
-  const { navRef, LinkClr } = useNavTransition<HTMLDivElement>();
+  const { isMobile, isMidScreen } = useIsMobile();
+
   return (
-    <motion.div className="theme" ref={navRef}>
+    <motion.div className="theme">
       <Title
         title={theme === "light" ? "apply dark mode" : "apply light mode"}
-        dir="right"
+        dir={!isMobile || !isMidScreen ? "right" : "left"}
       >
         <AnimatePresence initial={false}>
           <motion.div
@@ -29,16 +30,12 @@ const ThemeToggle = ({ isDash = false }: { isDash?: boolean }) => {
             variants={variant}
             animate="end"
             initial="start"
-            style={{ color: isDash ? "var(--third)" : LinkClr }}
+            custom={theme}
           >
             {theme === "dark" ? (
-              <TbMoonFilled
-                style={{ color: isDash ? "var(--third)" : "inherit" }}
-                onClick={toggleTheme}
-                className="above"
-              />
+              <TbMoonFilled onClick={toggleTheme} color="var(--third)" />
             ) : (
-              <FaSun className="above sun" onClick={toggleTheme} />
+              <FaSun className="sun" onClick={toggleTheme} />
             )}
           </motion.div>
         </AnimatePresence>

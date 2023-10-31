@@ -1,9 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
-import React, { useContext, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useContext, useState } from "react";
 import Favorite from "./Favorite";
-
 import { useMutation } from "@apollo/client";
-import NoData from "@/components/widgets/NoData";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import SlideButton from "@/components/widgets/buttons/SlideButton";
 import DropDown from "@/components/widgets/dropdowns/DropDown";
@@ -11,8 +9,7 @@ import { isAuthContext } from "@/context/isAuth";
 import { useAppDispatch, useAppSelector } from "@/custom/reduxTypes";
 import { Clear_Fav } from "@/graphql/mutations/user";
 import { clearAllFav } from "@/redux/favSlice";
-import { opacityVariant } from "@/variants/globals";
-
+import "./fav.scss";
 interface Props {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   showFav: boolean;
@@ -40,25 +37,19 @@ const WishList = ({ showFav, setter }: Props) => {
   };
 
   return (
-    <>
-      <DropDown
-        cls="fav-drop"
-        head=" your wishlist"
-        bool={showFav}
-        setter={setter}
-        title={"close your wishlist"}
-      >
-        <NoData
-          length={fav.length >= 1}
-          message="your wishlist is empty"
-          cls="no-data-80"
-        >
-          <motion.div
-            variants={opacityVariant}
-            className="center"
-            style={{ justifyContent: "flex-end", padding: "0 5px" }}
-          >
+    <DropDown
+      className="fav-drop "
+      height={400}
+      addCloseIcon
+      bool={showFav}
+      setter={setter}
+    >
+      <h2 className="header">Your Wishlist</h2>
+      <AnimatePresence>
+        {fav.length >= 1 && (
+          <FadeElement className="center end">
             <button
+              style={{ padding: "4px 8px" }}
               className=" btn unsave "
               onClick={() => {
                 setShowClearFav(true);
@@ -67,40 +58,44 @@ const WishList = ({ showFav, setter }: Props) => {
             >
               clear All
             </button>
-          </motion.div>
-          <AnimatePresence mode="wait">
-            {fav.length >= 1 ? (
-              <FadeElement key={"fav-parent"} cls="center col">
-                <AnimatePresence>
-                  {fav.map((ob) => {
-                    return (
-                      <Favorite key={ob.productId} {...ob} setter={setter} />
-                    );
-                  })}
-                </AnimatePresence>
-              </FadeElement>
-            ) : (
-              <FadeElement key={"no-data-fav"} cls="shadow no-data-fav center">
-                no data in your wishlist
-              </FadeElement>
-            )}
-          </AnimatePresence>
-        </NoData>
+          </FadeElement>
+        )}
+      </AnimatePresence>
 
+      <AnimatePresence mode="wait">
+        {fav.length >= 1 ? (
+          <FadeElement key={"fav-parent"} className="center col gap">
+            <AnimatePresence>
+              {fav.map((ob) => {
+                return <Favorite key={ob?.productId} {...ob} setter={setter} />;
+              })}
+            </AnimatePresence>
+          </FadeElement>
+        ) : (
+          <FadeElement
+            key={"no-data-fav"}
+            className="shadow no-data-fav center"
+          >
+            <p>no data in your wishlist</p>
+          </FadeElement>
+        )}
+      </AnimatePresence>
+      {showClearFav && (
         <SlideButton
           bool={showClearFav}
           key={"slide-button-clear"}
           sethide={setShowClearFav}
           doneMsg="All CLeared"
-          head="are you sure you want to clear All?"
+          head=" Clear All !"
+          pragrapgh="are you sure you want to permanently clear your wishlist ?"
           fn={handleClearFav}
           Status={Status}
           isVaild
         >
           {" "}
         </SlideButton>
-      </DropDown>
-    </>
+      )}
+    </DropDown>
   );
 };
 

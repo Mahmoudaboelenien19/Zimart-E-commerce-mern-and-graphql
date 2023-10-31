@@ -33,18 +33,20 @@ exports.productResolver = {
                 return yield product_js_1.default.findById(args.id);
             });
         },
-        getDashBoardData() {
+        getDashBoardData(_, { id }) {
             return __awaiter(this, void 0, void 0, function* () {
-                //return nneeded data for last mwo months
-                const twoMonthsAgo = new Date();
-                twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-                const orders = yield order_1.OrderCollection.find({ createdAt: { $gte: twoMonthsAgo } }, { createdAt: 1, cost: 1 });
+                const orders = yield order_1.OrderCollection.find({}, { createdAt: 1, cost: 1 });
                 const products = yield product_js_1.default.find({}, { createdAt: 1 });
                 const users = yield user_js_1.userCollection.find({}, { createdAt: 1 });
+                const notificationsCount = (yield user_js_1.userCollection.findById(id, {
+                    notificationsCount: 1,
+                    _id: 0,
+                }));
                 return {
                     orders,
                     products,
                     users,
+                    notificationsCount: (notificationsCount === null || notificationsCount === void 0 ? void 0 : notificationsCount.notificationsCount) || 0,
                 };
             });
         },
@@ -93,16 +95,6 @@ exports.productResolver = {
                     { $limit: limit },
                 ]);
                 return { products, totalProducts };
-            });
-        },
-        filterBycatageory(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return product_js_1.default.find({ category: args.category });
-            });
-        },
-        filterByState(_, args) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return product_js_1.default.find({ state: args.state });
             });
         },
         filterAllTypes(_, args) {
@@ -336,6 +328,9 @@ exports.productResolver = {
                     }, { new: true });
                     context_js_1.pubsub.publish("Single_Product_Updated", {
                         singleProductUpdate: newReview,
+                    });
+                    context_js_1.pubsub.publish("Product_Updated", {
+                        productUpdated: newReview,
                     });
                     return { msg: "review updated successfully" };
                 }

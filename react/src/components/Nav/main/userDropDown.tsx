@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { RiLogoutCircleRFill } from "react-icons/ri";
@@ -33,12 +33,7 @@ const UserDropDown = ({ bool, setter }: Props) => {
   ];
 
   return (
-    <DropDown
-      cls="user-drop"
-      bool={bool}
-      setter={setter}
-      title={"close user dropdown"}
-    >
+    <DropDown className="user-drop" bool={bool} setter={setter}>
       <div className="w-100">
         <div className="user-drop-img center gap">
           <ProfileImg dimension={30} />

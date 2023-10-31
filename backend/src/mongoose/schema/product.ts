@@ -1,36 +1,10 @@
 import mongoose, { Model } from "mongoose";
+import { productInterface } from "../../new Grapgql/interfaces/product";
 
 const imageSchema = new mongoose.Schema({
   productPath: String,
   ProductName: String,
 });
-
-interface imageInterface {
-  productPath: string;
-  ProductName: string;
-}
-
-interface reviewInterface {
-  image: string;
-  user: string;
-  userId: string;
-  review: string;
-
-  rate: number;
-  status?: number;
-  msg?: string;
-}
-
-export interface productInterface {
-  title: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  images: imageInterface[];
-  rating: number[];
-  reviews: reviewInterface[];
-}
 
 const reviewSchema = new mongoose.Schema({
   image: String,

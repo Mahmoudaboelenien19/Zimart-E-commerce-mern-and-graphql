@@ -152,7 +152,7 @@ app.use("/token", tokensRoutes_js_1.AuthRouter);
             origin: config_js_1.Client_Url,
         },
     });
-    httpServer.listen({ port: 3000 }, () => {
+    httpServer.listen({ port: 4000 }, () => {
         console.log("server-runs");
     });
 }))();

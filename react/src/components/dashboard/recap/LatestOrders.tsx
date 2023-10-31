@@ -1,5 +1,4 @@
-import { OrderInterface } from "@/interfaces/order";
-import React from "react";
+import { OrderInterface } from "@/interfaces/order.interface";
 import OrderRecap from "./OrderRecap";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_ORDERS } from "@/graphql/queries";
@@ -13,7 +12,7 @@ const LatestOrders = () => {
   });
 
   return (
-    <div className="col center order-recap-par">
+    <div className="col center gap order-recap-par">
       {data?.orders?.orders?.map((order: OrderInterface) => {
         return <OrderRecap key={order._id} {...order} />;
       })}

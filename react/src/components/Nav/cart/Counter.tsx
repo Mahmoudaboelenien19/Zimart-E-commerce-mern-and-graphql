@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAnimate } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-hot-toast";

@@ -18,19 +18,9 @@ export const GET_ALL_USERS = gql`
         _id
         email
         name
-        image
-        country
-        phone
         createdAt
         lastLogIn
         role
-        fav {
-          productId
-        }
-
-        cart {
-          productId
-        }
       }
     }
   }
@@ -83,45 +73,6 @@ export const Authenticate_Query = gql`
     authenticate(email: $email, password: $password) {
       msg
       status
-      user {
-        email
-        name
-        image
-        country
-        phone
-        role
-        notificationsCount
-        notifications {
-          isRead
-          createdAt
-          content
-          link
-          _id
-        }
-        fav {
-          productId
-          price
-          title
-          path
-          parentId
-          _id
-        }
-
-        cart {
-          count
-          productId
-          price
-          title
-          parentId
-
-          path
-          _id
-        }
-        compare {
-          productId
-          title
-        }
-      }
     }
   }
 `;
@@ -135,7 +86,7 @@ export const Update_User_ROle = gql`
 `;
 
 export const GET_USER_DATA = gql`
-  mutation ($id: ID!) {
+  query ($id: ID!) {
     getUserData(id: $id) {
       email
       name
@@ -143,19 +94,14 @@ export const GET_USER_DATA = gql`
       country
       phone
       role
-      notificationsCount
       _id
-      notifications {
-        isRead
-        createdAt
-        content
-        link
-        _id
-      }
+
       fav {
         productId
-        price
-        title
+        product {
+          price
+          title
+        }
         path
         parentId
         _id
@@ -215,35 +161,9 @@ export const update_Review = gql`
   }
 `;
 
-export const Update_user_name = gql`
-  mutation ($_id: ID!, $name: String!) {
-    updateUserName(name: $name, _id: $_id) {
-      msg
-      status
-    }
-  }
-`;
-export const Update_Country = gql`
-  mutation ($_id: ID!, $country: String!) {
-    updateUserCountry(country: $country, _id: $_id) {
-      msg
-      status
-    }
-  }
-`;
-
-export const Update_User_Phone = gql`
-  mutation ($_id: ID!, $phone: String!) {
-    updateUserPhone(phone: $phone, _id: $_id) {
-      msg
-      status
-    }
-  }
-`;
-
-export const Update_User_Email = gql`
-  mutation ($_id: ID!, $email: String!) {
-    updateEmail(email: $email, _id: $_id) {
+export const UPDATE_USER_DATA = gql`
+  mutation ($input: updateUserDataInput) {
+    updateUserData(input: $input) {
       msg
       status
     }
@@ -330,46 +250,26 @@ export const Update_Profile_Img = gql`
 `;
 
 export const User_Added_Sub = gql`
-  subscription AddUser {
-    AddUser {
+  subscription NeWUser {
+    NeWUser {
+      _id
       email
       name
-      image
-      country
-      phone
+      createdAt
+      lastLogIn
       role
-      notificationsCount
+    }
+  }
+`;
+
+export const GET_NOTiFICATIONS = gql`
+  query ($input: NotificationInput) {
+    getNotifications(input: $input) {
+      isRead
+      createdAt
+      content
+      link
       _id
-      notifications {
-        isRead
-        createdAt
-        content
-        link
-        _id
-      }
-      fav {
-        productId
-        price
-        title
-        path
-        parentId
-        _id
-      }
-
-      cart {
-        count
-        productId
-        price
-        title
-        parentId
-
-        path
-        _id
-      }
-      compare {
-        productId
-        title
-      }
     }
   }
 `;

@@ -1,0 +1,128 @@
+@import "@/styles/variables.scss";
+
+.user-page {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
+  &.container {
+    padding-top: 60px;
+  }
+
+  .user-image {
+    padding: 25px 20px;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: var(--green-light);
+    flex-direction: column;
+    gap: 10px;
+    .user-img-btn {
+      background: linear-gradient(210deg, var(--wheat), rgba(0, 0, 0, 0.303));
+    }
+  }
+
+  .user-details {
+    width: 70%;
+    height: 100%;
+    padding: 20px;
+    background: var(--wheat-lighter);
+
+    .user-detail-par {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      .details {
+        padding: 0 20px;
+        font-size: min(16px, 1.5rem);
+        p {
+          font-size: min(16px, 1.5rem);
+          opacity: 0.9;
+          color: rgba(0, 0, 0, 0.693);
+        }
+        .detail {
+          width: 10ch;
+        }
+      }
+      .user-value {
+        width: 50ch;
+        &.capatilize {
+          text-transform: capitalize;
+        }
+      }
+    }
+    button.update-user {
+      height: 30px;
+      padding: 0 8px;
+      font-size: 0.8rem;
+      background: var(--green);
+      svg {
+        path {
+          stroke: white;
+        }
+      }
+    }
+    .user-head {
+      width: fit-content;
+      margin: 10px 5px;
+    }
+  }
+}
+
+form.update-user-form {
+  gap: 40px;
+  background-color: transparent;
+  h2 {
+    margin-bottom: 0;
+    text-transform: capitalize;
+  }
+  .btns {
+    gap: 40px;
+    button {
+      width: 7rem;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .user-page {
+    flex-direction: column;
+    width: 100%;
+
+    .user-image {
+      width: 100%;
+      height: 45vh;
+      .user-img-par {
+        height: 150px;
+        width: 150px;
+      }
+    }
+
+    .user-details {
+      width: 100%;
+      .user-value {
+        width: 15ch;
+      }
+    }
+  }
+}
+
+input[type="range"] {
+  accent-color: var(--green-light);
+  max-width: 300px;
+}
+
+.file-inp {
+  opacity: 0;
+  position: absolute;
+  z-index: -10;
+}
+
+.avater-head {
+  margin: 12px auto;
+}
+
+.avatar-btns {
+  gap: 40px;
+}

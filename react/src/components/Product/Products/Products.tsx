@@ -1,44 +1,43 @@
-import React from "react";
+import { createContext } from "react";
 import Aside from "./Aside/Aside";
 import ProductList from "./AllProducts/ProductList";
 import { AnimatePresence, motion } from "framer-motion";
 import Sort from "../viewOptions/Sort";
 import MainProductAnimation from "./MainProductAnimation";
-import useProductsSubscription from "@/custom/useProductsSubscription";
 import useHideScroll from "@/custom/useHideScroll";
 import useParams from "@/custom/useParams";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
+import useApplyFilters from "@/custom/useApplyFilters";
+import useIsMobile from "@/custom/useIsMobile";
+type AsideContext = {
+  loading: boolean;
+  handleClickFIlter: () => void;
+};
+export const asideContext = createContext({} as AsideContext);
 
 const Products = () => {
   const { showAsideFilter } = useParams();
-  useProductsSubscription();
-
-  useHideScroll(Boolean(showAsideFilter));
+  const { isMobile } = useIsMobile();
+  useHideScroll(Boolean(showAsideFilter), isMobile);
+  const { loading, handleClickFIlter } = useApplyFilters();
   return (
-    <section id="products" className="products-par">
-      <motion.h1
-        className="sort-title header underline"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-      >
-        Top Products
-      </motion.h1>
+    <asideContext.Provider value={{ loading, handleClickFIlter }}>
+      <div id="products" className="products-par">
+        <motion.h1 className="sort-title header underline">
+          Top Products
+        </motion.h1>
+        <MainProductAnimation />
+        <Sort />
 
-      <MainProductAnimation />
-      <Sort />
-
-      <div className="center row start between relative">
-        <AnimatePresence mode="wait">
-          {showAsideFilter && <Aside />}
-        </AnimatePresence>
-        <AnimatePresence initial={false}>
-          <LazyLoadComponent>
+        <div className="products  ">
+          <AnimatePresence mode="wait">
+            {showAsideFilter && <Aside key="main-aside" />}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
             <ProductList />
-          </LazyLoadComponent>
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </div>
-    </section>
+    </asideContext.Provider>
   );
 };
 

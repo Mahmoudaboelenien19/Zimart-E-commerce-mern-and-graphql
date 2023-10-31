@@ -1,20 +1,23 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
 import { motion } from "framer-motion";
-
 import { useMutation } from "@apollo/client";
 import { isAuthContext } from "@/context/isAuth";
 import { useAppDispatch } from "@/custom/reduxTypes";
 import useClickOutside from "@/custom/useClickOutside";
 import {
   Delete_Notification,
+  GET_NOTiFICATIONS,
   Toggle_Read_Notification,
 } from "@/graphql/mutations/user";
 import {
   removeFromNotificatinsRedux,
   toggleReadNotificatinsRedux,
 } from "@/redux/notificationsSlice";
-import { selectDropDownVariants, opacityVariant } from "@/variants/globals";
+import { opacityVariant } from "@/lib/variants/globals";
 import toast from "react-hot-toast";
+import clsx from "clsx";
+import useParams from "@/custom/useParams";
+import useIsMobile from "@/custom/useIsMobile";
 
 interface Props {
   bool: boolean;
@@ -32,6 +35,7 @@ const NotificationActionsDropDown = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { userId } = useContext(isAuthContext);
+
   const [deleteNotificationDB] = useMutation(Delete_Notification, {
     variables: {
       id: _id,
@@ -69,17 +73,14 @@ const NotificationActionsDropDown = ({
   ];
   const ref = useClickOutside<HTMLDivElement>(() => setter(false), bool);
   return (
-    <motion.div
-      className="order-drop box-shadow notification-actions"
-      variants={selectDropDownVariants}
-      initial="start"
-      animate="end"
-      style={{
-        position: "fixed",
-        top: top + 20,
-        left: right - 160,
-      }}
-      ref={ref}
+    <div
+      className={clsx("notification-drop  notification-actions")}
+      // style={{
+      //   position: "fixed",
+      //   top: top + 20,
+      //   left: right - 160,
+      // }}
+      // ref={ref}
     >
       {actionsArr.map(({ btn, fn }, i) => {
         return (
@@ -98,7 +99,7 @@ const NotificationActionsDropDown = ({
           </Fragment>
         );
       })}
-    </motion.div>
+    </div>
   );
 };
 

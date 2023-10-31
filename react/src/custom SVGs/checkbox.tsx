@@ -1,31 +1,20 @@
-import React, { useContext, useRef } from "react";
+import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  checkSvgVariant,
-  checkpathVariant,
-  parentVarient,
-} from "../variants/CheckSvg";
-import { themeContext } from "@/context/ThemContext";
+import { checkSvgVariant, checkpathVariant } from "../lib/variants/CheckSvg";
 import clsx from "clsx";
 
 interface Props {
   filter: string | number;
   isChecked: ConstrainBoolean;
-  index?: number;
 }
 
-const Checkbox = ({ filter, index, isChecked }: Props) => {
+const Checkbox = ({ filter, isChecked }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const { theme } = useContext(themeContext);
   return (
     <motion.div
       className={clsx("custom-check-parent center ")}
-      variants={parentVarient}
-      initial="start"
-      animate="end"
-      exit={"exit"}
       ref={ref}
-      custom={{ filter, isChecked, index }}
+      custom={filter === isChecked}
     >
       <AnimatePresence mode="wait">
         {isChecked && (
@@ -33,12 +22,12 @@ const Checkbox = ({ filter, index, isChecked }: Props) => {
             viewBox="0 0 24 24"
             width="12px"
             height="12px"
-            className={clsx("center custom-check", theme)}
+            key={filter}
+            className={clsx("center custom-check")}
             variants={checkSvgVariant}
             initial="start"
-            animate="end"
             exit={"exit"}
-            custom={index}
+            animate="end"
           >
             <motion.path
               fill="none"
@@ -47,7 +36,6 @@ const Checkbox = ({ filter, index, isChecked }: Props) => {
               strokeWidth="3"
               d="M21 6L9 18 4 13"
               variants={checkpathVariant}
-              custom={index}
             />
           </motion.svg>
         )}

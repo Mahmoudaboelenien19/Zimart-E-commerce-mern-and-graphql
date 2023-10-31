@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { compareInterface } from "../interfaces/user";
+import { compareInterface } from "../interfaces/user.interface";
 
 const initialState: { compare: compareInterface[] } = {
   compare: [],

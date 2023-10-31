@@ -1,22 +1,16 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
 import { useParams } from "react-router-dom";
 import OrderDetailTr from "./OrderDetialTr";
 import Customer from "./Customer";
 import OrderSummery from "./OrderSummery";
-import { motion } from "framer-motion";
 import { GET_ORDER } from "@/graphql/queries";
-import { OrderInterface } from "@/interfaces/order";
-import { parentVariant, reverseVariant } from "@/variants/globals";
+import { OrderInterface } from "@/interfaces/order.interface";
 import DashMain from "@/components/dashboard/DashMain";
-import Animation from "@/components/widgets/animation/Animation";
 import FadeElement from "@/components/widgets/animation/FadeElement";
-
+import "./order-details.scss";
 export const Component = () => {
   const { id } = useParams();
-
   const { data } = useQuery(GET_ORDER, { variables: { id } });
-
   if (data?.order) {
     const {
       productId,
@@ -29,20 +23,9 @@ export const Component = () => {
     } = data.order;
     return (
       <DashMain>
-        <FadeElement cls="order-del-par center ">
-          <motion.div
-            variants={parentVariant}
-            // initial="start"
-            // animate="end"
-            custom={0.4}
-            className="order-details-grid"
-          >
-            <motion.table
-              variants={reverseVariant}
-              custom={"first"}
-              className="table-order-detail box-shadow"
-              style={{ width: "100%" }}
-            >
+        <FadeElement className="order-del-par center ">
+          <div className="order-details-grid">
+            <table className="table-order-detail box-shadow">
               <thead>
                 <tr>
                   <th>items summary</th>
@@ -56,7 +39,7 @@ export const Component = () => {
                   return <OrderDetailTr key={ob.image} {...ob} />;
                 })}
               </tbody>
-            </motion.table>
+            </table>
             <Customer
               state={state}
               userId={userId}
@@ -69,7 +52,7 @@ export const Component = () => {
               delivered={deliveredAt}
               total={cost}
             />
-          </motion.div>
+          </div>
         </FadeElement>
       </DashMain>
     );

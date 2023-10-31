@@ -1,5 +1,5 @@
 import "./product.scss";
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { BiCommentEdit, BiShow } from "react-icons/bi";
 import { AiFillPlusSquare, AiOutlineCheck } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
@@ -18,8 +18,6 @@ import { useAppSelector } from "@/custom/reduxTypes";
 import useAvg from "@/custom/useAvg";
 import usePathAndId from "@/custom/usePathAndId";
 import { reviewInterface } from "@/interfaces/product";
-import { themeContext } from "@/context/ThemContext";
-import clsx from "clsx";
 
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,13 +44,11 @@ const ProductDetails = ({ setShowPop }: Props) => {
     },
   };
   const { isAuth } = useContext(isAuthContext);
-  const { theme } = useContext(themeContext);
 
   const { avgRate, reviewLength } = useAvg(rating, reviews);
 
   const handleshowPop = () => setShowPop(true);
   const [isFavoraited, setIsFavorited] = useState(false);
-
   const [id] = usePathAndId(images, bigImgInd);
   const { cart } = useAppSelector((state) => state.cart);
   const [onCart, setOnCart] = useState(false);
@@ -97,7 +93,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
           {category}
         </h3>
         <br />
-        <div className={clsx("title-par", theme)}>
+        <div className={"title-par"}>
           <h2 className="title  center">
             {title}
             <span className="center heart-par">
@@ -166,7 +162,7 @@ const ProductDetails = ({ setShowPop }: Props) => {
       <div className="details-bottom">
         <StyledPrice price={price} />
 
-        <p className={theme}>{description}</p>
+        <p>{description}</p>
 
         <div className="hr"></div>
 

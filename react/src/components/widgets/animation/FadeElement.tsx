@@ -1,21 +1,27 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { ChildrenInterFace } from "@/interfaces/general";
+import { HTMLAttributes, ReactNode } from "react";
+import { MotionProps, motion } from "framer-motion";
 
-interface Props extends ChildrenInterFace {
-  cls?: string;
-  transition?: number;
+type Props = {
+  children: ReactNode;
+  duration?: number;
   delay?: number;
-  fn?: (e?: any) => void;
-}
-const FadeElement = ({ children, cls, transition, delay, fn }: Props) => {
+  endOpacity?: number;
+} & HTMLAttributes<HTMLDivElement> &
+  MotionProps;
+const FadeElement = ({
+  children,
+  duration,
+  delay,
+  endOpacity = 1,
+  ...props
+}: Props) => {
   return (
     <motion.div
-      className={cls}
+      {...props}
       initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
-      transition={{ duration: transition || 0.5, delay: delay || 0 }}
-      onClick={fn ? fn : () => null}
+      animate={{ opacity: [0, 0.2, 0.4, 0.5, endOpacity] }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: duration || 0.5, delay: delay || 0 }}
     >
       {children}
     </motion.div>

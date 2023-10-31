@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
-import Input from "../widgets/forms/Input";
+import { useEffect } from "react";
+import Input from "../widgets/shared/forms/Input";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-hot-toast";
-import { motion, useAnimate, useInView } from "framer-motion";
+import { useAnimate, useInView } from "framer-motion";
+import "./_news-leter.scss";
+import Form from "../widgets/shared/forms/Form";
 const NewsLetter = () => {
   const schema = yup.object().shape({
     email: yup.string().email("enter a vaild email").required(),
@@ -13,7 +15,7 @@ const NewsLetter = () => {
   const {
     handleSubmit,
     resetField,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = methods;
   const OnSubmit = async (data: FieldValues) => {
     if (isValid) {
@@ -22,6 +24,7 @@ const NewsLetter = () => {
     }
   };
   const [scope, animate] = useAnimate();
+
   const inView = useInView(scope, { once: true });
   useEffect(() => {
     if (inView) {
@@ -39,26 +42,28 @@ const NewsLetter = () => {
     }
   }, [inView]);
   return (
-    <motion.div
-      style={{ opacity: 0 }}
-      whileInView={{ opacity: [0, 0.2, 0.4, 0.6, 1] }}
-      className="newsletter"
-      ref={scope}
-    >
-      <div className="news-content">
-        <h2>sign up for newsletter</h2>
-        <span>
-          get e-mail about latest news and
-          <span className="news-spaecial"> special offers</span>
-        </span>
+    <div className="newsletter center" ref={scope}>
+      <div className="newletter-container">
+        <div className="news-content">
+          <h2>sign up for newsletter</h2>
+          <span>
+            get e-mail about latest news and
+            <span className="news-spaecial"> special offers</span>
+          </span>
+        </div>
+        <FormProvider {...methods}>
+          <Form
+            initialTranslate={40}
+            onSubmit={handleSubmit(OnSubmit)}
+            className=" abs-err center"
+          >
+            <Input placeholder="email" />
+
+            <button type="submit">sign up</button>
+          </Form>
+        </FormProvider>
       </div>
-      <FormProvider {...methods}>
-        <form action="" onSubmit={handleSubmit(OnSubmit)}>
-          <Input placeholder="email" err={errors?.email?.message?.toString()} />
-          <button type="submit">sign up</button>
-        </form>
-      </FormProvider>
-    </motion.div>
+    </div>
   );
 };
 

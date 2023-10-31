@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Nav from "./Nav/main/Nav";
 import toast from "react-hot-toast";
@@ -28,12 +28,12 @@ const Layout = () => {
     deleteParam("isRegistered");
   }, []);
   return (
-    <>
+    <main>
       <Nav />
       <>
         <Outlet />
       </>
-    </>
+    </main>
   );
 };
 

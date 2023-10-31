@@ -13,7 +13,8 @@ import { userCollection } from "../../mongoose/schema/user.js";
 import { IdInterface } from "../interfaces/graqphInterfaces.js";
 import { pubsub } from "../context.js";
 import productCollection from "../../mongoose/schema/product.js";
-
+import { ObjectId } from "mongodb";
+import { GraphQLError } from "graphql";
 interface addToFavInterface {
   input: {
     productId: string;
@@ -24,7 +25,13 @@ interface addToFavInterface {
     userId: string;
   };
 }
-
+interface updateUserDataInterface {
+  input: {
+    _id: string;
+    target: string;
+    value: string;
+  };
+}
 interface removeFromFavInterface {
   input: {
     userId: string;
@@ -36,11 +43,74 @@ export const userResolver = {
   Query: {
     async users(_: unknown, { limit, skip }: SkipAndLimit) {
       const totalUsers = await userCollection.find().count();
-      const users = await userCollection.find().limit(limit).skip(skip);
+      const users = await userCollection
+        .find()
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .skip(skip);
       return {
         totalUsers,
         users,
       };
+    },
+    async getNotifications(
+      _: unknown,
+      {
+        input: { id, skip, limit, type },
+      }: { input: { id: string; skip: number; limit: number; type: string } }
+    ) {
+      try {
+        if (type === "unread") {
+          const data = await userCollection.aggregate([
+            {
+              $match: {
+                _id: new ObjectId(id),
+              },
+            },
+            {
+              $project: {
+                notifications: {
+                  $filter: {
+                    input: "$notifications",
+                    as: "notification",
+                    cond: { $eq: ["$$notification.isRead", false] },
+                  },
+                },
+              },
+            },
+            {
+              $project: {
+                data: {
+                  $sortArray: {
+                    input: "$notifications",
+                    sortBy: { createdAt: -1 },
+                  },
+                },
+              },
+            },
+            {
+              $project: {
+                data: {
+                  $slice: ["$data", skip, limit],
+                },
+              },
+            },
+          ]);
+          return data[0]?.data || [];
+        } else {
+          const data = await userCollection.findById(id, {
+            notifications: 1,
+          });
+
+          return data?.notifications.reverse().slice(skip, limit + skip) || [];
+        }
+      } catch (er) {
+        console.log(er);
+      }
+    },
+
+    async getUserData(_: any, args: IdInterface) {
+      return await userCollection.findById(args.id);
     },
   },
   Upload: GraphQLUpload,
@@ -55,6 +125,11 @@ export const userResolver = {
     },
   },
   Cart: {
+    async product(par: { parentId: string }) {
+      return await productCollection.findById(par.parentId);
+    },
+  },
+  Fav: {
     async product(par: { parentId: string }) {
       return await productCollection.findById(par.parentId);
     },
@@ -79,8 +154,8 @@ export const userResolver = {
           role: "user",
         });
 
-        pubsub.publish("User_Added", {
-          AddUser: res,
+        pubsub.publish("NEW_USER", {
+          NeWUser: res,
         });
         const notificationObj = {
           isRead: false,
@@ -161,9 +236,6 @@ export const userResolver = {
         }
       },
 
-    async getUserData(_: any, args: IdInterface) {
-      return await userCollection.findById(args.id);
-    },
     addToCart: async (_: any, { input }: any) => {
       try {
         const res = await userCollection.findByIdAndUpdate(
@@ -349,32 +421,30 @@ export const userResolver = {
       });
       return { status: 200 };
     },
-
-    async updateUserName(_: any, args: { _id: string; name: string }) {
-      await userCollection.findByIdAndUpdate(args._id, { name: args.name });
-
-      return { status: 200, msg: "username is successfully updated  " };
-    },
-    async updateUserCountry(_: any, args: { _id: string; country: string }) {
-      await userCollection.findByIdAndUpdate(args._id, {
-        country: args.country,
-      });
-      return { status: 200, msg: "your country  is successfully updated  " };
-    },
-
-    async updateUserPhone(_: any, args: { _id: string; phone: string }) {
-      await userCollection.findByIdAndUpdate(args._id, { phone: args.phone });
-      return { status: 200 };
-    },
-    async updateEmail(_: any, args: { _id: string; email: string }) {
-      const check = await userCollection.find({ email: args.email });
-      if (check.length) {
-        return { msg: "this email already used", status: 401 };
-      } else {
-        await userCollection.findByIdAndUpdate(args._id, {
-          email: args.email,
-        });
-        return { msg: "your email is updated successfully", status: 200 };
+    async updateUserData(
+      _: unknown,
+      { input: { _id, target, value } }: updateUserDataInterface
+    ) {
+      try {
+        if (target != "email") {
+          const res = await userCollection.findByIdAndUpdate(_id, {
+            [target]: value,
+          });
+          return { status: 200, msg: "data is updated successfully" };
+        } else if (target === "email") {
+          const check = await userCollection.find({ email: value });
+          if (check.length) {
+            return { msg: "this email already used", status: 401 };
+          } else {
+            await userCollection.findByIdAndUpdate(_id, {
+              email: value,
+            });
+            return { msg: "your email is updated successfully", status: 200 };
+          }
+        }
+        return null;
+      } catch (err) {
+        console.log(err);
       }
     },
 
@@ -382,8 +452,10 @@ export const userResolver = {
       _: unknown,
       args: { _id: string; oldPassword: string; newPassword: string }
     ) {
+      console.log("worked");
       const result = await checkOldPass(args._id, args.oldPassword);
       if (result) {
+        console.log({ result });
         await userCollection.findByIdAndUpdate(args._id, {
           password: hashPassword(args.newPassword),
         });
@@ -394,38 +466,42 @@ export const userResolver = {
     },
 
     async updateUserImage(_: unknown, args: any) {
-      const result = await new Promise((resolve, reject) => {
-        const stream = args.image.file.createReadStream();
+      try {
+        const result = await new Promise((resolve, reject) => {
+          const stream = args.image.file.createReadStream();
 
-        const uploadStream = cloudinary.v2.uploader.upload_stream(
-          { resource_type: "auto" },
-          (error, result) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(result);
+          const uploadStream = cloudinary.v2.uploader.upload_stream(
+            { resource_type: "auto" },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
             }
-          }
-        );
+          );
 
-        stream.pipe(uploadStream);
-      });
-
-      const url = (result as any).secure_url;
-      if (url) {
-        await userCollection.findByIdAndUpdate(args._id, {
-          image: url,
+          stream.pipe(uploadStream);
         });
-        return { status: 200, msg: "you profile successfully updated" };
-      } else {
-        return { status: 404, msg: "faild to upload" };
+
+        const url = (result as any).secure_url;
+        if (url) {
+          await userCollection.findByIdAndUpdate(args._id, {
+            image: url,
+          });
+          return { status: 200, msg: "you profile successfully updated" };
+        } else {
+          return { status: 404, msg: "faild to upload" };
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
   },
   Subscription: {
-    AddUser: {
+    NeWUser: {
       async subscribe() {
-        return pubsub.asyncIterator("User_Added");
+        return pubsub.asyncIterator("NEW_USER");
       },
     },
   },

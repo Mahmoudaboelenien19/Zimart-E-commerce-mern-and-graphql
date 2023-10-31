@@ -133,7 +133,7 @@ app.use("/token", AuthRouter);
     },
   });
 
-  httpServer.listen({ port: 3000 }, () => {
+  httpServer.listen({ port: 4000 }, () => {
     console.log("server-runs");
   });
 })();

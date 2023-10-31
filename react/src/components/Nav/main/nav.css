@@ -26,15 +26,6 @@
   --admin: rgb(4, 81, 4);
   --delivered: var(--sale);
   --moderator: var(--sale);
-  --nav-btn: #237a44;
-  --secondary-light: #c9cbcd;
-  --third-light: #000;
-  --main-light: #ffffff;
-  --forth-light: #ffffff;
-  --main-dark: #111417;
-  --secondary-dark: #222222;
-  --third-dark: rgb(247, 246, 246);
-  --forth-dark: #000000;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
@@ -44,7 +35,7 @@
 nav {
   width: 100%;
   max-width: 100%;
-  height: 45px;
+  height: 50px;
   position: fixed;
   top: 0;
   left: 0;
@@ -130,12 +121,11 @@ nav .nav-is-auth {
 
 .no-data-fav {
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 80px);
   text-transform: capitalize;
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 0.8px;
-  color: var(--green);
 }
 
 .theme {
@@ -146,7 +136,7 @@ nav .nav-is-auth {
   align-items: center;
   padding: 2px;
   position: relative;
-  z-index: 10;
+  z-index: 5;
 }
 .theme .toggle-icon {
   width: 20px;
@@ -178,12 +168,7 @@ nav .nav-is-auth {
     height: 100vh;
     right: 0;
     z-index: 5;
-  }
-  .aside-links .light {
-    background-color: var(--secondary-light);
-  }
-  .aside-links .dark {
-    background-color: var(--secondary-dark);
+    background-color: var(--secondary);
   }
   .aside-links .links {
     height: 100%;
@@ -193,6 +178,7 @@ nav .nav-is-auth {
   }
   .aside-links .links a {
     font-size: 20px;
+    color: var(--third);
   }
   .aside-links .links a:before, .aside-links .links a:after {
     content: initial;

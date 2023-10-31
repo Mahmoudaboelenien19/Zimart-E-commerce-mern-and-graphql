@@ -1,12 +1,11 @@
-import React from "react";
 import { BallTriangle } from "react-loader-spinner";
 
 interface Props {
-  cls: string;
+  className: string;
 }
-const GridLoader = ({ cls }: Props) => {
+const GridLoader = ({ className }: Props) => {
   return (
-    <div className={`${cls}`}>
+    <div className={`${className}`}>
       <BallTriangle
         height={30}
         width={30}

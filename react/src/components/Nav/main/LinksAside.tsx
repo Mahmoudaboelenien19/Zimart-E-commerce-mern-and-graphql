@@ -1,18 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import NavLinks from "./NavLinks";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import MenuTogglar from "@/components/widgets/MenuTogglar";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
+
+import { mobileDropDownVariant } from "@/lib/variants/globals";
 import useHideScroll from "@/custom/useHideScroll";
-import { mobileDropDownVariant } from "@/variants/globals";
-import { isAuthContext } from "@/context/isAuth";
 
 const LinksAside = () => {
   const [showAside, setShowAside] = useState(false);
-  const { theme } = useContext(isAuthContext);
   useHideScroll(showAside);
-
   return (
     <>
       <MenuTogglar
@@ -29,7 +27,7 @@ const LinksAside = () => {
             initial="start"
             animate="end"
             exit="exit"
-            className={clsx("aside-links", theme)}
+            className={"aside-links"}
           >
             <MobileCloseDropDown setter={setShowAside} title="close nav" />
 

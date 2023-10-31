@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   motion,
   useAnimation,
@@ -6,7 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { FaGreaterThan } from "react-icons/fa";
-import MainPop from "../MainPop";
+import MainPop from "../shared/popup/MainPop";
 import CircleCheckSvg from "@/custom SVGs/CircleCheckSvg";
 import { ChildrenInterFace } from "@/interfaces/general";
 interface Props extends ChildrenInterFace {
@@ -14,20 +14,21 @@ interface Props extends ChildrenInterFace {
 
   head: string;
   doneMsg: string;
-
   fn: () => void;
   isVaild?: boolean;
   Status?: number;
   bool: boolean;
-  cls?: string;
+  className?: string;
+  pragrapgh?: string;
 }
 const SlideButton = ({
   doneMsg,
   sethide,
   head,
-  cls,
+  className,
   children,
   isVaild,
+  pragrapgh,
   fn,
   Status,
   bool,
@@ -36,7 +37,6 @@ const SlideButton = ({
   const controls = useAnimation();
   const opacity = useTransform(offset, [0, 200], [1, 0]);
   const background = useTransform(offset, [0, 200], ["#378758", "#c5af87c9"]);
-
   const [isConfirmed, setIsConfirmed] = useState(false);
   const textVariant = {
     start: { y: 20, opacity: 0 },
@@ -68,11 +68,11 @@ const SlideButton = ({
     }
   }, [Status]);
   return (
-    <MainPop setter={sethide} bool={bool} cls={`slide-pop  ${cls}`}>
+    <MainPop setter={sethide} bool={bool} className={`slide-pop  ${className}`}>
       {!isConfirmed ? (
         <>
           <h4 className="underline header underline-sm header-sm ">{head}</h4>
-
+          {pragrapgh && <p>{pragrapgh}</p>}
           {children}
           <motion.div className="slide-par center  " style={{ background }}>
             <motion.button

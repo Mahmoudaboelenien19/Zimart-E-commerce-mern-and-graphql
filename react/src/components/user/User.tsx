@@ -1,12 +1,12 @@
-import React from "react";
-import UserDetails from "./UserDetails";
+import Container from "../widgets/shared/Container";
 import UserImage from "./UserImage";
-
+import UserInfo from "./UserInfo";
+import "./user.scss";
 export const Component = () => {
   return (
-    <div className="user-page">
+    <Container className="user-page">
       <UserImage />
-      <UserDetails />
-    </div>
+      <UserInfo />
+    </Container>
   );
 };

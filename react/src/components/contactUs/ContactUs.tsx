@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
-import Map from "./Map";
+import { useEffect } from "react";
+import "./contact.scss";
 import ContactForm from "./ContactForm";
-import Animation from "../widgets/animation/Animation";
+import Container from "../widgets/shared/Container";
+import ContactDetails from "./ContactDetails";
+import FadeElement from "../widgets/animation/FadeElement";
+import Transition from "../widgets/animation/transition/Transition";
 export const Component = () => {
   useEffect(() => {
     document.title = "Contact Us";
   }, []);
   return (
-    <div id="contact">
-      <div className="contact">
-        <Map />
+    <Container id="contact">
+      <Transition />
+      <FadeElement className="contact">
+        <ContactDetails />
         <ContactForm />
-      </div>
-    </div>
+      </FadeElement>
+    </Container>
   );
 };

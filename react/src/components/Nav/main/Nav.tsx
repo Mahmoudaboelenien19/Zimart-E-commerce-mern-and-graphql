@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { createContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import LogoSvg from "@/components/svgs/LogoSvg";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import useIsMobile from "@/custom/useIsMobile";
@@ -9,16 +9,17 @@ import IsAuth from "./IsAuth";
 import LinksAside from "./LinksAside";
 import NavLinks from "./NavLinks";
 import "./nav.scss";
+import { useScrollToUp } from "@/custom/useScrolltoUp";
 
+type favContextType = {
+  showFav: boolean;
+  setShowFav: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export const favContext = createContext({} as favContextType);
 const Nav = () => {
-  const { LinkClr, boxShadow, navClr, navRef } =
-    useNavTransition<HTMLElement>();
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  const { boxShadow, navRef, bg, height } = useNavTransition<HTMLElement>();
   const { isMobile } = useIsMobile();
-
+  useScrollToUp();
   useEffect(() => {
     /* 
   this useEffect to make scroll auto
@@ -31,36 +32,39 @@ const Nav = () => {
       document.body.style.overflowY = "auto";
     }
   }, [isMobile]);
-  const check = !pathname.startsWith("/dashboard");
   return (
-    <AnimatePresence initial={!check}>
-      {check && (
-        <motion.nav
-          key={"main-nav"}
-          ref={navRef}
-          style={{ background: navClr, boxShadow }}
-        >
-          <Link to="/" className="logo center">
-            <LogoSvg />
-          </Link>
-          {!isMobile && (
-            <div className=" center">
-              <>
-                <NavLinks LinkClr={LinkClr} />
-              </>
-            </div>
-          )}
-          <div className="links-par">
-            <div className="center ">{!isMobile && <ThemeToggle />}</div>
-
-            <div className="center">
-              <IsAuth color={LinkClr} />
-              {isMobile && <LinksAside />}
-            </div>
+    <motion.nav
+      key={"main-nav"}
+      ref={navRef}
+      style={{
+        boxShadow,
+        background: bg,
+        height,
+      }}
+      className="main"
+      // transition={{ duration: 0.4, ease: "easeInOut", damping: 8 }}
+    >
+      <div className="nav-children">
+        <Link to="/" className="logo center">
+          <LogoSvg />
+        </Link>
+        {!isMobile && (
+          <div className=" center">
+            <>
+              <NavLinks />
+            </>
           </div>
-        </motion.nav>
-      )}
-    </AnimatePresence>
+        )}
+        <div className="links-par">
+          <div className="center ">{!isMobile && <ThemeToggle />}</div>
+
+          <div className="center">
+            <IsAuth />
+            {isMobile && <LinksAside />}
+          </div>
+        </div>
+      </div>
+    </motion.nav>
   );
 };
 

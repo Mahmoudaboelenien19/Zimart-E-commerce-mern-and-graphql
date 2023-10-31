@@ -1,78 +1,60 @@
-import React, { RefAttributes, useContext, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-import { Navigation } from "swiper/modules";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import BannerText from "./BannerText";
-import useIsMobile from "@/custom/useIsMobile";
-import FadeElement from "../widgets/animation/FadeElement";
-import Shape from "./Shape";
 import useBuildBannerArr from "@/custom/useBuildBannerArr";
 import useModifyUrl from "@/custom/useModifyUrl";
-import useInnitialRender from "@/custom/useInnitialRender";
-import { themeContext } from "@/context/ThemContext";
 import clsx from "clsx";
-const arrClrs = ["var(--green)", "var(--gmail)", "var(--delete)", "var(--fb)"];
-
+import { arrClrs } from "@/assets/arries/arries";
+import { useAppDispatch } from "@/custom/reduxTypes";
+import { changeBannerClr } from "@/redux/bannerClr";
+import "swiper/css/autoplay";
+import CustomArrows from "./CustomArrows";
+import { bannerOptions } from "@/lib/swiper/options";
+import Container from "../widgets/shared/Container";
 const Banner = () => {
   const [ind, setInd] = useState(0);
-  const { isMobile } = useIsMobile();
-  const { isInitialRender } = useInnitialRender(2000, false);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    document.documentElement.style.setProperty("--nav-btn", `${arrClrs[ind]}`);
-    sessionStorage.setItem("banner-index", `${ind}`);
+    dispatch(changeBannerClr(arrClrs[ind]));
   }, [ind]);
-  const { theme } = useContext(themeContext);
-  const options: RefAttributes<SwiperRef> & SwiperProps = {
-    loop: true,
-    spaceBetween: 5,
-    slidesPerView: 1,
-    direction: "horizontal",
-    pagination: { clickable: true },
-    modules: [Pagination, Navigation],
-    navigation: isInitialRender && !isMobile ? true : false,
-    onSlideChange: (e: any) => setInd(e.realIndex),
-  };
-
+  console.log(ind);
   const bannerArr = useBuildBannerArr();
   const { getlink } = useModifyUrl();
-
+  const swiperRef = useRef<SwiperRef | null>(null);
   return (
-    <>
+    <Container>
       <Swiper
-        className={clsx("banner-par container ", theme)}
-        {...options}
-        initialSlide={Number(sessionStorage.getItem("banner-index")) || 0}
-        lazyPreloadPrevNext={1}
+        ref={swiperRef}
+        onSlideChange={(e: any) => setInd(e.realIndex)}
+        className={clsx("banner-par ")}
+        id="my-swiper"
+        {...bannerOptions}
       >
-        <FadeElement cls="" delay={0.6}>
-          {/* <Shape /> */}
-        </FadeElement>
         {bannerArr.map((ob, index) => {
           return (
             <SwiperSlide key={index}>
-              <div className="banner ">
-                <BannerText
-                  clr={arrClrs[index]}
-                  {...ob}
-                  key={ob.header}
-                  isShown={index === ind && isInitialRender}
-                />
-                <LazyLoadImage
-                  src={getlink(ob.image, undefined, 800)}
-                  // src={ob.image}
-                  alt={`banner proile`}
-                  wrapperClassName="banner-image"
-                  effect="blur"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+              <div className="banner">
+                {index === ind && (
+                  <>
+                    <BannerText clr={arrClrs[index]} {...ob} />
+                    <LazyLoadImage
+                      src={getlink(ob.image, undefined, 800)}
+                      alt={`banner proile`}
+                      wrapperClassName="banner-image"
+                      effect="blur"
+                    />
+                  </>
+                )}
               </div>
             </SwiperSlide>
           );
         })}
+        <CustomArrows />
       </Swiper>
-    </>
+    </Container>
   );
 };
 

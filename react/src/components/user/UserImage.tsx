@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Avatar from "./Avatar";
-import Overley from "../widgets/dropdowns/Overley";
 import MainBtn from "../widgets/buttons/MainBtn";
 import ProfileImg from "./ProfileImg";
+import MainPop from "../widgets/shared/popup/MainPop";
 const UserImage = () => {
   const inpFile = useRef<HTMLInputElement | null>(null);
   const [newImg, setnewImg] = useState<File | undefined>();
@@ -25,9 +25,8 @@ const UserImage = () => {
   };
   return (
     <div className="user-image ">
-      <div>
-        <ProfileImg dimension={200} />
-      </div>
+      <ProfileImg dimension={200} />
+
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type="file"
@@ -41,22 +40,18 @@ const UserImage = () => {
 
         <MainBtn
           btn="update your avatar"
-          cls="user-img-btn btn"
-          fn={chooseImgFn}
+          className="user-img-btn btn"
+          onClick={chooseImgFn}
         />
       </form>
-      <AnimatePresence mode="wait">
-        {edit && (
-          <Overley cls="avatar-par center col gap" sethide={setEdit}>
-            <Avatar
-              setEdit={setEdit}
-              newImg={newImg}
-              handleCancel={handleCancel}
-              setFileKey={setFileKey}
-            />
-          </Overley>
-        )}
-      </AnimatePresence>
+      <MainPop bool={edit} setter={setEdit} className=" w-100">
+        <Avatar
+          setEdit={setEdit}
+          newImg={newImg}
+          handleCancel={handleCancel}
+          setFileKey={setFileKey}
+        />
+      </MainPop>
     </div>
   );
 };

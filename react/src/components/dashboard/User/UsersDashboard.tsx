@@ -1,49 +1,45 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import DashMain from "../DashMain";
 import DashBoardUsersTable from "./DashBoardUsersTable";
 import MobileDashUser from "./MobileDashUser";
-import useMessure from "react-use-measure";
-import { mergeRefs } from "react-merge-refs";
 import Pages from "@/components/Product/Products/Pages";
 import useParams from "@/custom/useParams";
 import { GET_ALL_USERS } from "@/graphql/mutations/user";
 import { useLazyQuery } from "@apollo/client";
+import { useDispatch } from "react-redux";
+import {
+  addToUserRedux,
+  clearUsersRedux,
+  usersSkeltonRedux,
+} from "@/redux/userSlice";
+import useUserSubscription from "@/custom/subscriptions/useUserSubscription";
+import useTitle from "@/custom/useTitle";
 
 export const Component = () => {
-  const { page, showDashBoaedAside } = useParams();
-  const [ref, { width }] = useMessure();
-  const [wid, setWid] = useState(0);
+  const dispatch = useDispatch();
+  const { page } = useParams();
   const [totalPages, setTotalPages] = useState(0);
-  const reff = useRef<HTMLDivElement>(null);
-  const [getUsers, { data }] = useLazyQuery(GET_ALL_USERS, {
+  const [getUsers] = useLazyQuery(GET_ALL_USERS, {
     variables: {
       limit: 18,
       skip: Number(page) >= 2 ? 18 * (Number(page) - 1) : 0,
     },
   });
+  useTitle("Dashboard | Users");
   useEffect(() => {
-    document.title = "Dashboard | Users";
+    dispatch(usersSkeltonRedux());
     getUsers().then((res) => {
+      dispatch(clearUsersRedux());
+      dispatch(addToUserRedux(res.data?.users?.users));
       setTotalPages(res.data.users.totalUsers);
     });
   }, [page]);
-  useLayoutEffect(() => {
-    setWid(reff.current?.offsetWidth || 0);
-  }, [showDashBoaedAside, width]);
+  useUserSubscription();
 
-  const orders = data?.users?.users || Array.from({ length: 18 });
   return (
     <DashMain key={"order-dashmain"}>
-      <span ref={mergeRefs([reff, ref])} id={"users"}>
-        <>
-          {wid >= 750 ? (
-            <DashBoardUsersTable data={orders} key={"table-order"} />
-          ) : (
-            <MobileDashUser data={orders} key={"mobile-order"} />
-          )}
-        </>
-      </span>
-
+      <DashBoardUsersTable key={"table-order"} />
+      <MobileDashUser key={"mobile-order"} />
       <Pages
         total={totalPages}
         key={"order-pages"}

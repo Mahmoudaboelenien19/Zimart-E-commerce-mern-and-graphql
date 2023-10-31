@@ -1,7 +1,9 @@
-import React from "react";
+import { isAuthContext } from "@/context/isAuth";
+import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-type Props = { isAuth: boolean; isInitialRender: boolean };
-export const NotAuthedRoutes = ({ isAuth, isInitialRender }: Props) => {
+export const NotAuthedRoutes = () => {
+  const { isAuth } = useContext(isAuthContext);
+
   return <>{isAuth ? <Navigate to="/" /> : <Outlet />}</>;
 };

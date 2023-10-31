@@ -5,7 +5,9 @@
   width: 100%;
   padding: 0 20px;
   position: relative;
-
+  max-width: 1250px;
+  margin: 0 auto;
+  margin-bottom: 10px;
   .view-opt {
     gap: 1.5vw;
     font-weight: bold;
@@ -15,15 +17,8 @@
       border: 0;
       outline: 0;
       font-size: 0.9rem;
-      letter-spacing: 1px;
-      gap: 4px;
       background: transparent;
-      padding: 4px;
       font-weight: bold;
-      white-space: nowrap;
-      svg {
-        fill: var(--third);
-      }
     }
   }
   .view-type {
@@ -32,8 +27,6 @@
     font-size: 1.2rem;
 
     .view-icon {
-      // transition: 0.3s;
-
       &.shadow {
         filter: drop-shadow(0.5px 1.5px 1px black);
       }
@@ -42,26 +35,27 @@
 
   .view-par {
     display: flex;
-
-    gap: 6px;
+    font-weight: normal;
   }
 }
 
 .sort-hr {
   position: absolute;
-  top: 120%;
-  left: 2%;
+  top: calc(100% + 10px);
+  left: 3%;
   height: 1px;
   opacity: 0.5;
-  width: 96%;
   z-index: 1;
+  &.hr {
+    width: 94%;
+  }
 }
 
 .search {
   position: relative;
-  background: var(--secondary);
   box-shadow: var(--third-shadow);
-
+  background: var(--secondary);
+  max-width: 600px;
   .btn-search {
     border: 0;
     outline: 0;
@@ -78,11 +72,11 @@
     height: 40px;
     border-radius: 5px;
     padding-right: 10px;
-    color: var(--third);
     letter-spacing: 0.8px;
     font-size: 0.9em;
     font-weight: 700;
     background-color: transparent;
+    color: var(--third);
     &:focus {
       border: initial;
     }
@@ -130,4 +124,9 @@
   span {
     color: white;
   }
+}
+.control-aside {
+  font-weight: normal;
+  cursor: pointer;
+  width: 80px;
 }

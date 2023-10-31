@@ -7,7 +7,7 @@ const useUserSchema = () => {
     email: yup.object().shape({
       email: yup
         .string()
-        .email()
+        .email("add a valid email")
         .matches(
           /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         )
@@ -24,22 +24,27 @@ const useUserSchema = () => {
         ),
       new: yup
         .string()
-        .min(6)
-        .max(20)
+        .min(6, "insert at least 6 characters")
+        .max(14, "add at most 14 characters")
         .matches(
           /\w+\d+[^a-zA-Z0-9]+/,
           "insert 1 number,1 letter and 1 character"
-        ),
+        )
+        .required("add your new password"),
       confirm: yup
         .string()
         .oneOf([yup.ref("new")], "doesn't match your password")
-        .required(),
+        .required("confirm your password"),
     }),
     phone: yup.object().shape({
-      phone: yup.string().min(10).required(),
+      phone: yup
+        .string()
+        .min(10, "you must add 10 numbers or more")
+        .max(15, "you can't exceed 15 numbers")
+        .required("add your phone number"),
     }),
     country: yup.object().shape({
-      phone: yup.mixed().notRequired(),
+      country: yup.mixed().notRequired(),
     }),
   };
   return schema;

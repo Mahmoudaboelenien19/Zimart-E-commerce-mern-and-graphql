@@ -20,7 +20,7 @@ const useRemoveFromFav = ({ userId, productId }: Props) => {
       },
     });
     dispatch(removeFromFavRedux(productId));
-    toast.success(res.data.removeFromFav.msg);
+    toast.success(res?.data?.removeFromFav.msg);
   };
   return { handleRemoveFromFav };
 };

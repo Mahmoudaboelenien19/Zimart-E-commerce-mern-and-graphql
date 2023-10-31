@@ -1,20 +1,19 @@
 import { linksArr } from "@/assets/arries/LinksArr";
-import { opacityVariant } from "@/variants/globals";
-import { MotionValue, motion } from "framer-motion";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { opacityVariant } from "@/lib/variants/globals";
+import { motion } from "framer-motion";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface Props {
-  LinkClr?: MotionValue | string;
   setShowAside?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NavLinks = ({ LinkClr = "white", setShowAside }: Props) => {
+const NavLinks = ({ setShowAside }: Props) => {
   const nullFn = () => null;
   const hideAside = () => {
     if (setShowAside) {
       setShowAside(false);
     }
   };
+  const { pathname } = useLocation();
   return (
     <ul className="links center">
       {linksArr.map(({ to, link }, i) => {
@@ -23,12 +22,21 @@ const NavLinks = ({ LinkClr = "white", setShowAside }: Props) => {
             className="center relative"
             key={i}
             variants={opacityVariant}
-            style={{ color: LinkClr }}
             onClick={setShowAside ? hideAside : nullFn}
           >
             <NavLink className="link" to={to}>
               {link}
             </NavLink>
+            {pathname === to && (
+              <motion.div
+                transition={{
+                  duration: 0.5,
+                  delay: pathname === "/" ? 1.5 : 0.4,
+                }}
+                layoutId="active-link"
+                className="abs active"
+              />
+            )}
           </motion.li>
         );
       })}

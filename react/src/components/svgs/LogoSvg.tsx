@@ -1,13 +1,14 @@
-import React from "react";
 import { motion } from "framer-motion";
-import useNavTransition from "../../custom/useNavTransition";
-import { useLocation } from "react-router-dom";
-const LogoSvg = () => {
-  const location = useLocation();
+import useIsMobile from "@/custom/useIsMobile";
+import useNavTransition from "@/custom/useNavTransition";
+const LogoSvg = ({ type }: { type?: string }) => {
   const { scale } = useNavTransition();
+  const { isMobile } = useIsMobile();
   return (
     <motion.div
-      style={{ scale: location.pathname.startsWith("/dashboard") ? 1 : scale }}
+      // style={{
+      //   scale: isMobile ? 1 : type === "footer" ? 2 : scale,
+      // }}
       id="logo-svg"
     >
       <svg

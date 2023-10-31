@@ -8,14 +8,16 @@ const useFilterByCategory = () => {
     deleteParam("rate");
     deleteParam("sort");
     deleteParam("price");
-    deleteParam("featured products");
+    setParam("catFilter", category);
+    setParam("isFilterApplied", "true");
     if (type === "category") {
+      deleteParam("featured products");
       setParam("category", category);
     } else {
+      deleteParam("featured products");
       deleteParam("category");
       setParam("featured products", category);
     }
-    setParam("catFilter", category);
   };
   return { handleCategoryFiltering };
 };

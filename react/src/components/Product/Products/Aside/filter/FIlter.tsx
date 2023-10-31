@@ -1,35 +1,31 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
-import useHide from "@/custom/useHide";
 import { ChildrenInterFace } from "@/interfaces/general";
-import { parentVariant } from "@/variants/globals";
 import FilterHeader from "./FilterHeader";
+import { useState } from "react";
+import { staggerChildrenVariant } from "@/lib/variants/globals";
 
 interface Props extends ChildrenInterFace {
   head: string;
 }
+
 const FIlter = ({ head, children }: Props) => {
-  const [showCategory, handleShowCategory, handleHideCategory] = useHide();
+  const [show, setShow] = useState(false);
   return (
     <>
       <div className="category-par  ">
-        <FilterHeader
-          showCategory={showCategory}
-          handleShowCategory={handleShowCategory}
-          handleHideCategory={handleHideCategory}
-          head={head}
-        />
+        <FilterHeader bool={show} setter={setShow} head={head} />
 
         <>
           <AnimatePresence mode="wait">
-            {showCategory && (
+            {show && (
               <motion.div
-                variants={parentVariant}
+                layout
+                variants={staggerChildrenVariant}
                 initial="start"
                 animate="end"
                 exit={"exit"}
-                key={"category"}
-                className="   category-par"
+                key={head}
+                className="filter"
               >
                 {children}
               </motion.div>
@@ -37,7 +33,7 @@ const FIlter = ({ head, children }: Props) => {
           </AnimatePresence>
         </>
       </div>
-      {head !== "price" && <div className="hr"></div>}
+      {head !== "price" && <div className="hr" />}
     </>
   );
 };

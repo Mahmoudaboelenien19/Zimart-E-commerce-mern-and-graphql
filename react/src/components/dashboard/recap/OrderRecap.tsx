@@ -1,4 +1,3 @@
-import React from "react";
 import StyledPrice from "../../widgets/StyledPrice";
 
 interface Props {
@@ -10,8 +9,15 @@ const OrderRecap = ({ userId, createdAt, cost }: Props) => {
   return (
     <div className={"center     between order-recap"}>
       <div className="col  order-recap-data ">
-        <div> userID : {userId} </div>
-        <div>createdAt: {new Date(createdAt).toLocaleDateString()} </div>
+        <div className="center">
+          {" "}
+          <div className="details"> userID :</div>
+          <p>{userId} </p>
+        </div>
+        <div className="center">
+          <div className="details">createdAt:</div>
+          <p>{new Date(createdAt).toLocaleDateString()}</p>{" "}
+        </div>
       </div>
       <div className="center col " style={{ width: "fit-content" }}>
         <StyledPrice price={cost} />

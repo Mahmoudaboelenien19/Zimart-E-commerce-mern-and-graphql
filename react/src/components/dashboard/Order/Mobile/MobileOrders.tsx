@@ -1,32 +1,18 @@
-import React, { useContext, useEffect } from "react";
-import { checkContext } from "../Orders";
-import { AnimatePresence, motion } from "framer-motion";
 import MobileOrder from "./MobileOrder";
 import { Outlet } from "react-router-dom";
-import { OrderInterface } from "@/interfaces/order";
-import { opacityVariant } from "@/variants/globals";
+import { OrderInterface } from "@/interfaces/order.interface";
+import { useAppSelector } from "@/custom/reduxTypes";
+import { Fragment } from "react";
 
 const MobileOrders = () => {
-  const { dataShown } = useContext(checkContext);
+  const { order } = useAppSelector((st) => st.order);
   return (
-    <div className="">
-      <AnimatePresence>
-        {dataShown?.map((order: OrderInterface, i: number) => {
-          return (
-            <motion.div
-              key={i}
-              variants={opacityVariant}
-              initial="start"
-              animate="end"
-              exit="exit"
-              transition={{ duration: 0.5 }}
-              className=" mobile-order-par"
-            >
-              <MobileOrder {...order} />
-            </motion.div>
-          );
+    <div className="mobile-dashboard  col gap">
+      <Fragment>
+        {order?.map((order: OrderInterface, i: number) => {
+          return <MobileOrder {...order} key={i} />;
         })}
-      </AnimatePresence>
+      </Fragment>
       <Outlet />
     </div>
   );

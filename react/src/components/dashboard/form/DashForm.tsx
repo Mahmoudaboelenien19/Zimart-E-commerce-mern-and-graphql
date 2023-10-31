@@ -1,24 +1,18 @@
-import React, { Fragment, useState } from "react";
+import { Fragment, useContext } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { toast } from "react-hot-toast";
-
 import CustomFIleInput from "./CustomFIleInput";
-
-import { motion, AnimatePresence } from "framer-motion";
-
 import DashMain from "../DashMain";
-
-import Select from "./Select";
 import MainBtn from "@/components/widgets/buttons/MainBtn";
-import FormAnimation from "@/components/widgets/forms/FormAnimation";
-import InpErr from "@/components/widgets/forms/InpErr";
-import Input from "@/components/widgets/forms/Input";
-import UploadingLoader from "@/components/widgets/loaders/UploadingLoader";
+import Form from "@/components/widgets/shared/forms/Form";
+import InpErr from "@/components/widgets/shared/forms/InpErr";
+import Input from "@/components/widgets/shared/forms/Input";
 import { ProductInterface } from "@/interfaces/product";
-import { opacityVariant } from "@/variants/globals";
+import { DashFormSchema } from "@/lib/formschemas/form schemas";
+import DashboardSelect from "./DashboardSelect";
+import TextArea from "@/components/widgets/shared/forms/TextArea";
+import { isAuthContext } from "@/context/isAuth";
 interface keyedProduct extends ProductInterface {
   [key: string]: any;
 }
@@ -33,190 +27,148 @@ interface Props {
 }
 
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
-  const [isPending, setIsPending] = useState(false);
-  const [isSubmited, setIsSubmitted] = useState(false);
-  const [stateValue, setStateValue] = useState(obj?.state || "");
-  const [categoryValue, setCategoryValue] = useState(obj?.category || "");
-
   const date = () => new Date();
-
-  const fileSchema = yup
-    .mixed()
-    .test("fileList", "you must upload 4 png images", (value) => {
-      return (
-        value instanceof FileList &&
-        value.length === 4 &&
-        Array.from(value).every((file) => file.type === "image/png")
-      );
-    });
-
-  const notRequired = yup.mixed().notRequired();
-  const schema = yup.object().shape({
-    title: yup.string().min(12).max(30).required(),
-    stock: yup.number().integer().min(0).max(100).required(),
-    price: yup.number().min(1).max(1000).required(),
-    description: yup.string().trim().min(50).required(),
-    images: type === "update" ? notRequired : fileSchema,
+  const methods = useForm({
+    resolver: yupResolver(DashFormSchema(type || "")),
+    defaultValues: {},
   });
-
-  const methods = useForm({ resolver: yupResolver(schema), defaultValues: {} });
   const {
     handleSubmit,
-    resetField,
-    register,
+    reset,
 
-    formState: { errors },
+    formState: { errors, isDirty },
   } = methods;
 
+  console.log({ isDirty });
   const inpArr = [
     { type: "text", placeholder: "title" },
-
     { type: "number", placeholder: "stock" },
-
     { type: "number", placeholder: "price" },
   ];
 
-  const resetFn = () => {
-    setIsSubmitted(false);
-
-    setCategoryValue("");
-    setStateValue("");
-    setIsPending(false);
-    [
-      ...inpArr,
-      { placeholder: "description" },
-      { placeholder: "images" },
-    ].forEach(({ placeholder }) => resetField(placeholder as any));
-  };
-
   const onSubmit = async (data: FieldValues) => {
     try {
-      if (stateValue && categoryValue) {
-        setIsPending(true);
+      const obj = {
+        ...data,
+        stock: Number(data.stock),
+        price: Number(data.price),
+      };
 
-        const obj = {
-          ...data,
-          stock: Number(data.stock),
-          price: Number(data.price),
-          state: stateValue,
-          category: categoryValue,
-        };
-
-        if (type === "update") {
-          const { data: res } = await fn({
-            variables: {
-              input: {
-                ...obj,
-                _id: id,
+      if (type === "update") {
+        if (isDirty) {
+          const res: Promise<{ data: { updateProduct: { msg: string } } }> = fn(
+            {
+              variables: {
+                input: {
+                  ...obj,
+                  _id: id,
+                },
               },
+            }
+          );
+          toast.promise(res, {
+            loading: <div>updating... !</div>,
+
+            success: (res) => {
+              reset();
+              return res.data.updateProduct.msg;
+            },
+            error: (err) => {
+              return err;
             },
           });
-          toast.success(res.updateProduct.msg);
-
-          resetFn();
         } else {
-          const addObj = { ...obj, createdAt: date() };
-
-          const { data } = await fn({
-            variables: { input: addObj },
-          });
-          if (data.addNewProduct.status) {
-            resetFn();
-          }
+          toast.error("no data changed");
         }
+      } else {
+        const addObj = { ...obj, createdAt: date() };
+
+        const res: Promise<{ data: { addNewProduct: { msg: string } } }> = fn({
+          variables: { input: addObj },
+        });
+        console.log(data);
+        toast.promise(res, {
+          loading: <div>updating... !</div>,
+
+          success: (res) => {
+            reset();
+            return res.data.addNewProduct.msg;
+          },
+          error: (err) => {
+            return err;
+          },
+        });
+        // if (data.addNewProduct.status) {
+
+        // }
       }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
-        setIsPending(false);
-
         toast.error("you aren't an admin");
       }
     }
   };
 
   return (
-    <DashMain>
+    <DashMain key="dash-form">
       <FormProvider {...methods}>
-        <FormAnimation
-          fn={handleSubmit(onSubmit)}
-          cls="update-product-form center  col box-shadow"
+        <Form
+          initialTranslate={-50}
+          onSubmit={handleSubmit(onSubmit)}
+          className=" main "
         >
-          <h2
-            className="underline header "
-            style={{ color: "var(--white)", margin: "10px auto" }}
-          >
-            {head}
-          </h2>
+          <h2>{head}</h2>
           {inpArr.map(({ placeholder, type: inptype }, i) => {
             return (
               <Fragment key={`${type + placeholder}-${i}`}>
                 <Input
                   placeholder={placeholder}
-                  defaultVal={obj?.category ? obj[placeholder] : ""}
+                  defaultValue={obj?.category ? obj[placeholder] : ""}
                   type={inptype}
-                  err={(errors as { [key: string]: { message: string } })[
-                    placeholder
-                  ]?.message.toString()}
-                  inptype="input"
+                  name={placeholder}
                 />
                 {placeholder === "title" && type !== "update" && (
                   <CustomFIleInput err="" key="custom-input" />
                 )}
                 {placeholder === "price" && (
                   <Fragment key={"state&&title" + type}>
-                    <Select
-                      setter={setStateValue}
-                      val={stateValue}
-                      ar={["new", "sale", "trending", "exclusive", "limited"]}
-                      noVal="Select Product State"
-                      isSubmited={isSubmited}
+                    <DashboardSelect
+                      name={"state"}
+                      defaultValue={obj?.state || ""}
                     />
-                    <Select
-                      isSubmited={isSubmited}
-                      setter={setCategoryValue}
-                      val={categoryValue}
-                      ar={["phone", "laptops", "fashion"]}
-                      noVal="Select Product Category"
+
+                    <DashboardSelect
+                      name={"category"}
+                      defaultValue={obj?.category || ""}
                     />
                   </Fragment>
                 )}
-
-                <Fragment key="state-add-file"></Fragment>
               </Fragment>
             );
           })}
-          <div className="inp-parent textarea-par">
+          <div className=" center w-100  gap col">
+            <div className="inp-parent textarea-par w-100">
+              <TextArea
+                placeholder={"description"}
+                className="update-product  inp relative "
+                defaultValue={obj?.category ? obj.description : ""}
+              />
+            </div>
             <InpErr
               key={"description"}
               err={errors.description?.message?.toString()}
             />
-            <textarea
-              {...register("description")}
-              className="update-product  inp relative"
-              defaultValue={obj?.category ? obj.description : ""}
+          </div>
+          <div>
+            <MainBtn
+              btn={btn}
+              className="main btn center gap w-100"
+              type="submit"
             />
           </div>
-
-          <MainBtn
-            btn={btn}
-            cls="main btn center gap w-100"
-            fn={() => setIsSubmitted(true)}
-            parCls="w-80"
-            type="submit"
-          />
-        </FormAnimation>
-        <AnimatePresence>
-          <motion.span
-            variants={opacityVariant}
-            transition={{ duration: 0.4 }}
-            initial="start"
-            animate="end"
-            exit="exit"
-            key={"prograssbar"}
-          ></motion.span>
-        </AnimatePresence>
+        </Form>
       </FormProvider>
-      <UploadingLoader bool={isPending} />
+      {/* <UploadingLoader bool={isSubmitting && isAdmin} /> */}
     </DashMain>
   );
 };

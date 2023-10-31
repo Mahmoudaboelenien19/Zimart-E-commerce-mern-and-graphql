@@ -1,4 +1,3 @@
-import React from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
@@ -29,8 +28,8 @@ const SuggestedBlog = ({ head, intro, image, _id }: Props) => {
       <MainBtn
         Icon={BiRightArrowAlt}
         btn="see more"
-        cls="btn main center gap suggested-btn"
-        fn={() => {
+        className="btn main center gap suggested-btn"
+        onClick={() => {
           navigate(`/blogs/${_id}`);
         }}
         pos="right"

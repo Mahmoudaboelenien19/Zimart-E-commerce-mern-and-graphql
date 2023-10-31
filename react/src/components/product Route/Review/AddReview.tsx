@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import AddRate from "./AddRate";
-
 import { useMutation } from "@apollo/client";
 import SlideButton from "@/components/widgets/buttons/SlideButton";
 import { isAuthContext } from "@/context/isAuth";
@@ -27,11 +26,11 @@ const AddReview = ({
   defaultVal,
   bool,
 }: Props) => {
-  const { userId, name, image } = useContext(isAuthContext);
+  const { userId, name, profile } = useContext(isAuthContext);
   const [inpVal, setInpVal] = useState("");
   const obj = {
     userId,
-    image,
+    image: profile,
     _id,
     rate: rateIndex + 1,
     review: inpVal,

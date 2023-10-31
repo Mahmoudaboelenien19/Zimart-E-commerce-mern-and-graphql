@@ -1,24 +1,30 @@
-import useIsMobile from "@/custom/useIsMobile";
-import useParams from "@/custom/useParams";
-import React from "react";
 import { Outlet } from "react-router-dom";
 import DashNav from "./main/DashNav";
-
+import clsx from "clsx";
+import useNavTransition from "@/custom/useNavTransition";
+import { motion } from "framer-motion";
+import DashboardAside from "./main/DashboardAside";
+import BeardCrumbs from "./BeardCrumbs";
+import Transition from "../widgets/animation/transition/Transition";
 const DashboardLayout = () => {
-  const { showDashBoaedAside } = useParams();
-  const { isMobile } = useIsMobile();
+  const { boxShadow, navRef, bg } = useNavTransition();
+
   return (
-    <main>
-      <nav
-        className="dash-nav w-100"
+    <main className="col center">
+      <Transition />
+      <motion.nav
+        ref={navRef}
         style={{
-          paddingLeft: showDashBoaedAside && !isMobile ? 310 : 10,
-          background: "var(--main)",
-          color: "var(--third)",
+          boxShadow,
+          background: bg,
         }}
+        className={clsx("dash-nav w-100")}
       >
         <DashNav />
-      </nav>
+      </motion.nav>
+      <BeardCrumbs />
+      <DashboardAside />
+
       <>
         <Outlet />
       </>

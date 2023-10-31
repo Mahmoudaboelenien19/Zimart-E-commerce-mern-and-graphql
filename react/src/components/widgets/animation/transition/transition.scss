@@ -1,0 +1,27 @@
+@import "@/styles/variables.scss";
+
+.transition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  display: flex;
+  z-index: 100;
+  flex-direction: column;
+  .tansition-col {
+    width: 100vw;
+    height: 10vw;
+    display: flex;
+  }
+  .transition-item {
+    width: 5vw;
+    // background: rgb(11, 91, 11);
+    background-color: var(--green);
+    opacity: 0.5;
+    height: 5vw;
+  }
+}

@@ -1,59 +1,52 @@
-import React, { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import useShowTitle from "../../custom/useShowTitle";
-import { ChildrenInterFace } from "../../interfaces/general";
-import { themeContext } from "@/context/ThemContext";
-import { clsx } from "clsx";
+import clsx from "clsx";
+import { ChildrenInterFace } from "@/interfaces/general";
+import { useState } from "react";
 interface Props extends ChildrenInterFace {
   title: string;
   dir?: string;
-  cls?: string;
+  className?: string;
   abs?: boolean;
-  cancelTap?: boolean;
 }
-const Title = ({ title, cls, dir, children, abs, cancelTap = true }: Props) => {
-  const variant = {
-    start: { opacity: 0, y: 10 },
-    end: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-    exit: {
-      opacity: 0,
-      y: 10,
-      transition: { duration: 0.2, opacity: { delay: 0.2 } },
-    },
-  };
+const variant = {
+  start: { opacity: 0, y: 10 },
+  end: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  exit: {
+    opacity: 0,
+    y: 10,
+    transition: { duration: 0.1 },
+  },
+};
+const Title = ({ title, className, dir, children, abs }: Props) => {
+  const [showTitle, setShowTitle] = useState(false);
+  const handleShow = () => setShowTitle(true);
+  const handleHide = () => setShowTitle(false);
 
-  const [bool, show, hide] = useShowTitle();
-  const { theme } = useContext(themeContext);
   return (
     <motion.span
-      className={clsx("title-par", !abs && "relative", cls)}
-      onHoverStart={show}
-      onHoverEnd={hide}
-      onTapStart={() => {
-        if (cancelTap) {
-          hide();
-        }
-      }}
+      className={clsx(!abs && "relative", className)}
+      onHoverStart={handleShow}
+      onHoverEnd={handleHide}
+      onTapStart={handleHide}
     >
       {children}
       <AnimatePresence mode="wait">
-        {bool && title !== "" && (
-          <motion.div
+        {showTitle && title !== "" && (
+          <motion.span
             variants={variant}
             key={title}
             initial="start"
             exit={"exit"}
             animate="end"
             className={clsx(
-              " custom-title",
-              dir === "left" ? "left" : "right",
-              theme
+              " custom-title center",
+              dir === "left" ? "left" : "right"
             )}
-            onHoverStart={hide}
+            onHoverStart={handleHide}
           >
             {" "}
             {title}
-          </motion.div>
+          </motion.span>
         )}
       </AnimatePresence>
     </motion.span>

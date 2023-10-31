@@ -1,0 +1,119 @@
+@import "@/styles/variables.scss";
+
+.customer {
+  display: grid;
+  grid-area: cust;
+  margin-top: 12px;
+  background: var(--main);
+  padding: 12px;
+  color: var(--third);
+
+  h2 + .hr {
+    margin-top: 6px;
+  }
+  h2 {
+    text-transform: capitalize;
+    color: var(--sale);
+    text-shadow: var(--forth-shadow);
+    padding: 12px 0;
+  }
+}
+.order-detail {
+  height: 40px;
+
+  span:first-child {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+}
+
+.order-del-par {
+  min-height: calc(100vh - 100px);
+}
+.order-details-grid {
+  width: 100%;
+  display: grid;
+  gap: 4px 8px;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "tabl  summ"
+    "cust  summ";
+
+  .table-order-detail {
+    grid-area: tabl;
+    background-color: var(--secondary);
+    text-align: center;
+    vertical-align: middle;
+    border-spacing: 0;
+
+    th {
+      color: var(--white);
+      background: var(--green);
+      height: 50px;
+      text-transform: capitalize;
+      font-size: 1rem;
+      letter-spacing: 0.8px;
+    }
+    td {
+      color: var(--third);
+      max-height: 45px;
+      font-weight: 600;
+      &:first-child {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+
+        .table-order {
+          width: 20vw !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: start;
+        }
+      }
+    }
+  }
+
+  .order-summery {
+    grid-area: summ;
+    padding: 15px;
+    color: var(--third);
+    height: fit-content;
+    background: var(--main);
+
+    align-self: flex-start;
+    .header {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .order-details-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "tabl"
+      "cust"
+      "summ";
+    gap: 10px;
+
+    .table-order-detail {
+      font-size: 0.7rem;
+      td {
+        .table-order {
+          width: 10vw !important;
+        }
+      }
+    }
+  }
+  .mobile-order-par .order-mobile {
+    .mobile-order-title {
+      width: 85%;
+      .mobile-order-id {
+        font-size: 1rem;
+      }
+    }
+  }
+}

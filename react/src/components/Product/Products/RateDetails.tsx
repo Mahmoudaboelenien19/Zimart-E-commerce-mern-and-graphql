@@ -1,21 +1,13 @@
-import React, { useContext, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-
+import { Fragment, useState } from "react";
 import Star from "./Aside/Star";
 import { IoIosArrowDown } from "react-icons/io";
-import useClickOutside from "@/custom/useClickOutside";
-import { opacityVariant, parentVariant } from "@/variants/globals";
-import { themeContext } from "@/context/ThemContext";
-import clsx from "clsx";
+import DropDown from "@/components/widgets/dropdowns/DropDown";
 
-const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
+const RatingDetails = ({ arr }: { arr: number[] }) => {
   const [show, setShow] = useState(false);
-  const ref = useClickOutside<HTMLDivElement>(() => {
-    setShow(false);
-  }, show);
 
   const stars = [];
-  const { theme } = useContext(themeContext);
+
   for (let i = 1; i <= 5; i++) {
     const group: React.ReactNode[] = [];
 
@@ -29,46 +21,34 @@ const RatingDetails = ({ arr, pos }: { pos: string; arr: number[] }) => {
     }
 
     stars.push(
-      <motion.div
-        variants={opacityVariant}
-        className={clsx("center rate-filter-par ")}
-        style={{ width: "fit-content" }}
-        key={`group-${i}`}
-      >
+      <div className={"center"} key={`group-${i}`}>
         <span className="rate-filter">{group}</span>
         <span>
           ({arr.reduce((ac, cur) => (cur === 6 - i ? ac + 1 : ac), 0)})
         </span>
-      </motion.div>
+      </div>
     );
   }
-
   return (
-    <>
+    <Fragment>
       {arr.length >= 1 && (
-        <div className=" center gap">
+        <>
           <IoIosArrowDown
             fontSize={15}
             onClick={() => setShow(!show)}
             color="var(--green)"
           />
-          <AnimatePresence>
-            {show && (
-              <motion.div
-                ref={ref}
-                variants={parentVariant}
-                style={{ [pos]: "140%" }}
-                key={pos}
-                id="star-details"
-                className={theme}
-              >
-                {stars}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+
+          <DropDown
+            bool={show}
+            setter={setShow}
+            className="  star-details w-100"
+          >
+            {stars}
+          </DropDown>
+        </>
       )}
-    </>
+    </Fragment>
   );
 };
 

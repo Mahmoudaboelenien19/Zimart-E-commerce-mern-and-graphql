@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Mahmoudaboelenien19/mern-graphql-E-commerce/issues"
   },
-  "homepage": "https://github.com/Mahmoudaboelenien19/mern-graphql-E-commerce#readme"
+  "homepage": "https://github.com/Mahmoudaboelenien19/mern-graphql-E-commerce#readme",
+  "dependencies": {
+    "react-router-dom": "^6.10.0"
+  }
 }

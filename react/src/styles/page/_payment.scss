@@ -26,17 +26,16 @@
       margin-bottom: 12px;
       align-self: flex-start;
     }
-    .detail {
-      color: var(--third);
-      padding: 0;
-      font-weight: 600;
-      // padding-left: 5px;
-    }
+    // .detail {
+    //   color: var(--third);
+    //   padding: 0;
+    //   font-weight: 600;
+    //   // padding-left: 5px;
+    // }
     .value {
-      padding: 0;
-      text-shadow: var(--forth-shadow);
-
-      color: var(--wheat);
+      // padding: 0;
+      // text-shadow: var(--forth-shadow);
+      // color: var(--wheat);
       .price-top {
         bottom: -4px;
         font-size: 0.6rem;
@@ -111,18 +110,15 @@ form#payment-form {
   height: 150px;
   width: clamp(300px, 90vw, 500px);
   padding: 12%;
-
   h1 {
-    font-size: 1.8rem;
+    font-size: min(2rem, 30px);
     color: var(--third);
     text-transform: capitalize;
   }
   p {
     color: var(--third) !important;
     padding: 20px;
-    &:first-letter {
-      margin: 0;
-    }
+    text-wrap: balance;
   }
 }
 @media (max-width: 650px) {

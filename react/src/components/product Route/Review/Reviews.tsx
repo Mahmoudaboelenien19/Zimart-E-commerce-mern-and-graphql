@@ -1,4 +1,4 @@
-import React, { RefAttributes, useContext } from "react";
+import { RefAttributes, useContext } from "react";
 
 import Review from "./Review";
 import { FaGreaterThan, FaLessThan } from "react-icons/fa";
@@ -6,12 +6,13 @@ import { motion } from "framer-motion";
 
 import { productContext } from "../Product";
 
-import MainPop from "../../widgets/MainPop";
+import MainPop from "../../widgets/shared/popup/MainPop";
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 
 import "swiper/css/navigation";
+import { reviewInterface } from "@/interfaces/product";
 interface Props {
   setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
   bool: boolean;
@@ -29,9 +30,7 @@ const Reviews = ({ setShowPop, bool }: Props) => {
   };
   return (
     <MainPop bool={bool} setter={setShowPop}>
-      <h2 className="underline header" style={{ marginBottom: 20 }}>
-        reviews
-      </h2>
+      <h2 className=" header">reviews</h2>
       <Swiper
         className="pop-up-reviews center"
         {...options}
@@ -40,7 +39,7 @@ const Reviews = ({ setShowPop, bool }: Props) => {
           prevEl: " .btn-review  .prev-swiper",
         }}
       >
-        {reviews?.map((review: any, i) => {
+        {reviews?.map((review: reviewInterface, i) => {
           {
             return (
               <SwiperSlide key={i} className="review">

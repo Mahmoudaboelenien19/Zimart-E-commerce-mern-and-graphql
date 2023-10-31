@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { productContext } from "../Product";
 import useCarousel from "@/custom/useCarousel";
 import { LazyLoadImage } from "react-lazy-load-image-component";

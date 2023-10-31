@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -6,12 +6,17 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { isAuthContext } from "@/context/isAuth";
 import useIsMobile from "@/custom/useIsMobile";
 import useRemoveFromFav from "@/custom/useRemoveFeomFav";
-import { opacityVariant } from "@/variants/globals";
+import { opacityVariant } from "@/lib/variants/globals";
+import useModifyUrl from "@/custom/useModifyUrl";
 
 interface Props {
   _id: string;
-  price: number;
-  title: string;
+  product: {
+    price: number;
+    title: string;
+  };
+  price?: number;
+  title?: string;
   productId: string;
   path: string;
   parentId: string;
@@ -19,11 +24,12 @@ interface Props {
 }
 const Favorite = ({
   _id,
-  price,
-  title,
+  product,
   productId,
   path,
   parentId,
+  title,
+  price,
   setter,
 }: Props) => {
   const navigate = useNavigate();
@@ -33,6 +39,7 @@ const Favorite = ({
     productId: [productId as string],
   });
   const { isMobile } = useIsMobile();
+  const { getlink } = useModifyUrl();
   return (
     <motion.div
       className="fav-product center"
@@ -42,13 +49,13 @@ const Favorite = ({
       <LazyLoadImage
         wrapperClassName="fav-img center "
         effect="blur"
-        src={path}
+        src={getlink(path, 400)}
         alt=""
       />
 
       <div className="fav-content center shadow">
-        <h3 className="fav-title ">{title}</h3>
-        <span className="fav-price">$ {price}</span>
+        <h3 className="fav-title ">{title || product?.title}</h3>
+        <span className="fav-price">$ {price || product?.price}</span>
         <div className="product-links">
           <button className="btn unsave " onClick={handleRemoveFromFav}>
             unsave
@@ -57,7 +64,7 @@ const Favorite = ({
             className="btn  "
             style={{ color: "var(--third" }}
             onClick={() => {
-              navigate(`/${parentId}`);
+              navigate(`/product/${parentId}`);
               if (isMobile) {
                 setter(false);
               }

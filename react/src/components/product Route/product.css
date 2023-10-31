@@ -26,15 +26,6 @@
   --admin: rgb(4, 81, 4);
   --delivered: var(--sale);
   --moderator: var(--sale);
-  --nav-btn: #237a44;
-  --secondary-light: #c9cbcd;
-  --third-light: #000;
-  --main-light: #ffffff;
-  --forth-light: #ffffff;
-  --main-dark: #111417;
-  --secondary-dark: #222222;
-  --third-dark: rgb(247, 246, 246);
-  --forth-dark: #000000;
   --main-shadow: 0.75px 0.75px 1.5px black;
   --secondary-shadow: 0.5px 0.5px 1.5px black;
   --third-shadow: 0.5px 0.5px 0.5px black;
@@ -117,15 +108,17 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.product-page .details p {
+  width: 100%;
+  text-align: center;
+  letter-spacing: 0.8px;
+  margin: 10px auto;
+  margin-top: 15px;
+}
 .product-page .details .title-par {
   display: flex;
   gap: 20px;
-}
-.product-page .details .title-par.light {
-  color: var(--third-light);
-}
-.product-page .details .title-par.dark {
-  color: var(--third-dark);
+  color: var(--third);
 }
 .product-page .details .product-btn {
   display: flex;
@@ -152,26 +145,6 @@
   font-size: 2rem;
   color: var(--wheat);
   text-shadow: 0px 0.8px 0.5px black;
-  font-weight: bold;
-}
-
-p {
-  width: 100%;
-  text-align: justify;
-  letter-spacing: 0.8px;
-  margin: 10px 0;
-  margin-top: 15px;
-}
-p.light {
-  color: var(--third-light);
-}
-p.dark {
-  color: var(--third-dark);
-}
-p::first-letter {
-  color: var(--green);
-  font-size: 1.2rem;
-  margin-left: 20px;
   font-weight: bold;
 }
 
@@ -222,43 +195,6 @@ p::first-letter {
   top: -3px;
   white-space: nowrap;
   padding: 0 10px;
-}
-
-.heading-slider {
-  margin: 0;
-  margin-top: 50px !important;
-}
-
-.stock-par {
-  color: var(--light-text);
-  white-space: nowrap;
-}
-.stock-par .stock {
-  color: var(--green);
-  margin: 3px;
-  margin-left: 4px;
-  font-weight: bold;
-}
-.stock-par .stock-card.light {
-  color: var(--third-light);
-}
-.stock-par .stock-card.dark {
-  color: var(--third-dark);
-}
-
-.stock-icon {
-  color: var(--light-text);
-  display: inline-flex;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  padding: 2.5px;
-  background: var(--wheat-lighter);
-  border-radius: 50%;
-}
-.stock-icon svg {
-  font-size: 0.8rem;
 }
 
 .title {

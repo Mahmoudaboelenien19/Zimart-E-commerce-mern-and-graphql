@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { isAuthContext } from "../../context/isAuth";
-import MainPop from "../widgets/MainPop";
+import MainPop from "../widgets/shared/popup/MainPop";
 
 interface Props {
   isLoaded: boolean;
@@ -9,32 +9,27 @@ const AdminEmailPop = ({ isLoaded }: Props) => {
   const { isAdmin } = useContext(isAuthContext);
   const [show, setShow] = useState(false);
   useEffect(() => {
+    let timer: number;
     if (isAdmin) {
       setShow(false);
     } else {
       if (isLoaded) {
-        setTimeout(() => {
+        timer = setTimeout(() => {
           setShow(true);
         }, 2000);
       }
     }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [isAdmin, isLoaded]);
   return (
-    <MainPop setter={setShow} bool={show}>
-      <h3
-        className="center col gap"
-        style={{
-          marginBottom: 20,
-          color: "var(--wheat)",
-
-          padding: "0 20px",
-          textTransform: "capitalize",
-        }}
-      >
+    <MainPop setter={setShow} bool={show} className="admin-pop">
+      <h3 className="center col gap">
         <span>If you want to test Admin features</span>
         <span>use this Email</span>
       </h3>
-      <div className="center col gap w-100">
+      <p className="center col gap w-100">
         <div>
           <span className="detail">Email :</span>
           <span className="value">admin@gmail.com</span>
@@ -43,7 +38,7 @@ const AdminEmailPop = ({ isLoaded }: Props) => {
           <span className="detail">password :</span>
           <span className="value">admin123#</span>
         </div>
-      </div>
+      </p>
     </MainPop>
   );
 };

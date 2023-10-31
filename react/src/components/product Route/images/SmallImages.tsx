@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { productContext } from "../Product";
 import useModifyUrl from "@/custom/useModifyUrl";

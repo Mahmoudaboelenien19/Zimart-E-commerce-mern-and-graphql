@@ -1,156 +1,161 @@
-import React, { useContext } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  RouteObject,
+} from "react-router-dom";
 import Loading from "@/loading/Loading";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Layout from "@/components/Layout";
 import { NotAuthedRoutes } from "./NotAuthedRoutes";
-import { isAuthContext } from "@/context/isAuth";
-import useInnitialRender from "@/custom/useInnitialRender";
 import DashboardLayout from "../dashboard/dashboardLayout";
+import NotFound from "../NotFound/NotFound";
+import { AnimatePresence } from "framer-motion";
 
 const AppRoutes = () => {
-  /* 
-  if user goes directly to a proected or unAuthed Route
-  this delayed state to ensure isAuth value is done 
-  and to make this delay only once 
-  */
-  const { isInitialRender } = useInnitialRender(1500);
-  const { isAuth } = useContext(isAuthContext);
   const dashBoardRoutes = {
-    path: "dashboard",
-    element: <DashboardLayout />,
+    path: "",
+    element: <ProtectedRoutes />,
     children: [
       {
-        path: "",
-        lazy: () => import("@/components/dashboard/Dashboard"),
+        path: "dashboard",
+        element: <DashboardLayout />,
         children: [
           {
             path: "",
-            lazy: () => import("@/components/dashboard/recap/Recap"),
-          },
-          {
-            path: "users",
-            lazy: () => import("@/components/dashboard/User/UsersDashboard"),
-          },
-          {
-            path: "products",
-            lazy: () =>
-              import("@/components/dashboard/dash-products/DashProducts"),
-          },
+            lazy: () => import("@/components/dashboard/Dashboard"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("@/components/dashboard/recap/Recap"),
+              },
+              {
+                path: "users",
+                lazy: () =>
+                  import("@/components/dashboard/User/UsersDashboard"),
+              },
+              {
+                path: "products",
+                lazy: () =>
+                  import("@/components/dashboard/dash-products/DashProducts"),
+              },
 
-          {
-            path: "products/add",
-            lazy: () => import("@/components/dashboard/form/DashAddProduct"),
-          },
-          {
-            path: "orders",
-            lazy: () => import("@/components/dashboard/Order/Orders"),
-          },
-          {
-            path: "orders/:id",
-            lazy: () =>
-              import("@/components/dashboard/Order/OrderDetails/OrderDetails"),
+              {
+                path: "products/add",
+                lazy: () =>
+                  import("@/components/dashboard/form/DashAddProduct"),
+              },
+              {
+                path: "orders",
+                lazy: () => import("@/components/dashboard/Order/Orders"),
+              },
+              {
+                path: "orders/:id",
+                lazy: () =>
+                  import(
+                    "@/components/dashboard/Order/OrderDetails/OrderDetails"
+                  ),
+              },
+              {
+                path: "products/:id",
+                lazy: () =>
+                  import("@/components/dashboard/form/DashUpdateProduct"),
+              },
+            ],
           },
         ],
       },
     ],
   };
-
-  const routes = [
+  const routes: RouteObject[] = [
     {
-      path: "/",
-      element: <Layout />,
+      //i mad this arr to make navbar not appear in dashboard routes
 
       children: [
         {
-          index: true,
-          lazy: () => import("@/components/Home/Home"),
-          // element: <Home />,
-          path: "",
-        },
-
-        {
-          path: "",
-          element: (
-            <NotAuthedRoutes
-              isAuth={isAuth}
-              isInitialRender={isInitialRender}
-            />
-          ),
-
+          path: "/",
+          element: <Layout />,
           children: [
             {
-              path: "login",
-              lazy: () => import("@/components/log/login"),
+              index: true,
+              lazy: () => import("@/components/Home/Home"),
+              path: "",
             },
             {
-              path: "signup",
+              path: "",
+              element: <NotAuthedRoutes />,
 
-              lazy: () => import("@/components/log/SignUp"),
+              children: [
+                {
+                  path: "login",
+                  lazy: () => import("@/components/login/login"),
+                },
+                {
+                  path: "signup",
+
+                  lazy: () => import("@/components/signup/SignUp"),
+                },
+              ],
+            },
+            {
+              element: <ProtectedRoutes />,
+              path: "",
+              children: [
+                {
+                  path: "user",
+                  lazy: () => import("../user/User"),
+                },
+                {
+                  path: "cart",
+                  lazy: () => import("./cart/Cart"),
+                },
+                {
+                  path: "compare",
+                  lazy: () => import("../Compare/CompareProduct"),
+                },
+                {
+                  path: "payment",
+                  lazy: () => import("../payment/Payment"),
+                },
+              ],
+            },
+            {
+              lazy: () => import("../contactUs/ContactUs"),
+
+              path: "contact",
+            },
+            {
+              lazy: () => import("@/components/user/Faq"),
+              path: "faq",
+            },
+            {
+              lazy: () => import("@/components/blogs/Blogs"),
+              path: "blogs",
+            },
+
+            {
+              path: "/blogs/:id",
+              lazy: () => import("@/components/blogs/Blog"),
+            },
+            {
+              lazy: () => import("@/components/product Route/Product"),
+              path: "/product/:id",
             },
           ],
         },
-        {
-          element: (
-            <ProtectedRoutes
-              isAuth={isAuth}
-              // isInitialRender={isInitialRender}
-            />
-          ),
-          path: "",
-          children: [
-            { ...dashBoardRoutes },
-            {
-              path: "user",
-              lazy: () => import("../user/User"),
-            },
-            {
-              path: "cart",
-              lazy: () => import("./cart/Cart"),
-            },
-            {
-              path: "compare",
-              lazy: () => import("../Compare/CompareProducts"),
-            },
-            {
-              path: "payment",
-              lazy: () => import("../payment/Payment"),
-            },
-          ],
-        },
-        {
-          lazy: () => import("../contactUs/ContactUs"),
+        { ...dashBoardRoutes },
 
-          path: "contact",
-        },
-        {
-          lazy: () => import("@/components/user/Faq"),
-          path: "faq",
-        },
-        {
-          lazy: () => import("@/components/blogs/Blogs"),
-          path: "blogs",
-        },
-
-        {
-          path: "/blogs/:id",
-          lazy: () => import("@/components/blogs/Blog"),
-        },
-        {
-          lazy: () => import("@/components/product Route/Product"),
-          path: "/product/:id",
-        },
-        {
-          path: "/dashboard/products/:id",
-          lazy: () => import("@/components/dashboard/form/DashUpdateProduct"),
-        },
+        { path: "*", element: <NotFound /> },
       ],
     },
   ];
 
-  //@ts-ignore
   const router = createBrowserRouter(routes);
-  return <RouterProvider router={router} fallbackElement={<Loading />} />;
+
+  return (
+    <AnimatePresence mode="wait">
+      <RouterProvider router={router} fallbackElement={<Loading />} />
+    </AnimatePresence>
+  );
 };
 
 export default AppRoutes;
