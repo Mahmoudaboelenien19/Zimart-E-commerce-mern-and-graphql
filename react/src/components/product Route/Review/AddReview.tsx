@@ -75,27 +75,28 @@ const AddReview = ({
     }
   }, [bool]);
   return (
-    <SlideButton
-      doneMsg={hasReview ? "rate updated" : "rate added"}
-      head="add rate"
-      sethide={setShowAddRate}
-      Status={Status}
-      isVaild
-      bool={bool}
-      fn={hasReview ? updateReview : handleAddReview}
-    >
-      <AddRate setRateIndex={setRateIndex} rateIndex={rateIndex} />
-      <form className="rate-form ">
-        <input
-          placeholder="add review"
-          style={{ paddingLeft: 8 }}
-          type="text"
-          className="inp rate-inp"
-          onChange={handleCHange}
-          defaultValue={defaultVal}
-        />
-      </form>
-    </SlideButton>
+    // <SlideButton
+    //   doneMsg={hasReview ? "rate updated" : "rate added"}
+    //   head="add rate"
+    //   sethide={setShowAddRate}
+    //   Status={Status}
+    //   isVaild
+    //   bool={bool}
+    //   fn={hasReview ? updateReview : handleAddReview}
+    // >
+    //   <AddRate setRateIndex={setRateIndex} rateIndex={rateIndex} />
+    //   <form className="rate-form ">
+    //     <input
+    //       placeholder="add review"
+    //       style={{ paddingLeft: 8 }}
+    //       type="text"
+    //       className="inp rate-inp"
+    //       onChange={handleCHange}
+    //       defaultValue={defaultVal}
+    //     />
+    //   </form>
+    // </SlideButton>
+    <></>
   );
 };
 

@@ -1,67 +1,42 @@
-import { useEffect } from "react";
-import { useInView } from "framer-motion";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowAlt } from "react-icons/bi";
-import { useAnimate } from "framer-motion";
 import { BlogInterface } from "@/interfaces/blog";
 import useModifyUrl from "@/custom/useModifyUrl";
-import clsx from "clsx";
+import InViewAnimation from "../widgets/animation/InViewAnimation";
 
 interface Props extends BlogInterface {
   i: number;
 }
 const Blog = ({ head, intro, image, _id, i }: Props) => {
   const navigate = useNavigate();
-  const [scope, animate] = useAnimate();
-  const inView = useInView(scope, { once: true, amount: 0.5 });
-  const isReversed = i === 0 || i % 2 === 0;
-
-  useEffect(() => {
-    if (inView) {
-      animate(
-        ".main-img-blog , img",
-        { x: isReversed ? [-200, 0] : [200, 0], opacity: [0, 1] },
-        { duration: 0.3, opacity: { delay: 0.1, duration: 0.3 } }
-      )
-        .then(() =>
-          animate(
-            ".blog-background",
-            { opacity: [0, 0.4] },
-            { duration: 0.3, opacity: { delay: 0.5, duration: 0.3 } }
-          )
-        )
-        .then(() =>
-          animate(".main-blog-content", { opacity: [0, 1] }, { duration: 0.3 })
-        );
-    }
-  }, [inView]);
 
   const { getlink } = useModifyUrl();
 
   return (
-    <div
-      ref={scope}
-      className={clsx(`main-blog `, isReversed && "blog-reversed ")}
-    >
-      <div className="main-img-blog">
-        <LazyLoadImage effect="blur" src={getlink(image, 600)} alt={head} />{" "}
-        <div className={clsx("blog-background  ")}></div>
-      </div>
-
-      <div className="main-blog-content">
-        <h3 className="blog-head">{head}</h3>
-        <p>{intro.split(" ").slice(0, 50).join(" ")} ...</p>
-        <MainBtn
-          Icon={BiRightArrowAlt}
-          btn="see more"
-          className="btn main center gap blog-btn"
-          onClick={() => navigate(`/blogs/${_id}`)}
-          pos="right"
+    <InViewAnimation className={"main-blog-container "}>
+      <div className={"main-blog"}>
+        <LazyLoadImage
+          effect="blur"
+          wrapperClassName="w-100 img-par"
+          src={getlink(image, 600)}
+          alt={head}
         />
+
+        <div className="main-blog-content w-100">
+          <h2 className=" header">{head}</h2>
+          <p>{intro}</p>
+          <MainBtn
+            Icon={BiRightArrowAlt}
+            btn="see more"
+            className="btn cancel-outline center gap blog-btn"
+            onClick={() => navigate(`/blogs/${_id}`)}
+            pos="right"
+          />
+        </div>
       </div>
-    </div>
+    </InViewAnimation>
   );
 };
 

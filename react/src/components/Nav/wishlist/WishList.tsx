@@ -80,21 +80,21 @@ const WishList = ({ showFav, setter }: Props) => {
           </FadeElement>
         )}
       </AnimatePresence>
-      {showClearFav && (
-        <SlideButton
-          bool={showClearFav}
-          key={"slide-button-clear"}
-          sethide={setShowClearFav}
-          doneMsg="All CLeared"
-          head=" Clear All !"
-          pragrapgh="are you sure you want to permanently clear your wishlist ?"
-          fn={handleClearFav}
-          Status={Status}
-          isVaild
-        >
-          {" "}
-        </SlideButton>
-      )}
+      {/* {showClearFav && (
+        // <SlideButton
+        //   bool={showClearFav}
+        //   key={"slide-button-clear"}
+        //   sethide={setShowClearFav}
+        //   doneMsg="All CLeared"
+        //   head=" Clear All !"
+        //   pragrapgh="are you sure you want to permanently clear your wishlist ?"
+        //   fn={handleClearFav}
+        //   Status={Status}
+        //   isVaild
+        // >
+        //   {" "}
+        // </SlideButton>
+      )} */}
     </DropDown>
   );
 };

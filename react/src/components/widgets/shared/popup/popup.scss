@@ -1,59 +1,51 @@
 @import "@/styles/variables.scss";
 .overley {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: var(--overley);
   z-index: 100;
   .popup {
     background-color: var(--main);
-
     padding: 25px;
     min-width: 300px;
     width: clamp(300px, 90%, 400px);
     color: var(--third);
     position: relative;
     z-index: 2;
-
+    .btns {
+      gap: 40px;
+      button {
+        width: 7rem;
+      }
+    }
     &.admin-pop {
       padding: 30px;
       text-wrap: nowrap;
       gap: 20px;
-      h3 {
-        font-size: min(4vw, 20px);
-        color: var(--green);
-        opacity: 0.9;
+      h2 {
+        text-wrap: wrap;
+        margin-bottom: 20px;
+        font-size: min(22px, 3rem);
+      }
+      .email {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      div {
+        font-size: 16px;
+        .value {
+          opacity: 0.6;
+        }
       }
     }
+
     .confirmed {
       width: 100%;
       height: 100%;
-    }
-
-    &.slide-pop {
-      width: clamp(300px, 90%, 400px);
-      height: 250px;
-      .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 20px;
-        z-index: 5;
-        background: var(--secondary);
-        color: var(--third);
-      }
-      .slide-text {
-        white-space: nowrap;
-      }
-    }
-    p {
-      text-align: center;
-      max-width: 70%;
     }
   }
   .skewed {

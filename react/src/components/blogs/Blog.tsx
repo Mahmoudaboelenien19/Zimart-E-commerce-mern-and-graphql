@@ -1,6 +1,5 @@
 import "./blogs.scss";
 import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import BlogParagraph from "./BlogParagraph";
@@ -10,25 +9,24 @@ import { getSingleBlog } from "@/graphql/blog";
 import { BlogPragraph } from "@/interfaces/blog";
 import useModifyUrl from "@/custom/useModifyUrl";
 import FadeElement from "../widgets/animation/FadeElement";
-import clsx from "clsx";
+import useTitle from "@/custom/useTitle";
+import Container from "../widgets/shared/Container";
+import Transition from "../widgets/animation/transition/Transition";
 export const Component = () => {
   const { id } = useParams();
-
   const { data, loading } = useQuery(getSingleBlog, {
     variables: { id },
   });
 
-  useEffect(() => {
-    document.title = data?.blog.head || "Zimart";
-  }, [loading]);
-
+  useTitle(data?.blog.head, loading);
   if (data?.blog) {
     const { head, intro, end, image, content } = data.blog;
     const { getlink } = useModifyUrl();
     return (
-      <div className={clsx("blog main-txt")}>
+      <Container className={"blog main-txt"}>
+        <Transition />
         <div className="blog-details">
-          <h1>{head}</h1>
+          <h2>{head}</h2>
           <motion.div className="blog-img">
             <LazyLoadImage
               effect="blur"
@@ -47,7 +45,7 @@ export const Component = () => {
           <p>{end}</p>
         </div>
         <SuggestedBlogs id={id || ""} />
-      </div>
+      </Container>
     );
   } else {
     return <> no data</>;

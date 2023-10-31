@@ -1,16 +1,17 @@
 import { BlogPragraph } from "@/interfaces/blog";
+import InViewAnimation from "../widgets/animation/InViewAnimation";
 
 interface Props extends BlogPragraph {
   i: number;
 }
 const BlogParagraph = ({ i, title, paragraph }: Props) => {
   return (
-    <div className="blog-pargraph">
-      <h4 className="blog-head">
+    <InViewAnimation className="blog-pargraph">
+      <h3 className="blog-head">
         {i + 1} - {title}
-      </h4>
+      </h3>
       <p>{paragraph}</p>
-    </div>
+    </InViewAnimation>
   );
 };
 

@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import NavLinks from "./NavLinks";
 import ThemeToggle from "@/components/theme/ThemeToggle";
-import MenuTogglar from "@/components/widgets/MenuTogglar";
+import MenuTogglar from "@/components/widgets/shared/menuToggle/MenuTogglar";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
 
 import { mobileDropDownVariant } from "@/lib/variants/globals";

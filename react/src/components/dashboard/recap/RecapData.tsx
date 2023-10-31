@@ -4,7 +4,6 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrProductHunt } from "react-icons/gr";
 import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
-import AdminEmailPop from "../AdminEmailPop";
 import useDashProgress from "@/custom/useDashProgress";
 import { useQuery } from "@apollo/client";
 import { GET_NEEDED_DASHBOARD_DATA } from "@/graphql/general";
@@ -94,7 +93,6 @@ const RecapData = () => {
           <MainPageCharts AllProducts={Allproducts} order={order} user={user} />
         </>
       )}
-      <AdminEmailPop isLoaded={check} />
     </Fragment>
   );
 };

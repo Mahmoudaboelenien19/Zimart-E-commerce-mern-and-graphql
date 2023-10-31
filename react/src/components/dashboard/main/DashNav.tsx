@@ -1,5 +1,5 @@
 import ThemeToggle from "@/components/theme/ThemeToggle";
-import MenuTogglar from "@/components/widgets/MenuTogglar";
+import MenuTogglar from "@/components/widgets/shared/menuToggle/MenuTogglar";
 import NotificatinTogglar from "../Notification/NotificatinTogglar";
 import useHideScroll from "@/custom/useHideScroll";
 import useParams from "@/custom/useParams";

@@ -1,6 +1,6 @@
-import Title from "./Title";
+import Title from "../../Title";
 import useParams from "@/custom/useParams";
-
+import "./menu.scss";
 interface Props {
   hideMsg: string;
   target?: string;

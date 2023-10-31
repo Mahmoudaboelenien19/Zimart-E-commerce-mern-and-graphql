@@ -24,11 +24,11 @@ const SuggestedBlog = ({ head, intro, image, _id }: Props) => {
       <h4 className="blog-head">
         {head.split(" ").slice(0, 7).join(" ").slice(0, 30)} ...
       </h4>
-      <p>{intro.split(" ").slice(0, 10).join(" ")} ...</p>
+      <p>{intro.split(" ").slice(0, 20).join(" ")} ...</p>
       <MainBtn
         Icon={BiRightArrowAlt}
         btn="see more"
-        className="btn main center gap suggested-btn"
+        className="btn  center gap cancel-outline"
         onClick={() => {
           navigate(`/blogs/${_id}`);
         }}

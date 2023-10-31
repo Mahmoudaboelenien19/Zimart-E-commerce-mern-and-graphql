@@ -4,6 +4,7 @@ import { useAppSelector } from "@/custom/reduxTypes";
 import useNotificationsSubscription from "@/custom/subscriptions/useNotificationsSubscription";
 import { useScrollToUp } from "@/custom/useScrolltoUp";
 import "./table.scss";
+import AdminEmailPop from "./AdminEmailPop";
 export const Component = () => {
   const { count } = useAppSelector((st) => st.notification);
 
@@ -15,6 +16,8 @@ export const Component = () => {
   useScrollToUp();
   return (
     <div className="dashboard-par ">
+      <AdminEmailPop />
+
       <Outlet />
     </div>
   );

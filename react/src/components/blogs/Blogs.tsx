@@ -6,25 +6,27 @@ import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
 import { getAllBlogs } from "@/graphql/blog";
 import { BlogInterface } from "@/interfaces/blog";
 import { addToBlogsRedux } from "@/redux/BlogsSlice";
-
-import clsx from "clsx";
 import Container from "../widgets/shared/Container";
+import useTitle from "@/custom/useTitle";
+import Transition from "../widgets/animation/transition/Transition";
 
 export const Component = () => {
-  useEffect(() => {
-    document.title = "Blogs";
-  }, []);
+  useTitle("Blogs");
   const { blogs } = useAppSelector((st) => st.blogs);
   const { data } = useQuery(getAllBlogs);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (data?.blogs && !blogs.length) {
+      //this condition not to be added again
       dispatch(addToBlogsRedux(data.blogs));
     }
   }, [data]);
+
   return (
-    <Container className={clsx("blogs  main-txt")}>
+    <Container className={"blogs  main-txt"}>
+      <Transition />
       {data?.blogs?.map((blog: BlogInterface, i: number) => {
         return <Blog key={i} i={i} {...blog} />;
       })}

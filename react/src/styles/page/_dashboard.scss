@@ -19,7 +19,7 @@
   color: var(--third);
   background-color: var(--main);
   padding-top: 5rem;
-
+  height: 100vh;
   .dash-user {
     padding: 20px 0 5px 0.8rem;
     gap: 15px;
@@ -60,7 +60,7 @@
   container-type: inline-size;
   container-name: dashboard;
   max-width: 1250px;
-  position: relative;
+  // position: relative;
   color: var(--third);
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLAttributes, ReactNode, RefAttributes } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;

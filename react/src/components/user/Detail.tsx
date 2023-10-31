@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { GrUpdate } from "react-icons/gr";
-import { userDataInterface } from "./UserInfo";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import { isAuthContext } from "@/context/isAuth";
@@ -11,74 +10,11 @@ import MainPop from "../widgets/shared/popup/MainPop";
 interface Props {
   value: string;
   detail: string;
-  // fn: (variables: any) => any;
-  // placeholder?: string;
-  // setUpdateUserData: React.Dispatch<React.SetStateAction<userDataInterface>>;
-  // userdata: userDataInterface;
 }
 
 const Detail = ({ detail, value }: Props) => {
-  const { userId, isAdmin } = useContext(isAuthContext);
-  // const [UpdatedCountry, setUpdatedCountry] = useState("");
+  const { isAdmin } = useContext(isAuthContext);
   const [show, setShow] = useState(false);
-
-  // useEffect(() => {
-  //   if (userdata?.country && UpdatedCountry === "") {
-  //     setUpdatedCountry(userdata.country);
-  //   }
-  // }, [userdata?.country]);
-
-  // const update = async (data: FieldValues) => {
-  //   const { [detail]: detailvalue } = data;
-  //   const { data: res } = await fn({
-  //     variables: {
-  //       _id: userId,
-  //       [detail]: detail === "country" ? UpdatedCountry : detailvalue,
-  //     },
-  //   });
-
-  //   if (detail === "email") {
-  //     if (res?.updateEmail?.status === 200) {
-  //       setStatus(200);
-  //     } else {
-  //       toast.error(res?.updateEmail.msg);
-  //       setStatus(404);
-  //     }
-  //   }
-
-  //   if (detail === "phone") {
-  //     if (res?.updateUserPhone?.status === 200) {
-  //       setStatus(200);
-  //     } else {
-  //       toast.error(res?.updateUserPhone.msg);
-  //       setStatus(404);
-  //     }
-  //   }
-
-  //   if (detail === "name") {
-  //     if (res?.updateUserName?.status === 200) {
-  //       setStatus(200);
-  //     } else {
-  //       toast.error(res?.updateUserName.msg);
-  //       setStatus(404);
-  //     }
-  //   }
-
-  //   if (detail === "country") {
-  //     if (res?.updateUserCountry?.status === 200) {
-  //       setStatus(200);
-  //     } else {
-  //       toast.error(res?.updateUserCountry.msg);
-  //       setStatus(404);
-  //     }
-  //   }
-
-  //   setUpdateUserData((cur: userDataInterface) => ({
-  //     ...cur,
-  //     [detail]: detailvalue,
-  //     country: UpdatedCountry,
-  //   }));
-  // };
 
   const handleShowPopup = () => {
     if (!isAdmin) {

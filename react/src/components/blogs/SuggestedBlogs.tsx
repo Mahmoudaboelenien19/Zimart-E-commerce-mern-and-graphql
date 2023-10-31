@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import SuggestedBlog from "./SuggestedBlog";
 import { stagger, useAnimate, useInView } from "framer-motion";
@@ -18,9 +18,11 @@ const SuggestedBlogs = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
 
   //this is because if user goes direct to blog route when blogs at redux empty
+  const initialRender = useRef(true);
   useEffect(() => {
-    if (!blogs?.length) {
+    if (!blogs?.length && initialRender.current) {
       getAllQueries().then(({ data }) => {
+        initialRender.current = false;
         dispatch(addToBlogsRedux(data?.blogs));
       });
     }
