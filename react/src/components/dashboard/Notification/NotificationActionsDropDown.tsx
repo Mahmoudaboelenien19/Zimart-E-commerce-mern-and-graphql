@@ -1,38 +1,22 @@
 import { Fragment, useContext } from "react";
-import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import { isAuthContext } from "@/context/isAuth";
 import { useAppDispatch } from "@/custom/reduxTypes";
-import useClickOutside from "@/custom/useClickOutside";
 import {
   Delete_Notification,
-  GET_NOTiFICATIONS,
   Toggle_Read_Notification,
 } from "@/graphql/mutations/user";
 import {
   removeFromNotificatinsRedux,
   toggleReadNotificatinsRedux,
 } from "@/redux/notificationsSlice";
-import { opacityVariant } from "@/lib/variants/globals";
 import toast from "react-hot-toast";
-import clsx from "clsx";
-import useParams from "@/custom/useParams";
-import useIsMobile from "@/custom/useIsMobile";
 
 interface Props {
-  bool: boolean;
+  isRead: boolean;
   _id: string;
-  top: number;
-  right: number;
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NotificationActionsDropDown = ({
-  bool,
-  _id,
-  top,
-  right,
-  setter,
-}: Props) => {
+const NotificationActionsDropDown = ({ isRead, _id }: Props) => {
   const dispatch = useAppDispatch();
   const { userId } = useContext(isAuthContext);
 
@@ -47,7 +31,7 @@ const NotificationActionsDropDown = ({
     variables: {
       id: _id,
       userId,
-      isRead: !bool,
+      isRead: !isRead,
     },
   });
 
@@ -63,43 +47,33 @@ const NotificationActionsDropDown = ({
     const { data } = await toggleReadNotificationDB();
 
     if (data?.toggleReadNotification?.status === 200) {
-      dispatch(toggleReadNotificatinsRedux({ id: _id, isRead: !bool }));
+      dispatch(toggleReadNotificatinsRedux({ id: _id, isRead: !isRead }));
     }
   };
 
   const actionsArr = [
-    { btn: !bool ? "mark as read" : "mark as unread", fn: handleToggleRead },
+    { btn: !isRead ? "mark as read" : "mark as unread", fn: handleToggleRead },
     { btn: "remove this notification", fn: handleDelete },
   ];
-  const ref = useClickOutside<HTMLDivElement>(() => setter(false), bool);
   return (
-    <div
-      className={clsx("notification-drop  notification-actions")}
-      // style={{
-      //   position: "fixed",
-      //   top: top + 20,
-      //   left: right - 160,
-      // }}
-      // ref={ref}
-    >
+    <Fragment>
       {actionsArr.map(({ btn, fn }, i) => {
         return (
           <Fragment key={i}>
-            <motion.div
+            <div
+              // className
               style={{
                 cursor: "pointer",
               }}
-              variants={opacityVariant}
-              whileHover={{ x: 4 }}
-              className="order-link notification-actions"
+              className="result "
               onClick={async () => await fn()}
             >
               {btn}
-            </motion.div>
+            </div>
           </Fragment>
         );
       })}
-    </div>
+    </Fragment>
   );
 };
 

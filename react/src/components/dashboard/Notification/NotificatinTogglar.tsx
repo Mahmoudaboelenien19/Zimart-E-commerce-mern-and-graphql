@@ -37,12 +37,14 @@ const NotificatinTogglar = () => {
         }}
       />
       <ShowCount length={count} />
-      {showNotifications && (
-        <NotificationDropDown
-          showNotifications={showNotifications}
-          setShowNotifications={setShowNotifications}
-        />
-      )}
+      <div className="relative">
+        {showNotifications && (
+          <NotificationDropDown
+            showNotifications={showNotifications}
+            setShowNotifications={setShowNotifications}
+          />
+        )}
+      </div>
     </div>
   );
 };

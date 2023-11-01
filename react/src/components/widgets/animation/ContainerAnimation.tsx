@@ -22,7 +22,7 @@ const ContainerAnimation = ({
 
   return (
     <AnimatePresence initial={false}>
-      <div className="w-100">
+      <div className="w-100 ">
         <motion.section
           layout="position"
           {...props}

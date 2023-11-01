@@ -26,7 +26,7 @@ const InViewAnimation = ({
       variants={inViewVariant}
       whileInView={"view"}
       initial={"start"}
-      viewport={{ once, amount: 0.4 }}
+      viewport={{ once }}
     >
       {children}
     </motion.div>

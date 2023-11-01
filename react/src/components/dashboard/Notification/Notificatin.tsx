@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { BiDotsHorizontal } from "react-icons/bi";
+import { Fragment, useEffect, useRef, useState } from "react";
 import NotificationActionsDropDown from "./NotificationActionsDropDown";
 import { AnimatePresence } from "framer-motion";
-import Title from "@/components/widgets/Title";
 import { useNavigate } from "react-router-dom";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import { notificationInterface } from "@/redux/notificationsSlice";
 import Skeleton from "react-loading-skeleton";
 import clsx from "clsx";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import DropDown from "@/components/widgets/dropdowns/DropDown";
 
 interface Props extends notificationInterface {
   isScrolling: boolean;
@@ -22,13 +22,12 @@ const Notificatin = ({
 }: Props) => {
   const [showActions, setShowActions] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
-  const [pos, setPos] = useState({ top: 0, right: 0 });
   const nvaigate = useNavigate();
-  // useEffect(() => {
-  //   if (isScrolling) {
-  //     setShowActions(false);
-  //   }
-  // }, [isScrolling]);
+  useEffect(() => {
+    if (isScrolling) {
+      setShowActions(false);
+    }
+  }, [isScrolling]);
 
   return (
     <FadeElement
@@ -36,46 +35,39 @@ const Notificatin = ({
       key={createdAt}
       onClick={() => nvaigate(link)}
     >
-      <>
+      <Fragment>
         {_id && (
-          <>
-            <span
+          <Fragment>
+            <div
               ref={ref}
               className="dots"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowActions(!showActions);
-                setPos({
-                  right: ref.current?.getBoundingClientRect().right || 0,
-                  top: ref.current?.getBoundingClientRect().bottom || 0,
-                });
               }}
             >
-              <BiDotsHorizontal className="dots" />
-              <AnimatePresence>
-                {showActions && (
-                  <NotificationActionsDropDown
-                    _id={_id}
-                    bool={isRead}
-                    top={pos.top}
-                    right={pos.right}
-                    setter={setShowActions}
-                  />
-                )}
-              </AnimatePresence>
-            </span>
+              <BsThreeDotsVertical className="dots" />
+
+              <DropDown
+                bool={showActions}
+                setter={setShowActions}
+                addCloseIcon
+                variant="opacity"
+                className="notification-drop  notification-actions"
+              >
+                <NotificationActionsDropDown _id={_id} isRead={isRead} />
+              </DropDown>
+            </div>
             <AnimatePresence>
               {!isRead && (
                 <FadeElement className="is-read">
-                  <Title title="unread" abs>
-                    <></>
-                  </Title>
+                  <Fragment />
                 </FadeElement>
               )}
             </AnimatePresence>
-          </>
+          </Fragment>
         )}
-      </>
+      </Fragment>
 
       <div className="content">
         {content ? content : <Skeleton height={8} style={{ width: "90%" }} />}

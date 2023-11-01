@@ -10,6 +10,7 @@ import { Single_Updated_Product_Subscription } from "@/graphql/mutations/product
 import { ProductInterface, reviewInterface } from "@/interfaces/product";
 import { useAppSelector } from "@/custom/reduxTypes";
 import { AnimatePresence, motion } from "framer-motion";
+import useTitle from "@/custom/useTitle";
 
 export interface productContextInterface extends ProductInterface {
   reviews: reviewInterface[];

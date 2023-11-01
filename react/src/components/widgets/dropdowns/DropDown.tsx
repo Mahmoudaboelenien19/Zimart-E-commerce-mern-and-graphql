@@ -3,18 +3,20 @@ import MobileCloseDropDown from "./MobileCloseDropDown";
 import useClickOutside from "@/custom/useClickOutside";
 import { ChildrenInterFace } from "@/interfaces/general";
 import clsx from "clsx";
-import { dropdownVariant } from "@/lib/variants/globals";
+import { dropdownVariant, opacityVariant } from "@/lib/variants/globals";
 import useIsMobile from "@/custom/useIsMobile";
 interface Props extends ChildrenInterFace {
   bool: boolean;
   className?: string;
   isUser?: boolean;
   addCloseIcon?: boolean;
+  variant?: string;
   height?: number;
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DropDown = ({
+  variant,
   bool,
   className,
   setter,
@@ -41,7 +43,7 @@ const DropDown = ({
               className,
               isMobile && addCloseIcon && "mobile"
             )}
-            variants={dropdownVariant}
+            variants={variant === "opacity" ? opacityVariant : dropdownVariant}
             initial="start"
             animate="end"
             exit={"exit"}

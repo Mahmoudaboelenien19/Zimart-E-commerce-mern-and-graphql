@@ -1,12 +1,12 @@
 @import "@/styles/variables.scss";
 
 .newsletter {
+  container-type: inline-size;
   width: 100%;
   background: rgb(153, 136, 104);
-  background-image: url("./../assets/Images/footer/newLetterBackground.png");
   background-size: cover;
   background-position: center;
-  position: relative;
+  background-image: url("@/assets/Images/footer/background.png");
   padding: 20px;
   min-height: 240px;
   position: relative;
@@ -14,6 +14,7 @@
   overflow: hidden;
   .newletter-container {
     width: 100%;
+    flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,34 +23,35 @@
   }
 
   form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 50%;
-    background: #000;
-    padding: 0 !important;
     max-width: 500px;
-    opacity: 0;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
     height: 50px;
-    filter: drop-shadow(var(--third-shadow));
+    &.main {
+      padding: 0;
+      margin: 0;
+    }
+    background: transparent;
+
+    box-shadow: 0 0 0 000;
     .inp-parent {
       width: 100%;
-
-      // .err-form {
-      //   position: absolute;
-      //   top: 105%;
-      //   left: 0;
-      // }
+    }
+    button {
+      height: 50px;
+      &.btn {
+        width: fit-content;
+      }
     }
     input {
       border: 0;
+      background: var(--main);
       border-radius: 0;
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
       height: 50px;
-      button {
-        height: 100%;
-      }
       &:focus {
         border-right: 0;
       }
@@ -58,30 +60,6 @@
       div {
         display: none;
       }
-      // .err-form {
-      //   text-transform: capitalize;
-      //   color: var(--delete);
-      // }
-    }
-    // .inp-parent,
-    // input,
-    // button {
-    //   height: 45px;
-    //   box-shadow: initial;
-    // }
-
-    button {
-      height: 100%;
-      outline: 0;
-      border: 0;
-      padding: 0 14px;
-      white-space: nowrap;
-      background-color: var(--green);
-      color: var(--white);
-      border-end-end-radius: 2px;
-      border-top-right-radius: 2px;
-      letter-spacing: 0.8px;
-      text-transform: capitalize;
     }
   }
   .news-content {
@@ -89,6 +67,12 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    text-align: center;
+    text-align: start;
+    & > * {
+      width: 100%;
+      margin: 0 auto;
+    }
     h2 {
       text-transform: capitalize;
       color: var(--white);
@@ -108,35 +92,11 @@
   }
 }
 
-@media (max-width: 700px) {
-  .newsletter {
-    flex-direction: column;
-    padding: 20px 0;
-
-    .news-content {
-      width: 100%;
-
-      h2 {
-        text-align: center;
-      }
-      span {
-        text-align: center;
-        width: 100%;
-      }
-    }
-    form {
-      width: 95% !important;
-      .inp-parent {
-        width: 100% !important;
-
-        input {
-          width: 100%;
-        }
-      }
-      button {
-        padding: 0 12px;
-        font-size: 1rem;
-      }
-    }
+@container (max-width:700px) {
+  .newletter-container > * {
+    margin: 0 auto;
+  }
+  .newletter-container form.main {
+    margin: 0 auto;
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import Input from "../widgets/shared/forms/Input";
 import { NavLink } from "react-router-dom";
@@ -13,14 +13,13 @@ import { signUpSchema } from "@/lib/formschemas/form schemas";
 import useParams from "@/custom/useParams";
 import { SignUpInputsType, signUpInputs } from "@/assets/arries/signUpInputs";
 import useSignUp from "@/custom/user/useSignUp";
+import useTitle from "@/custom/useTitle";
 
 export const Component = () => {
   const { getParam } = useParams();
   const name = getParam("name");
   const email = getParam("email");
-  useEffect(() => {
-    document.title = "Zimart | Signup";
-  }, []);
+  useTitle("Zimart | Signup");
 
   const methods = useForm({ resolver: yupResolver(signUpSchema) });
   const { handleSubmit } = methods;

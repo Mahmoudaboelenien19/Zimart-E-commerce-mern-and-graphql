@@ -7,10 +7,11 @@ import { toast } from "react-hot-toast";
 import { useAnimate, useInView } from "framer-motion";
 import "./_news-leter.scss";
 import Form from "../widgets/shared/forms/Form";
+import MainBtn from "../widgets/buttons/MainBtn";
+const schema = yup.object().shape({
+  email: yup.string().email("enter a vaild email").required(),
+});
 const NewsLetter = () => {
-  const schema = yup.object().shape({
-    email: yup.string().email("enter a vaild email").required(),
-  });
   const methods = useForm({ resolver: yupResolver(schema) });
   const {
     handleSubmit,
@@ -43,8 +44,8 @@ const NewsLetter = () => {
   }, [inView]);
   return (
     <div className="newsletter center" ref={scope}>
-      <div className="newletter-container">
-        <div className="news-content">
+      <div className="newletter-container ">
+        <div className="news-content ">
           <h2>sign up for newsletter</h2>
           <span>
             get e-mail about latest news and
@@ -53,13 +54,13 @@ const NewsLetter = () => {
         </div>
         <FormProvider {...methods}>
           <Form
-            initialTranslate={40}
+            initialTranslate={0}
             onSubmit={handleSubmit(OnSubmit)}
-            className=" abs-err center"
+            className=" main center"
           >
             <Input placeholder="email" />
 
-            <button type="submit">sign up</button>
+            <MainBtn btn="subscribe" className="btn main" type="submit" />
           </Form>
         </FormProvider>
       </div>
