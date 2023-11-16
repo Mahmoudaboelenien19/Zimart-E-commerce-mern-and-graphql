@@ -16,8 +16,13 @@
     position: relative;
     z-index: 2;
     &.add-review-pop {
-      height: 250px;
-      padding: 30px;
+      height: 260px;
+      padding: 30px 10px;
+      .btns {
+        width: 80%;
+        gap: 0;
+        justify-content: space-between;
+      }
       & > div {
         height: 100%;
         display: flex;

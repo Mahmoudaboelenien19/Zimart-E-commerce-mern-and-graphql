@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 import clsx from "clsx";
 import SpecialWord from "./SpecialWord";
-import useApplyFilters from "@/custom/product/useApplyFilters";
 
 const bannerTextVariant = {
   start: {

@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import OrderDetailTr from "./OrderDetialTr";
 import Customer from "./Customer";
 import OrderSummery from "./OrderSummery";
 import { GET_ORDER } from "@/graphql/queries";
@@ -24,7 +23,6 @@ export const Component = () => {
     } = data.order;
     return (
       <FadeElement className="order-del-par center ">
-        <Transition />
         <div className="order-details-grid">
           <OrderDetailsTable products={productId} />
           <Customer

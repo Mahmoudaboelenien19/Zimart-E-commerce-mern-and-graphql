@@ -5,7 +5,6 @@ import useNavTransition from "@/custom/helpers/useNavTransition";
 import { motion } from "framer-motion";
 import DashboardAside from "./main/DashboardAside";
 import BeardCrumbs from "./BeardCrumbs";
-import Transition from "../widgets/animation/transition/Transition";
 import DashMain from "./DashMain";
 import AdminEmailPop from "./AdminEmailPop";
 const DashboardLayout = () => {
@@ -16,7 +15,6 @@ const DashboardLayout = () => {
       <AdminEmailPop />
       <ScrollRestoration />
 
-      <Transition />
       <motion.nav
         ref={navRef}
         style={{

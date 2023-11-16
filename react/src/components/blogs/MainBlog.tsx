@@ -18,7 +18,7 @@ const Blog = ({ head, intro, image, _id, i }: Props) => {
   const vt = unstable_useViewTransitionState(pathname);
 
   return (
-    <div className={"main-blog-container "}>
+    <div className={"main-blog-container  border"}>
       <div className={"main-blog"}>
         <picture
           className="w-100 img-par"

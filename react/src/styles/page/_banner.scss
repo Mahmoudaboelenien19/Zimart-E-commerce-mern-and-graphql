@@ -1,9 +1,12 @@
 @import "../variables.scss";
-
+#banner-container {
+  background: transparent;
+  transition: 0;
+}
 .banner-par {
   scrollbar-gutter: stable two-edges;
   position: relative;
-
+  transition: 0.3s ease-in-out;
   &:before {
     content: "";
     position: absolute;
@@ -64,6 +67,7 @@
     width: 45%;
     text-shadow: var(--forth-shadow);
     gap: 1.2rem;
+
     .banner-links {
       gap: 1.5rem;
       background-color: transparent;
@@ -195,22 +199,3 @@
     border-radius: 0 20px 20px 0;
   }
 }
-
-// .shape {
-//   width: 50%;
-//   height: 100%;
-//   display: flex;
-//   justify-content: flex-end;
-//   &:before {
-//     content: "";
-//     position: absolute;
-//     top: 0%;
-//     right: 0;
-//     background-position: 0%;
-//     background-size: cover;
-//     height: 100%;
-//     width: 100%;
-//     background-image: url("@/assets/Images/shape.png");
-//     transform: scale(0.6);
-//   }
-// }

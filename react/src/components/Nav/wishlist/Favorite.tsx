@@ -21,7 +21,7 @@ const Favorite = ({ path, price, title, _id, setter }: Props) => {
   return (
     <motion.div
       layout
-      className="fav-product center"
+      className="fav-product center border"
       variants={opacityVariant}
       key={_id}
     >

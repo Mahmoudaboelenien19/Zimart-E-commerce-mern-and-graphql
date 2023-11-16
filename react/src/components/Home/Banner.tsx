@@ -25,7 +25,7 @@ const Banner = () => {
   const { getlink } = useModifyUrl();
   const swiperRef = useRef<SwiperRef>(null);
   return (
-    <Container>
+    <Container id="banner-container">
       <Swiper
         ref={swiperRef}
         onSlideChange={(e) => setInd(e.realIndex)}

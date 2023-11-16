@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  transition: 0.3s;
 }
 #dash-aside {
   position: sticky;
@@ -110,8 +111,8 @@ a.crumb-link {
 
     .recap {
       width: 200px;
-      flex-grow: 1;
       background: var(--secondary);
+      flex-grow: 1;
       height: 120px;
       padding: 5px 10px;
       display: flex;
@@ -165,6 +166,7 @@ a.crumb-link {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+
   .order {
     display: flex;
     gap: 10px;
@@ -210,8 +212,8 @@ a.crumb-link {
     border-radius: 2px;
     height: 400px;
     flex-grow: 1;
-    background: var(--secondary);
     width: clamp(250px, 100%, 340px);
+    background: var(--secondary);
 
     &.eraning {
       flex-grow: 2;

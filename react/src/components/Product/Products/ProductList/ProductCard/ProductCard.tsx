@@ -47,7 +47,7 @@ const ProductCard = ({
   return (
     <div
       className={clsx(
-        "product-card ",
+        "product-card border",
         !isDash && !isSLide && view === "list" ? "list " : "grid  "
       )}
       style={{

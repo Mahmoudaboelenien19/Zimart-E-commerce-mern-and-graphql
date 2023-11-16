@@ -5,7 +5,6 @@ import SelectProduct from "./ProductSelect";
 import { useAppDispatch } from "@/custom/helpers/reduxTypes";
 import useGetCollection from "@/custom/shopping/useGetCollection";
 import { addToCompareRedux } from "@/redux/compareSlice";
-import Transition from "../widgets/animation/transition/Transition";
 export const Component = () => {
   const [firstproduct, setFirstProduct] = useState("");
   const [secondproduct, setSecondProduct] = useState("");
@@ -21,8 +20,6 @@ export const Component = () => {
   }, [loading]);
   return (
     <Container className="compare-products">
-      <Transition />
-
       <SelectProduct
         order="first"
         product={firstproduct || ""}

@@ -32,7 +32,7 @@ const Notificatin = ({
   return (
     <motion.div
       layout
-      className={clsx("notification relative")}
+      className={"notification relative border"}
       key={createdAt}
       onClick={() => nvaigate(link)}
       transition={{ duration: 0.4, delay: 0.2 }}

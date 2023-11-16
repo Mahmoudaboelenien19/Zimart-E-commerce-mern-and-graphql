@@ -12,7 +12,6 @@ import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { loginSchema } from "@/lib/formschemas/form schemas";
 import useLogin from "@/custom/user/useLogIn";
 import useTitle from "@/custom/helpers/useTitle";
-import Transition from "../widgets/animation/transition/Transition";
 
 export const Login = () => {
   useTitle("Zimart | Login");
@@ -27,7 +26,6 @@ export const Login = () => {
 
   return (
     <Container className="form-container">
-      <Transition />
       <FormProvider {...methods}>
         <Form
           initialTranslate={80}

@@ -79,7 +79,7 @@ export const asideVariant = {
     transition: {
       ease: "easeInOut",
       width: { delay: 0.3, duration: 0.6 },
-      opacity: { delay: 0.4, duration: 0.2 },
+      opacity: { delay: 0.6, duration: 0.2 },
     },
   }),
   exit: {

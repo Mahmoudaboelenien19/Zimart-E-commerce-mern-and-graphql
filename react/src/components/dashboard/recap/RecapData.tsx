@@ -69,8 +69,9 @@ const RecapData = () => {
     },
   ];
   const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
+  console.log("recap re-rendered");
   return (
-    <div className="center col">
+    <div className="center col dash-wrapper">
       {check && (
         <>
           {/* i make 2 of these to make  if element is wrapped it takes full width 

@@ -6,7 +6,6 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { get_Stripe_PublicKey } from "@/graphql/stripe";
 import useTitle from "@/custom/helpers/useTitle";
-import Transition from "../widgets/animation/transition/Transition";
 import Container from "../widgets/shared/Container";
 import PurchaseDetails from "./PurchaseDetails";
 import { useAppSelector } from "@/custom/helpers/reduxTypes";
@@ -30,7 +29,6 @@ export const Payment = () => {
   if (!stripePromise && !clientSecret) return <Navigate to={"/"} />;
   return (
     <Container className=" payment  ">
-      <Transition />
       {stripePromise && clientSecret ? (
         <>
           <PurchaseDetails />

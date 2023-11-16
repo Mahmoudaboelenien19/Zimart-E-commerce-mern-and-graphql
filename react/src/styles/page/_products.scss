@@ -8,10 +8,13 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-
-  h1 {
-    margin-bottom: 0;
-    margin-top: 0;
+  h2 {
+    height: 6rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    margin-left: 10px;
   }
   img {
     min-width: 90px;
@@ -78,6 +81,7 @@ svg.svg-star {
   position: relative;
   background: var(--secondary);
   box-shadow: var(--main-shadow);
+
   font-weight: bold;
   text-transform: capitalize;
   text-shadow: var(--third-shadow);
@@ -116,12 +120,6 @@ svg.svg-star {
     .product-data {
       width: 100%;
       height: 40%;
-      background: linear-gradient(
-        to bottom,
-        var(--secondary),
-        var(--main) 80%,
-        rgba(132, 126, 113, 0.464)
-      );
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -204,35 +202,6 @@ svg.svg-star {
   color: var(--green);
 }
 
-.products-animation-par {
-  width: 100%;
-  height: min(32vw, 280px);
-  margin: 0 0 2rem 0;
-  overflow: hidden;
-  .products-animate-slide {
-    width: min(30vw, 250px);
-    height: min(30vw, 250px);
-    background: var(--secondary);
-    border-radius: 0.75rem;
-    box-shadow: var(--forth-shadow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .img-par {
-    height: min(25vw, 200px);
-    width: min(25vw, 200px);
-
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-
-      filter: drop-shadow(var(--main-shadow));
-    }
-  }
-}
-
 .search-close {
   color: var(--delete);
   font-weight: bold;
@@ -297,6 +266,41 @@ svg.svg-star {
     }
     .swiper-pagination {
       top: 96%;
+    }
+  }
+}
+
+.horizental-wrapper {
+  // width: 100%;
+  height: calc(min(40vw, 320px) + 60px);
+  padding: 20px 0;
+}
+.products-animation-par {
+  position: absolute;
+  left: 0;
+  top: 30px;
+
+  .products-animate-slide {
+    width: min(40vw, 320px);
+    height: min(40vw, 320px);
+
+    border-radius: 0.75rem;
+    box-shadow: var(--forth-shadow);
+    background: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-par {
+    height: min(35vw, 280px);
+    width: min(35vw, 280px);
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+
+      filter: drop-shadow(var(--main-shadow));
     }
   }
 }

@@ -7,7 +7,6 @@ interface Props {
 }
 
 const AddRate = ({ setRateIndex, rateIndex }: Props) => {
-  console.log({ rateIndex });
   return (
     <div className="gap center add-rate-pop">
       {[1, 2, 3, 4, 5].map((st, i) => {
@@ -35,7 +34,7 @@ const AddRate = ({ setRateIndex, rateIndex }: Props) => {
                   ? "0 4px"
                   : 0,
             }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="add-rate"
           >
             <Star bool={rateIndex >= st} />

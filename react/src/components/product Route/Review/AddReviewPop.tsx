@@ -8,6 +8,7 @@ import { Form } from "react-router-dom";
 import AddRate from "./AddRate";
 import toast from "react-hot-toast";
 import { Review } from "@/types/product";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 type Props = {
   hasReview: boolean;
@@ -49,11 +50,12 @@ const AddReviewPop = ({
   const handleCHange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInpVal(e.target.value);
   };
+  const closePopup = () => setter(false);
 
   const handleAddReview = async () => {
     const { data } = await addReviewFn();
     if (data?.addReview?.status === 200) {
-      setter(false);
+      closePopup();
       toast.success(data?.addReview?.msg);
       setReviewData((cur) => [...cur, { ...ob, image }]);
     }
@@ -62,7 +64,7 @@ const AddReviewPop = ({
   const updateReview = async () => {
     const { data } = await updateReviewFn();
     if (data?.updateReview?.msg) {
-      setter(false);
+      closePopup();
       toast.success(data?.updateReview?.msg);
       setReviewData((cur) =>
         cur.map((ob) =>
@@ -85,14 +87,23 @@ const AddReviewPop = ({
           onChange={handleCHange}
           defaultValue={userReview}
         />
-        <MainBtn
-          btn={hasReview ? "update review" : "add review"}
-          type="submit"
-          disabled={loading || updateLoading}
-          onClick={hasReview ? updateReview : handleAddReview}
-          pos="right"
-          className="main btn"
-        />
+        <div className="btns center">
+          <MainBtn
+            btn={hasReview ? "update" : "add"}
+            type="submit"
+            disabled={loading || updateLoading}
+            onClick={hasReview ? updateReview : handleAddReview}
+            pos="right"
+            className="main btn gap"
+            Icon={BsArrowRight}
+          />
+          <MainBtn
+            btn="cancel"
+            type="button"
+            className="btn cancel-outline"
+            onClick={closePopup}
+          />
+        </div>
       </Form>
     </>
   );

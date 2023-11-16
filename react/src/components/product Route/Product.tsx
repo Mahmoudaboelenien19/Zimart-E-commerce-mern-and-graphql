@@ -14,13 +14,12 @@ export const Component = () => {
 
   const [productData, setProductData] = useState<Product | null>(null);
   const { id } = useParams();
-
   const [getProductData] = useLazyQuery(GET_Product_By_Id, {
     variables: {
       id,
     },
   });
-
+  console.log({ id });
   //to catch  product changes
   useSubscription(Single_Updated_Product_Subscription, {
     onData: (data: OnDataOptions<{ singleProductUpdate: Product }>) => {
@@ -39,10 +38,12 @@ export const Component = () => {
         document.title = data.product.title;
       });
     } else {
+      //this is important as if user clicks a product from slider it shows same product
+      setProductData(null);
       document.title = Allproducts[index]?.title;
       return;
     }
-  }, [id]);
+  }, [id, productData]);
 
   const { images = [], _id = "" } = productData || Allproducts[index] || {};
   const productObj = productData || Allproducts[index] || {};

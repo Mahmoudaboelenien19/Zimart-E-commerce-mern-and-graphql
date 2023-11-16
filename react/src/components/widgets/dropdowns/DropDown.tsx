@@ -34,7 +34,7 @@ const DropDown = ({
         {bool && (
           <motion.div
             className={clsx(
-              "dropdown",
+              "dropdown border",
               className,
               isMobile && addCloseIcon && "mobile"
             )}

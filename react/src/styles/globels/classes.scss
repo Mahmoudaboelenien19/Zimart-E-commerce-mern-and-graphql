@@ -359,7 +359,6 @@
   padding: 0 7px;
   padding-top: 50px;
   margin: 0 auto;
-  background: var(--main);
 }
 
 .stock-par {
@@ -507,4 +506,8 @@
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid rgba(128, 128, 128, 0.452);
+}
+
+.border {
+  border: solid rgba(128, 128, 128, 0.445) 0.5px;
 }

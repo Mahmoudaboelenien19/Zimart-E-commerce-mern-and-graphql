@@ -11,7 +11,6 @@ export const Component = () => {
 
   return (
     <Container>
-      {/* <Transition /> */}
       <div className="center col w-100">
         <FadeElement className="cart-cont  " delay={0.4}>
           <CartHeader />
