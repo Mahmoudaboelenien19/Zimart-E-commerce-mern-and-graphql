@@ -17,7 +17,7 @@
     position: relative;
     gap: 15px;
     padding: 10px;
-    background: var(--secondary);
+    // background: var(--secondary);
     p {
       overflow: hidden;
       display: -webkit-box;
@@ -36,6 +36,7 @@
   }
   .select-compare.select .dropdown {
     overflow: auto;
+    height: 200px;
     background: var(--secondary);
     .result {
       &:hover {
@@ -50,7 +51,7 @@
   height: 50vh;
 }
 .remove-compare {
-  background: linear-gradient(30deg, var(--gmail), var(--wheat-title));
+  background: linear-gradient(30deg, var(--delete), var(--wheat-title));
 }
 .unselect-par {
   position: absolute;

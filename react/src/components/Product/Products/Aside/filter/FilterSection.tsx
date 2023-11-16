@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import FIlter from "./FIlter";
 import Checkbox from "@/custom SVGs/checkbox";
 import { opacityVariant } from "@/lib/variants/globals";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 
 interface Props {
   filter: string;

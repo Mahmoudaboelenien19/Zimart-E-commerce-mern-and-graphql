@@ -1,7 +1,7 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
+
 import { useMutation } from "@apollo/client";
-import { isAuthContext } from "@/context/isAuth";
-import { useAppDispatch } from "@/custom/reduxTypes";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
 import {
   Delete_Notification,
   Toggle_Read_Notification,
@@ -18,7 +18,7 @@ interface Props {
 }
 const NotificationActionsDropDown = ({ isRead, _id }: Props) => {
   const dispatch = useAppDispatch();
-  const { userId } = useContext(isAuthContext);
+  const { userId } = useAppSelector((st) => st.isAuth);
 
   const [deleteNotificationDB] = useMutation(Delete_Notification, {
     variables: {
@@ -61,7 +61,6 @@ const NotificationActionsDropDown = ({ isRead, _id }: Props) => {
         return (
           <Fragment key={i}>
             <div
-              // className
               style={{
                 cursor: "pointer",
               }}

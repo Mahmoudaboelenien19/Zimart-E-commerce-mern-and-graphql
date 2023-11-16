@@ -1,13 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
-import { ChildrenInterFace } from "@/interfaces/general";
-import { useState } from "react";
-interface Props extends ChildrenInterFace {
+import { ReactNode, useState } from "react";
+type Props = {
   title: string;
   dir?: string;
   className?: string;
   abs?: boolean;
-}
+  children: ReactNode;
+};
 const variant = {
   start: { opacity: 0, y: 10 },
   end: { opacity: 1, y: 0, transition: { duration: 0.3 } },

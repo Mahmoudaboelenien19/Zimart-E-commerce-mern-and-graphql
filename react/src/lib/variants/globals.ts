@@ -1,25 +1,29 @@
 export const dropdownVariant = {
   start: {
     opacity: 0,
-    height: 0,
+    scale: 0.8,
   },
-  end: (h: number | string) => ({
-    height: h,
+  end: {
     opacity: 1,
+    scale: 1,
     transition: {
-      duration: 0.15,
-      ease: "easeInOut",
+      opacity: {
+        delay: 0.3,
+      },
+      scale: {
+        delay: 0.3,
+      },
     },
-  }),
+  },
   exit: {
-    height: 0,
+    scale: 0.8,
+
     opacity: 0,
     transition: {
-      height: { duration: 0.15, ease: "easeInOut" },
+      opacity: { duration: 0.1 },
     },
   },
 };
-
 export const staggerChildrenVariant = {
   start: { height: 0 },
   end: {
@@ -73,8 +77,8 @@ export const asideVariant = {
     width: bool ? "100%" : w,
     opacity: [0, 0.2, 0.3, 0.5, 1],
     transition: {
-      ease: "easeIn",
-      width: { duration: 0.6 },
+      ease: "easeInOut",
+      width: { delay: 0.3, duration: 0.6 },
       opacity: { delay: 0.4, duration: 0.2 },
     },
   }),
@@ -84,8 +88,10 @@ export const asideVariant = {
     opacity: [0.2, 0],
     transition: {
       opacity: { duration: 0.075 },
-      duration: 0.6,
-      ease: "easeIn",
+      width: {
+        duration: 0.6,
+        ease: "easeInOut",
+      },
     },
   },
 };
@@ -139,7 +145,7 @@ export const seachVariant = {
   show: {
     borderRadius: "2%",
     width: "100%",
-    transition: { duration: 0.15 },
+    transition: { delay: 0.2, duration: 0.15 },
   },
   main: {
     width: "100%",

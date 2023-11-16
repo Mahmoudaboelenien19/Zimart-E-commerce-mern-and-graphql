@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import LogoSvg from "@/components/svgs/LogoSvg";
 import ThemeToggle from "@/components/theme/ThemeToggle";
-import useIsMobile from "@/custom/useIsMobile";
-import useNavTransition from "@/custom/useNavTransition";
+import useIsMobile from "@/custom/helpers/useIsMobile";
+import useNavTransition from "@/custom/helpers/useNavTransition";
 import IsAuth from "./IsAuth";
 import LinksAside from "./LinksAside";
 import NavLinks from "./NavLinks";
 import "./nav.scss";
-import { useScrollToUp } from "@/custom/useScrolltoUp";
+import FadeElement from "@/components/widgets/animation/FadeElement";
 
 type favContextType = {
   showFav: boolean;
@@ -17,9 +17,9 @@ type favContextType = {
 };
 export const favContext = createContext({} as favContextType);
 const Nav = () => {
-  const { boxShadow, navRef, bg, height } = useNavTransition<HTMLElement>();
+  const { boxShadow, navRef } = useNavTransition<HTMLElement>();
   const { isMobile } = useIsMobile();
-  useScrollToUp();
+
   useEffect(() => {
     /* 
   this useEffect to make scroll auto
@@ -32,31 +32,24 @@ const Nav = () => {
       document.body.style.overflowY = "auto";
     }
   }, [isMobile]);
+
   return (
     <motion.nav
       key={"main-nav"}
       ref={navRef}
       style={{
         boxShadow,
-        background: bg,
-        height,
       }}
       className="main"
-      // transition={{ duration: 0.4, ease: "easeInOut", damping: 8 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="nav-children">
         <Link to="/" className="logo center">
           <LogoSvg />
         </Link>
-        {!isMobile && (
-          <div className=" center">
-            <>
-              <NavLinks />
-            </>
-          </div>
-        )}
+        {!isMobile && <NavLinks />}
         <div className="links-par">
-          <div className="center ">{!isMobile && <ThemeToggle />}</div>
+          <div className="center  theme">{!isMobile && <ThemeToggle />}</div>
 
           <div className="center">
             <IsAuth />

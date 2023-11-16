@@ -1,43 +1,32 @@
-import { createContext } from "react";
 import Aside from "./Aside/Aside";
-import ProductList from "./AllProducts/ProductList";
 import { AnimatePresence, motion } from "framer-motion";
 import Sort from "../viewOptions/Sort";
 import MainProductAnimation from "./MainProductAnimation";
-import useHideScroll from "@/custom/useHideScroll";
-import useParams from "@/custom/useParams";
-import useApplyFilters from "@/custom/useApplyFilters";
-import useIsMobile from "@/custom/useIsMobile";
-type AsideContext = {
-  loading: boolean;
-  handleClickFIlter: () => void;
-};
-export const asideContext = createContext({} as AsideContext);
-
+import useHideScroll from "@/custom/helpers/useHideScroll";
+import useParams from "@/custom/helpers/useParams";
+import useApplyFilters from "@/custom/product/useApplyFilters";
+import useIsMobile from "@/custom/helpers/useIsMobile";
+import ProductList from "./ProductList/ProductList";
 const Products = () => {
+  console.log("products re-rendered");
   const { showAsideFilter } = useParams();
   const { isMobile } = useIsMobile();
   useHideScroll(Boolean(showAsideFilter), isMobile);
-  const { loading, handleClickFIlter } = useApplyFilters();
+  useApplyFilters();
   return (
-    <asideContext.Provider value={{ loading, handleClickFIlter }}>
-      <div id="products" className="products-par">
-        <motion.h1 className="sort-title header underline">
-          Top Products
-        </motion.h1>
-        <MainProductAnimation />
-        <Sort />
+    <div id="products" className="products-par">
+      <motion.h1 className="sort-title header ">Top Products</motion.h1>
+      <MainProductAnimation />
 
-        <div className="products  ">
-          <AnimatePresence mode="wait">
-            {showAsideFilter && <Aside key="main-aside" />}
-          </AnimatePresence>
-          <AnimatePresence initial={false}>
-            <ProductList />
-          </AnimatePresence>
-        </div>
+      <Sort />
+      <div className="products  ">
+        <AnimatePresence mode="wait">
+          {showAsideFilter && <Aside key="main-aside" />}
+        </AnimatePresence>
+
+        <ProductList />
       </div>
-    </asideContext.Provider>
+    </div>
   );
 };
 

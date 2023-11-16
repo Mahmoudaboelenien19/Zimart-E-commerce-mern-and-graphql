@@ -2,17 +2,11 @@ import { AnimatePresence } from "framer-motion";
 import OrderDetailsIcon from "../OrderDetailsIcon";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import Skeleton from "react-loading-skeleton";
-import useUpdateOrder from "@/custom/useUpdateOrder";
-import { OrderInterface } from "@/interfaces/order.interface";
+import useUpdateOrder from "@/custom/dashboadrd/useUpdateOrder";
 import DashDropDown from "../../DashDropDown";
+import { ORDER } from "@/types/order";
 const orderArr = ["pending", "shipped", "delivered", "canceled", "on hold"];
-const Order = ({
-  deliveredAt,
-  state,
-  _id,
-  cost,
-  createdAt,
-}: OrderInterface) => {
+const Order = ({ deliveredAt, state, _id, cost, createdAt }: ORDER) => {
   const { handleUpdateOrder } = useUpdateOrder();
   const updateState = (st: string) => {
     handleUpdateOrder(_id, st);

@@ -1,69 +1,64 @@
-import { RefAttributes, useContext } from "react";
-
+import { RefAttributes, useState } from "react";
 import Review from "./Review";
 import { FaGreaterThan, FaLessThan } from "react-icons/fa";
-import { motion } from "framer-motion";
-
-import { productContext } from "../Product";
-
 import MainPop from "../../widgets/shared/popup/MainPop";
 import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import "swiper/css";
+import { type Review as ReviewType } from "@/types/product";
+import { BiShow } from "react-icons/bi";
+import Header from "@/components/widgets/shared/Header";
+import Title from "@/components/widgets/Title";
+type Props = {
+  reviews: ReviewType[];
+};
+const options: RefAttributes<SwiperRef> & SwiperProps = {
+  loop: true,
+  spaceBetween: 5,
+  slidesPerView: 1,
+  direction: "horizontal",
+  modules: [Navigation],
+};
+const Reviews = ({ reviews }: Props) => {
+  const [showPop, setShowPop] = useState(false);
+  const handleshowPop = () => setShowPop(true);
 
-import "swiper/css/navigation";
-import { reviewInterface } from "@/interfaces/product";
-interface Props {
-  setShowPop: React.Dispatch<React.SetStateAction<boolean>>;
-  bool: boolean;
-}
-
-const Reviews = ({ setShowPop, bool }: Props) => {
-  const { reviews } = useContext(productContext);
-
-  const options: RefAttributes<SwiperRef> & SwiperProps = {
-    loop: true,
-    spaceBetween: 5,
-    slidesPerView: 1,
-    direction: "horizontal",
-    modules: [Navigation],
-  };
   return (
-    <MainPop bool={bool} setter={setShowPop}>
-      <h2 className=" header">reviews</h2>
-      <Swiper
-        className="pop-up-reviews center"
-        {...options}
-        navigation={{
-          nextEl: ".btn-review  .next-swiper",
-          prevEl: " .btn-review  .prev-swiper",
-        }}
-      >
-        {reviews?.map((review: reviewInterface, i) => {
-          {
-            return (
-              <SwiperSlide key={i} className="review">
-                <Review {...review} i={i} />
-              </SwiperSlide>
-            );
-          }
-        })}
-      </Swiper>
-      <div className="btn-review center">
-        <motion.button
-          className="center prev-swiper"
-          style={{ background: "var(--delete)", color: "var(--white)" }}
+    <>
+      {reviews?.length >= 1 && (
+        <Title title="show all reviews">
+          <BiShow fontSize={12} color="var(--third)" onClick={handleshowPop} />
+        </Title>
+      )}
+      <MainPop bool={showPop} setter={setShowPop} className="reviews-pop">
+        <Header head="reviews" />
+        <Swiper
+          className="pop-up-reviews center"
+          {...options}
+          navigation={{
+            nextEl: ".btn-review  .next-swiper",
+            prevEl: " .btn-review  .prev-swiper",
+          }}
         >
-          <FaLessThan />
-        </motion.button>
-        <motion.button
-          className="center next-swiper"
-          style={{ background: "var(--green)", color: "var(--white)" }}
-        >
-          <FaGreaterThan />
-        </motion.button>
-      </div>
-    </MainPop>
+          {reviews?.map((review: ReviewType, i) => {
+            {
+              return (
+                <SwiperSlide key={i} className="review">
+                  <Review {...review} i={i} />
+                </SwiperSlide>
+              );
+            }
+          })}
+        </Swiper>
+        <div className="btn-review center">
+          <button className="center prev-swiper">
+            <FaLessThan />
+          </button>
+          <button className="center next-swiper">
+            <FaGreaterThan />
+          </button>
+        </div>
+      </MainPop>
+    </>
   );
 };
 

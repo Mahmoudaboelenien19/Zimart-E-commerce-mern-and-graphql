@@ -10,10 +10,8 @@ const Footer = () => {
     <footer>
       <div className="content">
         <AboutFooter />
-        <div className="center between start footer-links">
-          <FooterLinks />
-          <FooterCategory />
-        </div>
+        <FooterCategory />
+        <FooterLinks />
         <FooterSocial />
       </div>
       <CopyRight />

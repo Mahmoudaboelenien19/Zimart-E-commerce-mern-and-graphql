@@ -1,76 +1,42 @@
-import { useContext, useEffect } from "react";
 import HeartSvg from "./heart";
-
-import { isAuthContext } from "../../context/isAuth";
-import { useAppSelector } from "@/custom/reduxTypes";
-import useAddToFav from "@/custom/useAddToFav";
-import useRemoveFromFav from "@/custom/useRemoveFeomFav";
-import { imagesInterface, favInterface } from "@/interfaces/user.interface";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
+import useAddToCollection from "@/custom/shopping/useAddToCollection";
+import useIsAtCollection from "@/custom/shopping/useIsAtCollection";
+import { addToFavRedux } from "@/redux/favSlice";
+import useRemoveFromFav from "@/custom/shopping/useRemoveFromFav";
 
 interface Props {
-  setIsFavorited: React.Dispatch<React.SetStateAction<boolean>>;
-  isFavoraited: boolean;
-  price: number;
-  title: string;
-  images?: imagesInterface[];
-  parentId: string;
+  id: string;
 }
 
-const ProductListHeart = ({
-  isFavoraited,
-  setIsFavorited,
-  images = [],
-  price,
-  title,
-  parentId,
-}: Props) => {
+const ProductListHeart = ({ id }: Props) => {
   const { fav } = useAppSelector((state) => state.fav);
-  const { userId, isAuth } = useContext(isAuthContext);
+  const { isAuth } = useAppSelector((st) => st.isAuth);
+  const { atCollection, setAtCollection } = useIsAtCollection(fav, id);
+  const { handleAddToCollection } = useAddToCollection(id, "fav");
 
-  useEffect(() => {
-    if (fav?.length === 0) {
-      setIsFavorited(false);
+  const dispatch = useAppDispatch();
+  const addToFav = async () => {
+    const st = await handleAddToCollection();
+    if (st === 200) {
+      dispatch(addToFavRedux({ id }));
     }
-
-    if (fav?.length > 0) {
-      for (const image of images as imagesInterface[]) {
-        const check = fav.some((e: favInterface) => image?._id == e.productId);
-        if (check) {
-          setIsFavorited(true);
-          break;
-        } else {
-          setIsFavorited(false);
-        }
-      }
-    }
-  }, [fav, images]);
-
-  const addToFavObj = {
-    userId,
-    productId: (images as imagesInterface[])[0]?._id,
-    price,
-    path: (images as imagesInterface[])[0]?.productPath,
-    title,
-    parentId,
   };
-  const { handleAddToFav } = useAddToFav(addToFavObj);
-  const { handleRemoveFromFav } = useRemoveFromFav({
-    userId,
-    productId: images?.map((image) => image?._id) as string[],
-  });
 
+  //i made this only as custom hook as i ned this in Favorite component
+  const { removeFromFav } = useRemoveFromFav(id);
   const handleHeartFns = async () => {
     if (isAuth) {
-      setIsFavorited(!isFavoraited);
+      setAtCollection(!atCollection);
     }
 
-    if (!isFavoraited) {
-      handleAddToFav();
+    if (!atCollection) {
+      addToFav();
     } else {
-      handleRemoveFromFav();
+      removeFromFav();
     }
   };
-  return <HeartSvg fn={handleHeartFns} isFavoraited={isFavoraited} />;
+  return <HeartSvg fn={handleHeartFns} isFavoraited={atCollection} />;
 };
 
 export default ProductListHeart;

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import "./transition.scss";
 import { useState } from "react";
+// import { useScrollToUp } from "@/custom/helpers/useScrolltoUp";
 const opacityV = {
   start: { opacity: 1 },
   end: (i: number) => ({
@@ -39,32 +40,34 @@ export default function Transition() {
       );
     });
   };
+  // useScrollToUp();
 
   const [isFinished, setIsFinished] = useState(false);
   return (
-    <motion.div
-      className="transition"
-      variants={transitionParVariant}
-      onAnimationComplete={() => {
-        console.log("end");
-
-        setIsFinished(true);
-      }}
-      style={{
-        //  display: isFinished ? "none" : "block"
-        zIndex: isFinished ? -1 : 100,
-      }}
-      animate={"end"}
-      initial="start"
-    >
-      {[...Array(20)].map((_: unknown, i: number) => {
-        return (
-          <div key={i} className={"transition-col"}>
-            {" "}
-            {fnOfBlocks()}
-          </div>
-        );
-      })}
-    </motion.div>
+    <>
+      {!isFinished && (
+        <motion.div
+          className="transition"
+          variants={transitionParVariant}
+          onAnimationComplete={() => {
+            setIsFinished(true);
+          }}
+          style={{
+            zIndex: isFinished ? -1 : 100,
+          }}
+          animate={"end"}
+          initial="start"
+        >
+          {[...Array(20)].map((_: unknown, i: number) => {
+            return (
+              <div key={i} className={"transition-col"}>
+                {" "}
+                {fnOfBlocks()}
+              </div>
+            );
+          })}
+        </motion.div>
+      )}
+    </>
   );
 }

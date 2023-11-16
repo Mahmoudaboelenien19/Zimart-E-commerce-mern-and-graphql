@@ -6,7 +6,6 @@ const useRechart = (arr: Data[], type?: string) => {
     const month = new Date(product?.createdAt).toLocaleString("default", {
       month: "short",
     });
-
     const existing = acc.find((m: Return) => m.name === month);
     if (existing) {
       existing.value =
@@ -19,11 +18,9 @@ const useRechart = (arr: Data[], type?: string) => {
         value: type === "earning" ? product.cost || 0 : 1,
       });
     }
-
     return acc;
   }, []);
 
-  console.log(data);
   return data;
 };
 

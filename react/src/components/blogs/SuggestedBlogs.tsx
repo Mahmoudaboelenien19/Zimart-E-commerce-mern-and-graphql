@@ -1,28 +1,22 @@
-import { useEffect, useRef } from "react";
-
+import { useEffect } from "react";
 import SuggestedBlog from "./SuggestedBlog";
 import { stagger, useAnimate, useInView } from "framer-motion";
-
 import { useLazyQuery } from "@apollo/client";
-import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
+import { useAppSelector, useAppDispatch } from "@/custom/helpers/reduxTypes";
 import { getAllBlogs } from "@/graphql/blog";
 import { addToBlogsRedux } from "@/redux/BlogsSlice";
 
 const SuggestedBlogs = ({ id }: { id: string }) => {
   const { blogs } = useAppSelector((st) => st.blogs);
-
   const [scope, animate] = useAnimate();
   const inView = useInView(scope, { once: true });
 
-  const [getAllQueries] = useLazyQuery(getAllBlogs);
+  const [getAllblogs] = useLazyQuery(getAllBlogs);
   const dispatch = useAppDispatch();
 
-  //this is because if user goes direct to blog route when blogs at redux empty
-  const initialRender = useRef(true);
   useEffect(() => {
-    if (!blogs?.length && initialRender.current) {
-      getAllQueries().then(({ data }) => {
-        initialRender.current = false;
+    if (!blogs?.length) {
+      getAllblogs().then(({ data }) => {
         dispatch(addToBlogsRedux(data?.blogs));
       });
     }
@@ -32,8 +26,8 @@ const SuggestedBlogs = ({ id }: { id: string }) => {
     if (inView && blogs.length >= 1) {
       animate(
         " .suggested-blog",
-        { opacity: [0, 0.5, 1], x: [200, 0] },
-        { delay: stagger(1, { startDelay: 2 }), duration: 0.5 }
+        { opacity: [0, 0.5, 1], x: [100, 0] },
+        { delay: stagger(1, { startDelay: 0.5 }), duration: 0.2 }
       );
     }
   }, [inView, blogs]);
@@ -44,7 +38,7 @@ const SuggestedBlogs = ({ id }: { id: string }) => {
         ?.filter((ob) => ob._id != id)
         .slice(0, 2)
         .map((ob, i) => {
-          return <SuggestedBlog key={i} {...ob} />;
+          return <SuggestedBlog key={ob._id} {...ob} />;
         })}
     </div>
   );

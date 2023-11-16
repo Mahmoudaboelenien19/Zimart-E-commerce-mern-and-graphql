@@ -1,18 +1,18 @@
 import ShowCount from "@/components/Nav/main/showCounter";
-import { isAuthContext } from "@/context/isAuth";
-import { useAppDispatch, useAppSelector } from "@/custom/reduxTypes";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
 import { Reset_Notification } from "@/graphql/mutations/user";
 import { changeNotificationCount } from "@/redux/notificationsSlice";
 import { useMutation } from "@apollo/client";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { RiNotification2Line } from "react-icons/ri";
 import NotificationDropDown from "./NotificationDropDown";
-import useHideScroll from "@/custom/useHideScroll";
+import useHideScroll from "@/custom/helpers/useHideScroll";
 import "./notification.scss";
-import useIsMobile from "@/custom/useIsMobile";
+import useIsMobile from "@/custom/helpers/useIsMobile";
+import useNotificationsSubscription from "@/custom/subscriptions/useNotificationsSubscription";
 const NotificatinTogglar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { userId } = useContext(isAuthContext);
+  const { userId } = useAppSelector((st) => st.isAuth);
   const dispatch = useAppDispatch();
   const { isMobile } = useIsMobile();
   const [resetNotification] = useMutation(Reset_Notification, {
@@ -23,7 +23,7 @@ const NotificatinTogglar = () => {
   const { count } = useAppSelector((st) => st.notification);
 
   useHideScroll(showNotifications, isMobile);
-
+  useNotificationsSubscription();
   return (
     <div className="relative">
       <RiNotification2Line
@@ -38,12 +38,10 @@ const NotificatinTogglar = () => {
       />
       <ShowCount length={count} />
       <div className="relative">
-        {showNotifications && (
-          <NotificationDropDown
-            showNotifications={showNotifications}
-            setShowNotifications={setShowNotifications}
-          />
-        )}
+        <NotificationDropDown
+          showNotifications={showNotifications}
+          setShowNotifications={setShowNotifications}
+        />
       </div>
     </div>
   );

@@ -1,19 +1,14 @@
-import StyledPrice from "../widgets/StyledPrice";
-
 interface Props {
   detail: string;
   value: string | number;
 }
 const OrderedProductDetail = ({ detail, value }: Props) => {
   return (
-    <div style={{ fontSize: "1.2rem" }} className="center gap total-pay">
+    <div className="details center gap">
       <span className="detail">{detail}</span>
       <span className="value">
-        {detail === "price :" || detail === "Total :" ? (
-          <StyledPrice price={Number(value)} />
-        ) : (
-          value
-        )}
+        {value}
+        {detail === "price :" && "  $"}
       </span>
     </div>
   );

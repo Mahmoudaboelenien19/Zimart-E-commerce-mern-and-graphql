@@ -1,20 +1,13 @@
 import FadeElement from "../../widgets/animation/FadeElement";
 import { AnimatePresence, motion } from "framer-motion";
-import { UserInterface } from "@/interfaces/user.interface";
 import Skeleton from "react-loading-skeleton";
 import DashDropDown from "../DashDropDown";
 import { useScrollDirection } from "use-scroll-direction";
-import useUpdateUserRole from "@/custom/useUpdateUserRole";
+import useUpdateUserRole from "@/custom/dashboadrd/useUpdateUserRole";
 import { Fragment } from "react";
+import { User } from "@/types/user";
 
-const UserMobile = ({
-  role,
-  _id,
-  lastLogIn,
-  name,
-  email,
-  createdAt,
-}: UserInterface) => {
+const UserMobile = ({ role, _id, lastLogIn, name, email, createdAt }: User) => {
   const { isScrollingDown } = useScrollDirection();
   const { handleUpdateUserRole } = useUpdateUserRole();
   const updateRole = (role: string) => {

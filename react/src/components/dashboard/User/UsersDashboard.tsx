@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import DashMain from "../DashMain";
+import { Fragment, useEffect, useState } from "react";
 import DashBoardUsersTable from "./DashBoardUsersTable";
 import MobileDashUser from "./MobileDashUser";
-import Pages from "@/components/Product/Products/Pages";
-import useParams from "@/custom/useParams";
+import Pages from "@/components/widgets/shared/Pages";
+import useParams from "@/custom/helpers/useParams";
 import { GET_ALL_USERS } from "@/graphql/mutations/user";
 import { useLazyQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -13,7 +12,7 @@ import {
   usersSkeltonRedux,
 } from "@/redux/userSlice";
 import useUserSubscription from "@/custom/subscriptions/useUserSubscription";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
 
 export const Component = () => {
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ export const Component = () => {
   useUserSubscription();
 
   return (
-    <DashMain key={"order-dashmain"}>
+    <Fragment>
       <DashBoardUsersTable key={"table-order"} />
       <MobileDashUser key={"mobile-order"} />
       <Pages
@@ -47,6 +46,6 @@ export const Component = () => {
         to="users"
         limit={18}
       />
-    </DashMain>
+    </Fragment>
   );
 };

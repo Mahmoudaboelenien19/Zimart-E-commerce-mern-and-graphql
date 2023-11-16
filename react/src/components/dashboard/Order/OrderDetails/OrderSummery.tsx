@@ -2,6 +2,7 @@ import OrderDetail from "../Table/OrderDetail";
 
 import { motion } from "framer-motion";
 import { reverseVariant } from "@/lib/variants/globals";
+import Header from "@/components/widgets/shared/Header";
 interface Props {
   delivered: string;
   created: string;
@@ -36,7 +37,7 @@ const OrderSummery = ({ total, created, delivered }: Props) => {
   ];
   return (
     <motion.div variants={reverseVariant} className="box-shadow order-summery">
-      <h3 className="underline header">order summery</h3>
+      <Header head="order summery" />
       {orderArr.map((obj, i) => {
         return <OrderDetail key={i} {...obj} />;
       })}

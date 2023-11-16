@@ -1,6 +1,6 @@
+import { User } from "@/types/user";
 import TrUser from "./TrUser";
-import { UserInterface } from "@/interfaces/user.interface";
-import { useAppSelector } from "@/custom/reduxTypes";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 const DashBoardUsersTable = () => {
   const { user } = useAppSelector((st) => st.user);
@@ -16,7 +16,7 @@ const DashBoardUsersTable = () => {
         </tr>
       </thead>
       <tbody>
-        {user?.map((user: UserInterface, i: number) => {
+        {user?.map((user: User, i: number) => {
           return <TrUser index={i} {...user} key={i} />;
         })}
       </tbody>

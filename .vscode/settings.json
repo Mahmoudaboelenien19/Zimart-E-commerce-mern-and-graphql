@@ -1,1 +1,4 @@
-{}
+{
+  "terminal.integrated.shellIntegration.enabled": false,
+  "terminal.integrated.shellIntegration.decorationsEnabled": "overviewRuler"
+}

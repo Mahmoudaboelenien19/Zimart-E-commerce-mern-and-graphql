@@ -1,9 +1,8 @@
 import { BiRightArrowAlt } from "react-icons/bi";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MainBtn from "../widgets/buttons/MainBtn";
-import { AnimatePresence } from "framer-motion";
-import useModifyUrl from "@/custom/useModifyUrl";
+import useModifyUrl from "@/custom/helpers/useModifyUrl";
+
 interface Props {
   head: string;
   intro: string;
@@ -11,29 +10,33 @@ interface Props {
   _id: string;
 }
 const SuggestedBlog = ({ head, intro, image, _id }: Props) => {
-  const navigate = useNavigate();
   const { getlink } = useModifyUrl();
   return (
-    <div key={_id} className="suggested-blog" style={{ opacity: 0 }}>
-      <AnimatePresence mode="wait">
-        <div key={"img-par"} className="suggested-blog-img">
-          <LazyLoadImage effect="blur" src={getlink(image, 300)} alt={head} />
-        </div>
-      </AnimatePresence>
+    <div key={_id} className="suggested-blog">
+      <div key={"img-par"} className={"suggested-blog-img"}>
+        <img
+          src={getlink(image, 600)}
+          alt={head}
+          style={{ viewTransitionName: `blog-${_id}` }}
+        />
+      </div>
 
       <h4 className="blog-head">
         {head.split(" ").slice(0, 7).join(" ").slice(0, 30)} ...
       </h4>
       <p>{intro.split(" ").slice(0, 20).join(" ")} ...</p>
-      <MainBtn
-        Icon={BiRightArrowAlt}
-        btn="see more"
-        className="btn  center gap cancel-outline"
-        onClick={() => {
-          navigate(`/blogs/${_id}`);
-        }}
-        pos="right"
-      />
+      <Link
+        to={`/blogs/${_id}`}
+        unstable_viewTransition
+        state={{ showWithoutdelay: true }}
+      >
+        <MainBtn
+          Icon={BiRightArrowAlt}
+          btn="see more"
+          className="btn  center gap cancel-outline"
+          pos="right"
+        />
+      </Link>
     </div>
   );
 };

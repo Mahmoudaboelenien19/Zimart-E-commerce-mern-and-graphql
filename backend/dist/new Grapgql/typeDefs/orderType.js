@@ -47,9 +47,7 @@ exports.orderDefType = (0, apollo_server_express_1.gql) `
   }
 
   input ProductOrderinput {
-    _id: ID
     productId: ID
-    parentId: ID
     price: Float
     path: String
     title: String

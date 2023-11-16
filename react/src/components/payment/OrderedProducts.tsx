@@ -1,20 +1,19 @@
+import { type Details } from "@/types/general";
 import OrderedProductDetail from "./OrderedProductDetail";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-interface Props {
-  title: string;
-  price: number;
-  i: number;
-  count: number;
-}
-const OrderedProduct = ({ title, price, i, count }: Props) => {
+const OrderedProduct = ({ title, price, count, path }: Details) => {
   return (
     <>
-      <div className="ordered-product center col start">
-        <h2 className="underline underline-sm header header-sm">product {i}</h2>
-        <OrderedProductDetail detail="product :" value={title} />
-        <OrderedProductDetail detail="count :" value={count} />
-        <OrderedProductDetail detail="price :" value={price} />
+      <div className="ordered-product  w-100">
+        <LazyLoadImage src={path} />
+        <div className="col">
+          <OrderedProductDetail detail="product :" value={title} />
+          <OrderedProductDetail detail="count :" value={count || 0} />
+          <OrderedProductDetail detail="price :" value={price} />
+        </div>
       </div>
+      <div className="hr" />
     </>
   );
 };

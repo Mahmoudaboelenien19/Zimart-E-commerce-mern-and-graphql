@@ -1,32 +1,28 @@
-import { Fragment, memo } from "react";
 import Footer from "../Footer/Footer";
+
 import NewsLetter from "../NewsLetter/NewsLetter";
 import Products from "../Product/Products/Products";
 import StripeSuccess from "../payment/StripeSuccess";
 import Banner from "./Banner";
-import Transition from "../widgets/animation/transition/Transition";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
+import useParams from "@/custom/helpers/useParams";
+import useHideScroll from "@/custom/helpers/useHideScroll";
 
-export function Component() {
+export function Home() {
+  const { getParam } = useParams();
+  const isSuccess = getParam("success") || "";
   useTitle("Zimart");
-  return (
-    <div>
-      <Transition />
-      <Home />
-    </div>
-  );
-}
+  useHideScroll(Boolean(isSuccess));
 
-const Home = () => {
   return (
-    <Fragment>
+    <>
       <Banner />
+
       <Products />
-      <StripeSuccess />
+
+      {isSuccess && <StripeSuccess />}
       <NewsLetter />
       <Footer />
-    </Fragment>
+    </>
   );
-};
-
-export default memo(Home);
+}

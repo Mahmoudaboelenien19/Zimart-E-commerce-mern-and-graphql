@@ -1,19 +1,18 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { RiLogoutCircleRFill } from "react-icons/ri";
 import { FaQuestionCircle } from "react-icons/fa";
 import ProfileImg from "@/components/user/ProfileImg";
 import DropDown from "@/components/widgets/dropdowns/DropDown";
-import { isAuthContext } from "@/context/isAuth";
-import useLogOut from "@/custom/useLogOut";
+import useLogOut from "@/custom/user/useLogOut";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 interface Props {
   bool: boolean;
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const UserDropDown = ({ bool, setter }: Props) => {
-  const { name } = useContext(isAuthContext);
+  const { name } = useAppSelector((st) => st.userData);
   const { handleLogOut } = useLogOut();
   const dropArr = [
     {
@@ -33,10 +32,12 @@ const UserDropDown = ({ bool, setter }: Props) => {
   ];
 
   return (
-    <DropDown className="user-drop" bool={bool} setter={setter}>
+    <DropDown className="user-drop centered" bool={bool} setter={setter}>
       <div className="w-100">
-        <div className="user-drop-img center gap">
-          <ProfileImg dimension={30} />
+        <div className="user-drop-img center">
+          <div>
+            <ProfileImg />
+          </div>
           <span> {name}</span>
         </div>
         <div className="hr"></div>
@@ -49,7 +50,7 @@ const UserDropDown = ({ bool, setter }: Props) => {
               <Icon fontSize={15} className="shadow  user-icon" />
               {link}
             </NavLink>
-            {link !== "logout" && <div key={link} className="hr"></div>}
+            {link !== "logout" && <div key={link} className="hr" />}
           </div>
         );
       })}

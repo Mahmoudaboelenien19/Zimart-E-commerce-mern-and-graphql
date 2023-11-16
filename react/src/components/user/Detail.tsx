@@ -1,23 +1,23 @@
-import { useState, useContext } from "react";
+import { Fragment, useState } from "react";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { GrUpdate } from "react-icons/gr";
 import { toast } from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
-import { isAuthContext } from "@/context/isAuth";
 import clsx from "clsx";
 import UpdateForm from "./UpdateForm";
 import MainPop from "../widgets/shared/popup/MainPop";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 interface Props {
   value: string;
   detail: string;
 }
 
 const Detail = ({ detail, value }: Props) => {
-  const { isAdmin } = useContext(isAuthContext);
+  const { role } = useAppSelector((st) => st.userData);
   const [show, setShow] = useState(false);
 
   const handleShowPopup = () => {
-    if (!isAdmin) {
+    if (role === "user") {
       setShow(true);
     } else {
       toast("admins can't change their data ", {
@@ -27,7 +27,7 @@ const Detail = ({ detail, value }: Props) => {
   };
 
   return (
-    <>
+    <Fragment>
       <div className="user-detail-par ">
         <div className="details w-100">
           <div className="detail">{detail} :</div>
@@ -53,7 +53,7 @@ const Detail = ({ detail, value }: Props) => {
           </MainPop>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

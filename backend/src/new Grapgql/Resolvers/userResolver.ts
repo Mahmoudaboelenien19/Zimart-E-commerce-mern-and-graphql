@@ -10,21 +10,14 @@ import {
 } from "../../middlewares/authenticate.js";
 import { hashPassword } from "../../middlewares/hashPassword.js";
 import { userCollection } from "../../mongoose/schema/user.js";
-import { IdInterface } from "../interfaces/graqphInterfaces.js";
+import { IdInterface, ShopType } from "../interfaces/graqphInterfaces.js";
 import { pubsub } from "../context.js";
 import productCollection from "../../mongoose/schema/product.js";
 import { ObjectId } from "mongodb";
-import { GraphQLError } from "graphql";
-interface addToFavInterface {
-  input: {
-    productId: string;
-    parentId: string;
-    title: string;
-    path: string;
-    price: number;
-    userId: string;
-  };
-}
+import { AddNotification } from "../../lib/AddNotification";
+const imgUrl =
+  "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png";
+
 interface updateUserDataInterface {
   input: {
     _id: string;
@@ -42,14 +35,30 @@ interface removeFromFavInterface {
 export const userResolver = {
   Query: {
     async users(_: unknown, { limit, skip }: SkipAndLimit) {
-      const totalUsers = await userCollection.find().count();
-      const users = await userCollection
-        .find()
-        .sort({ createdAt: -1 })
-        .limit(limit)
-        .skip(skip);
+      const data = await userCollection.aggregate([
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            users: { $push: "$$ROOT" },
+          },
+        },
+        {
+          $project: {
+            users: { $slice: ["$users", skip, limit] },
+            count: 1,
+            _id: 0,
+          },
+        },
+      ]);
+      const { count, users } = data[0];
       return {
-        totalUsers,
+        totalUsers: count,
         users,
       };
     },
@@ -60,50 +69,47 @@ export const userResolver = {
       }: { input: { id: string; skip: number; limit: number; type: string } }
     ) {
       try {
-        if (type === "unread") {
-          const data = await userCollection.aggregate([
-            {
-              $match: {
-                _id: new ObjectId(id),
-              },
+        const boolAr = type === "unread" ? [false] : [false, true];
+        const data = await userCollection.aggregate([
+          {
+            $match: {
+              _id: new ObjectId(id),
             },
-            {
-              $project: {
-                notifications: {
-                  $filter: {
-                    input: "$notifications",
-                    as: "notification",
-                    cond: { $eq: ["$$notification.isRead", false] },
-                  },
-                },
-              },
+          },
+          {
+            $project: {
+              notifications: 1,
+              _id: 0,
             },
-            {
-              $project: {
-                data: {
-                  $sortArray: {
-                    input: "$notifications",
-                    sortBy: { createdAt: -1 },
-                  },
-                },
-              },
+          },
+          {
+            $unwind: "$notifications",
+          },
+          {
+            $match: {
+              "notifications.isRead": { $in: boolAr },
             },
-            {
-              $project: {
-                data: {
-                  $slice: ["$data", skip, limit],
-                },
-              },
+          },
+          {
+            $sort: {
+              "notifications.createdAt": -1,
             },
-          ]);
-          return data[0]?.data || [];
-        } else {
-          const data = await userCollection.findById(id, {
-            notifications: 1,
-          });
+          },
+          {
+            $skip: skip,
+          },
+          {
+            $limit: limit,
+          },
 
-          return data?.notifications.reverse().slice(skip, limit + skip) || [];
-        }
+          {
+            $group: {
+              _id: null,
+              notifications: { $push: "$notifications" },
+            },
+          },
+        ]);
+        return data[0]?.notifications || [];
       } catch (er) {
         console.log(er);
       }
@@ -111,6 +117,41 @@ export const userResolver = {
 
     async getUserData(_: any, args: IdInterface) {
       return await userCollection.findById(args.id);
+    },
+    async getUserShopCollection(_: unknown, args: ShopType) {
+      try {
+        const { target, userId } = args.input;
+        const data = await userCollection.aggregate([
+          { $match: { _id: new ObjectId(userId) } },
+          {
+            $project: {
+              [target]: 1,
+            },
+          },
+          { $unwind: `$${target}` },
+          {
+            $lookup: {
+              from: "products",
+              localField: `${target}.id`,
+              foreignField: "_id",
+
+              as: `${target}.product`,
+            },
+          },
+          { $unwind: `$${target}.product` },
+          {
+            $group: {
+              _id: null,
+
+              data: { $push: `$${target}` },
+            },
+          },
+        ]);
+        console.log(data);
+        return data[0].data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   Upload: GraphQLUpload,
@@ -124,16 +165,15 @@ export const userResolver = {
       );
     },
   },
-  Cart: {
-    async product(par: { parentId: string }) {
-      return await productCollection.findById(par.parentId);
-    },
-  },
-  Fav: {
-    async product(par: { parentId: string }) {
-      return await productCollection.findById(par.parentId);
-    },
-  },
+  // Cart: {
+  //   async product(par: { id: string }) {
+  //     console.log("cart resolver worked");
+  //     const res = await productCollection.findById(par.id);
+
+  //     console.log({ res });
+  //     return res;
+  //   },
+  // },
   Mutation: {
     addUser: async (_: unknown, { input }: any) => {
       const check = await userCollection.find({ email: input.email });
@@ -144,47 +184,22 @@ export const userResolver = {
           msg: "this email has registered",
         };
       } else {
-        const res = await userCollection.create({
+        const newUser = await userCollection.create({
           ...input,
           createdAt: new Date().toISOString(),
-          image:
-            input.image ||
-            "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png",
+          image: input.image || imgUrl,
           password: hashPassword(input.password),
-          role: "user",
         });
 
         pubsub.publish("NEW_USER", {
-          NeWUser: res,
+          NeWUser: newUser,
         });
         const notificationObj = {
-          isRead: false,
           content: `${input.email} created a new account`,
-          createdAt: new Date().toISOString(),
           link: "/dashboard/users",
         };
-        await userCollection.updateMany(
-          { role: { $in: ["admin", "moderator", "owner", "user"] } },
-          {
-            $push: {
-              notifications: notificationObj,
-            },
-            $inc: {
-              notificationsCount: +1,
-            },
-          }
-        );
-        const newNotification = await userCollection.findOne(
-          { role: { $in: ["admin", "moderator", "owner", "user"] } },
-          {
-            notifications: { $slice: [-1, 1] },
-          }
-        );
-        pubsub.publish("Notification_Created", {
-          NotificationAdded: newNotification?.notifications[0],
-        });
-
-        return { ...res, status: 200, msg: "user created successfully" };
+        AddNotification(notificationObj);
+        return { status: 200, msg: "user created successfully" };
       }
     },
 
@@ -223,7 +238,7 @@ export const userResolver = {
               return {
                 msg: "you successfully logged in",
                 status: 200,
-                user: user[0],
+                id,
               };
             }
           } else if (!user) {
@@ -236,118 +251,54 @@ export const userResolver = {
         }
       },
 
-    addToCart: async (_: any, { input }: any) => {
-      try {
-        const res = await userCollection.findByIdAndUpdate(
-          input.userId,
-          {
-            $push: { cart: input },
-          },
-          { new: true }
-        );
-        return { ...res, msg: "successfully added to your cart" };
-      } catch (err) {
-        return (err as Error).message;
-      }
-    },
-
-    removeFromCart: async (
-      _: any,
-      { input }: { input: { productId: string[]; userId: string } }
-    ) => {
-      try {
-        await userCollection.findByIdAndUpdate(
-          input.userId,
-          {
-            $pull: { cart: { productId: { $in: input.productId } } },
-          },
-          { new: true }
-        );
-        return { msg: "removed from your cart" };
-      } catch (err) {
-        return (err as Error).message;
-      }
-    },
     changeCartCount: async (
       _: any,
       { input }: { input: { userId: string; productId: string; count: number } }
     ) => {
       try {
+        const { userId, productId, count } = input;
+        console.log("chnage worked");
+        console.log({ userId, productId, count });
         await userCollection.findOneAndUpdate(
           {
             _id: input.userId,
-            "cart.productId": input.productId,
+            "cart.id": input.productId,
           },
           {
             $set: { "cart.$.count": input.count },
-          },
-          { new: true }
+          }
         );
+
         return { msg: "count successfully changed" };
       } catch (err) {
         return (err as Error).message;
       }
     },
 
-    async addToCompare(
-      _: any,
-      { input }: { input: { userId: string; title: string; productId: string } }
-    ) {
-      const { productId, title } = input;
-      const res = await userCollection.findByIdAndUpdate(
-        input.userId,
-        {
-          $push: { compare: { productId, title } },
-        },
-        { new: true }
-      );
-
-      const newCompared = res!.compare[res!.compare.length - 1] as any;
-      newCompared.msg = "successfully added to your comparelist";
-      return newCompared;
-    },
-
-    async removeFromCompare(
-      _: any,
-      { input }: { input: { userId: string; productId: string } }
-    ) {
-      const { productId } = input;
-      const res = await userCollection.findByIdAndUpdate(
-        input.userId,
-        {
-          $pull: { compare: { productId } },
-        },
-        { new: true }
-      );
-
-      return { msg: "successfully removed from your comparelist" };
-    },
-
-    addToFav: async (_: any, { input }: addToFavInterface) => {
+    addToShoppingCollection: async (_: unknown, args: ShopType) => {
       try {
-        const res = await userCollection.findByIdAndUpdate(
-          input.userId,
-          {
-            $push: { fav: input },
-          },
-          { new: true }
-        );
-        return { ...res, msg: "successfully added to your favorites" };
+        const { id, userId, target } = args.input;
+
+        console.log({ id, userId, target });
+        const res = await userCollection.findByIdAndUpdate(userId, {
+          $push: { [target]: { id } },
+        });
+        const msg = target === "fav" ? "wishlist" : target;
+
+        return { msg: `successfully added to your ${msg}`, status: 200 };
       } catch (err) {
         return (err as Error).message;
       }
     },
 
-    removeFromFav: async (_: any, { input }: removeFromFavInterface) => {
+    removeFromShoppingCollection: async (_: any, args: ShopType) => {
       try {
-        await userCollection.findByIdAndUpdate(
-          input.userId,
-          {
-            $pull: { fav: { productId: { $in: input.productId } } },
-          },
-          { new: true }
-        );
-        return { msg: "removed from your favorites" };
+        const { id, userId, target } = args.input;
+        await userCollection.findByIdAndUpdate(userId, {
+          $pull: { [target]: { id } },
+        });
+        const msg = target === "fav" ? "wishlist" : target;
+        return { msg: `removed from your ${msg}`, status: 200 };
       } catch (err) {
         return (err as Error).message;
       }
@@ -452,7 +403,6 @@ export const userResolver = {
       _: unknown,
       args: { _id: string; oldPassword: string; newPassword: string }
     ) {
-      console.log("worked");
       const result = await checkOldPass(args._id, args.oldPassword);
       if (result) {
         console.log({ result });

@@ -8,7 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import clsx from "clsx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DropDown from "@/components/widgets/dropdowns/DropDown";
-
+import { motion } from "framer-motion";
 interface Props extends notificationInterface {
   isScrolling: boolean;
 }
@@ -21,7 +21,7 @@ const Notificatin = ({
   link = "/",
 }: Props) => {
   const [showActions, setShowActions] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const nvaigate = useNavigate();
   useEffect(() => {
     if (isScrolling) {
@@ -30,10 +30,12 @@ const Notificatin = ({
   }, [isScrolling]);
 
   return (
-    <FadeElement
+    <motion.div
+      layout
       className={clsx("notification relative")}
       key={createdAt}
       onClick={() => nvaigate(link)}
+      transition={{ duration: 0.4, delay: 0.2 }}
     >
       <Fragment>
         {_id && (
@@ -82,7 +84,7 @@ const Notificatin = ({
           </>
         )}
       </div>
-    </FadeElement>
+    </motion.div>
   );
 };
 

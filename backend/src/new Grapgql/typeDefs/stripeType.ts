@@ -11,9 +11,7 @@ export const StripeTypes = gql`
   }
 
   input createOrderInput {
-    _id: ID
     productId: ID
-    parentId: ID
     price: Float
     path: String
     title: String

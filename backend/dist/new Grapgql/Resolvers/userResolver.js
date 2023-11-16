@@ -21,20 +21,37 @@ const authenticate_js_1 = require("../../middlewares/authenticate.js");
 const hashPassword_js_1 = require("../../middlewares/hashPassword.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
 const context_js_1 = require("../context.js");
-const product_js_1 = __importDefault(require("../../mongoose/schema/product.js"));
 const mongodb_1 = require("mongodb");
+const AddNotification_1 = require("../../lib/AddNotification");
+const imgUrl = "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png";
 exports.userResolver = {
     Query: {
         users(_, { limit, skip }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const totalUsers = yield user_js_1.userCollection.find().count();
-                const users = yield user_js_1.userCollection
-                    .find()
-                    .sort({ createdAt: -1 })
-                    .limit(limit)
-                    .skip(skip);
+                const data = yield user_js_1.userCollection.aggregate([
+                    {
+                        $sort: {
+                            createdAt: -1,
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            users: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            users: { $slice: ["$users", skip, limit] },
+                            count: 1,
+                            _id: 0,
+                        },
+                    },
+                ]);
+                const { count, users } = data[0];
                 return {
-                    totalUsers,
+                    totalUsers: count,
                     users,
                 };
             });
@@ -43,50 +60,46 @@ exports.userResolver = {
             var _a;
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    if (type === "unread") {
-                        const data = yield user_js_1.userCollection.aggregate([
-                            {
-                                $match: {
-                                    _id: new mongodb_1.ObjectId(id),
-                                },
+                    const boolAr = type === "unread" ? [false] : [false, true];
+                    const data = yield user_js_1.userCollection.aggregate([
+                        {
+                            $match: {
+                                _id: new mongodb_1.ObjectId(id),
                             },
-                            {
-                                $project: {
-                                    notifications: {
-                                        $filter: {
-                                            input: "$notifications",
-                                            as: "notification",
-                                            cond: { $eq: ["$$notification.isRead", false] },
-                                        },
-                                    },
-                                },
+                        },
+                        {
+                            $project: {
+                                notifications: 1,
+                                _id: 0,
                             },
-                            {
-                                $project: {
-                                    data: {
-                                        $sortArray: {
-                                            input: "$notifications",
-                                            sortBy: { createdAt: -1 },
-                                        },
-                                    },
-                                },
+                        },
+                        {
+                            $unwind: "$notifications",
+                        },
+                        {
+                            $match: {
+                                "notifications.isRead": { $in: boolAr },
                             },
-                            {
-                                $project: {
-                                    data: {
-                                        $slice: ["$data", skip, limit],
-                                    },
-                                },
+                        },
+                        {
+                            $sort: {
+                                "notifications.createdAt": -1,
                             },
-                        ]);
-                        return ((_a = data[0]) === null || _a === void 0 ? void 0 : _a.data) || [];
-                    }
-                    else {
-                        const data = yield user_js_1.userCollection.findById(id, {
-                            notifications: 1,
-                        });
-                        return (data === null || data === void 0 ? void 0 : data.notifications.reverse().slice(skip, limit + skip)) || [];
-                    }
+                        },
+                        {
+                            $skip: skip,
+                        },
+                        {
+                            $limit: limit,
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                notifications: { $push: "$notifications" },
+                            },
+                        },
+                    ]);
+                    return ((_a = data[0]) === null || _a === void 0 ? void 0 : _a.notifications) || [];
                 }
                 catch (er) {
                     console.log(er);
@@ -96,6 +109,42 @@ exports.userResolver = {
         getUserData(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
                 return yield user_js_1.userCollection.findById(args.id);
+            });
+        },
+        getUserShopCollection(_, args) {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const { target, userId } = args.input;
+                    const data = yield user_js_1.userCollection.aggregate([
+                        { $match: { _id: new mongodb_1.ObjectId(userId) } },
+                        {
+                            $project: {
+                                [target]: 1,
+                            },
+                        },
+                        { $unwind: `$${target}` },
+                        {
+                            $lookup: {
+                                from: "products",
+                                localField: `${target}.id`,
+                                foreignField: "_id",
+                                as: `${target}.product`,
+                            },
+                        },
+                        { $unwind: `$${target}.product` },
+                        {
+                            $group: {
+                                _id: null,
+                                data: { $push: `$${target}` },
+                            },
+                        },
+                    ]);
+                    console.log(data);
+                    return data[0].data;
+                }
+                catch (error) {
+                    console.log(error);
+                }
             });
         },
     },
@@ -110,20 +159,14 @@ exports.userResolver = {
             });
         },
     },
-    Cart: {
-        product(par) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return yield product_js_1.default.findById(par.parentId);
-            });
-        },
-    },
-    Fav: {
-        product(par) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return yield product_js_1.default.findById(par.parentId);
-            });
-        },
-    },
+    // Cart: {
+    //   async product(par: { id: string }) {
+    //     console.log("cart resolver worked");
+    //     const res = await productCollection.findById(par.id);
+    //     console.log({ res });
+    //     return res;
+    //   },
+    // },
     Mutation: {
         addUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             const check = yield user_js_1.userCollection.find({ email: input.email });
@@ -135,32 +178,16 @@ exports.userResolver = {
                 };
             }
             else {
-                const res = yield user_js_1.userCollection.create(Object.assign(Object.assign({}, input), { createdAt: new Date().toISOString(), image: input.image ||
-                        "https://res.cloudinary.com/domobky11/image/upload/v1682383659/download_d2onbx.png", password: (0, hashPassword_js_1.hashPassword)(input.password), role: "user" }));
+                const newUser = yield user_js_1.userCollection.create(Object.assign(Object.assign({}, input), { createdAt: new Date().toISOString(), image: input.image || imgUrl, password: (0, hashPassword_js_1.hashPassword)(input.password) }));
                 context_js_1.pubsub.publish("NEW_USER", {
-                    NeWUser: res,
+                    NeWUser: newUser,
                 });
                 const notificationObj = {
-                    isRead: false,
                     content: `${input.email} created a new account`,
-                    createdAt: new Date().toISOString(),
                     link: "/dashboard/users",
                 };
-                yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                    $push: {
-                        notifications: notificationObj,
-                    },
-                    $inc: {
-                        notificationsCount: +1,
-                    },
-                });
-                const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                    notifications: { $slice: [-1, 1] },
-                });
-                context_js_1.pubsub.publish("Notification_Created", {
-                    NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                });
-                return Object.assign(Object.assign({}, res), { status: 200, msg: "user created successfully" });
+                (0, AddNotification_1.AddNotification)(notificationObj);
+                return { status: 200, msg: "user created successfully" };
             }
         }),
         authenticate: (_, args, { res }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -182,7 +209,7 @@ exports.userResolver = {
                         return {
                             msg: "you successfully logged in",
                             status: 200,
-                            user: user[0],
+                            id,
                         };
                     }
                 }
@@ -197,79 +224,45 @@ exports.userResolver = {
                 return err.message;
             }
         }),
-        addToCart: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                const res = yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $push: { cart: input },
-                }, { new: true });
-                return Object.assign(Object.assign({}, res), { msg: "successfully added to your cart" });
-            }
-            catch (err) {
-                return err.message;
-            }
-        }),
-        removeFromCart: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $pull: { cart: { productId: { $in: input.productId } } },
-                }, { new: true });
-                return { msg: "removed from your cart" };
-            }
-            catch (err) {
-                return err.message;
-            }
-        }),
         changeCartCount: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
+                const { userId, productId, count } = input;
+                console.log("chnage worked");
+                console.log({ userId, productId, count });
                 yield user_js_1.userCollection.findOneAndUpdate({
                     _id: input.userId,
-                    "cart.productId": input.productId,
+                    "cart.id": input.productId,
                 }, {
                     $set: { "cart.$.count": input.count },
-                }, { new: true });
+                });
                 return { msg: "count successfully changed" };
             }
             catch (err) {
                 return err.message;
             }
         }),
-        addToCompare(_, { input }) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const { productId, title } = input;
-                const res = yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $push: { compare: { productId, title } },
-                }, { new: true });
-                const newCompared = res.compare[res.compare.length - 1];
-                newCompared.msg = "successfully added to your comparelist";
-                return newCompared;
-            });
-        },
-        removeFromCompare(_, { input }) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const { productId } = input;
-                const res = yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $pull: { compare: { productId } },
-                }, { new: true });
-                return { msg: "successfully removed from your comparelist" };
-            });
-        },
-        addToFav: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
+        addToShoppingCollection: (_, args) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const res = yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $push: { fav: input },
-                }, { new: true });
-                return Object.assign(Object.assign({}, res), { msg: "successfully added to your favorites" });
+                const { id, userId, target } = args.input;
+                console.log({ id, userId, target });
+                const res = yield user_js_1.userCollection.findByIdAndUpdate(userId, {
+                    $push: { [target]: { id } },
+                });
+                const msg = target === "fav" ? "wishlist" : target;
+                return { msg: `successfully added to your ${msg}`, status: 200 };
             }
             catch (err) {
                 return err.message;
             }
         }),
-        removeFromFav: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
+        removeFromShoppingCollection: (_, args) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                yield user_js_1.userCollection.findByIdAndUpdate(input.userId, {
-                    $pull: { fav: { productId: { $in: input.productId } } },
-                }, { new: true });
-                return { msg: "removed from your favorites" };
+                const { id, userId, target } = args.input;
+                yield user_js_1.userCollection.findByIdAndUpdate(userId, {
+                    $pull: { [target]: { id } },
+                });
+                const msg = target === "fav" ? "wishlist" : target;
+                return { msg: `removed from your ${msg}`, status: 200 };
             }
             catch (err) {
                 return err.message;
@@ -374,7 +367,6 @@ exports.userResolver = {
         },
         updatePassword(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.log("worked");
                 const result = yield (0, authenticate_js_1.checkOldPass)(args._id, args.oldPassword);
                 if (result) {
                     console.log({ result });

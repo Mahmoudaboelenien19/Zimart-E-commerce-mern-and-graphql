@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 import clsx from "clsx";
 import SpecialWord from "./SpecialWord";
+import useApplyFilters from "@/custom/product/useApplyFilters";
 
 const bannerTextVariant = {
   start: {
@@ -33,7 +34,6 @@ interface Props {
 const BannerText = ({ fn, header, clr, button, to, slogan }: Props) => {
   const navigate = useNavigate();
   const handleContactBtn = () => navigate("/contact");
-
   return (
     <motion.div
       variants={bannerTextVariant}

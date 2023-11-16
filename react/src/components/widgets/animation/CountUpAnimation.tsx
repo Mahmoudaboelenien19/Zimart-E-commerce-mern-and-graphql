@@ -8,7 +8,7 @@ const CountUpAnimation = ({
   num: number;
   tofixed: number;
 }) => {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, { duration: 2000 });

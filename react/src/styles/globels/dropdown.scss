@@ -1,11 +1,16 @@
 @import "@/styles/variables.scss";
 
 .dropdown {
-  height: 200px;
   list-style: none;
   position: absolute;
   top: 102%;
   right: 0;
+  z-index: 10;
+  &.centered {
+    right: 50%;
+    transform: translateX(-50%);
+    top: 105%;
+  }
   z-index: 4;
   box-shadow: var(--third-shadow);
   border-radius: 2px;
@@ -14,6 +19,9 @@
   color: var(--third);
   align-items: flex-start;
   cursor: pointer;
+  &.drop-country {
+    height: 300px;
+  }
   &.select-drop {
     overflow: auto;
   }
@@ -46,12 +54,6 @@
   }
 }
 
-li.fav-par {
-  position: relative;
-  height: fit-content;
-  padding: 2px;
-}
-
 .user-drop {
   width: 180px;
   display: flex;
@@ -82,6 +84,11 @@ li.fav-par {
     margin-bottom: 4px;
     padding: 0 8px;
     color: var(--third);
+    gap: 10px;
+    div {
+      width: 50px;
+      height: 50px;
+    }
   }
 }
 

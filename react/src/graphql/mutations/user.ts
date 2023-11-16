@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const ADD_USER = gql`
   mutation ($input: AddUserInput) {
     addUser(input: $input) {
-      name
       msg
       status
     }
@@ -26,14 +25,6 @@ export const GET_ALL_USERS = gql`
   }
 `;
 
-export const Add_To_Cart = gql`
-  mutation ($input: AddToCartInput) {
-    addToCart(input: $input) {
-      msg
-    }
-  }
-`;
-
 export const Change_Cart_Count = gql`
   mutation ($input: changeCartCountInput) {
     changeCartCount(input: $input) {
@@ -42,28 +33,11 @@ export const Change_Cart_Count = gql`
   }
 `;
 
-export const AddTo_Compare = gql`
-  mutation ($input: AddToCompareInput) {
-    addToCompare(input: $input) {
+export const ADD_TO_SHOPING_COLLECTION = gql`
+  mutation ($input: ShopInput) {
+    addToShoppingCollection(input: $input) {
       msg
-      _id
-    }
-  }
-`;
-
-export const remove_From_Compare = gql`
-  mutation ($input: removeFromCompareInput) {
-    removeFromCompare(input: $input) {
-      msg
-      _id
-    }
-  }
-`;
-
-export const Add_To_Fav = gql`
-  mutation ($input: AddToFavInput) {
-    addToFav(input: $input) {
-      msg
+      status
     }
   }
 `;
@@ -73,6 +47,7 @@ export const Authenticate_Query = gql`
     authenticate(email: $email, password: $password) {
       msg
       status
+      id
     }
   }
 `;
@@ -95,54 +70,45 @@ export const GET_USER_DATA = gql`
       phone
       role
       _id
-
       fav {
-        productId
-        product {
-          price
-          title
-        }
-        path
-        parentId
-        _id
-      }
-
-      cart {
-        count
-        productId
-        parentId
-        _id
-        path
-        product {
-          price
-          title
-          stock
-        }
+        id
       }
       compare {
-        productId
-        title
+        id
+      }
+      cart {
+        count
+        id
       }
     }
   }
 `;
 
-export const REMOVE_FROM_FAV = gql`
-  mutation ($productId: [ID!], $userId: ID!) {
-    removeFromFav(input: { userId: $userId, productId: $productId }) {
+export const REMOVE_FROM_SHOPING_COLLECTION = gql`
+  mutation ($input: ShopInput) {
+    removeFromShoppingCollection(input: $input) {
       msg
+      status
     }
   }
 `;
-
-export const REMOVE_FROM_Cart = gql`
-  mutation ($productId: [ID!], $userId: ID!) {
-    removeFromCart(input: { userId: $userId, productId: $productId }) {
-      msg
+export const get_SHOPING_COLLECTION = gql`
+  query ($input: ShopInput) {
+    getUserShopCollection(input: $input) {
+      product {
+        title
+        _id
+        images {
+          productPath
+        }
+        price
+        stock
+      }
+      id
+      count
     }
   }
 `;
-``;
 
 export const addReview = gql`
   mutation ($input: CreateReviewInput) {
@@ -154,7 +120,7 @@ export const addReview = gql`
 `;
 
 export const update_Review = gql`
-  mutation ($input: updateReviewInput) {
+  mutation ($input: CreateReviewInput) {
     updateReview(input: $input) {
       msg
     }

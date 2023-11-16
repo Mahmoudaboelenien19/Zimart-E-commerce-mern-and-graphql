@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ProductInterface } from "../interfaces/product";
+import { Product } from "../types/product";
 
-type ProductSlice = { Allproducts: ProductInterface[]; totalProducts: number };
+type ProductSlice = { Allproducts: Product[]; totalProducts: number };
 const initialState: ProductSlice = {
   Allproducts: [],
   totalProducts: 0,
@@ -13,6 +13,7 @@ const productSlice = createSlice({
   reducers: {
     addToProductRedux(state, action) {
       if (Array.isArray(action.payload)) {
+        console.log("productSlice worked");
         state.Allproducts = action.payload;
       } else {
         state.Allproducts = [action.payload, ...state.Allproducts];
@@ -31,6 +32,7 @@ const productSlice = createSlice({
         obj._id === action.payload._id ? { ...obj, ...action.payload.obj } : obj
       );
     },
+
     changeTotalProductsCount(state, action) {
       state.totalProducts = action.payload;
     },

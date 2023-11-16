@@ -1,11 +1,9 @@
-import { useEffect, createContext, useState } from "react";
-import DashMain from "../DashMain";
+import { useEffect, createContext, useState, Fragment } from "react";
 import MobileOrders from "./Mobile/MobileOrders";
 import OrderTable from "./Table/OrderTable";
 import { Outlet } from "react-router-dom";
-import Pages from "@/components/Product/Products/Pages";
-import { OrderInterface } from "@/interfaces/order.interface";
-import useParams from "@/custom/useParams";
+import Pages from "@/components/widgets/shared/Pages";
+import useParams from "@/custom/helpers/useParams";
 import { useLazyQuery } from "@apollo/client";
 import { GET_ALL_ORDERS } from "@/graphql/queries";
 import {
@@ -13,17 +11,18 @@ import {
   clearOrdersRedux,
   ordersSkeltonRedux,
 } from "@/redux/orderSlice";
-import { useAppDispatch } from "@/custom/reduxTypes";
+import { useAppDispatch } from "@/custom/helpers/reduxTypes";
 import useOrdersSubscription from "@/custom/subscriptions/useOrdersSubscription";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
+import { ORDER } from "@/types/order";
 
 interface contextInterface {
-  dataShown: OrderInterface[];
+  dataShown: ORDER[];
 }
 type Data = {
   data: {
     orders: {
-      orders: OrderInterface;
+      orders: ORDER;
       totalOrders: number;
     };
   };
@@ -59,7 +58,7 @@ export function Component() {
 
   useOrdersSubscription();
   return (
-    <DashMain key={"order-dashmain"}>
+    <Fragment>
       <OrderTable key={"table-order"} />
       <MobileOrders key={"mobile-order"} />
       <Pages
@@ -71,6 +70,6 @@ export function Component() {
       />
 
       <Outlet />
-    </DashMain>
+    </Fragment>
   );
 }

@@ -7,23 +7,39 @@ interface Props {
 }
 
 const AddRate = ({ setRateIndex, rateIndex }: Props) => {
+  console.log({ rateIndex });
   return (
     <div className="gap center add-rate-pop">
-      {[...Array(5)].map((st, i) => {
+      {[1, 2, 3, 4, 5].map((st, i) => {
         return (
-          <motion.span
-            initial={{ scale: 1 }}
+          <motion.div
             key={i}
-            onHoverStart={() => setRateIndex(i)}
-            whileHover={{
-              scale: [1, 1.5, 1.25],
-              transition: { duration: 0.4, ease: "easeInOut" },
+            onHoverStart={() => setRateIndex(st)}
+            animate={{
+              y:
+                rateIndex === st
+                  ? [5, 10, 5]
+                  : rateIndex === st + 1 || rateIndex === st - 1
+                  ? 2.5
+                  : 0,
+              scale:
+                rateIndex === st
+                  ? [1, 2, 1.8]
+                  : rateIndex === st + 1 || rateIndex === st - 1
+                  ? 1.4
+                  : 1,
+              margin:
+                rateIndex === st
+                  ? "0 5px"
+                  : rateIndex === st + 1 || rateIndex === st - 1
+                  ? "0 4px"
+                  : 0,
             }}
-            animate={{ scale: rateIndex === i ? 1.25 : 1 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.2 }}
+            className="add-rate"
           >
-            <Star bool={rateIndex >= i} />
-          </motion.span>
+            <Star bool={rateIndex >= st} />
+          </motion.div>
         );
       })}
     </div>

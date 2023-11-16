@@ -1,10 +1,11 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-hot-toast";
-import { isAuthContext } from "@/context/isAuth";
 import { Update_Profile_Img } from "@/graphql/mutations/user";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
+import { updateUserData } from "@/redux/userDataSlice";
 interface Props {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   newImg: File | undefined;
@@ -13,7 +14,7 @@ interface Props {
 }
 const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
   const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
-  const editorRef = useRef<AvatarEditor | null>(null);
+  const editorRef = useRef<AvatarEditor>(null);
 
   interface positionInterface {
     x: number;
@@ -22,8 +23,8 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
   const handlePositionChange = (position: positionInterface) => {
     setPosition(position);
   };
-
-  const { userId, setProfile } = useContext(isAuthContext);
+  const { userId } = useAppSelector((st) => st.isAuth);
+  const dispatch = useAppDispatch();
   const [uploadImgFn] = useMutation(Update_Profile_Img);
   async function handleSaveButtonClick() {
     setFileKey((prev) => prev + 1);
@@ -50,7 +51,7 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
           success: (res) => {
             if (res.data.updateUserImage.status === 200) {
               setEdit(false);
-              setProfile(croppedImage as string);
+              dispatch(updateUserData({ image: croppedImage as string }));
               return res.data.updateUserImage.msg;
             }
           },

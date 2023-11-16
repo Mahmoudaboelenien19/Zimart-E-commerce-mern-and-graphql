@@ -3,34 +3,56 @@
 .dropdown.fav-drop {
   padding: 8px;
   width: 400px;
+  height: 500px;
   border-radius: 5px;
-  overflow: auto;
+  scrollbar-gutter: stable both-edges;
   box-shadow: var(--secondary-shadow);
   gap: 8px;
+  .wish-head {
+    height: 85px;
+    align-self: flex-end;
+  }
+  .wish-data {
+    height: calc(100% - 85px);
+    overflow: auto;
+  }
   &.mobile {
     width: 100vw;
   }
   button {
     box-shadow: initial;
     position: relative;
+    text-transform: lowercase;
+    font-size: min(12px, 1rem);
     z-index: 3;
+    &.wish-detail {
+      color: var(--third);
+      opacity: 0.6;
+    }
   }
   .fav-product {
-    box-shadow: var(--main-shadow);
+    box-shadow: var(--forth-shadow);
     width: 100%;
-    height: 100px;
+    height: 90px;
     display: flex;
     justify-content: center;
-    background: var(--wheat-lighter);
+    background: linear-gradient(
+      to left,
+
+      var(--main) 50%,
+      rgba(132, 126, 113, 0.3)
+    );
     position: relative;
     color: var(--main);
-
+    button {
+      padding: 0 8px;
+    }
     .fav-content {
       flex-direction: column;
       width: 60%;
       height: 100%;
       justify-content: space-between;
-      padding: 6px;
+      padding: 8px;
     }
 
     .fav-title {
@@ -45,15 +67,11 @@
     }
     .fav-price {
       color: var(--wheat);
-      position: relative;
-      top: 5px;
-      transform: scale(1.4);
+      transform: scale(1.2);
       margin: 0;
+      padding: 0;
     }
-    .product-links {
-      align-self: center;
-      margin: 0;
-    }
+
     .fav-img {
       width: 40%;
       height: 100%;

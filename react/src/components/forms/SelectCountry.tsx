@@ -37,7 +37,7 @@ const SelectCountry = ({ setCountry, country }: Props) => {
         .then((data) => setCountries(data));
     }
   }, []);
-  console.log({ countries });
+
   useEffect(() => {
     if (country) {
       const obj = countries.find(
@@ -77,7 +77,6 @@ const SelectCountry = ({ setCountry, country }: Props) => {
       </AnimatePresence>
       <TbBuildingEstate className="inp-icon " />
       <DropDown
-        height={300}
         bool={showDropSelect}
         setter={setShowSelectDrop}
         className={"select-drop w-100 dropdown gap drop-country"}

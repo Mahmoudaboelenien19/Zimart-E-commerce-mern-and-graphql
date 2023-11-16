@@ -1,21 +1,19 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-
-import { Navigate } from "react-router-dom";
-
+import { Navigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { isAuthContext } from "@/context/isAuth";
 import { create_Order } from "@/graphql/mutations/order";
-import { ProductInterface } from "@/interfaces/product";
 import FetchLoading from "../widgets/loaders/FetchLoading";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import Header from "../widgets/shared/Header";
 
-export default function CheckoutForm({
-  products,
-}: {
-  products: ProductInterface[];
-}) {
-  const { name, userId } = useContext(isAuthContext);
+export default function CheckoutForm() {
+  const location = useLocation();
+
+  const products = location.state?.products || [];
+  const { name } = useAppSelector((st) => st.userData);
+  const { userId } = useAppSelector((st) => st.isAuth);
   const [fn] = useMutation(create_Order, {
     variables: {
       input: { products, name, userId },
@@ -51,13 +49,11 @@ export default function CheckoutForm({
 
   return (
     <form className=" center" id="payment-form" onSubmit={handleSubmit}>
-      <h3
-        className="header underline underline-sm header-sm"
-        style={{ color: "white" }}
-      >
-        zimart payment
-      </h3>
-
+      <Header head={"zimart payment"} />
+      <p>
+        Securely submit your payment information for a seamless transaction
+        experience. !
+      </p>
       <PaymentElement
         id="paymentElement"
         onChange={(e) => setIsComplete(e.complete)}

@@ -1,5 +1,5 @@
 import MainBtn from "@/components/widgets/buttons/MainBtn";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import { FiRefreshCcw } from "react-icons/fi";
 
 const ResetFiltersBtn = () => {
@@ -24,7 +24,7 @@ const ResetFiltersBtn = () => {
     <MainBtn
       layout="position"
       key={"reset-filter-btn"}
-      className={"btn w-100 reset-filter center  gap"}
+      className={"btn  reset-filter center  gap"}
       btn={"reset filters"}
       onClick={handleResetFiltering}
       Icon={FiRefreshCcw}

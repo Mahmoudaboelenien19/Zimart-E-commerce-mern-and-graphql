@@ -5,17 +5,11 @@ import { useScrollDirection } from "use-scroll-direction";
 import StyledPrice from "@/components/widgets/StyledPrice";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import Skeleton from "react-loading-skeleton";
-import useUpdateOrder from "@/custom/useUpdateOrder";
+import useUpdateOrder from "@/custom/dashboadrd/useUpdateOrder";
 import DashDropDown from "../../DashDropDown";
-import { OrderInterface } from "@/interfaces/order.interface";
+import { ORDER } from "@/types/order";
 
-const MobileOrder = ({
-  deliveredAt,
-  state,
-  _id,
-  cost,
-  createdAt,
-}: OrderInterface) => {
+const MobileOrder = ({ deliveredAt, state, _id, cost, createdAt }: ORDER) => {
   const { isScrollingDown } = useScrollDirection();
   const { handleUpdateOrder } = useUpdateOrder();
   const updateState = (st: string) => {

@@ -1,15 +1,15 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import Input from "../widgets/shared/forms/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useUserSchema from "@/custom/useUserSchema";
+import useUserSchema from "@/custom/helpers/useUserSchema";
 import { useMutation } from "@apollo/client";
-import { useContext } from "react";
-import { isAuthContext } from "@/context/isAuth";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { UPDATE_USER_DATA, Update_Pass } from "@/graphql/mutations/user";
 import toast from "react-hot-toast";
 import UpdateCountry from "./UpdateCountry";
 import Password from "./Password";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
+import { updateName, updateUserData } from "@/redux/userDataSlice";
 
 type Props = {
   detail: string;
@@ -17,7 +17,7 @@ type Props = {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const UpdateForm = ({ detail, value, setter }: Props) => {
-  const { userId } = useContext(isAuthContext);
+  const { userId } = useAppSelector((st) => st.isAuth);
   const schema = useUserSchema();
   const methods = useForm({ resolver: yupResolver(schema[detail]) });
   const {
@@ -26,7 +26,7 @@ const UpdateForm = ({ detail, value, setter }: Props) => {
   } = methods;
   const [fn] = useMutation(UPDATE_USER_DATA);
   const [updatePass] = useMutation(Update_Pass);
-
+  const dispatch = useAppDispatch();
   const OnSubmit = async (data: FieldValues) => {
     if (isDirty) {
       if (detail !== "password") {
@@ -43,9 +43,11 @@ const UpdateForm = ({ detail, value, setter }: Props) => {
         if (detail != "email") {
           toast.promise(res, {
             loading: <div>updating... !</div>,
-
             success: (res) => {
               setter(false);
+              dispatch(updateUserData({ [detail]: detailvalue }));
+              // dispatch(updateName(detailvalue));
+
               return res.data.updateUserData.msg;
             },
             error: (err) => {
@@ -58,6 +60,7 @@ const UpdateForm = ({ detail, value, setter }: Props) => {
           const { msg, status } = await p.data.updateUserData;
           if (status === 200) {
             toast.success(msg);
+            dispatch(updateUserData({ email: detailvalue }));
             setter(false);
           } else {
             toast.error(msg);
@@ -84,7 +87,6 @@ const UpdateForm = ({ detail, value, setter }: Props) => {
   return (
     <FormProvider {...methods}>
       <form
-        action=""
         onSubmit={handleSubmit(OnSubmit)}
         className="main update-user-form  w-100"
       >

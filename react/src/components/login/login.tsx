@@ -6,15 +6,15 @@ import GooGleBtn from "../forms/GooGleBtn";
 import Form from "../widgets/shared/forms/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Container from "../widgets/shared/Container";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import HomeLink from "../forms/HomeLink";
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { loginSchema } from "@/lib/formschemas/form schemas";
 import useLogin from "@/custom/user/useLogIn";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
 import Transition from "../widgets/animation/transition/Transition";
 
-export const Component = () => {
+export const Login = () => {
   useTitle("Zimart | Login");
   const { getParam } = useParams();
   const defaultEmail = getParam("email");
@@ -60,6 +60,7 @@ export const Component = () => {
               opacity={0}
               type="submit"
               disabled={loading}
+              loading={loading}
             />
           </div>
           <div className="redirect">

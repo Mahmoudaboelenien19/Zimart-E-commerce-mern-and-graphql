@@ -7,7 +7,7 @@ exports.OrderCollection = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const orderSchema = new mongoose_1.default.Schema({
     userId: mongoose_1.default.Types.ObjectId,
-    state: String,
+    state: { type: String, default: "pending" },
     productId: [
         {
             id: mongoose_1.default.Types.ObjectId,
@@ -19,7 +19,7 @@ const orderSchema = new mongoose_1.default.Schema({
     ],
     count: Number,
     cost: Number,
-    createdAt: Date,
+    createdAt: { type: Date, default: () => Date.now() },
     deliveredAt: Date,
 });
 exports.OrderCollection = mongoose_1.default.model("orders", orderSchema);

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import FIlter from "./FIlter";
 import { opacityVariant } from "@/lib/variants/globals";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 
 const Price = () => {
   const { priceFilter, deleteParam, setParam } = useParams();

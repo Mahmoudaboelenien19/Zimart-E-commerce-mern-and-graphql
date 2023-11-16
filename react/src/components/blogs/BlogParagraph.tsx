@@ -1,4 +1,4 @@
-import { BlogPragraph } from "@/interfaces/blog";
+import { BlogPragraph } from "@/types/blog";
 import InViewAnimation from "../widgets/animation/InViewAnimation";
 
 interface Props extends BlogPragraph {

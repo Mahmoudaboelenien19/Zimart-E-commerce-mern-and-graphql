@@ -6,35 +6,11 @@ export const userTypeDefs = gql`
   ${StatusMsg}
   scalar Upload
   scalar Date
-  type Fav {
-    productId: ID
-    parentId: ID
-    _id: ID
-    path: String
-    msg: String
-    product: Product
-  }
 
-  type Cart {
-    productId: ID
-    parentId: ID
+  type Collection {
+    id: ID
     count: Int
-    _id: ID
-    path: String
-    price: Float
-    title: String
-    msg: String
-    product: Product
   }
-
-  type Compare {
-    productId: ID
-    _id: ID
-    title: String
-    msg: String
-    state: String
-  }
-
   type Notification {
     _id: ID
     isRead: Boolean
@@ -53,9 +29,9 @@ export const userTypeDefs = gql`
     role: String
     phone: String
     status: Int
-    fav: [Fav]
-    cart: [Cart]
-    compare: [Compare]
+    fav: [Collection]
+    cart: [Collection]
+    compare: [Collection]
     createdAt: Date
     lastLogIn: Date
     notificationsCount: Int
@@ -69,53 +45,15 @@ export const userTypeDefs = gql`
     image: String
   }
 
-  input AddToCartInput {
-    userId: ID
-    productId: ID
-    parentId: ID
-    count: Int
-    # title: String
-    path: String
-    # price: Float
-  }
-
-  input removeFromCartInput {
-    productId: [ID!]
-    userId: ID!
-  }
   input changeCartCountInput {
     productId: ID
     userId: ID!
     count: Int
   }
 
-  input AddToCompareInput {
-    userId: ID
-    productId: ID
-    title: String
-  }
-
-  input removeFromCompareInput {
-    userId: ID
-    productId: ID
-  }
-
   input updateImgInput {
     _id: ID!
     image: Upload
-  }
-  input AddToFavInput {
-    productId: ID
-    parentId: ID
-    title: String
-    path: String
-    price: Float
-    userId: ID
-  }
-
-  input RemoveFromFavInput {
-    productId: [ID!]
-    userId: ID!
   }
 
   type UsersData {
@@ -143,11 +81,13 @@ export const userTypeDefs = gql`
     users(limit: Int, skip: Int): UserReturn
     getUserData(id: ID!): User
     getNotifications(input: NotificationInput): [Notification]
+    getUserShopCollection(input: ShopInput): [ReturnCollection]
   }
 
   type AuthResult {
     msg: String!
     status: Int
+    id: ID
   }
 
   type Subscription {
@@ -159,16 +99,24 @@ export const userTypeDefs = gql`
     target: String!
     value: String!
   }
+
+  input ShopInput {
+    userId: ID
+    id: ID
+    target: String
+  }
+
+  type ReturnCollection {
+    id: ID
+    count: Int
+    product: Product
+  }
   type Mutation {
-    addUser(input: AddUserInput): User
+    addUser(input: AddUserInput): StatusMsg
     authenticate(password: String!, email: String!): AuthResult
-    addToCart(input: AddToCartInput): Cart
-    removeFromCart(input: removeFromCartInput): StatusMsg
     changeCartCount(input: changeCartCountInput): StatusMsg
-    addToCompare(input: AddToCompareInput): Compare
-    removeFromCompare(input: removeFromCompareInput): Compare
-    addToFav(input: AddToFavInput): Fav
-    removeFromFav(input: RemoveFromFavInput): StatusMsg
+    addToShoppingCollection(input: ShopInput): StatusMsg
+    removeFromShoppingCollection(input: ShopInput): StatusMsg
     updateUserRole(_id: ID!, role: String!): StatusMsg
     logOut(lastLogIn: Date, _id: ID): StatusMsg
     resetNotificationCount(id: ID!): StatusMsg

@@ -1,6 +1,6 @@
+import { ORDER } from "@/types/order";
 import Order from "./Order";
-import { OrderInterface } from "@/interfaces/order.interface";
-import { useAppSelector } from "@/custom/reduxTypes";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 const OrderTable = () => {
   const { order } = useAppSelector((st) => st.order);
@@ -16,7 +16,7 @@ const OrderTable = () => {
         </tr>
       </thead>
       <tbody>
-        {order.map((order: OrderInterface, i: number) => {
+        {order.map((order: ORDER, i: number) => {
           return <Order key={i} {...order} />;
         })}
       </tbody>

@@ -4,7 +4,7 @@ import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiFillWarning } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import useParams from "../useParams";
+import useParams from "../helpers/useParams";
 
 const useSignUp = () => {
   const { getParam } = useParams();

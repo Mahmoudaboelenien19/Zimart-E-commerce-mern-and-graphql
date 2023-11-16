@@ -1,21 +1,17 @@
 import { useRef } from "react";
 import { useFormContext } from "react-hook-form";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import InpErr from "@/components/widgets/shared/forms/InpErr";
-import { opacityVariant } from "@/lib/variants/globals";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 
-interface Props {
-  err: string;
-}
-const CustomFIleInput = ({ err }: Props) => {
+const CustomFIleInput = () => {
   const {
     register,
     setValue,
     watch,
     formState: { errors },
   } = useFormContext();
-  const fileRef = useRef<HTMLInputElement | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const watchfiles = watch("images", []);
 
   return (

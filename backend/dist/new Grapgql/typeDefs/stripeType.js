@@ -13,9 +13,7 @@ exports.StripeTypes = (0, apollo_server_express_1.gql) `
   }
 
   input createOrderInput {
-    _id: ID
     productId: ID
-    parentId: ID
     price: Float
     path: String
     title: String

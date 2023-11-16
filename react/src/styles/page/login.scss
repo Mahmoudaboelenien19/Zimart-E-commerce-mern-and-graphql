@@ -36,6 +36,7 @@ form.main.log-in {
   }
   .google-log {
     border: 0;
+
     height: 40px;
     padding: 0 10px;
     border-radius: 5px;
@@ -87,11 +88,11 @@ form.main.log-in {
 
 #err-form {
   display: inline-block;
-  width: 100%;
   text-align: center;
   color: var(--delete);
   text-transform: lowercase;
   width: 90%;
+
   text-wrap: balance;
   font-family: cursive;
   font-size: min(12px, 1rem);

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Checkbox = ({ filter, isChecked }: Props) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   return (
     <motion.div
       className={clsx("custom-check-parent center ")}

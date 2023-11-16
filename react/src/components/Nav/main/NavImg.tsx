@@ -11,19 +11,19 @@ const NavImg = () => {
   };
 
   return (
-    <>
-      <span
-        onClick={handleSHowUser}
-        className="relative "
-        // style={{ display: "inline-block", height: "100%" }}
+    <div
+      onClick={handleSHowUser}
+      className="relative "
+      // style={{ display: "inline-block", height: "100%" }}
+    >
+      <Title
+        title={!showUserDrop ? "go to your profile" : ""}
+        className="user-profile"
       >
-        <Title title={!showUserDrop ? "go to your profile" : ""}>
-          <ProfileImg dimension={30} />
-        </Title>
-
+        <ProfileImg />
         <UserDropDown bool={showUserDrop} setter={setShowUserDrop} />
-      </span>
-    </>
+      </Title>
+    </div>
   );
 };
 

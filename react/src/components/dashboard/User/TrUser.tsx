@@ -1,13 +1,13 @@
 import { AnimatePresence } from "framer-motion";
 import FadeElement from "../../widgets/animation/FadeElement";
-import { UserInterface } from "@/interfaces/user.interface";
 import Skeleton from "react-loading-skeleton";
 import DashDropDown from "../DashDropDown";
-import useUpdateUserRole from "@/custom/useUpdateUserRole";
+import useUpdateUserRole from "@/custom/dashboadrd/useUpdateUserRole";
+import { User } from "@/types/user";
 const ar = ["user", "admin", "owner", "moderator"];
-interface Props extends UserInterface {
+type Props = {
   index: number;
-}
+} & User;
 const Order = ({ role, _id, lastLogIn, name, email, createdAt }: Props) => {
   const { handleUpdateUserRole } = useUpdateUserRole();
   const updateRole = (st: string) => {

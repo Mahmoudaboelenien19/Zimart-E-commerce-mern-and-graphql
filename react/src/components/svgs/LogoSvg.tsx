@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
-import useIsMobile from "@/custom/useIsMobile";
-import useNavTransition from "@/custom/useNavTransition";
-const LogoSvg = ({ type }: { type?: string }) => {
-  const { scale } = useNavTransition();
-  const { isMobile } = useIsMobile();
+import useIsMobile from "@/custom/helpers/useIsMobile";
+import useNavTransition from "@/custom/helpers/useNavTransition";
+const LogoSvg = () => {
   return (
     <motion.div
       // style={{
@@ -36,7 +34,7 @@ const LogoSvg = ({ type }: { type?: string }) => {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(43.5 11) rotate(90) scale(18 43.5)"
           >
-            <stop offset="0.210934" stopColor="#E0C695" />
+            <stop offset="0.210934" stopColor="var(--wheat-light)" />
             <stop offset="0.908859" stopColor="#4A8B64" />
           </radialGradient>
           <linearGradient
@@ -47,8 +45,12 @@ const LogoSvg = ({ type }: { type?: string }) => {
             y2="29"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.377603" stopColor="#E0C695" stopOpacity="0" />
-            <stop offset="0.497396" stopColor="#E0C695" />
+            <stop
+              offset="0.377603"
+              stopColor="var(--wheat-light)"
+              stopOpacity="0"
+            />
+            <stop offset="0.497396" stopColor="var(--wheat-light)" />
             <stop offset="0.74219" stopColor="#4A8B64" />
           </linearGradient>
           <linearGradient
@@ -59,10 +61,10 @@ const LogoSvg = ({ type }: { type?: string }) => {
             y2="4.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#E0C695" />
+            <stop stopColor="var(--wheat-light)" />
             <stop offset="0.299477" stopColor="#589069" />
             <stop offset="0.71094" stopColor="#4A8B64" />
-            <stop offset="1" stopColor="#E0C695" />
+            <stop offset="1" stopColor="var(--wheat-light)" />
           </linearGradient>
         </defs>
       </svg>

@@ -1,5 +1,5 @@
 import FadeElement from "@/components/widgets/animation/FadeElement";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import { AnimatePresence } from "framer-motion";
 
 const ShowAsideButton = () => {

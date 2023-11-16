@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { compareInterface } from "../interfaces/user.interface";
+import { Collection } from "@/types/general";
 
-const initialState: { compare: compareInterface[] } = {
+const initialState: { compare: Collection[] } = {
   compare: [],
 };
 
@@ -11,16 +11,14 @@ const compareSlice = createSlice({
   reducers: {
     addToCompareRedux(state, action) {
       if (Array.isArray(action.payload)) {
-        state.compare = [...action.payload, ...state.compare];
+        state.compare = action.payload;
       } else {
         state.compare = [action.payload, ...state.compare];
       }
     },
 
     removeFromCompareRedux(state, action) {
-      state.compare = state.compare.filter(
-        (obj) => obj.productId !== action.payload
-      );
+      state.compare = state.compare.filter((ob) => ob.id !== action.payload);
     },
     clearCompare(st) {
       st.compare = [];

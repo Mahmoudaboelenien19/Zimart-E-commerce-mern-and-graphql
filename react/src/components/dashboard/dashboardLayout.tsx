@@ -1,33 +1,38 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import DashNav from "./main/DashNav";
 import clsx from "clsx";
-import useNavTransition from "@/custom/useNavTransition";
+import useNavTransition from "@/custom/helpers/useNavTransition";
 import { motion } from "framer-motion";
 import DashboardAside from "./main/DashboardAside";
 import BeardCrumbs from "./BeardCrumbs";
 import Transition from "../widgets/animation/transition/Transition";
+import DashMain from "./DashMain";
+import AdminEmailPop from "./AdminEmailPop";
 const DashboardLayout = () => {
-  const { boxShadow, navRef, bg } = useNavTransition();
+  const { boxShadow, navRef } = useNavTransition();
 
   return (
     <main className="col center">
+      <AdminEmailPop />
+      <ScrollRestoration />
+
       <Transition />
       <motion.nav
         ref={navRef}
         style={{
           boxShadow,
-          background: bg,
         }}
-        className={clsx("dash-nav w-100")}
+        className={clsx("dash-nav w-100 ")}
       >
         <DashNav />
       </motion.nav>
       <BeardCrumbs />
-      <DashboardAside />
-
-      <>
-        <Outlet />
-      </>
+      <div className="w-100 between center">
+        <DashboardAside />
+        <DashMain>
+          <Outlet />
+        </DashMain>
+      </div>
     </main>
   );
 };

@@ -1,33 +1,67 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/custom/reduxTypes";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 import FetchLoading from "@/components/widgets/loaders/FetchLoading";
-
+import useIndex from "@/custom/helpers/useIndex";
+//@ts-ignore
+import useKeypress from "react-use-keypress";
+import useParams from "@/custom/helpers/useParams";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 interface Props {
-  isActive: number;
-  setIsActive: React.Dispatch<React.SetStateAction<number>>;
   isPending: boolean;
-  showSearch: boolean;
+  handleInputValue: (val: string) => void;
 }
-const SearchResults = ({
-  setIsActive,
-  isActive,
-  isPending,
-  showSearch,
-}: Props) => {
+const SearchResults = ({ handleInputValue, isPending }: Props) => {
   const { Allproducts } = useAppSelector((st) => st.Allproducts);
+  const [isActive, setIsActive] = useState(-1);
+  const { getParam } = useParams();
+  const search = getParam("search") || "";
+  useEffect(() => {
+    if (isActive !== -1) {
+      const title = Allproducts[isActive]?.title || "";
+      handleInputValue(title);
+    }
+  }, [isActive]);
+  console.log({ isPending });
+  const [convertNegativeToZero] = useIndex();
 
+  useKeypress(["ArrowUp", "ArrowDown", "Escape"], (e: React.KeyboardEvent) => {
+    const len = Allproducts.length >= 5 ? 5 : Allproducts.length;
+    if (e.key === "ArrowDown") {
+      setIsActive((cur) => convertNegativeToZero(cur + 1, len));
+    } else if (e.key === "Escape") {
+      setIsActive(-1);
+      handleInputValue(search);
+    } else {
+      setIsActive((cur) => convertNegativeToZero(cur - 1, len));
+    }
+  });
   const navigate = useNavigate();
+  const { isMidScreen } = useIsMobile();
   return (
-    <>
-      {showSearch && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0 }}
-        >
-          {Allproducts.length >= 1 && !isPending ? (
+    <motion.div
+      layout
+      className="search-drop-par"
+      animate={{
+        opacity: isMidScreen ? [0, 1] : 1,
+      }}
+      transition={{
+        delay: isMidScreen ? 0.4 : 0,
+        ease: "easeInOut",
+        duration: 0,
+      }}
+    >
+      {isPending ? (
+        <motion.div layout className="pending-search search-res center">
+          <FetchLoading />
+        </motion.div>
+      ) : (
+        <>
+          {/* i add   Allproducts[0]?._id  as i when i change page i add 12 empty object to reduc to make  the skelton loading but for search results it's shown alittle bit till loading starts so 
+        i add  Allproducts[0]?._id   to disable the ul 
+        */}
+          {Allproducts.length && Allproducts[0]?._id ? (
             <ul className="dropdown-search col center start">
               <>
                 {Allproducts.slice(0, 5).map(
@@ -38,6 +72,7 @@ const SearchResults = ({
                     return (
                       <Fragment key={ob?.title || i}>
                         <motion.li
+                          layout
                           onHoverStart={() => {
                             setIsActive(i);
                           }}
@@ -63,7 +98,7 @@ const SearchResults = ({
                                 ? "none"
                                 : "block",
                           }}
-                        ></div>
+                        />
                       </Fragment>
                     );
                   }
@@ -72,12 +107,12 @@ const SearchResults = ({
             </ul>
           ) : (
             <div className="pending-search search-res center">
-              {isPending ? <FetchLoading /> : <span>No Results</span>}
+              <span>No Results</span>
             </div>
           )}
-        </motion.div>
+        </>
       )}
-    </>
+    </motion.div>
   );
 };
 

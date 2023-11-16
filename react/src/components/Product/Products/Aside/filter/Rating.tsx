@@ -3,7 +3,7 @@ import Star from "../Star";
 import FIlter from "./FIlter";
 import Checkbox from "@/custom SVGs/checkbox";
 import { opacityVariant } from "@/lib/variants/globals";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 
 const Rating = () => {
   const { deleteParam, setParam, getParam } = useParams();

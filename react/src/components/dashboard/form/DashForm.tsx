@@ -1,19 +1,17 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-hot-toast";
 import CustomFIleInput from "./CustomFIleInput";
-import DashMain from "../DashMain";
 import MainBtn from "@/components/widgets/buttons/MainBtn";
 import Form from "@/components/widgets/shared/forms/Form";
 import InpErr from "@/components/widgets/shared/forms/InpErr";
 import Input from "@/components/widgets/shared/forms/Input";
-import { ProductInterface } from "@/interfaces/product";
+import { Product } from "@/types/product";
 import { DashFormSchema } from "@/lib/formschemas/form schemas";
 import DashboardSelect from "./DashboardSelect";
 import TextArea from "@/components/widgets/shared/forms/TextArea";
-import { isAuthContext } from "@/context/isAuth";
-interface keyedProduct extends ProductInterface {
+interface keyedProduct extends Product {
   [key: string]: any;
 }
 
@@ -27,7 +25,8 @@ interface Props {
 }
 
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
-  const date = () => new Date();
+  //i used external state for sucess peomise not react hook form isSuccessffelSubmited or isSubmitting cuz they'ren't enough for custom select box
+  const [isPromiseSucess, setisPromiseSucess] = useState(false);
   const methods = useForm({
     resolver: yupResolver(DashFormSchema(type || "")),
     defaultValues: {},
@@ -39,7 +38,6 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
     formState: { errors, isDirty },
   } = methods;
 
-  console.log({ isDirty });
   const inpArr = [
     { type: "text", placeholder: "title" },
     { type: "number", placeholder: "stock" },
@@ -56,6 +54,7 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
 
       if (type === "update") {
         if (isDirty) {
+          setisPromiseSucess(false);
           const res: Promise<{ data: { updateProduct: { msg: string } } }> = fn(
             {
               variables: {
@@ -71,6 +70,8 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
 
             success: (res) => {
               reset();
+              setisPromiseSucess(true);
+
               return res.data.updateProduct.msg;
             },
             error: (err) => {
@@ -81,26 +82,25 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
           toast.error("no data changed");
         }
       } else {
-        const addObj = { ...obj, createdAt: date() };
+        setisPromiseSucess(false);
 
         const res: Promise<{ data: { addNewProduct: { msg: string } } }> = fn({
-          variables: { input: addObj },
+          variables: { input: obj },
         });
-        console.log(data);
+
         toast.promise(res, {
-          loading: <div>updating... !</div>,
+          loading: <div>uploading... !</div>,
 
           success: (res) => {
             reset();
+            setisPromiseSucess(true);
+
             return res.data.addNewProduct.msg;
           },
           error: (err) => {
             return err;
           },
         });
-        // if (data.addNewProduct.status) {
-
-        // }
       }
     } catch (err: unknown) {
       if ((err as Error).message === "Not Authorised!") {
@@ -110,66 +110,65 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   };
 
   return (
-    <DashMain key="dash-form">
-      <FormProvider {...methods}>
-        <Form
-          initialTranslate={-50}
-          onSubmit={handleSubmit(onSubmit)}
-          className=" main "
-        >
-          <h2>{head}</h2>
-          {inpArr.map(({ placeholder, type: inptype }, i) => {
-            return (
-              <Fragment key={`${type + placeholder}-${i}`}>
-                <Input
-                  placeholder={placeholder}
-                  defaultValue={obj?.category ? obj[placeholder] : ""}
-                  type={inptype}
-                  name={placeholder}
-                />
-                {placeholder === "title" && type !== "update" && (
-                  <CustomFIleInput err="" key="custom-input" />
-                )}
-                {placeholder === "price" && (
-                  <Fragment key={"state&&title" + type}>
-                    <DashboardSelect
-                      name={"state"}
-                      defaultValue={obj?.state || ""}
-                    />
-
-                    <DashboardSelect
-                      name={"category"}
-                      defaultValue={obj?.category || ""}
-                    />
-                  </Fragment>
-                )}
-              </Fragment>
-            );
-          })}
-          <div className=" center w-100  gap col">
-            <div className="inp-parent textarea-par w-100">
-              <TextArea
-                placeholder={"description"}
-                className="update-product  inp relative "
-                defaultValue={obj?.category ? obj.description : ""}
+    <FormProvider {...methods}>
+      <Form
+        initialTranslate={0}
+        onSubmit={handleSubmit(onSubmit)}
+        className=" main "
+      >
+        <h2>{head}</h2>
+        {inpArr.map(({ placeholder, type: inptype }, i) => {
+          return (
+            <Fragment key={`${type + placeholder}-${i}`}>
+              <Input
+                placeholder={placeholder}
+                defaultValue={obj?.category ? obj[placeholder] : ""}
+                type={inptype}
+                name={placeholder}
               />
-            </div>
-            <InpErr
-              key={"description"}
-              err={errors.description?.message?.toString()}
+              {placeholder === "title" && type !== "update" && (
+                <CustomFIleInput />
+              )}
+              {placeholder === "price" && (
+                <Fragment key={"state&&title" + type}>
+                  <DashboardSelect
+                    name={"state"}
+                    defaultValue={obj?.state || ""}
+                    isPromiseSucess={isPromiseSucess}
+                  />
+
+                  <DashboardSelect
+                    name={"category"}
+                    defaultValue={obj?.category || ""}
+                    isPromiseSucess={isPromiseSucess}
+                  />
+                </Fragment>
+              )}
+            </Fragment>
+          );
+        })}
+        <>
+          <div className="inp-parent textarea-par w-100">
+            <TextArea
+              placeholder={"description"}
+              className="update-product  inp relative "
+              defaultValue={obj?.category ? obj.description : ""}
             />
           </div>
-          <div>
-            <MainBtn
-              btn={btn}
-              className="main btn center gap w-100"
-              type="submit"
-            />
-          </div>
-        </Form>
-      </FormProvider>
-      {/* <UploadingLoader bool={isSubmitting && isAdmin} /> */}
-    </DashMain>
+          <InpErr
+            key={"description"}
+            err={errors.description?.message?.toString()}
+          />
+        </>
+        <div>
+          <MainBtn
+            btn={btn}
+            className="main btn center gap w-100"
+            type="submit"
+          />
+        </div>
+      </Form>
+    </FormProvider>
   );
 };
 

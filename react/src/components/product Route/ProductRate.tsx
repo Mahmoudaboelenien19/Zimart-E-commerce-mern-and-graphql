@@ -1,7 +1,7 @@
 import StarIcon from "../../custom SVGs/StarIcon";
 import { Fragment } from "react";
-import RatingDetails from "../Product/Products/RateDetails";
-import { reviewInterface } from "../../interfaces/product";
+import RatingDetails from "../widgets/shared/RateDetails";
+import { Review } from "../../types/product";
 
 const ProductRate = ({
   avgRate,
@@ -14,7 +14,7 @@ const ProductRate = ({
   avgRate: number;
   id?: string;
   rating: number[];
-  reviews: reviewInterface[];
+  reviews: Review[];
 }) => {
   return (
     <div className="product-rate center">
@@ -35,14 +35,18 @@ const ProductRate = ({
         }}
         className="shadow center relative"
       >
-        {ratingLen >= 0 ? ratingLen : <p className="center "> no reviews </p>}
+        {ratingLen >= 0 ? (
+          ratingLen
+        ) : (
+          <p className="no-review center w-100 "> no reviews </p>
+        )}
 
         <RatingDetails
           arr={
             reviews
               ? [
                   ...(Array.isArray(rating) ? rating : []),
-                  ...reviews.map((e: reviewInterface) => e.rate),
+                  ...reviews.map((e: Review) => e.rate),
                 ]
               : []
           }

@@ -17,7 +17,9 @@ const getAmount_1 = require("../../middlewares/getAmount");
 const order_1 = require("../../mongoose/schema/order");
 const user_1 = require("../../mongoose/schema/user");
 const context_1 = require("../context");
+const reduceProductsByOrderCount_js_1 = require("../../lib/reduceProductsByOrderCount.js");
 const product_1 = __importDefault(require("../../mongoose/schema/product"));
+const AddNotification_1 = require("../../lib/AddNotification");
 exports.orderResolver = {
     Query: {
         order(_, args) {
@@ -27,12 +29,30 @@ exports.orderResolver = {
         },
         orders(_, { limit, skip = 0 }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const totalOrders = yield order_1.OrderCollection.count();
-                const orders = yield order_1.OrderCollection.find({})
-                    .sort({ createdAt: -1 })
-                    .skip(skip)
-                    .limit(limit);
-                return { totalOrders, orders };
+                const data = yield order_1.OrderCollection.aggregate([
+                    {
+                        $sort: {
+                            createdAt: -1,
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            orders: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            orders: { $slice: ["$orders", skip, limit] },
+                            count: 1,
+                            _id: 0,
+                        },
+                    },
+                ]);
+                console.log(data);
+                const { orders, count } = data[0];
+                return { totalOrders: count, orders };
             });
         },
     },
@@ -87,80 +107,29 @@ exports.orderResolver = {
         },
         createOrder(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const date = () => new Date();
                 try {
+                    const { products, userId, name } = input;
                     const order = yield order_1.OrderCollection.create({
-                        createdAt: date(),
-                        cost: (0, getAmount_1.getAmount)(input.products) / 100,
-                        userId: input.userId,
-                        productId: input.products.map((e) => ({
+                        cost: (0, getAmount_1.getAmount)(products) / 100,
+                        userId,
+                        productId: products.map((e) => ({
                             id: e._id,
                             count: e.count,
                             title: e.title,
                             price: e.price,
                             image: e.path,
                         })),
-                        state: "pending",
-                        count: input.length,
+                        count: products.length,
                     });
                     context_1.pubsub.publish("Order_Created", {
                         OrderCreated: order,
                     });
-                    yield input.products.forEach((e) => __awaiter(this, void 0, void 0, function* () {
-                        const product = yield product_1.default.findByIdAndUpdate(e.parentId, {
-                            $inc: {
-                                stock: -e.count,
-                            },
-                        }, { new: true });
-                        context_1.pubsub.publish("Product_Updated", {
-                            productUpdated: product,
-                        });
-                        context_1.pubsub.publish("Single_Product_Updated", {
-                            singleProductUpdate: product,
-                        });
-                        if ((product === null || product === void 0 ? void 0 : product._id) && ((product === null || product === void 0 ? void 0 : product.stock) <= 5 || (product === null || product === void 0 ? void 0 : product.stock) === 0)) {
-                            const notificationObj = {
-                                isRead: false,
-                                content: `${product === null || product === void 0 ? void 0 : product.title.split(" ").slice(0, 5).join(" ")} is running out`,
-                                createdAt: new Date().toISOString(),
-                                link: `/${product === null || product === void 0 ? void 0 : product._id}`,
-                            };
-                            yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                                $push: {
-                                    notifications: notificationObj,
-                                },
-                                $inc: {
-                                    notificationsCount: +1,
-                                },
-                            });
-                            const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                                notifications: { $slice: [-1, 1] },
-                            });
-                            context_1.pubsub.publish("Notification_Created", {
-                                NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                            });
-                        }
-                    }));
+                    (0, reduceProductsByOrderCount_js_1.reduceProductsByOrderCount)(products);
                     const notificationObj = {
-                        isRead: false,
-                        content: `${input.name} created a new order`,
-                        createdAt: new Date().toISOString(),
+                        content: `${name} created a new order`,
                         link: `/dashboard/orders/${order._id}`,
                     };
-                    yield user_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        $push: {
-                            notifications: notificationObj,
-                        },
-                        $inc: {
-                            notificationsCount: +1,
-                        },
-                    });
-                    const newNotification = yield user_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        notifications: { $slice: [-1, 1] },
-                    });
-                    context_1.pubsub.publish("Notification_Created", {
-                        NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                    });
+                    (0, AddNotification_1.AddNotification)(notificationObj);
                     return { status: 200, orderId: order._id };
                 }
                 catch (err) {

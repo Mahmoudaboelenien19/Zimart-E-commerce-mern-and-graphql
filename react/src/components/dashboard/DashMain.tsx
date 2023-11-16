@@ -1,18 +1,6 @@
-import { ChildrenInterFace } from "@/interfaces/general";
-import useParams from "@/custom/useParams";
-import ContainerAnimation from "../widgets/animation/ContainerAnimation";
+import { Children } from "@/types/general";
 
-const DashMain = ({ children }: ChildrenInterFace) => {
-  const { showDashBoaedAside } = useParams();
-
-  return (
-    <ContainerAnimation
-      AsideWidth={300}
-      className={"dash-main  col"}
-      bool={Boolean(showDashBoaedAside)}
-    >
-      {children}
-    </ContainerAnimation>
-  );
+const DashMain = ({ children }: Children) => {
+  return <div className={"dash-main "}>{children}</div>;
 };
 export default DashMain;

@@ -45,9 +45,7 @@ export const orderDefType = gql`
   }
 
   input ProductOrderinput {
-    _id: ID
     productId: ID
-    parentId: ID
     price: Float
     path: String
     title: String

@@ -10,10 +10,10 @@ import HomeLink from "../forms/HomeLink";
 import SelectCountry from "../forms/SelectCountry";
 import GooGleBtn from "../forms/GooGleBtn";
 import { signUpSchema } from "@/lib/formschemas/form schemas";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import { SignUpInputsType, signUpInputs } from "@/assets/arries/signUpInputs";
 import useSignUp from "@/custom/user/useSignUp";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
 
 export const Component = () => {
   const { getParam } = useParams();
@@ -72,10 +72,12 @@ export const Component = () => {
             <span> have an account</span>
             <NavLink to={`/login`}>log in</NavLink>
           </div>
-          <div className="hr center">
-            <span>or </span>
+          <div className="txt hr center">
+            <span>or</span>
           </div>
-          <GooGleBtn type="sign" />
+          <div className="opacity-0">
+            <GooGleBtn type="sign" />
+          </div>
         </Form>
       </FormProvider>
     </Container>

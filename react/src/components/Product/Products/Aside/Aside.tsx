@@ -3,13 +3,14 @@ import Price from "./filter/Price";
 import { AnimatePresence, motion } from "framer-motion";
 import { categoriesArr, FeaturedProductsArr } from "@/assets/arries/arries";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
-import useIsMobile from "@/custom/useIsMobile";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 import { asideVariant } from "@/lib/variants/globals";
 import FilterSection from "./filter/FilterSection";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import ResetFiltersBtn from "./ResetFiltersBtn";
 import AsideFilterHead from "./AsideFilterHead";
 import "./filter-aside.scss";
+
 const Aside = () => {
   const { priceFilter, rateFilter, categoryFilter, featuredProductsFilter } =
     useParams();
@@ -20,7 +21,6 @@ const Aside = () => {
   );
 
   return (
-    // <AnimatePresence initial={false}>
     <motion.aside
       variants={asideVariant}
       initial="start"
@@ -41,9 +41,8 @@ const Aside = () => {
       <Rating />
       <Price />
       <AnimatePresence>{startFiltering && <ResetFiltersBtn />}</AnimatePresence>
-      <MobileCloseDropDown target={"showAsideFilter"} title="close" />
+      <MobileCloseDropDown target={"showAsideFilter"} />
     </motion.aside>
-    // </AnimatePresence>
   );
 };
 

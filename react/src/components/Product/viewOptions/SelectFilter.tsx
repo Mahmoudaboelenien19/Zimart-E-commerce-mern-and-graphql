@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import useParams from "@/custom/useParams";
-import useSortProducts from "@/custom/useSortProducts";
-import useSortByRate from "@/custom/useSortByRate";
+import useParams from "@/custom/helpers/useParams";
+import useSortProducts from "@/custom/product/useSortProducts";
+import useSortByRate from "@/custom/product/useSortByRate";
 import Select from "@/components/widgets/shared/select/Select";
 
 const sortAr = [
@@ -16,13 +16,13 @@ const sortAr = [
 const SelectFilter = () => {
   const { HandleSortProducts } = useSortProducts();
   const { HandleSortProductsByRate } = useSortByRate();
-
   const { deleteParam, setParam, getParam } = useParams();
   const sort = getParam("sort") || "";
   const page = getParam("page") || 1;
 
   useEffect(() => {
     if (sort) {
+      console.log("sort useeffect");
       switch (sort) {
         case "relevance":
           return deleteParam("sort");

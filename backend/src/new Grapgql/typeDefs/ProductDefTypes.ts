@@ -90,26 +90,17 @@ export const productTypeDefs = gql`
     _id: ID
     rate: Int
     review: String
-    image: String
     user: String
   }
 
-  input updateReviewInput {
-    userId: ID
-    productId: ID
-    rate: Int
-    review: String
-  }
-
   input NewProductInput {
-    title: String
-    state: String
+    title: String!
+    state: String!
     images: [Upload!]!
-    stock: Int
-    price: Float
-    description: String
-    category: String
-    createdAt: Date
+    stock: Int!
+    price: Float!
+    description: String!
+    category: String!
   }
 
   input sortProducts {
@@ -132,7 +123,7 @@ export const productTypeDefs = gql`
     searchProducts(word: String!, skip: Int, limit: Int): Return
     updateProduct(input: productInput): StatusMsg
     addReview(input: CreateReviewInput): StatusMsg
-    updateReview(input: updateReviewInput): StatusMsg
+    updateReview(input: CreateReviewInput): StatusMsg
     addNewProduct(input: NewProductInput): StatusMsg
   }
 

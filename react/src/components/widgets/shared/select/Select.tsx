@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
 import { AnimatePresence } from "framer-motion";
-import useClickOutside from "@/custom/useClickOutside";
+import useClickOutside from "@/custom/helpers/useClickOutside";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import clsx from "clsx";
 import DropDown from "../../dropdowns/DropDown";
@@ -12,10 +12,9 @@ interface Props {
   setter?: React.Dispatch<React.SetStateAction<string>>;
   fn?: (val: string) => void;
   className?: string;
-  height?: number;
 }
 
-const Select = ({ height, className, ar, fn, val, noVal, setter }: Props) => {
+const Select = ({ className, ar, fn, val, noVal, setter }: Props) => {
   const [showDropSelect, setShowSelectDrop] = useState(false);
   const selectRef = useClickOutside<HTMLDivElement>(() => {
     setShowSelectDrop(false);
@@ -37,12 +36,11 @@ const Select = ({ height, className, ar, fn, val, noVal, setter }: Props) => {
       </AnimatePresence>
       <BiDownArrow color="var(--green-light)" />
       <DropDown
-        height={height}
         bool={showDropSelect}
         setter={setShowSelectDrop}
         className={"w-100"}
       >
-        {ar.map((val: string) => {
+        {ar?.map((val: string) => {
           return (
             <div
               key={val}

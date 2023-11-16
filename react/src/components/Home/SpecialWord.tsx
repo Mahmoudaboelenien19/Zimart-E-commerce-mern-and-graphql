@@ -57,6 +57,7 @@ const SpecialWord = ({ clr, word }: Props) => {
     >
       {word}
       <motion.div
+        layout
         variants={lineVariant}
         className="special-head-line"
         custom={clr}

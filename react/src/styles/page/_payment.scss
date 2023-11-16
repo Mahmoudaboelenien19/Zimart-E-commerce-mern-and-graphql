@@ -2,103 +2,96 @@
 
 .payment {
   display: flex;
-  width: 95vw;
-  max-width: 950px;
-  min-height: calc(100vh - 90px);
-  justify-content: space-between;
+  justify-content: center;
+
   align-items: flex-start;
-  color: var(--third) !important;
-  gap: 50px;
+  gap: 7vw;
   margin: 0 auto;
-  margin-top: 80px;
-  margin-bottom: 10px;
-  padding: 0 25px;
+
   .ordered-products {
     width: 40%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     margin-top: 30px;
-    gap: 10px;
-    h2 {
-      margin: 0;
-      margin-bottom: 12px;
-      align-self: flex-start;
+    .ordered-product {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+      }
     }
-    // .detail {
-    //   color: var(--third);
-    //   padding: 0;
-    //   font-weight: 600;
-    //   // padding-left: 5px;
-    // }
-    .value {
-      // padding: 0;
-      // text-shadow: var(--forth-shadow);
-      // color: var(--wheat);
-      .price-top {
-        bottom: -4px;
-        font-size: 0.6rem;
+
+    .ordered-product {
+      padding: 15px;
+      width: 100%;
+      text-transform: capitalize;
+      font-weight: bold;
+      .details {
+        text-wrap: nowrap;
+        color: var(--third);
+        font-size: min(2rem, 16px);
+        .value {
+          font-weight: 500;
+        }
       }
-      .price-product {
-        font-size: 1.2rem !important;
-        margin-top: 0;
-      }
-      .ordered-product {
-        padding: 15px;
-        width: 100%;
-        text-transform: capitalize;
-        font-weight: bold;
-        font-size: 1rem;
-      }
-      h3 {
-        text-transform: capitalize;
-        margin-top: 10px;
-      }
+    }
+    h3 {
+      text-transform: capitalize;
+      margin-top: 10px;
     }
   }
-  .pay-or {
-    width: 100%;
-    height: 0.5px;
-    background-color: var(--third);
-    opacity: 0.2;
+  .total-price-ordered {
+    font-size: min(2rem, 20px);
+    padding: 20px;
   }
 }
 
 form#payment-form {
-  background: #222222;
-
-  align-self: center;
+  background: var(--secondary);
+  position: sticky;
+  top: 200px;
+  align-self: flex-start;
+  margin-top: 200px;
+  margin: 0 auto;
   height: fit-content;
-  padding: 20px;
+  padding: 40px;
   border-radius: 5px;
   flex-direction: column;
   box-shadow: 0.5px 0.5px 2px black;
   padding-bottom: 40px;
   gap: 30px;
   overflow: hidden;
-
-  h3 {
-    text-transform: capitalize;
-    margin: 10px 0;
-    &.underline:before {
-      margin: 0 !important;
-    }
-  }
-  h2 {
-    color: white;
-  }
-
-  input {
-    width: 80%;
-    height: 30px;
-    padding: 0;
-    padding-right: 20px;
-    background-color: var(--main);
-    box-shadow: var(--third-shadow);
-    border-radius: 5px;
+  p {
     color: var(--third);
   }
+  & > * {
+    width: 350px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+  p {
+    width: 40ch;
+    text-wrap: balance;
+    text-align: center;
+  }
+
+  // input {
+  //   width: 80%;
+  //   height: 30px;
+  //   padding: 0;
+  //   padding-right: 20px;
+  //   background-color: var(--main);
+  //   box-shadow: var(--third-shadow);
+  //   border-radius: 5px;
+  //   color: var(--third);
+  // }
   button {
     border-radius: 5px;
     height: 40px;
@@ -121,20 +114,29 @@ form#payment-form {
     text-wrap: balance;
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 750px) {
   .payment {
     width: 95%;
     flex-direction: column;
-
+    gap: 10px;
     .ordered-products {
       width: 100%;
       justify-content: flex-start;
-      .total-pay {
-        align-self: flex-start;
-      }
+
       .ordered-product {
         width: 100%;
       }
+    }
+  }
+  form#payment-form {
+    padding: 40px 1.2rem;
+    margin-top: 20px;
+
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 20px;
+    & > * {
+      width: 100%;
     }
   }
 }

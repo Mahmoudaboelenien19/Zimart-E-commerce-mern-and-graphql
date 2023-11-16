@@ -2,15 +2,17 @@
   width: fit-content;
   height: 30px;
   justify-content: flex-start;
-  background: rgba(128, 128, 128, 0.162);
+  background: transparent;
   box-shadow: 0.2px 0.1px 1px black;
+  box-shadow: initial;
+  border-radius: 6px;
+  background: var(--secondary);
+
   button {
-    background: inherit;
+    box-shadow: initial;
     height: 100%;
-    border-radius: 0;
     width: 20px;
     text-shadow: 0 0 0 transparent;
-    color: var(--third) !important;
   }
 
   .count {
@@ -20,7 +22,7 @@
     width: 40px;
     color: var(--third);
     height: 100%;
-    background: var(--main);
+    background: var(--secondary);
     overflow: hidden;
   }
 }
@@ -29,4 +31,25 @@
   text-transform: capitalize;
   font-weight: bold;
   color: var(--third);
+}
+
+.counter {
+  height: 30px;
+  opacity: 0.5;
+  transition: 0.3s;
+  color: var(--third);
+  background: var(--main);
+  &:hover {
+    opacity: 1;
+  }
+  &.red {
+    border-radius: 6px 0 0 6px;
+    color: var(--third);
+    background: var(--main);
+  }
+  &.green {
+    border-radius: 0 6px 6px 0;
+    background: var(--main);
+    color: var(--third);
+  }
 }

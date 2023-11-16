@@ -1,14 +1,11 @@
-import { useEffect } from "react";
-import DashMain from "../DashMain";
-import ProductList from "@/components/Product/Products/AllProducts/ProductList";
+import ProductList from "@/components/Product/Products/ProductList/ProductList";
+import useTitle from "@/custom/helpers/useTitle";
 
 export const Component = () => {
-  useEffect(() => {
-    document.title = " Dashboard | All Products";
-  }, []);
+  useTitle(" Dashboard | All Products");
   return (
-    <DashMain>
-      <ProductList isDash />
-    </DashMain>
+    <div className={`product-list-par center gap `}>
+      <ProductList />
+    </div>
   );
 };

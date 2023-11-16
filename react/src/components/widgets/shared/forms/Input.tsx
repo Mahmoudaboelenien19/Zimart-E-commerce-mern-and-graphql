@@ -5,8 +5,8 @@ import clsx from "clsx";
 import InpErr from "./InpErr";
 import { IconType } from "react-icons/lib";
 const placeholderVariant = {
-  start: (bool: boolean) => ({ top: bool ? "50%" : "0" }),
-  end: (bool: boolean) => ({ top: bool ? "0" : "50%" }),
+  start: (bool: boolean) => ({ top: bool ? 20 : "0" }),
+  end: (bool: boolean) => ({ top: bool ? "0" : 20 }),
 };
 
 type Props = {
@@ -18,7 +18,6 @@ const Input = ({
   type,
   defaultValue,
   placeholder,
-
   ...props
 }: Props) => {
   const [isFocus, setIsFocus] = useState(Boolean(defaultValue));
@@ -33,7 +32,6 @@ const Input = ({
 
   const field = name || placeholder || "";
   const inpVal = watch(field);
-
   const handlePass = () => {
     if (type === "password") {
       setIsPassIconCLicked(!isPassIconCLicked);
@@ -42,10 +40,10 @@ const Input = ({
 
   const err = errors ? errors[field]?.message?.toString() : "";
   useEffect(() => {
-    if (defaultValue && !submitCount) {
-      setValue(name, defaultValue);
+    if (defaultValue && submitCount === 0) {
+      setValue(field, defaultValue);
     }
-  }, [defaultValue]);
+  }, []);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -53,8 +51,8 @@ const Input = ({
     }
   }, [isSubmitSuccessful]);
   return (
-    <div className=" center w-100  gap col">
-      <div className=" relative inp-parent w-100 ">
+    <>
+      <div className=" relative inp-parent w-100   center  gap col ">
         <input
           {...props}
           type={type === "password" && isPassIconCLicked ? "text" : type}
@@ -86,9 +84,9 @@ const Input = ({
         >
           {placeholder}
         </motion.span>
+        <InpErr err={err} />
       </div>
-      <InpErr err={err} />
-    </div>
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ export const stripeResolver = {
 
   Mutation: {
     async getKey(_: unknown, { input }: any) {
+      console.log(input);
       try {
         const paymentIntent = await stripeData.paymentIntents.create({
           amount: getAmount(input),

@@ -1,42 +1,53 @@
 import MainBtn from "../widgets/buttons/MainBtn";
-import { useNavigate } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import {
+  Link,
+  unstable_useViewTransitionState,
+  useLocation,
+} from "react-router-dom";
+
 import { BiRightArrowAlt } from "react-icons/bi";
-import { BlogInterface } from "@/interfaces/blog";
-import useModifyUrl from "@/custom/useModifyUrl";
-import InViewAnimation from "../widgets/animation/InViewAnimation";
+import { Blog as BlogType } from "@/types/blog";
+import useModifyUrl from "@/custom/helpers/useModifyUrl";
 
-interface Props extends BlogInterface {
+type Props = {
   i: number;
-}
+} & BlogType;
 const Blog = ({ head, intro, image, _id, i }: Props) => {
-  const navigate = useNavigate();
-
   const { getlink } = useModifyUrl();
+  const { pathname } = useLocation();
+  const vt = unstable_useViewTransitionState(pathname);
 
   return (
-    <InViewAnimation className={"main-blog-container "}>
+    <div className={"main-blog-container "}>
       <div className={"main-blog"}>
-        <LazyLoadImage
-          effect="blur"
-          wrapperClassName="w-100 img-par"
-          src={getlink(image, 600)}
-          alt={head}
-        />
+        <picture
+          className="w-100 img-par"
+          style={{
+            viewTransitionName: vt ? `blog-${_id}` : "",
+            contain: "layout",
+          }}
+        >
+          <img src={getlink(image, 600)} alt={head} />
+        </picture>
 
         <div className="main-blog-content w-100">
           <h2 className=" header">{head}</h2>
           <p>{intro}</p>
-          <MainBtn
-            Icon={BiRightArrowAlt}
-            btn="see more"
-            className="btn cancel-outline center gap blog-btn"
-            onClick={() => navigate(`/blogs/${_id}`)}
-            pos="right"
-          />
+          <Link
+            to={`/blogs/${_id}`}
+            unstable_viewTransition
+            className="blog-btn"
+          >
+            <MainBtn
+              Icon={BiRightArrowAlt}
+              btn="see more"
+              className="btn cancel-outline center gap "
+              pos="right"
+            />
+          </Link>
         </div>
       </div>
-    </InViewAnimation>
+    </div>
   );
 };
 

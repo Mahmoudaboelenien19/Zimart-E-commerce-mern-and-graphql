@@ -6,7 +6,7 @@ import MenuTogglar from "@/components/widgets/shared/menuToggle/MenuTogglar";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
 
 import { mobileDropDownVariant } from "@/lib/variants/globals";
-import useHideScroll from "@/custom/useHideScroll";
+import useHideScroll from "@/custom/helpers/useHideScroll";
 
 const LinksAside = () => {
   const [showAside, setShowAside] = useState(false);
@@ -29,7 +29,7 @@ const LinksAside = () => {
             exit="exit"
             className={"aside-links"}
           >
-            <MobileCloseDropDown setter={setShowAside} title="close nav" />
+            <MobileCloseDropDown setter={setShowAside} />
 
             <ThemeToggle />
 

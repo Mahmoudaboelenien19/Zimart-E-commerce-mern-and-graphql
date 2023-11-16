@@ -1,7 +1,7 @@
 import DashForm from "./DashForm";
 import { useMutation } from "@apollo/client";
 import { Add_Product } from "@/graphql/mutations/product";
-import useTitle from "@/custom/useTitle";
+import useTitle from "@/custom/helpers/useTitle";
 
 export const Component = () => {
   const [addProductFn] = useMutation(Add_Product);

@@ -24,6 +24,7 @@ exports.stripeResolver = {
     Mutation: {
         getKey(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
+                console.log(input);
                 try {
                     const paymentIntent = yield stripeData.paymentIntents.create({
                         amount: (0, getAmount_js_1.getAmount)(input),

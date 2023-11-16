@@ -1,9 +1,8 @@
-// import ProductSelect from "./ProductSelect";
 import SelectedProductData from "./SelectedProductData";
 import { motion } from "framer-motion";
-import { useAppSelector } from "@/custom/reduxTypes";
 import { reverseVariant } from "@/lib/variants/globals";
 import Select from "../widgets/shared/select/Select";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 interface Props {
   product: string;
@@ -11,10 +10,11 @@ interface Props {
   order: string;
 }
 const SelectProduct = ({ product, setProduct, order }: Props) => {
-  const { compare } = useAppSelector((state) => state.compare);
-  const productId = compare.find((ob) => ob.title === product)?.productId;
+  const { compare } = useAppSelector((st) => st.compare);
 
-  const compareArr = compare.map((product) => product.title);
+  const productId = compare?.find((ob) => ob?.product?.title === product)?.id;
+
+  const compareArr = compare?.map((product) => product?.product?.title || "s");
   return (
     <motion.div
       className="compare-product center col gap w-100"
@@ -24,7 +24,6 @@ const SelectProduct = ({ product, setProduct, order }: Props) => {
       custom={order}
     >
       <Select
-        height={200}
         ar={compareArr}
         val={product || `-- select ${order} product --`}
         className=" select-compare"

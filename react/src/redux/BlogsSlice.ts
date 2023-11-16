@@ -1,8 +1,8 @@
+import { Blog } from "@/types/blog";
 import { createSlice } from "@reduxjs/toolkit";
-import { BlogInterface } from "../interfaces/blog";
 
 interface sliceStateInterface {
-  blogs: BlogInterface[];
+  blogs: Blog[];
 }
 const initialState: sliceStateInterface = {
   blogs: [],

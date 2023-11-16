@@ -4,16 +4,13 @@
   display: grid;
   grid-area: cust;
   margin-top: 12px;
-  background: var(--main);
+  background: var(--secondary);
   padding: 12px;
   color: var(--third);
 
-  h2 + .hr {
-    margin-top: 6px;
-  }
   h2 {
     text-transform: capitalize;
-    color: var(--sale);
+    color: var(--green);
     text-shadow: var(--forth-shadow);
     padding: 12px 0;
   }
@@ -81,11 +78,12 @@
     padding: 15px;
     color: var(--third);
     height: fit-content;
-    background: var(--main);
+    background: var(--secondary);
 
     align-self: flex-start;
     .header {
-      font-size: 1.4rem;
+      padding: 20px;
+      color: var(--green);
     }
   }
 }

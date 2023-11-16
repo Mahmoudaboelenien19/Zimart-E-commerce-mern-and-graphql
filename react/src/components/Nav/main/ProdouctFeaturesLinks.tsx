@@ -7,9 +7,9 @@ import { NavLink } from "react-router-dom";
 import ShowCount from "./showCounter";
 import WishList from "../wishlist/WishList";
 import Title from "@/components/widgets/Title";
-import { useAppSelector } from "@/custom/reduxTypes";
-import useHideScroll from "@/custom/useHideScroll";
-import useIsMobile from "@/custom/useIsMobile";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import useHideScroll from "@/custom/helpers/useHideScroll";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 
 const ProdouctFeaturesLinks = () => {
   const { cart } = useAppSelector((state) => state.cart);
@@ -41,11 +41,10 @@ const ProdouctFeaturesLinks = () => {
           </Title>
         </motion.li>
       </NavLink>
-      <motion.li className="fav-par center">
+      <motion.li className="relative">
         <WishList showFav={showFav} setter={setShowFav} />
         <Title title={!showFav ? "show your wishlist" : "hide your wishList"}>
           <ShowCount length={fav.length} />
-
           <AiFillHeart fontSize={"1.2rem"} onClick={() => setShowFav(true)} />
         </Title>
       </motion.li>

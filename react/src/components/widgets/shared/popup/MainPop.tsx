@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChildrenInterFace } from "@/interfaces/general";
-import useHideScroll from "@/custom/useHideScroll";
+import useHideScroll from "@/custom/helpers/useHideScroll";
 import "./popup.scss";
 import FadeElement from "../../animation/FadeElement";
 import { parentVariant } from "@/lib/variants/globals";
 import MobileCloseDropDown from "../../dropdowns/MobileCloseDropDown";
+import { ReactNode } from "react";
+import clsx from "clsx";
 
 const skewVariant = {
   start: { transform: "rotate(0)" },
@@ -19,16 +20,25 @@ const skewVariant = {
     transition: { duration: 0.3, ease: "easeInOut" },
   },
 };
-interface Props extends ChildrenInterFace {
+type Props = {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   bool: boolean;
+  children: ReactNode;
   className?: string;
-}
-const MainPop = ({ bool, setter, children, className = "" }: Props) => {
+  wrapperClassName?: string;
+};
+const MainPop = ({
+  bool,
+  setter,
+  children,
+  className = "",
+  wrapperClassName,
+}: Props) => {
   useHideScroll(bool);
   const handlehidePop = () => {
     setter(false);
   };
+
   return (
     <AnimatePresence mode="wait">
       {bool && (
@@ -46,7 +56,10 @@ const MainPop = ({ bool, setter, children, className = "" }: Props) => {
             onClick={(e) => e.stopPropagation()}
             className={`popup  center col gap   ${className}`}
           >
-            <FadeElement className="w-100" delay={0.5}>
+            <FadeElement
+              className={clsx("w-100", wrapperClassName)}
+              delay={0.5}
+            >
               <MobileCloseDropDown bool={bool} setter={setter} />
               {children}
             </FadeElement>

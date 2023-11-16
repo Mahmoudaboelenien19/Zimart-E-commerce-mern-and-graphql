@@ -1,66 +1,38 @@
-import { useContext, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Title from "../widgets/Title";
 import { MdPlaylistAdd, MdPlaylistRemove } from "react-icons/md";
-import { useMutation } from "@apollo/client";
-import { toast } from "react-hot-toast";
-import { isAuthContext } from "@/context/isAuth";
-import { useAppSelector, useAppDispatch } from "@/custom/reduxTypes";
-import useRemoveFromCompareList from "@/custom/useRemoveFromCompareList";
-import { AddTo_Compare } from "@/graphql/mutations/user";
-import { addToCompareRedux } from "@/redux/compareSlice";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
 import FadeElement from "../widgets/animation/FadeElement";
-
-interface Props {
-  id: string;
-  title: string;
-}
-const CompareIcons = ({ id, title }: Props) => {
+import useAddToCollection from "@/custom/shopping/useAddToCollection";
+import useIsAtCollection from "@/custom/shopping/useIsAtCollection";
+import { addToCompareRedux } from "@/redux/compareSlice";
+import useRemoveFromCompare from "@/custom/shopping/useRemoveFromCompare";
+const CompareIcons = ({ id }: { id: string }) => {
   const { compare } = useAppSelector((state) => state.compare);
-  const { userId } = useContext(isAuthContext);
-  const [atCompare, setAtCompare] = useState(false);
-
+  const { atCollection } = useIsAtCollection(compare, id);
+  const { handleAddToCollection, loading } = useAddToCollection(id, "compare");
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    const check = compare.some((obj) => obj?.productId === id);
-    if (check) {
-      setAtCompare(true);
-    } else {
-      setAtCompare(false);
-    }
-  }, [compare]);
-
-  const [addToCompare] = useMutation(AddTo_Compare);
-
-  const handleAddToCompare = async () => {
-    try {
-      const obj = { userId, productId: id, title };
-      const { data } = await addToCompare({ variables: { input: obj } });
-      if (data?.addToCompare?.msg)
-        dispatch(addToCompareRedux({ _id: data?.addToCompare, ...obj }));
-      toast.success(data?.addToCompare?.msg);
-    } catch (err: unknown) {
-      if ((err as Error).message === "Not Authorised!") {
-        toast.error("login please !");
+  const addToCompare = async () => {
+    if (!loading) {
+      const st = await handleAddToCollection();
+      if (st === 200) {
+        dispatch(addToCompareRedux({ id }));
       }
     }
   };
+  const { removeFromCompare } = useRemoveFromCompare(id);
 
-  const { handleRemoveFromCompare } = useRemoveFromCompareList({
-    userId,
-    productId: id,
-  });
   return (
     <AnimatePresence mode="wait">
-      {atCompare ? (
+      {atCollection ? (
         <Title title="remove from compareList" key={"remove-from-compare"}>
-          <FadeElement onClick={handleRemoveFromCompare} className="center">
+          <FadeElement onClick={removeFromCompare} className="center">
             <MdPlaylistRemove size={16} />
           </FadeElement>
         </Title>
       ) : (
         <Title title="add to compareList" key={"add-to-compare"}>
-          <FadeElement onClick={handleAddToCompare} className="center">
+          <FadeElement onClick={addToCompare} className="center">
             <MdPlaylistAdd size={16} />
           </FadeElement>
         </Title>

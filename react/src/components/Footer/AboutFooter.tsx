@@ -1,14 +1,14 @@
-import LogoSvg from "../svgs/LogoSvg";
+import BigLogo from "../svgs/BigLogo";
 import InViewAnimation from "../widgets/animation/InViewAnimation";
-
 const AboutFooter = () => {
   return (
     <InViewAnimation once className="about-footer center col ">
-      <LogoSvg type="footer" />
+      <BigLogo />
       <p>
         Discover the perfect products for your lifestyle, conveniently delivered
         right to your doorstep. Experience unparalleled convenience and
-        exceptional quality with our curated selection.
+        exceptional quality with our curated selection. exceptional quality with
+        our curated selection.
       </p>
     </InViewAnimation>
   );

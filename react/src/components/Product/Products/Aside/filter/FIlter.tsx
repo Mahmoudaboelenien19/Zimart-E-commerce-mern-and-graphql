@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChildrenInterFace } from "@/interfaces/general";
 import FilterHeader from "./FilterHeader";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { staggerChildrenVariant } from "@/lib/variants/globals";
 
-interface Props extends ChildrenInterFace {
+interface Props {
   head: string;
+  children: ReactNode;
 }
 
 const FIlter = ({ head, children }: Props) => {

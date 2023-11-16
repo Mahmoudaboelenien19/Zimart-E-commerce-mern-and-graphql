@@ -1,30 +1,26 @@
-import { useContext, useEffect, useState } from "react";
-import { isAuthContext } from "../../context/isAuth";
+import { useEffect, useState } from "react";
 import MainPop from "../widgets/shared/popup/MainPop";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 const AdminEmailPop = () => {
-  const { isAdmin } = useContext(isAuthContext);
+  const { role } = useAppSelector((st) => st.userData);
   const [show, setShow] = useState(false);
   useEffect(() => {
     let timer: number;
-    if (isAdmin) {
+    if (role === "admin") {
       setShow(false);
     } else {
       timer = setTimeout(() => {
         setShow(true);
-      }, 1500);
+      }, 5000);
     }
     return () => {
       clearTimeout(timer);
     };
-  }, [isAdmin]);
+  }, [role]);
   return (
     <MainPop setter={setShow} bool={show} className="admin-pop">
-      <h2
-      // className="center col gap"
-      >
-        If you want to test Admin features use this Email
-      </h2>
+      <h2>If you want to test Admin features use this Email. !</h2>
       <div className=" email">
         <div className="details">
           <span className="detail">Email :</span>

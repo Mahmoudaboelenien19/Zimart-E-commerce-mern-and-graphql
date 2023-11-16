@@ -4,13 +4,13 @@ import { useEffect, FormHTMLAttributes } from "react";
 
 type Props = {
   children: React.ReactNode;
-  initialTranslate: number;
+  initialTranslate?: number;
   delay?: number;
 } & FormHTMLAttributes<HTMLFormElement>;
 const Form = ({
   children,
   delay,
-  initialTranslate,
+  initialTranslate = 0,
   className,
   ...props
 }: Props) => {
@@ -25,7 +25,7 @@ const Form = ({
         { duration: 0.3, delay: delay || 0 }
       ).then(() => {
         animateForm(
-          "form , form > *  ",
+          " form > *  ",
           { opacity: [0, 1] },
           { delay: stagger(0.07) }
         );

@@ -1,6 +1,6 @@
 import { BsInfoCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import Title from "@/components/widgets/Title";
 
 const OrderDetailsIcon = ({ _id }: { _id: string }) => {

@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LiaGreaterThanSolid } from "react-icons/lia";
 import { NavLink, useLocation } from "react-router-dom";
 import FadeElement from "../widgets/animation/FadeElement";
-import useParams from "@/custom/useParams";
-import useIsMobile from "@/custom/useIsMobile";
+import useParams from "@/custom/helpers/useParams";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 import { AiFillHome } from "react-icons/ai";
 
 const BeardCrumbs = () => {
@@ -43,15 +43,16 @@ const BeardCrumbs = () => {
       );
     });
   const { isMobile } = useIsMobile();
+  const check = showDashBoaedAside && !isMobile;
   return (
     <AnimatePresence initial={false}>
       <motion.div
         className="crumbs  center relative"
-        animate={{ left: showDashBoaedAside && !isMobile ? 310 : 20 }}
+        animate={{ left: check ? 310 : 20 }}
         transition={{
-          delay: 0.3,
-          duration: 0.3,
-          //  ease: "easeInOut"
+          delay: check ? 0.35 : 0.12,
+          duration: 0.35,
+          ease: "easeInOut",
         }}
       >
         <div className="home center gap">

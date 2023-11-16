@@ -1,7 +1,4 @@
-import { ChildrenInterFace } from "@/interfaces/general";
 import LatestOrders from "./LatestOrders";
-import { ProductInterface } from "@/interfaces/product";
-import { OrderInterface } from "@/interfaces/order.interface";
 import InViewAnimation from "@/components/widgets/animation/InViewAnimation";
 import clsx from "clsx";
 import useRechart from "./useRechartData";
@@ -21,10 +18,13 @@ import {
   Radar,
   RadarChart,
 } from "recharts";
+import { Product } from "@/types/product";
+import { ReactNode } from "react";
 
-interface Props extends ChildrenInterFace {
+interface Props {
   head: string;
   className?: string;
+  children: ReactNode;
 }
 
 const ChartParent = ({ head, children, className }: Props) => {
@@ -41,8 +41,8 @@ const ChartParent = ({ head, children, className }: Props) => {
 };
 
 type MainProps = {
-  AllProducts: ProductInterface[];
-  order: OrderInterface[];
+  AllProducts: Product[];
+  order: [];
   user: { createdAt: string }[];
 };
 const MainPageCharts = ({ AllProducts, user, order }: MainProps) => {

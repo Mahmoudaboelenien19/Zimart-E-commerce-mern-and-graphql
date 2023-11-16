@@ -1,11 +1,10 @@
 import { useRef, useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import Avatar from "./Avatar";
 import MainBtn from "../widgets/buttons/MainBtn";
 import ProfileImg from "./ProfileImg";
 import MainPop from "../widgets/shared/popup/MainPop";
 const UserImage = () => {
-  const inpFile = useRef<HTMLInputElement | null>(null);
+  const inpFile = useRef<HTMLInputElement>(null);
   const [newImg, setnewImg] = useState<File | undefined>();
   const [edit, setEdit] = useState(false);
   const [fileKey, setFileKey] = useState<number>(0);
@@ -25,7 +24,9 @@ const UserImage = () => {
   };
   return (
     <div className="user-image ">
-      <ProfileImg dimension={200} />
+      <div className="img">
+        <ProfileImg />
+      </div>
 
       <form onSubmit={(e) => e.preventDefault()}>
         <input

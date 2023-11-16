@@ -1,18 +1,18 @@
-import { Fragment, memo, useContext, useEffect } from "react";
+import { memo, useContext, useEffect } from "react";
 import DashBoardRecap from "./DashBoardRecap";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrProductHunt } from "react-icons/gr";
 import { FaDollarSign, FaUserAlt } from "react-icons/fa";
 import MainPageCharts from "./MainPageCharts";
-import useDashProgress from "@/custom/useDashProgress";
+import useDashProgress from "@/custom/dashboadrd/useDashProgress";
 import { useQuery } from "@apollo/client";
 import { GET_NEEDED_DASHBOARD_DATA } from "@/graphql/general";
-import { isAuthContext } from "@/context/isAuth";
 import { changeNotificationCount } from "@/redux/notificationsSlice";
-import { useAppDispatch } from "@/custom/reduxTypes";
+import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
+const COLORS = ["#0088FE99", "#00C49F99", "#FFBB2899", "#FF804299"];
 
 const RecapData = () => {
-  const { userId } = useContext(isAuthContext);
+  const { userId } = useAppSelector((st) => st.isAuth);
   const { data } = useQuery(GET_NEEDED_DASHBOARD_DATA, {
     variables: {
       id: userId,
@@ -70,7 +70,7 @@ const RecapData = () => {
   ];
   const check = order.length >= 1 && Allproducts.length > 0 && user.length > 0;
   return (
-    <Fragment>
+    <div className="center col">
       {check && (
         <>
           {/* i make 2 of these to make  if element is wrapped it takes full width 
@@ -81,19 +81,19 @@ const RecapData = () => {
           <div className="center dash-recap-par ">
             <div className="dash-recap">
               {recapArr.slice(0, 2)?.map((obj, i) => {
-                return <DashBoardRecap key={i} i={i} {...obj} />;
+                return <DashBoardRecap key={i} clr={COLORS[i]} {...obj} />;
               })}
             </div>
             <div className="dash-recap">
               {recapArr.slice(2)?.map((obj, i) => {
-                return <DashBoardRecap key={i} i={i} {...obj} />;
+                return <DashBoardRecap key={i} clr={COLORS[2 + i]} {...obj} />;
               })}
             </div>
           </div>
           <MainPageCharts AllProducts={Allproducts} order={order} user={user} />
         </>
       )}
-    </Fragment>
+    </div>
   );
 };
 

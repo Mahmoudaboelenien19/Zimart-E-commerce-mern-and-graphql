@@ -1,21 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { dashAsideLinks } from "@/assets/arries/LinksArr";
 import MobileCloseDropDown from "@/components/widgets/dropdowns/MobileCloseDropDown";
-import useIsMobile from "@/custom/useIsMobile";
-import useLogOut from "@/custom/useLogOut";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 import { asideVariant } from "@/lib/variants/globals";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import ProfileImg from "@/components/user/ProfileImg";
-import { Fragment, useContext } from "react";
-import { isAuthContext } from "@/context/isAuth";
-import clsx from "clsx";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import DashLinks from "./DashLinks";
 
 const DashboardAside = () => {
-  const { showDashBoaedAside, deleteParam } = useParams();
-  const { handleLogOut } = useLogOut();
+  const { showDashBoaedAside } = useParams();
+
   const { isMobile } = useIsMobile();
-  const { name } = useContext(isAuthContext);
+  const { name } = useAppSelector((st) => st.userData);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -23,14 +19,16 @@ const DashboardAside = () => {
         <motion.aside
           id="dash-aside"
           variants={asideVariant}
-          custom={{ bool: isMobile }}
+          custom={{ bool: isMobile, w: 300 }}
           initial="start"
           animate={"end"}
           exit="exit"
           key={"dash-aside"}
         >
           <div className=" dash-user center gap">
-            <ProfileImg dimension={60} />
+            <div className="dash-img">
+              <ProfileImg />
+            </div>
 
             <div className="content">
               <h4>{name}</h4>
@@ -40,49 +38,9 @@ const DashboardAside = () => {
             </div>
           </div>
           <div className="hr" />
-          {dashAsideLinks.map(({ head, links }) => {
-            return (
-              <span key={`dash-link ${head}`}>
-                <h4 className="aside-dash-label">{head}</h4>
-                <>
-                  {links.map(({ link, to, Icon, active }) => {
-                    return (
-                      <Fragment key={link}>
-                        <Link
-                          className={clsx(
-                            location.pathname.split("/").slice(-1)[0] ===
-                              active && "active",
-                            "relactive"
-                          )}
-                          to={
-                            to +
-                            `${
-                              showDashBoaedAside
-                                ? "?showDashBoaedAside=true"
-                                : ""
-                            }`
-                          }
-                          onClick={() => {
-                            if (isMobile) {
-                              deleteParam("showDashBoaedAside");
-                            }
-                            if (link === "logout") {
-                              handleLogOut();
-                            }
-                          }}
-                        >
-                          <Icon className="icon" color="var(--twitter)" />
-                          <span>{link}</span>
-                        </Link>
-                      </Fragment>
-                    );
-                  })}
-                </>
-              </span>
-            );
-          })}
+          <DashLinks />
 
-          <MobileCloseDropDown target="showDashBoaedAside" title="close" />
+          <MobileCloseDropDown target="showDashBoaedAside" />
         </motion.aside>
       )}
     </AnimatePresence>

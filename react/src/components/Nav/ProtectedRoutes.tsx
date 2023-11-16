@@ -1,19 +1,9 @@
-import { isAuthContext } from "@/context/isAuth";
-import { useContext } from "react";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 import { Navigate, Outlet } from "react-router-dom";
-
 const ProtectedRoutes = () => {
-  const { isAuth } = useContext(isAuthContext);
-  console.log({ isAuth });
-  if (isAuth) {
-    return (
-      <>
-        <Outlet />
-      </>
-    );
-  } else {
-    return <Navigate to="/login" />;
-  }
+  const { isAuth } = useAppSelector((st) => st.isAuth);
+
+  return <>{isAuth ? <Outlet /> : <Navigate replace to={"/login"} />}</>;
 };
 
 export default ProtectedRoutes;

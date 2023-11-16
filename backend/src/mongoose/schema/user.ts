@@ -1,50 +1,42 @@
 import mongoose from "mongoose";
 
+const collectionSchema = new mongoose.Schema({
+  id: { type: mongoose.SchemaTypes.ObjectId, ref: "products" },
+  count: {
+    type: Number,
+    default: 1,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
   country: String,
   phone: String,
-  role: String,
+  role: { type: String, default: "user" },
   image: String,
-  createdAt: Date,
+  createdAt: {
+    type: Date,
+    default: () => Date.now(),
+  },
   lastLogIn: Date,
   notificationsCount: Number,
-  fav: [
-    {
-      productId: mongoose.SchemaTypes.ObjectId,
-      parentId: mongoose.SchemaTypes.ObjectId,
-      title: String,
-      path: String,
-      price: Number,
-    },
-  ],
-  cart: [
-    {
-      productId: mongoose.SchemaTypes.ObjectId,
-      parentId: mongoose.SchemaTypes.ObjectId,
-      count: Number,
-      title: String,
-      path: String,
-      price: Number,
-    },
-  ],
+  fav: [collectionSchema],
+  cart: [collectionSchema],
 
-  compare: [
-    {
-      productId: mongoose.SchemaTypes.ObjectId,
-      title: String,
-    },
-  ],
+  compare: [collectionSchema],
   notifications: [
     {
-      isRead: Boolean,
+      isRead: { type: Boolean, default: false },
       content: String,
-      link: String,
-      createdAt: Date,
+      link: { type: String },
+      createdAt: { type: Date, default: () => Date.now() },
+      // immutable: true,
+      // required: true,
     },
   ],
 });
 
-export const userCollection = mongoose.model("users", userSchema);
+export const userCollection =
+  mongoose.models.users || mongoose.model("users", userSchema);

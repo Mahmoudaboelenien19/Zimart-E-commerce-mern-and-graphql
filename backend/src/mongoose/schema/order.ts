@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
   userId: mongoose.Types.ObjectId,
-  state: String,
+  state: { type: String, default: "pending" },
   productId: [
     {
       id: mongoose.Types.ObjectId,
@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
   ],
   count: Number,
   cost: Number,
-  createdAt: Date,
+  createdAt: { type: Date, default: () => Date.now() },
   deliveredAt: Date,
 });
 

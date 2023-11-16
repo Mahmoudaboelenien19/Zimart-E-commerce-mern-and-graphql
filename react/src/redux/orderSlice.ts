@@ -1,7 +1,7 @@
-import { OrderInterface } from "@/interfaces/order.interface";
+import { ORDER } from "./../types/order.d";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: { order: OrderInterface[] } = {
+const initialState: { order: ORDER[] } = {
   order: Array.from({ length: 18 }),
 };
 
@@ -20,7 +20,7 @@ const orderSlice = createSlice({
     removeFromOrderRedux(state, action) {
       const arr = action.payload;
       for (const el of arr) {
-        state.order = state.order.filter((st: OrderInterface) => st._id !== el);
+        state.order = state.order.filter((st: ORDER) => st._id !== el);
       }
     },
     clearOrdersRedux(state) {
@@ -31,7 +31,7 @@ const orderSlice = createSlice({
     },
     updateOrderRedux(state, action) {
       const date = () => new Date().toISOString();
-      state.order = state.order.map((order: OrderInterface) =>
+      state.order = state.order.map((order: ORDER) =>
         action.payload.id === order._id
           ? {
               ...order,

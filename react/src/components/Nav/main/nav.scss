@@ -1,10 +1,9 @@
 @import "@/styles/variables.scss";
 
 nav.main {
-  transition: 0.15s ease-in-out;
+  // transition: 0.3s ease-in-out;
   left: 0;
   width: 100vw;
-
   .links-par {
     display: flex;
   }
@@ -20,23 +19,41 @@ nav.main {
     justify-content: center;
     li {
       list-style: none;
-      position: relative;
+      // position: relative;
       margin: 5px;
-      a {
+      padding: 5px 8px;
+      cursor: pointer;
+      &.link {
         transition: 0.3s;
-        color: var(--third);
+
+        color: white;
+        mix-blend-mode: difference;
+
         font-weight: bold;
-        &.active {
-          color: var(--green);
-        }
-        &:hover:not(&.active) {
-          color: var(--green);
-          opacity: 0.7;
-        }
+
+        // text-shadow: 0.2px 0.2px 0.2px black;
+
+        // div {
+        //   z-index: 4;
+        //   position: relative;
+        //   mix-blend-mode: exclusion;
+        // }
+
+        //   &.active {
+        //     color: var(--white);
+        //     transition: 0.3s 1.5s;
+        //   }
+        //   &:hover:not(&.active) {
+        //     color: var(--green);
+        //     opacity: 0.7;
+        //   }
       }
     }
   }
   .nav-is-auth {
+    li {
+      padding: 0;
+    }
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -57,23 +74,25 @@ nav.main {
 
 .theme {
   width: 30px;
-  height: 22px;
+  height: 50px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   padding: 2px;
   position: relative;
-  z-index: 5;
   .toggle-icon {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     svg {
       font-size: 16px;
-      position: relative;
-      z-index: 15;
+
+      filter: drop-shadow(var(--forth-shadow));
+      &.moon {
+        fill: white;
+      }
       &.sun {
-        color: #fdb813;
+        color: var(--trending);
       }
     }
   }
@@ -121,11 +140,19 @@ nav.main {
   transform-origin: 0 0;
 }
 
-div.active {
-  height: 3px;
-  bottom: -20%;
-  left: 0;
-  background: var(--green);
+div.active-link {
+  height: 100%;
   width: 100%;
+  position: absolute;
+
+  z-index: 2;
+  background-color: white;
+  mix-blend-mode: difference;
   border-radius: 5px;
+}
+
+.user-profile {
+  width: 35px;
+  height: 35px;
+  display: block;
 }

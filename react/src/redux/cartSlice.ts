@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { cartInitialState } from "../interfaces/user.interface.js";
+import { Collection } from "@/types/general.js";
 
-const initialState: cartInitialState = {
+const initialState: { cart: Collection[] } = {
   cart: [],
 };
 
@@ -11,22 +11,19 @@ const cartSlice = createSlice({
   reducers: {
     addToCartRedux(state, action) {
       if (Array.isArray(action.payload)) {
-        state.cart = [...action.payload, ...state.cart];
+        state.cart = action.payload;
       } else {
         state.cart = [action.payload, ...state.cart];
       }
     },
 
     removeFromCartRedux(state, action) {
-      const arr = action.payload;
-      for (const el of arr) {
-        state.cart = state.cart.filter((obj) => obj.productId !== el);
-      }
+      state.cart = state.cart.filter((obj) => obj.id !== action.payload);
     },
 
     changeCartCountRedux(state, action) {
       state.cart = state.cart.map((obj) =>
-        action.payload.productId === obj.productId
+        action.payload.productId === obj.id
           ? { ...obj, count: action.payload.count }
           : obj
       );

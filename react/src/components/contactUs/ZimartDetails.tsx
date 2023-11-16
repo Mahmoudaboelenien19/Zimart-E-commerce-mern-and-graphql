@@ -44,7 +44,7 @@ const arr = [
   { Icon: MdPhone, content: "+201503636395" },
   { Icon: FaLocationDot, content: "Manssoura Egypt" },
 ];
-const ZimartDetails = () => {
+const ZimartDetails = ({ type }: { type?: string }) => {
   return (
     <>
       <div className="contact-us">
@@ -55,7 +55,11 @@ const ZimartDetails = () => {
           </div>
         ))}
       </div>
-      <div className="contact-h contact-txt">contact with us :</div>
+      {type === "footer" ? (
+        <br />
+      ) : (
+        <div className="contact-h contact-txt">contact with us :</div>
+      )}
       <div className="contact-icons">
         {iconsArr.map(({ Icon, id, title, link }) => {
           return (

@@ -1,26 +1,25 @@
+import { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import MobileCloseDropDown from "./MobileCloseDropDown";
-import useClickOutside from "@/custom/useClickOutside";
-import { ChildrenInterFace } from "@/interfaces/general";
+import useClickOutside from "@/custom/helpers/useClickOutside";
 import clsx from "clsx";
 import { dropdownVariant, opacityVariant } from "@/lib/variants/globals";
-import useIsMobile from "@/custom/useIsMobile";
-interface Props extends ChildrenInterFace {
+import useIsMobile from "@/custom/helpers/useIsMobile";
+type Props = {
   bool: boolean;
   className?: string;
   isUser?: boolean;
   addCloseIcon?: boolean;
   variant?: string;
-  height?: number;
+  children: ReactNode;
   setter: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const DropDown = ({
   variant,
   bool,
   className,
   setter,
-  height,
   addCloseIcon,
   children,
 }: Props) => {
@@ -28,11 +27,7 @@ const DropDown = ({
     setter(false);
   }, bool);
   const { isMobile } = useIsMobile();
-  const h: string | number = !height
-    ? "auto"
-    : isMobile && addCloseIcon
-    ? "100vh"
-    : height;
+
   return (
     <section ref={ref}>
       <AnimatePresence mode="wait">
@@ -47,7 +42,6 @@ const DropDown = ({
             initial="start"
             animate="end"
             exit={"exit"}
-            custom={h}
           >
             {addCloseIcon && isMobile && (
               <MobileCloseDropDown setter={setter} />

@@ -1,8 +1,16 @@
-export interface IdInterface {
+export type IdInterface = {
   id: string;
-}
+};
 
-export interface SkipAndLimit {
+export type SkipAndLimit = {
   skip: number;
   limit: number;
-}
+};
+
+export type ShopType = {
+  input: {
+    id: string;
+    userId: string;
+    target: string;
+  };
+};

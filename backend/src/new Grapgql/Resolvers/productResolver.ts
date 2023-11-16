@@ -5,8 +5,9 @@ import { pubsub } from "../context.js";
 import { userCollection } from "../../mongoose/schema/user.js";
 import { OrderCollection } from "../../mongoose/schema/order";
 import { productInterface } from "../interfaces/product";
+import { AddNotification } from "../../lib/AddNotification";
 
-interface filterAllInterface {
+type filterAllIType = {
   input: {
     state: string[];
     category: string[];
@@ -15,31 +16,42 @@ interface filterAllInterface {
     skip: number;
     limit: number;
   };
-}
-type Data = {
-  data: {
-    products: productInterface[];
-    totalCount: number;
-  }[];
 };
 
-interface reviewInterface {
+type ProductData = { count: number; products: productInterface[] };
+
+type SearchProduct = { word: string; skip: number; limit: number };
+type reviewType = {
   image: string;
   _id: string;
   user: string;
   userId: string;
-
   review: string;
   rate: number;
-}
+};
 
 export const productResolver = {
   Query: {
     async products(_: unknown, { limit, skip }: SkipAndLimit) {
-      //i run it in two queries as  count() is super fast so no need to use aggerate with facet as i use in AllFIlterType  && search
-      const totalProducts = await productCollection.count();
-      const products = await productCollection.find({}).skip(skip).limit(limit);
-      return { products, totalProducts };
+      const data = await productCollection.aggregate([
+        { $sort: { createdAt: -1 } },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            products: { $push: "$$ROOT" },
+          },
+        },
+        {
+          $project: {
+            products: { $slice: ["$products", skip, limit] },
+            count: 1,
+            _id: 0,
+          },
+        },
+      ]);
+      const { count, products } = data[0];
+      return { products, totalProducts: count };
     },
 
     async product(_: any, args: { id: string }) {
@@ -75,20 +87,32 @@ export const productResolver = {
         };
       }
     ) {
-      const count = await productCollection.find({}).count();
-      const { skip, limit, sortTarget, sortType } = args.input;
+      const { skip, limit = 12, sortTarget, sortType } = args.input;
       const sortOptions = {
         [sortTarget]: sortType,
       } as any;
-      const sortedProducts = await productCollection
-        .find({})
-        .sort(sortOptions)
-        .skip(skip)
-        .limit(limit);
+      const data = await productCollection.aggregate([
+        { $sort: sortOptions },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            products: { $push: "$$ROOT" },
+          },
+        },
+        {
+          $project: {
+            products: { $slice: ["$products", skip, limit] },
+            count: 1,
+            _id: 0,
+          },
+        },
+      ]);
 
+      const { count, products } = data[0];
       return {
         totalProducts: count,
-        products: sortedProducts,
+        products,
       };
     },
 
@@ -96,47 +120,40 @@ export const productResolver = {
       _: unknown,
       args: { input: { limit: number; skip: number; sortType: 1 | -1 } }
     ) {
-      const { skip, sortType, limit } = args.input;
-      const totalProducts = await productCollection.find({}).count();
-      const products = await productCollection.aggregate([
+      const { skip, sortType, limit = 12 } = args.input;
+      const data = await productCollection.aggregate([
         {
-          $project: {
-            _id: 1,
-            title: 1,
-            description: 1,
-            price: 1,
-            stock: 1,
-            category: 1,
-            state: 1,
-            images: 1,
-            rating: 1,
-            reviews: 1,
+          $addFields: {
             avgRate: { $avg: { $concatArrays: ["$rating", "$reviews.rate"] } },
           },
         },
         { $sort: { avgRate: sortType } },
-        { $skip: skip },
-        { $limit: limit },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            products: { $push: "$$ROOT" },
+          },
+        },
+        {
+          $project: {
+            products: { $slice: ["$products", skip, limit] },
+            count: 1,
+            _id: 0,
+          },
+        },
       ]);
 
-      return { products, totalProducts };
+      const { count, products } = data[0];
+      return { products, totalProducts: count };
     },
 
-    async filterAllTypes(_: unknown, args: filterAllInterface) {
+    async filterAllTypes(_: unknown, args: filterAllIType) {
       try {
-        const data = await productCollection.aggregate([
+        const { state, category, price, rate, skip, limit = 12 } = args.input;
+        const data: ProductData[] = await productCollection.aggregate([
           {
-            $project: {
-              _id: 1,
-              title: 1,
-              description: 1,
-              price: 1,
-              stock: 1,
-              category: 1,
-              state: 1,
-              images: 1,
-              rating: 1,
-              reviews: 1,
+            $addFields: {
               avgRate: {
                 $avg: { $concatArrays: ["$rating", "$reviews.rate"] } || 1,
               },
@@ -145,62 +162,78 @@ export const productResolver = {
 
           {
             $match: {
-              $or: [{ avgRate: { $lte: args.input.rate } }, { avgRate: null }],
-              price: { $lte: args.input.price },
-              category: { $in: args.input.category },
-              state: { $in: args.input.state },
+              $or: [{ avgRate: { $lte: rate } }, { avgRate: null }],
+              price: { $lte: price },
+              category: { $in: category },
+              state: { $in: state },
             },
           },
-
           {
-            $facet: {
-              totalCount: [{ $count: "count" }],
-              products: [
-                { $skip: args.input.skip },
-                { $limit: 12 },
-                { $group: { _id: null, products: { $push: "$$ROOT" } } },
-              ],
+            $sort: {
+              createdAt: -1,
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              count: { $sum: 1 },
+              products: { $push: "$$ROOT" },
+            },
+          },
+          {
+            $project: {
+              products: { $slice: ["$products", skip, limit] },
+              count: 1,
+              _id: 0,
             },
           },
         ]);
 
         return {
-          products: data[0].products[0].products || [],
-          totalProducts: data[0].totalCount[0].count || 0,
-        } as unknown as Data;
+          products: data[0]?.products,
+          totalProducts: data[0]?.count,
+        };
       } catch (err) {
         console.log((err as Error).message);
       }
     },
-    async searchProducts(
-      _: unknown,
-      args: { word: string; skip: number; limit: number }
-    ) {
+    async searchProducts(_: unknown, args: SearchProduct) {
+      const { word, skip, limit = 12 } = args;
+      console.log({ word, skip, limit });
       const data = await productCollection.aggregate([
         {
           $match: {
             $or: [
-              { category: { $regex: args.word, $options: "i" } },
-              { title: { $regex: args.word, $options: "i" } },
+              { category: { $regex: word, $options: "i" } },
+              { title: { $regex: word, $options: "i" } },
             ],
           },
         },
         {
-          $facet: {
-            totalCount: [{ $count: "count" }],
-            products: [
-              { $skip: args.skip },
-              { $limit: 12 },
-              { $group: { _id: null, products: { $push: "$$ROOT" } } },
-            ],
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            products: { $push: "$$ROOT" },
+          },
+        },
+
+        {
+          $project: {
+            _id: 0,
+            count: 1,
+            products: { $slice: ["$products", skip, limit] },
           },
         },
       ]);
-
+      console.log(data);
       return {
-        products: data[0]?.products[0]?.products || null,
-
-        totalProducts: data[0]?.totalCount[0]?.count || 0,
+        products: data[0]?.products,
+        totalProducts: data[0]?.count,
       };
     },
 
@@ -219,35 +252,13 @@ export const productResolver = {
       });
 
       const notificationObj = {
-        isRead: false,
         content: `${updatedProduct?.title
           .split(" ")
           .slice(0, 5)
           .join(" ")} is updated`,
-        createdAt: new Date().toISOString(),
-        link: `/${updatedProduct?._id}`,
+        link: `/product/${updatedProduct?._id}`,
       };
-      await userCollection.updateMany(
-        { role: { $in: ["admin", "moderator", "owner", "user"] } },
-        {
-          $push: {
-            notifications: notificationObj,
-          },
-          $inc: {
-            notificationsCount: +1,
-          },
-        }
-      );
-      const newNotification = await userCollection.findOne(
-        { role: { $in: ["admin", "moderator", "owner", "user"] } },
-        {
-          notifications: { $slice: [-1, 1] },
-        }
-      );
-      pubsub.publish("Notification_Created", {
-        NotificationAdded: newNotification?.notifications[0],
-      });
-
+      AddNotification(notificationObj);
       return { msg: "product updated successfully", status: 200 };
     },
     async addNewProduct(_: unknown, { input }: { input: any }) {
@@ -286,35 +297,13 @@ export const productResolver = {
             productAdded: newProduct,
           });
           const notificationObj = {
-            isRead: false,
             content: `${newProduct.title
               .split(" ")
               .slice(0, 5)
               .join(" ")}  is Added`,
-            createdAt: new Date().toISOString(),
             link: `/${newProduct._id}`,
           };
-          const notification = await userCollection.updateMany(
-            { role: { $in: ["admin", "moderator", "owner", "user"] } },
-            {
-              $push: {
-                notifications: notificationObj,
-              },
-              $inc: {
-                notificationsCount: +1,
-              },
-            }
-          );
-          const newNotification = await userCollection.findOne(
-            { role: { $in: ["admin", "moderator", "owner", "user"] } },
-            {
-              notifications: { $slice: [-1, 1] },
-            }
-          );
-          pubsub.publish("Notification_Created", {
-            NotificationAdded: newNotification?.notifications[0],
-          });
-
+          AddNotification(notificationObj);
           return {
             status: 200,
             msg: "your product is successfully added",
@@ -330,54 +319,21 @@ export const productResolver = {
 
     //reviews
 
-    async addReview(_: any, { input }: { input: reviewInterface }) {
+    async addReview(_: any, { input }: { input: reviewType }) {
       try {
-        const { userId, rate, review, image, user } = input;
-        const data = await productCollection.findByIdAndUpdate(
-          input._id,
-          {
-            $push: { reviews: { user, userId, rate, review, image } },
-          },
-          { new: true }
-        );
-
-        pubsub.publish("Product_Updated", {
-          productUpdated: data,
+        const { userId, rate, review, user } = input;
+        const data = await productCollection.findByIdAndUpdate(input._id, {
+          $push: { reviews: { userId, rate, review } },
         });
 
-        pubsub.publish("Single_Product_Updated", {
-          singleProductUpdate: data,
-        });
         const notificationObj = {
-          isRead: false,
           content: `${user} added a review on ${data?.title
             .split(" ")
             .slice(0, 5)
             .join(" ")}`,
-          createdAt: new Date().toISOString(),
-          link: `/${data?._id}`,
+          link: `/product/${data?._id}`,
         };
-        const notification = await userCollection.updateMany(
-          { role: { $in: ["admin", "moderator", "owner", "user"] } },
-          {
-            $push: {
-              notifications: notificationObj,
-            },
-            $inc: {
-              notificationsCount: +1,
-            },
-          }
-        );
-        const newNotification = await userCollection.findOne(
-          { role: { $in: ["admin", "moderator", "owner", "user"] } },
-          {
-            notifications: { $slice: [-1, 1] },
-          }
-        );
-        pubsub.publish("Notification_Created", {
-          NotificationAdded: newNotification?.notifications[0],
-        });
-
+        AddNotification(notificationObj);
         return { status: 200, msg: "review added successfully" };
       } catch (err) {
         return (err as Error).message;
@@ -385,27 +341,21 @@ export const productResolver = {
     },
     async updateReview(_: any, { input }: any) {
       try {
-        const { rate, review } = input;
-        const newReview = await productCollection.findOneAndUpdate(
+        const { rate, review, _id, userId } = input;
+        await productCollection.findOneAndUpdate(
           {
-            _id: input.productId,
-            "reviews.userId": input.userId,
+            _id,
+            "reviews.userId": userId,
           },
           {
             $set: {
               "reviews.$.rate": rate,
               "reviews.$.review": review,
             },
-          },
-          { new: true }
+          }
         );
-        pubsub.publish("Single_Product_Updated", {
-          singleProductUpdate: newReview,
-        });
-        pubsub.publish("Product_Updated", {
-          productUpdated: newReview,
-        });
-        return { msg: "review updated successfully" };
+
+        return { msg: "review updated successfully", status: 200 };
       } catch (err) {
         return (err as Error).message;
       }

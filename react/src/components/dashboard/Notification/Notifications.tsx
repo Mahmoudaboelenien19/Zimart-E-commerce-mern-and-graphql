@@ -1,30 +1,25 @@
 import { AnimatePresence } from "framer-motion";
-import { Fragment, useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useLayoutEffect, useRef } from "react";
 import { useScrollDirection } from "use-scroll-direction";
 import Notificatin from "./Notificatin";
 import NoData from "@/components/widgets/NoData";
-import { useAppSelector } from "@/custom/reduxTypes";
-import useParams from "@/custom/useParams";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import useParams from "@/custom/helpers/useParams";
 import FetchLoading from "@/components/widgets/loaders/FetchLoading";
+import useGetNotifications from "./useGetNotifications";
 
-type Props = {
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  loading: boolean;
-  isMore: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const Notifications = ({ isMore, setPage, loading, setLoading }: Props) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+const Notifications = () => {
+  const { isMore, loading, setPage, setLoading } = useGetNotifications();
+  const ref = useRef<HTMLDivElement>(null);
   const { isScrolling } = useScrollDirection({ ref });
-  const { isScrolling: windowScrolling } = useScrollDirection();
   const { notificatins } = useAppSelector((st) => st.notification);
   const { getParam } = useParams();
 
   const not_type = getParam("not_type") || "all";
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ref?.current) {
+      setPage(1);
       ref.current.scrollTo(0, 0);
     }
   }, [not_type]);
@@ -57,7 +52,7 @@ const Notifications = ({ isMore, setPage, loading, setLoading }: Props) => {
                 >
                   <Notificatin
                     {...notificatin}
-                    isScrolling={isScrolling || windowScrolling || false}
+                    isScrolling={isScrolling || false}
                   />
                 </span>
               );

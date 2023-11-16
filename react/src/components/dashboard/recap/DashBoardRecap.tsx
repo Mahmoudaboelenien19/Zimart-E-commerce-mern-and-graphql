@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { useInView } from "framer-motion";
 import CountUpAnimation from "@/components/widgets/animation/CountUpAnimation";
 import InViewAnimation from "@/components/widgets/animation/InViewAnimation";
-import useParams from "@/custom/useParams";
-const COLORS = ["#0088FE99", "#00C49F99", "#FFBB2899", "#FF804299"];
+import useParams from "@/custom/helpers/useParams";
 
 interface Props {
   head: string;
@@ -13,7 +12,7 @@ interface Props {
   analytics: string;
   to: string;
   link: string;
-  i: number;
+  clr: string;
   Icon: React.ComponentType;
 }
 const DashBoardRecap = ({
@@ -23,7 +22,7 @@ const DashBoardRecap = ({
   analytics,
   to,
   link,
-  i,
+  clr,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
@@ -31,7 +30,7 @@ const DashBoardRecap = ({
 
   return (
     <InViewAnimation
-      style={{ borderBottom: `2px solid ${COLORS[i]}` }}
+      style={{ borderBottom: `2px solid ${clr}` }}
       className={"recap"}
     >
       <div className=" center between" ref={ref}>
@@ -57,7 +56,7 @@ const DashBoardRecap = ({
       <div className="links-recap center between">
         <Link
           to={to + `${showDashBoaedAside ? "?showDashBoaedAside=true" : ""}`}
-          style={{ color: `${[COLORS[i]]}` }}
+          style={{ color: `${clr}` }}
         >
           {" "}
           {link}

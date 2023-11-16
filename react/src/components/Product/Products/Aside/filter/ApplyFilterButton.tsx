@@ -1,11 +1,11 @@
 import MainBtn from "@/components/widgets/buttons/MainBtn";
-import { useContext } from "react";
 import { MdFilterListAlt } from "react-icons/md";
-import { asideContext } from "../../Products";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
+
+import useApplyFilters from "@/custom/product/useApplyFilters";
 
 const ApplyFilterButton = () => {
-  const { loading, handleClickFIlter } = useContext(asideContext);
+  const { loading, handleClickFIlter } = useApplyFilters();
   const { getParam } = useParams();
   const catFilter = getParam("catFilter");
   return (

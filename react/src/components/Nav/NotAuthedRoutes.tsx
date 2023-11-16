@@ -1,9 +1,8 @@
-import { isAuthContext } from "@/context/isAuth";
-import { useContext } from "react";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const NotAuthedRoutes = () => {
-  const { isAuth } = useContext(isAuthContext);
+  const { isAuth } = useAppSelector((st) => st.isAuth);
 
-  return <>{isAuth ? <Navigate to="/" /> : <Outlet />}</>;
+  return <>{isAuth ? <Navigate to="/" replace /> : <Outlet />}</>;
 };

@@ -3,14 +3,13 @@
 .cart-cont {
   width: 100%;
   margin: 0 auto;
-  // padding: 8px;
-  padding-top: 70px;
+  padding: 20px 0;
+  gap: 15px;
   .carts-par {
-    width: 65%;
+    width: calc(70% - 15px);
     gap: 4px;
     align-self: flex-start;
-    min-height: calc(100vh - 70px);
-    // min-height: 50vh;
+    min-height: calc(100vh - 200px);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -21,26 +20,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-
-      .cart-detail {
-        display: inline-block;
-        font-weight: bold;
-        letter-spacing: 1px;
-        color: var(--green);
-        text-transform: capitalize;
-        width: 80px;
-        margin-right: 4px;
-        text-align: end;
-      }
-      .cart-value {
-        display: inline-flex;
-        letter-spacing: 0.7;
-        color: var(--wheat);
-        width: 60%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
     }
     .cart-details {
       width: fit-content;
@@ -52,59 +31,83 @@
     }
     .cart-item {
       width: 100%;
-      height: 165px;
+      height: 200px;
       padding: 5px;
-      background: var(--main);
+      background: var(--secondary);
       box-shadow: var(--secondary-shadow);
       position: relative;
       display: flex;
       justify-content: flex-start;
-
-      .buy {
-        background: var(--wheat-lighter);
+      &:hover {
+        img {
+          transform: scale(1.1);
+        }
       }
     }
   }
 }
 .totel-price {
-  padding: 25px 10px;
+  position: sticky;
+  top: 80px;
+  padding: 25px 2.5rem;
+
   background: var(--sale);
   width: 30%;
   align-self: flex-start;
   border-start-end-radius: 5px;
-  color: var(--main);
-  letter-spacing: 0.8px;
-  .title-par {
-    width: 100% !important;
+  color: var(--white);
+  gap: 10px;
+  .details {
+    font-size: min(20px, 1.5rem);
+  }
 
-    .btn-buy {
-      margin: 0 auto;
-      margin-top: 10px;
-      width: 40% !important;
+  h2 {
+    color: var(--white);
+    white-space: nowrap;
+    padding: 10px;
+  }
+  .details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .detail {
+      color: var(--white);
+      font-family: cursive;
+    }
+    .value {
+      width: 50px;
+      margin-right: 10px;
+      display: flex;
+      justify-content: flex-start;
     }
   }
+
   > * {
     font-weight: bold;
   }
   .total-cost {
+    font-family: cursive;
     text-transform: capitalize;
-    font-size: 1.2rem;
-    margin-top: 5px;
-    color: white;
-    margin-bottom: -14px;
+    font-size: min(2.2rem, 20px);
+    width: 120px;
+    display: flex;
+    margin-top: 15px;
+    justify-content: space-between;
   }
 }
 
 .offer-cart {
   width: 100%;
-  gap: 3px;
+  gap: 6px;
   .head {
-    background: var(--wheat-light);
+    background: var(--wheat-lighter);
     border-radius: 4px;
     padding: 6px 8px;
     width: 100%;
-    align-self: flex-start;
+    margin: 0 auto;
     box-shadow: var(--forth-shadow);
+    color: black;
+    font-weight: 600;
     &:nth-child(2) {
       margin-bottom: 10px;
     }
@@ -130,7 +133,6 @@
     color: var(--star);
     text-transform: capitalize;
     font-size: 0.75rem;
-    // transform: scale(0.75);
   }
   .free-line {
     display: block;
@@ -142,13 +144,6 @@
     transform: rotate(-30deg);
     transform-origin: 100% 0;
   }
-}
-
-.order-val {
-  display: inline-block;
-  width: 100px;
-  height: 20px;
-  text-align: end;
 }
 
 .cart-btns {
@@ -176,9 +171,13 @@
   height: 100%;
   padding: 10px;
   display: flex !important;
-  justify-content: center !important;
+  justify-content: center;
+
+  overflow: hidden;
 
   img {
+    transition: 00.3s !important;
+    // transform: rotate(15deg);
     height: 80%;
     object-fit: contain;
   }
@@ -189,7 +188,7 @@
     width: 35%;
     height: 100%;
     img {
-      height: 60%;
+      height: 50%;
       object-fit: contain;
     }
   }
@@ -201,9 +200,6 @@
       width: 70%;
     }
 
-    h3.head {
-      width: 100%;
-    }
     .cart-data {
       flex-direction: column;
       gap: 20px;
@@ -214,8 +210,6 @@
     }
     .totel-price {
       position: initial;
-      top: initial;
-      right: initial;
       width: 100%;
       font-size: 1.2rem;
       padding: 25px;
@@ -225,11 +219,6 @@
 
 .checkout {
   background: #000;
-}
-
-.btn-buy {
-  background-color: #595959 !important;
-  color: var(--white) !important;
 }
 
 .cart-nodata {

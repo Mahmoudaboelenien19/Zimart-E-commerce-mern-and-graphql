@@ -1,6 +1,8 @@
+import { Collection } from "@/types/general";
 import { createSlice } from "@reduxjs/toolkit";
-import { favInitialState } from "../interfaces/user.interface.js";
-
+type favInitialState = {
+  fav: Collection[];
+};
 const initialState: favInitialState = {
   fav: [],
 };
@@ -11,17 +13,14 @@ const favSlice = createSlice({
   reducers: {
     addToFavRedux(state, action) {
       if (Array.isArray(action.payload)) {
-        state.fav = [...action.payload, ...state.fav];
+        state.fav = action.payload;
       } else {
         state.fav = [action.payload, ...state.fav];
       }
     },
 
     removeFromFavRedux(state, action) {
-      const arr = action.payload;
-      for (const el of arr) {
-        state.fav = state.fav.filter((obj) => obj.productId !== el);
-      }
+      state.fav = state.fav.filter((ob) => ob.id !== action.payload);
     },
     clearAllFav(state) {
       state.fav = [];

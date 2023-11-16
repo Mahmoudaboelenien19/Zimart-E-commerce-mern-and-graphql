@@ -1,31 +1,36 @@
 import InpErr from "@/components/widgets/shared/forms/InpErr";
 import Select from "@/components/widgets/shared/select/Select";
-import { isAuthContext } from "@/context/isAuth";
-import { useContext, useEffect, useState } from "react";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 type Props = {
   defaultValue?: string;
   name: string;
+  isPromiseSucess: boolean;
 };
-const DashboardSelect = ({ name, defaultValue }: Props) => {
+const DashboardSelect = ({ isPromiseSucess, name, defaultValue }: Props) => {
   const [value, setter] = useState<string>("");
-  const { isAdmin } = useContext(isAuthContext);
   const {
     register,
     setValue,
-    formState: { errors, submitCount, isValid, isDirty },
+    formState: { errors },
   } = useFormContext();
 
+  const initialRender = useRef(true);
   useEffect(() => {
-    if (!submitCount) {
+    if (initialRender.current) {
       setValue(name, defaultValue);
       setter(defaultValue || "");
+      initialRender.current = false;
     }
-    if (isValid && isAdmin && isDirty) {
+  }, []);
+
+  useEffect(() => {
+    if (isPromiseSucess) {
       setter("");
     }
-  }, [submitCount]);
+  }, [isPromiseSucess]);
 
   useEffect(() => {
     if (value) {

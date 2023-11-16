@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Title from "../Title";
-import useParams from "@/custom/useParams";
+import useParams from "@/custom/helpers/useParams";
 import { opacityVariant } from "@/lib/variants/globals";
-import useIsMobile from "@/custom/useIsMobile";
+import useIsMobile from "@/custom/helpers/useIsMobile";
 interface Props {
   target?: string;
   bool?: boolean;

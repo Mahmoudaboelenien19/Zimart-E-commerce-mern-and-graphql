@@ -5,16 +5,13 @@ import {
   changeNotificationCount,
 } from "@/redux/notificationsSlice";
 import { useSubscription, OnDataOptions } from "@apollo/client";
-import { useAppDispatch, useAppSelector } from "../reduxTypes";
+import { useAppDispatch, useAppSelector } from "../helpers/reduxTypes";
 
 const useNotificationsSubscription = () => {
   const dispatch = useAppDispatch();
   const { count } = useAppSelector((st) => st.notification);
   useSubscription(New_Notification_Subscription, {
-    onData: (
-      data: OnDataOptions<{ NotificationAdded: notificationInterface }>
-    ) => {
-      dispatch(addToNotificatinsRedux(data?.data?.data?.NotificationAdded));
+    onData: () => {
       dispatch(changeNotificationCount(count + 1));
     },
   });

@@ -1,53 +1,74 @@
 import "./blogs.scss";
-import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useLazyQuery } from "@apollo/client";
+import {
+  unstable_useViewTransitionState,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import BlogParagraph from "./BlogParagraph";
 import SuggestedBlogs from "./SuggestedBlogs";
 import { motion } from "framer-motion";
 import { getSingleBlog } from "@/graphql/blog";
-import { BlogPragraph } from "@/interfaces/blog";
-import useModifyUrl from "@/custom/useModifyUrl";
+import { BlogPragraph } from "@/types/blog";
 import FadeElement from "../widgets/animation/FadeElement";
-import useTitle from "@/custom/useTitle";
-import Container from "../widgets/shared/Container";
-import Transition from "../widgets/animation/transition/Transition";
+import useTitle from "@/custom/helpers/useTitle";
+import useModifyUrl from "@/custom/helpers/useModifyUrl";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
+import { useEffect } from "react";
+import useInnitialRender from "@/custom/helpers/useInnitialRender";
 export const Component = () => {
   const { id } = useParams();
-  const { data, loading } = useQuery(getSingleBlog, {
+  const { blogs } = useAppSelector((st) => st.blogs);
+  const [fn, { data }] = useLazyQuery(getSingleBlog, {
     variables: { id },
   });
+  const index = blogs.findIndex((blog) => id === blog._id);
 
-  useTitle(data?.blog.head, loading);
-  if (data?.blog) {
-    const { head, intro, end, image, content } = data.blog;
-    const { getlink } = useModifyUrl();
-    return (
-      <Container className={"blog main-txt"}>
-        <Transition />
-        <div className="blog-details">
-          <h2>{head}</h2>
-          <motion.div className="blog-img">
-            <LazyLoadImage
-              effect="blur"
-              wrapperClassName="w-100 h-100"
-              src={getlink(image, 1000)}
-              alt={head}
-            />
-          </motion.div>
-          <FadeElement delay={0.3}>
-            <p>{intro}</p>
-            {content.map((obj: BlogPragraph, i: number) => {
-              return <BlogParagraph key={i} i={i} {...obj} />;
-            })}
-          </FadeElement>
+  useEffect(() => {
+    if (index === -1) {
+      fn();
+    }
+  }, [id]);
+  const { head, intro, end, image, content } = blogs[index] || data?.blog || {};
+  useTitle(head, head);
+  const { getlink } = useModifyUrl();
+  const { pathname, state } = useLocation();
+  const vt = unstable_useViewTransitionState(pathname);
+  const { isInitialRender } = useInnitialRender(200, false);
+  return (
+    <div className={"blog main-txt"}>
+      {head && (
+        <>
+          <div className="blog-details">
+            <h2>{head}</h2>
+            <motion.div className="blog-img ">
+              <picture
+                className="w-100 h-100 "
+                style={{
+                  viewTransitionName: vt ? `blog-${id}` : "",
+                  contain: "layout",
+                }}
+              >
+                <img src={getlink(image, 600)} alt={head} />
+              </picture>
+            </motion.div>
+            <FadeElement delay={0.3}>
+              <p>{intro}</p>
+              {content.map((obj: BlogPragraph, i: number) => {
+                return <BlogParagraph key={i} i={i} {...obj} />;
+              })}
+            </FadeElement>
 
-          <p>{end}</p>
-        </div>
-        <SuggestedBlogs id={id || ""} />
-      </Container>
-    );
-  } else {
-    return <> no data</>;
-  }
+            <p>{end}</p>
+          </div>
+          {/* this check case i need to delay suggestedblogs component if i came from blogs
+          but i click on suggested blog i need no delay
+          */}
+          {(isInitialRender || state?.showWithoutdelay) && (
+            <SuggestedBlogs id={id || ""} />
+          )}
+        </>
+      )}
+    </div>
+  );
 };

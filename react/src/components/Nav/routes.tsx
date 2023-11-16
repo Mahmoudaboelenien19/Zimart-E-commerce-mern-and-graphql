@@ -1,17 +1,31 @@
 import {
-  createBrowserRouter,
-  RouterProvider,
   RouteObject,
+  RouterProvider,
+  createBrowserRouter,
 } from "react-router-dom";
-import Loading from "@/loading/Loading";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Layout from "@/components/Layout";
 import { NotAuthedRoutes } from "./NotAuthedRoutes";
 import DashboardLayout from "../dashboard/dashboardLayout";
 import NotFound from "../NotFound/NotFound";
-import { AnimatePresence } from "framer-motion";
 
-const AppRoutes = () => {
+import { Component as Product } from "@/components/product Route/Product";
+import { Home } from "@/components/Home/Home";
+import { Login } from "../login/login";
+import { Payment } from "../payment/Payment";
+
+import React from "react";
+import Loading from "@/loading/Loading";
+
+export const AppRoutes = () => {
+  /*   note 
+ home and login mustn't be lazyloaded as it doesn't work
+            i need to redirect to Home if user is auth and tries to go diectly to login or sign up
+            and if he isn't auth and tries to go to any of protected routes  i redirect him to login
+            if home and login pages are lazy loaded  this logic not work in react router dom v6.18.0
+            but it was working on v 6.10.0 
+            */
+
   const dashBoardRoutes = {
     path: "",
     element: <ProtectedRoutes />,
@@ -22,45 +36,38 @@ const AppRoutes = () => {
         children: [
           {
             path: "",
-            lazy: () => import("@/components/dashboard/Dashboard"),
-            children: [
-              {
-                path: "",
-                lazy: () => import("@/components/dashboard/recap/Recap"),
-              },
-              {
-                path: "users",
-                lazy: () =>
-                  import("@/components/dashboard/User/UsersDashboard"),
-              },
-              {
-                path: "products",
-                lazy: () =>
-                  import("@/components/dashboard/dash-products/DashProducts"),
-              },
+            // lazy: () => import("@/components/dashboard/Dashboard"),
+            lazy: () => import("@/components/dashboard/recap/Recap"),
 
-              {
-                path: "products/add",
-                lazy: () =>
-                  import("@/components/dashboard/form/DashAddProduct"),
-              },
-              {
-                path: "orders",
-                lazy: () => import("@/components/dashboard/Order/Orders"),
-              },
-              {
-                path: "orders/:id",
-                lazy: () =>
-                  import(
-                    "@/components/dashboard/Order/OrderDetails/OrderDetails"
-                  ),
-              },
-              {
-                path: "products/:id",
-                lazy: () =>
-                  import("@/components/dashboard/form/DashUpdateProduct"),
-              },
-            ],
+            // {
+            //   path: "",
+          },
+          {
+            path: "users",
+            lazy: () => import("@/components/dashboard/User/UsersDashboard"),
+          },
+          {
+            path: "products",
+            lazy: () =>
+              import("@/components/dashboard/dash-products/DashProducts"),
+          },
+
+          {
+            path: "products/add",
+            lazy: () => import("@/components/dashboard/form/DashAddProduct"),
+          },
+          {
+            path: "orders",
+            lazy: () => import("@/components/dashboard/Order/Orders"),
+          },
+          {
+            path: "orders/:id",
+            lazy: () =>
+              import("@/components/dashboard/Order/OrderDetails/OrderDetails"),
+          },
+          {
+            path: "products/:id",
+            lazy: () => import("@/components/dashboard/form/DashUpdateProduct"),
           },
         ],
       },
@@ -77,7 +84,7 @@ const AppRoutes = () => {
           children: [
             {
               index: true,
-              lazy: () => import("@/components/Home/Home"),
+              element: <Home />,
               path: "",
             },
             {
@@ -87,7 +94,7 @@ const AppRoutes = () => {
               children: [
                 {
                   path: "login",
-                  lazy: () => import("@/components/login/login"),
+                  element: <Login />,
                 },
                 {
                   path: "signup",
@@ -114,7 +121,7 @@ const AppRoutes = () => {
                 },
                 {
                   path: "payment",
-                  lazy: () => import("../payment/Payment"),
+                  element: <Payment />,
                 },
               ],
             },
@@ -137,7 +144,7 @@ const AppRoutes = () => {
               lazy: () => import("@/components/blogs/Blog"),
             },
             {
-              lazy: () => import("@/components/product Route/Product"),
+              element: <Product />,
               path: "/product/:id",
             },
           ],
@@ -148,14 +155,7 @@ const AppRoutes = () => {
       ],
     },
   ];
-
   const router = createBrowserRouter(routes);
 
-  return (
-    <AnimatePresence mode="wait">
-      <RouterProvider router={router} fallbackElement={<Loading />} />
-    </AnimatePresence>
-  );
+  return <RouterProvider router={router} fallbackElement={<Loading />} />;
 };
-
-export default AppRoutes;

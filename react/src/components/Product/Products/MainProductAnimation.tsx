@@ -5,8 +5,9 @@ import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
 import "swiper/css/effect-coverflow";
 import { imgArr } from "@/assets/arries/arries";
-import useModifyUrl from "@/custom/useModifyUrl";
+
 import InViewAnimation from "@/components/widgets/animation/InViewAnimation";
+import useModifyUrl from "@/custom/helpers/useModifyUrl";
 
 const MainProductAnimation = () => {
   const options: RefAttributes<SwiperRef> & SwiperProps = {

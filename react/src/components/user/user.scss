@@ -6,7 +6,7 @@
   width: 100vw;
   height: 100vh;
   &.container {
-    padding-top: 60px;
+    padding-top: 80px;
   }
 
   .user-image {
@@ -16,11 +16,14 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background: var(--green-light);
     flex-direction: column;
     gap: 10px;
+    .img {
+      width: 200px;
+      height: 200px;
+    }
     .user-img-btn {
-      background: linear-gradient(210deg, var(--wheat), rgba(0, 0, 0, 0.303));
+      background: linear-gradient(210deg, var(--green), rgba(0, 0, 0, 0.303));
     }
   }
 
@@ -28,7 +31,7 @@
     width: 70%;
     height: 100%;
     padding: 20px;
-    background: var(--wheat-lighter);
+    border-left: solid rgba(128, 128, 128, 0.3) 1.5px;
 
     .user-detail-par {
       height: 50px;
@@ -40,7 +43,6 @@
         p {
           font-size: min(16px, 1.5rem);
           opacity: 0.9;
-          color: rgba(0, 0, 0, 0.693);
         }
         .detail {
           width: 10ch;

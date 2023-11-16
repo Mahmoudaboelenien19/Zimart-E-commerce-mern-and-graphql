@@ -227,6 +227,7 @@ export const Single_Updated_Product_Subscription = gql`
         user
         review
         rate
+        userId
         _id
       }
       _id

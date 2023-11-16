@@ -1,21 +1,20 @@
-import { useContext } from "react";
 import ProductRate from "../product Route/ProductRate";
 import StyledPrice from "../widgets/StyledPrice";
 import MainBtn from "../widgets/buttons/MainBtn";
 import { FiMinusSquare } from "react-icons/fi";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Title from "../widgets/Title";
-import { isAuthContext } from "@/context/isAuth";
-import useAvg from "@/custom/useAvg";
-import useRemoveFromCompareList from "@/custom/useRemoveFromCompareList";
+import useAvg from "@/custom/helpers/useAvg";
 import { GET_Product_By_Id } from "@/graphql/general";
 import { useQuery } from "@apollo/client";
 import FadeElement from "../widgets/animation/FadeElement";
 import { AnimatePresence } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import useModifyUrl from "@/custom/useModifyUrl";
+import useModifyUrl from "@/custom/helpers/useModifyUrl";
+
 import FetchLoading from "../widgets/loaders/FetchLoading";
 import { Link } from "react-router-dom";
+import useRemoveFromCompare from "@/custom/shopping/useRemoveFromCompare";
 
 interface Props {
   setProduct: React.Dispatch<React.SetStateAction<string>>;
@@ -27,15 +26,11 @@ const SelectedProductData = ({ id, setProduct }: Props) => {
     variables: { id },
   });
 
-  const { userId } = useContext(isAuthContext);
   const { avgRate, reviewLength } = useAvg(
     data?.product?.rating,
     data?.product?.reviews
   );
-  const { handleRemoveFromCompare } = useRemoveFromCompareList({
-    userId,
-    productId: data?._id,
-  });
+  const { removeFromCompare } = useRemoveFromCompare(id);
 
   if (data?.product?.title) {
     const { images, rating, reviews, title, description, price, _id } =
@@ -68,7 +63,7 @@ const SelectedProductData = ({ id, setProduct }: Props) => {
         <p style={{ color: "var(--third)" }}> {description}</p>
         <MainBtn
           onClick={() => {
-            handleRemoveFromCompare();
+            removeFromCompare();
             setProduct("");
           }}
           btn="remove from select list"

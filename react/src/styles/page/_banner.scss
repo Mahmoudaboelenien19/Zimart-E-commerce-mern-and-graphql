@@ -1,60 +1,57 @@
 @import "../variables.scss";
 
 .banner-par {
+  scrollbar-gutter: stable two-edges;
+  position: relative;
+
   &:before {
     content: "";
     position: absolute;
+    background: linear-gradient(
+      to bottom,
+      var(--main) 20%,
+      var(--secondary),
+      rgba(114, 87, 38, 0.3)
+    );
     z-index: -1;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(-210deg, rgba(245, 222, 179, 0.3), var(--main));
   }
   &.swiper {
     position: static;
   }
 
   .banner {
-    width: 96%;
-    height: 90vh;
+    width: 100%;
+    height: calc(100vh - 50px);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1250px;
+    padding: 0 20px;
     .banner-image {
       display: flex;
       width: 40%;
       height: 95%;
-      align-self: flex-start;
 
-      // position: absolute;
-      // top: 40%;
-      // left: -20%;
-      width: 110%;
-      height: 90%;
       z-index: -1;
       overflow: hidden;
-      align-items: flex-start;
-      &:before {
-        content: "";
-        border-radius: 50px;
-        transform: rotate(5deg);
-        background-color: green;
-        position: absolute;
-        bottom: 3%;
-        left: 5%;
-        width: 90%;
-        height: 60%;
-        border-radius: 50px;
-        z-index: -1;
-      }
+      align-self: center;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      display: flex !important;
+      justify-content: flex-end;
+      align-items: flex-end;
+
       img {
         height: fit-content;
-        width: 100%;
+        width: 90%;
         object-fit: contain;
-        align-self: flex-start;
+        align-self: center;
       }
     }
   }
@@ -107,24 +104,25 @@
 @media (max-width: 499px) {
   .banner-par {
     .banner {
-      gap: 1vh;
+      gap: 4vh;
       max-width: initial;
       flex-direction: column;
       justify-content: center;
       margin-top: 1.25rem;
+      padding: 0;
 
       .banner-image {
         position: relative;
         width: 100%;
-        height: 55vh;
+        height: 50vh;
         justify-content: center !important;
         align-items: flex-end !important;
 
         img {
-          object-fit: cover;
-          object-position: top;
+          // object-fit: cover;
+          // object-position: top;
           height: 100%;
-          width: 80vw !important;
+          width: 70vw;
         }
       }
       .banner-content {
@@ -133,7 +131,7 @@
         margin: 0 auto;
         padding: 0;
         margin: 0;
-        h1 {
+        h2 {
           font-size: 9vw;
           letter-spacing: 0.3vw;
           line-height: 9vw;
@@ -186,10 +184,10 @@
   &.next-slide {
     right: 0;
 
-    width: calc(20px + 4px); //add scroll width
+    width: 20px;
     border-radius: 20px 0 0 20px;
     &:hover {
-      width: calc(25px + 4px); //add scroll width
+      width: 25px;
     }
   }
   &.prev-slide {
@@ -198,21 +196,21 @@
   }
 }
 
-.shape {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0%;
-    right: 0;
-    background-position: 0%;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    background-image: url("@/assets/Images/shape.png");
-    transform: scale(0.6);
-  }
-}
+// .shape {
+//   width: 50%;
+//   height: 100%;
+//   display: flex;
+//   justify-content: flex-end;
+//   &:before {
+//     content: "";
+//     position: absolute;
+//     top: 0%;
+//     right: 0;
+//     background-position: 0%;
+//     background-size: cover;
+//     height: 100%;
+//     width: 100%;
+//     background-image: url("@/assets/Images/shape.png");
+//     transform: scale(0.6);
+//   }
+// }

@@ -18,14 +18,30 @@ const product_js_1 = __importDefault(require("../../mongoose/schema/product.js")
 const context_js_1 = require("../context.js");
 const user_js_1 = require("../../mongoose/schema/user.js");
 const order_1 = require("../../mongoose/schema/order");
+const AddNotification_1 = require("../../lib/AddNotification");
 exports.productResolver = {
     Query: {
         products(_, { limit, skip }) {
             return __awaiter(this, void 0, void 0, function* () {
-                //i run it in two queries as  count() is super fast so no need to use aggerate with facet as i use in AllFIlterType  && search
-                const totalProducts = yield product_js_1.default.count();
-                const products = yield product_js_1.default.find({}).skip(skip).limit(limit);
-                return { products, totalProducts };
+                const data = yield product_js_1.default.aggregate([
+                    { $sort: { createdAt: -1 } },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            products: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            products: { $slice: ["$products", skip, limit] },
+                            count: 1,
+                            _id: 0,
+                        },
+                    },
+                ]);
+                const { count, products } = data[0];
+                return { products, totalProducts: count };
             });
         },
         product(_, args) {
@@ -54,65 +70,71 @@ exports.productResolver = {
     Mutation: {
         SortProducts(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                const count = yield product_js_1.default.find({}).count();
-                const { skip, limit, sortTarget, sortType } = args.input;
+                const { skip, limit = 12, sortTarget, sortType } = args.input;
                 const sortOptions = {
                     [sortTarget]: sortType,
                 };
-                const sortedProducts = yield product_js_1.default
-                    .find({})
-                    .sort(sortOptions)
-                    .skip(skip)
-                    .limit(limit);
+                const data = yield product_js_1.default.aggregate([
+                    { $sort: sortOptions },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            products: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            products: { $slice: ["$products", skip, limit] },
+                            count: 1,
+                            _id: 0,
+                        },
+                    },
+                ]);
+                const { count, products } = data[0];
                 return {
                     totalProducts: count,
-                    products: sortedProducts,
+                    products,
                 };
             });
         },
         SortByRate(_, args) {
             return __awaiter(this, void 0, void 0, function* () {
-                const { skip, sortType, limit } = args.input;
-                const totalProducts = yield product_js_1.default.find({}).count();
-                const products = yield product_js_1.default.aggregate([
+                const { skip, sortType, limit = 12 } = args.input;
+                const data = yield product_js_1.default.aggregate([
                     {
-                        $project: {
-                            _id: 1,
-                            title: 1,
-                            description: 1,
-                            price: 1,
-                            stock: 1,
-                            category: 1,
-                            state: 1,
-                            images: 1,
-                            rating: 1,
-                            reviews: 1,
+                        $addFields: {
                             avgRate: { $avg: { $concatArrays: ["$rating", "$reviews.rate"] } },
                         },
                     },
                     { $sort: { avgRate: sortType } },
-                    { $skip: skip },
-                    { $limit: limit },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            products: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            products: { $slice: ["$products", skip, limit] },
+                            count: 1,
+                            _id: 0,
+                        },
+                    },
                 ]);
-                return { products, totalProducts };
+                const { count, products } = data[0];
+                return { products, totalProducts: count };
             });
         },
         filterAllTypes(_, args) {
+            var _a, _b;
             return __awaiter(this, void 0, void 0, function* () {
                 try {
+                    const { state, category, price, rate, skip, limit = 12 } = args.input;
                     const data = yield product_js_1.default.aggregate([
                         {
-                            $project: {
-                                _id: 1,
-                                title: 1,
-                                description: 1,
-                                price: 1,
-                                stock: 1,
-                                category: 1,
-                                state: 1,
-                                images: 1,
-                                rating: 1,
-                                reviews: 1,
+                            $addFields: {
                                 avgRate: {
                                     $avg: { $concatArrays: ["$rating", "$reviews.rate"] } || 1,
                                 },
@@ -120,26 +142,35 @@ exports.productResolver = {
                         },
                         {
                             $match: {
-                                $or: [{ avgRate: { $lte: args.input.rate } }, { avgRate: null }],
-                                price: { $lte: args.input.price },
-                                category: { $in: args.input.category },
-                                state: { $in: args.input.state },
+                                $or: [{ avgRate: { $lte: rate } }, { avgRate: null }],
+                                price: { $lte: price },
+                                category: { $in: category },
+                                state: { $in: state },
                             },
                         },
                         {
-                            $facet: {
-                                totalCount: [{ $count: "count" }],
-                                products: [
-                                    { $skip: args.input.skip },
-                                    { $limit: 12 },
-                                    { $group: { _id: null, products: { $push: "$$ROOT" } } },
-                                ],
+                            $sort: {
+                                createdAt: -1,
+                            },
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                count: { $sum: 1 },
+                                products: { $push: "$$ROOT" },
+                            },
+                        },
+                        {
+                            $project: {
+                                products: { $slice: ["$products", skip, limit] },
+                                count: 1,
+                                _id: 0,
                             },
                         },
                     ]);
                     return {
-                        products: data[0].products[0].products || [],
-                        totalProducts: data[0].totalCount[0].count || 0,
+                        products: (_a = data[0]) === null || _a === void 0 ? void 0 : _a.products,
+                        totalProducts: (_b = data[0]) === null || _b === void 0 ? void 0 : _b.count,
                     };
                 }
                 catch (err) {
@@ -148,31 +179,43 @@ exports.productResolver = {
             });
         },
         searchProducts(_, args) {
-            var _a, _b, _c, _d;
+            var _a, _b;
             return __awaiter(this, void 0, void 0, function* () {
+                const { word, skip, limit = 12 } = args;
+                console.log({ word, skip, limit });
                 const data = yield product_js_1.default.aggregate([
                     {
                         $match: {
                             $or: [
-                                { category: { $regex: args.word, $options: "i" } },
-                                { title: { $regex: args.word, $options: "i" } },
+                                { category: { $regex: word, $options: "i" } },
+                                { title: { $regex: word, $options: "i" } },
                             ],
                         },
                     },
                     {
-                        $facet: {
-                            totalCount: [{ $count: "count" }],
-                            products: [
-                                { $skip: args.skip },
-                                { $limit: 12 },
-                                { $group: { _id: null, products: { $push: "$$ROOT" } } },
-                            ],
+                        $sort: {
+                            createdAt: -1,
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            count: { $sum: 1 },
+                            products: { $push: "$$ROOT" },
+                        },
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            count: 1,
+                            products: { $slice: ["$products", skip, limit] },
                         },
                     },
                 ]);
+                console.log(data);
                 return {
-                    products: ((_b = (_a = data[0]) === null || _a === void 0 ? void 0 : _a.products[0]) === null || _b === void 0 ? void 0 : _b.products) || null,
-                    totalProducts: ((_d = (_c = data[0]) === null || _c === void 0 ? void 0 : _c.totalCount[0]) === null || _d === void 0 ? void 0 : _d.count) || 0,
+                    products: (_a = data[0]) === null || _a === void 0 ? void 0 : _a.products,
+                    totalProducts: (_b = data[0]) === null || _b === void 0 ? void 0 : _b.count,
                 };
             });
         },
@@ -186,25 +229,10 @@ exports.productResolver = {
                     singleProductUpdate: updatedProduct,
                 });
                 const notificationObj = {
-                    isRead: false,
                     content: `${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct.title.split(" ").slice(0, 5).join(" ")} is updated`,
-                    createdAt: new Date().toISOString(),
-                    link: `/${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct._id}`,
+                    link: `/product/${updatedProduct === null || updatedProduct === void 0 ? void 0 : updatedProduct._id}`,
                 };
-                yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                    $push: {
-                        notifications: notificationObj,
-                    },
-                    $inc: {
-                        notificationsCount: +1,
-                    },
-                });
-                const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                    notifications: { $slice: [-1, 1] },
-                });
-                context_js_1.pubsub.publish("Notification_Created", {
-                    NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                });
+                (0, AddNotification_1.AddNotification)(notificationObj);
                 return { msg: "product updated successfully", status: 200 };
             });
         },
@@ -235,28 +263,13 @@ exports.productResolver = {
                             productAdded: newProduct,
                         });
                         const notificationObj = {
-                            isRead: false,
                             content: `${newProduct.title
                                 .split(" ")
                                 .slice(0, 5)
                                 .join(" ")}  is Added`,
-                            createdAt: new Date().toISOString(),
                             link: `/${newProduct._id}`,
                         };
-                        const notification = yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                            $push: {
-                                notifications: notificationObj,
-                            },
-                            $inc: {
-                                notificationsCount: +1,
-                            },
-                        });
-                        const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                            notifications: { $slice: [-1, 1] },
-                        });
-                        context_js_1.pubsub.publish("Notification_Created", {
-                            NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                        });
+                        (0, AddNotification_1.AddNotification)(notificationObj);
                         return {
                             status: 200,
                             msg: "your product is successfully added",
@@ -276,36 +289,15 @@ exports.productResolver = {
         addReview(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    const { userId, rate, review, image, user } = input;
+                    const { userId, rate, review, user } = input;
                     const data = yield product_js_1.default.findByIdAndUpdate(input._id, {
-                        $push: { reviews: { user, userId, rate, review, image } },
-                    }, { new: true });
-                    context_js_1.pubsub.publish("Product_Updated", {
-                        productUpdated: data,
-                    });
-                    context_js_1.pubsub.publish("Single_Product_Updated", {
-                        singleProductUpdate: data,
+                        $push: { reviews: { userId, rate, review } },
                     });
                     const notificationObj = {
-                        isRead: false,
                         content: `${user} added a review on ${data === null || data === void 0 ? void 0 : data.title.split(" ").slice(0, 5).join(" ")}`,
-                        createdAt: new Date().toISOString(),
-                        link: `/${data === null || data === void 0 ? void 0 : data._id}`,
+                        link: `/product/${data === null || data === void 0 ? void 0 : data._id}`,
                     };
-                    const notification = yield user_js_1.userCollection.updateMany({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        $push: {
-                            notifications: notificationObj,
-                        },
-                        $inc: {
-                            notificationsCount: +1,
-                        },
-                    });
-                    const newNotification = yield user_js_1.userCollection.findOne({ role: { $in: ["admin", "moderator", "owner", "user"] } }, {
-                        notifications: { $slice: [-1, 1] },
-                    });
-                    context_js_1.pubsub.publish("Notification_Created", {
-                        NotificationAdded: newNotification === null || newNotification === void 0 ? void 0 : newNotification.notifications[0],
-                    });
+                    (0, AddNotification_1.AddNotification)(notificationObj);
                     return { status: 200, msg: "review added successfully" };
                 }
                 catch (err) {
@@ -316,23 +308,17 @@ exports.productResolver = {
         updateReview(_, { input }) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
-                    const { rate, review } = input;
-                    const newReview = yield product_js_1.default.findOneAndUpdate({
-                        _id: input.productId,
-                        "reviews.userId": input.userId,
+                    const { rate, review, _id, userId } = input;
+                    yield product_js_1.default.findOneAndUpdate({
+                        _id,
+                        "reviews.userId": userId,
                     }, {
                         $set: {
                             "reviews.$.rate": rate,
                             "reviews.$.review": review,
                         },
-                    }, { new: true });
-                    context_js_1.pubsub.publish("Single_Product_Updated", {
-                        singleProductUpdate: newReview,
                     });
-                    context_js_1.pubsub.publish("Product_Updated", {
-                        productUpdated: newReview,
-                    });
-                    return { msg: "review updated successfully" };
+                    return { msg: "review updated successfully", status: 200 };
                 }
                 catch (err) {
                     return err.message;

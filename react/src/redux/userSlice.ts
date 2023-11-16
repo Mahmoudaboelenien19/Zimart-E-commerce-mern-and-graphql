@@ -1,6 +1,6 @@
-import { UserInterface } from "@/interfaces/user.interface";
+import { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
-const initialState: { user: UserInterface[] } = {
+const initialState: { user: User[] } = {
   user: [],
 };
 
@@ -22,7 +22,7 @@ const userSlice = createSlice({
       state.user = Array.from({ length: 18 });
     },
     updateUserRedux(state, action) {
-      state.user = state.user.map((user: UserInterface) =>
+      state.user = state.user.map((user: User) =>
         action.payload._id === user._id
           ? {
               ...user,
