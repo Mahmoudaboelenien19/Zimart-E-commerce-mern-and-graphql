@@ -28,8 +28,10 @@ const Layout = () => {
   return (
     <>
       <ScrollRestoration
-        getKey={(location, matches) => {
-          return location.pathname.startsWith("/product")
+        getKey={(location) => {
+          const paths = ["/signup", "/login", "/blogs", "/contact"];
+          return location.pathname.startsWith("/product") ||
+            paths.includes(location.pathname)
             ? location.key
             : location.pathname;
         }}

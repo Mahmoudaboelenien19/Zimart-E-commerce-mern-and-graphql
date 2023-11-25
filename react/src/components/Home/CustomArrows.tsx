@@ -4,10 +4,10 @@ const CustomArrows = () => {
   return (
     <FadeElement delay={0.8} style={{ position: "static" }}>
       <div className="next-slide center custom-arrow">
-        <GrPrevious size={14} />
+        <GrNext size={14} />
       </div>
       <div className="prev-slide center custom-arrow">
-        <GrNext size={14} />
+        <GrPrevious size={14} />
       </div>
     </FadeElement>
   );

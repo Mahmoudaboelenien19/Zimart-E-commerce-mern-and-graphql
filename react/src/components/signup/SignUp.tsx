@@ -17,8 +17,10 @@ import useTitle from "@/custom/helpers/useTitle";
 
 export const Component = () => {
   const { getParam } = useParams();
-  const name = getParam("name");
-  const email = getParam("email");
+
+  const user = getParam("user");
+  const defaultValues = user ? JSON.parse(decodeURIComponent(user)) : null;
+
   useTitle("Zimart | Signup");
 
   const methods = useForm({ resolver: yupResolver(signUpSchema) });
@@ -42,8 +44,12 @@ export const Component = () => {
           <h2>
             Register Now. <span className="sign"> !</span>
           </h2>
-          <p>Welcome! Please enter your details below to create an account.</p>
-          {signUpInputs(name, email).map(
+          <div className="w-100 center">
+            <p>
+              Welcome! Please enter your details below to create an account.
+            </p>
+          </div>
+          {signUpInputs(defaultValues?.name, defaultValues?.email).map(
             (
               { Icon, placeholder, type, defaultValue }: SignUpInputsType,
               i: number
@@ -61,10 +67,11 @@ export const Component = () => {
           <SelectCountry setCountry={setCountry} country={country} />
           <div>
             <MainBtn
-              btn="sign up"
+              btn="Sign up"
               className="btn main w-100"
               type="submit"
               disabled={loading}
+              loading={loading}
               opacity={0}
             />
           </div>

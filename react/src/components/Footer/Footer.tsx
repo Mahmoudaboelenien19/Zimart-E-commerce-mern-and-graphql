@@ -4,16 +4,17 @@ import FooterSocial from "./FooterSocial";
 import CopyRight from "./CopyRight";
 import FooterLinks from "./FooterLinks";
 import "./footer.scss";
+import InViewAnimation from "../widgets/animation/InViewAnimation";
 
 const Footer = () => {
   return (
     <footer>
-      <div className="content">
+      <InViewAnimation once={false} className="content">
         <AboutFooter />
         <FooterCategory />
         <FooterLinks />
         <FooterSocial />
-      </div>
+      </InViewAnimation>
       <CopyRight />
     </footer>
   );

@@ -3,7 +3,6 @@ import { Children } from "./types/general";
 import { getnewAccess } from "./lib/functions/getNewAccess";
 import { useAppDispatch } from "./custom/helpers/reduxTypes";
 import { setIsAuth, updateUserId } from "./redux/Auth";
-import useGetUserData from "./custom/user/useGetUserData";
 
 const AppWrapper = ({ children }: Children) => {
   const isAuthFn = async () => {

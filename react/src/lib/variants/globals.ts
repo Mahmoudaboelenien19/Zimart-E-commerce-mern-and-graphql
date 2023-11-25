@@ -50,36 +50,15 @@ export const opacityVariant = {
   exit: { opacity: 0 },
 };
 
-// export const selectDropDownVariants = {
-//   start: { opacity: 0 },
-//   end: {
-//     opacity: 1,
-//     x: 0,
-//     transition: {
-//       when: "beforeChildren",
-//       staggerChildren: 0.1,
-//       duration: 0.01,
-//       delay: 0.3,
-//     },
-//   },
-//   exit: {
-//     opacity: 0,
-//     transition: {
-//       // when: "afterChildren",
-//       duration: 0.05,
-//     },
-//   },
-// };
-
 export const asideVariant = {
   start: { width: 0, opacity: 0 },
   end: ({ bool = false, w = 300 }) => ({
     width: bool ? "100%" : w,
     opacity: [0, 0.2, 0.3, 0.5, 1],
     transition: {
-      ease: "easeInOut",
+      ease: [0.76, 0, 0.24, 1],
       width: { delay: 0.3, duration: 0.6 },
-      opacity: { delay: 0.6, duration: 0.2 },
+      opacity: { delay: 0.8, duration: 0.2 },
     },
   }),
   exit: {
@@ -89,8 +68,8 @@ export const asideVariant = {
     transition: {
       opacity: { duration: 0.075 },
       width: {
-        duration: 0.6,
-        ease: "easeInOut",
+        duration: 1,
+        ease: [0.76, 0, 0.24, 1],
       },
     },
   },
@@ -112,27 +91,6 @@ export const textVariant = {
 export const reverseVariant = {
   start: (order: string) => ({ x: order === "first" ? -100 : 100 }),
   end: { x: 0, transition: { type: "tween" } },
-};
-
-export const mobileDropDownVariant = {
-  start: { width: 0 },
-  end: {
-    width: "100%",
-    transition: {
-      duration: 0.3,
-      when: "beforeChildren",
-      staggerChildren: 0.2,
-    },
-  },
-  exit: {
-    width: 0,
-    transition: {
-      duration: 0.3,
-      when: "afterChildren",
-      staggerChildren: 0.1,
-      staggerDirection: -1,
-    },
-  },
 };
 
 export const seachVariant = {

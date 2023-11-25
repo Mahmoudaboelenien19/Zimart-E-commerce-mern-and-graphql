@@ -50,9 +50,9 @@ const BeardCrumbs = () => {
         className="crumbs  center relative"
         animate={{ left: check ? 310 : 20 }}
         transition={{
-          delay: check ? 0.35 : 0.12,
+          delay: 0.35,
           duration: 0.35,
-          ease: "easeInOut",
+          ease: [0.76, 0, 0.24, 1],
         }}
       >
         <div className="home center gap">

@@ -23,10 +23,12 @@
   },
   "include": [
     "src",
+
     "src/custom/.tsx",
     "src/lib/variants",
     "*/*.mjs",
-    "../Toast.tsx"
+    "src/assets/@types",
+    "@types"
   ],
   "exclude": ["node_modules", "**/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

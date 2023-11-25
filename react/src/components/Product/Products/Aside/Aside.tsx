@@ -10,6 +10,7 @@ import useParams from "@/custom/helpers/useParams";
 import ResetFiltersBtn from "./ResetFiltersBtn";
 import AsideFilterHead from "./AsideFilterHead";
 import "./filter-aside.scss";
+import useHideScroll from "@/custom/helpers/useHideScroll";
 
 const Aside = () => {
   const { priceFilter, rateFilter, categoryFilter, featuredProductsFilter } =
@@ -19,7 +20,8 @@ const Aside = () => {
   const startFiltering = Boolean(
     priceFilter != "0" || rateFilter || categoryFilter || featuredProductsFilter
   );
-
+  const { showAsideFilter } = useParams();
+  useHideScroll(Boolean(showAsideFilter), isMobile);
   return (
     <motion.aside
       variants={asideVariant}

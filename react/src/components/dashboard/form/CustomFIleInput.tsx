@@ -45,6 +45,7 @@ const CustomFIleInput = () => {
         <AnimatePresence mode="wait">
           <FadeElement
             duration={0.3}
+            endOpacity={0.7}
             className="custom-file-value"
             key={"custom-file" + watchfiles?.length}
           >

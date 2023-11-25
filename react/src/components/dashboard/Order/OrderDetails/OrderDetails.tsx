@@ -5,9 +5,8 @@ import OrderSummery from "./OrderSummery";
 import { GET_ORDER } from "@/graphql/queries";
 import FadeElement from "@/components/widgets/animation/FadeElement";
 import "./order-details.scss";
-import { ORDER } from "@/types/order";
 import OrderDetailsTable from "./OrderDetailsTable";
-import Transition from "@/components/widgets/animation/transition/Transition";
+
 export const Component = () => {
   const { id } = useParams();
   const { data } = useQuery(GET_ORDER, { variables: { id } });

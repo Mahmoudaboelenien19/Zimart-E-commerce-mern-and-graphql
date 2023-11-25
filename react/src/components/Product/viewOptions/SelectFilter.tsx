@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useParams from "@/custom/helpers/useParams";
 import useSortProducts from "@/custom/product/useSortProducts";
 import useSortByRate from "@/custom/product/useSortByRate";
 import Select from "@/components/widgets/shared/select/Select";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 
 const sortAr = [
   "relevance",
@@ -19,10 +20,21 @@ const SelectFilter = () => {
   const { deleteParam, setParam, getParam } = useParams();
   const sort = getParam("sort") || "";
   const page = getParam("page") || 1;
+  const { Allproducts } = useAppSelector((st) => st.Allproducts);
+
+  const initialRender = useRef(Boolean(Allproducts.length));
+  const initialPage = useRef(page);
+  const initialSort = useRef(sort);
+  const refetch = useRef(false);
 
   useEffect(() => {
-    if (sort) {
-      console.log("sort useeffect");
+    if (page !== initialPage.current) {
+      initialRender.current = false;
+    }
+    if (sort !== initialSort.current) {
+      refetch.current = true;
+    }
+    if (sort && (!initialRender.current || refetch.current)) {
       switch (sort) {
         case "relevance":
           return deleteParam("sort");

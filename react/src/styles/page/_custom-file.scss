@@ -23,7 +23,7 @@
     @extend .custom-file-pos;
     right: 10px;
     border-radius: 10px 25px;
-    height: 30px;
+    height: 25px;
   }
   .custom-file-value {
     @extend .custom-file-pos;
@@ -32,5 +32,6 @@
     text-transform: capitalize;
     left: 10px;
     color: var(--third);
+    // opacity: 0.7
   }
 }

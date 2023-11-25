@@ -79,7 +79,7 @@ const SelectCountry = ({ setCountry, country }: Props) => {
       <DropDown
         bool={showDropSelect}
         setter={setShowSelectDrop}
-        className={"select-drop w-100 dropdown gap drop-country"}
+        className={"select-drop w-100 dropdown gap drop-country main-clr"}
       >
         {countries.map((obj: countryInterface, i) => {
           const flag = obj.flags.png;

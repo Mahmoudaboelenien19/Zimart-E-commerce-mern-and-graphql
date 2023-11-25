@@ -9,14 +9,15 @@
 }
 #dash-aside {
   position: sticky;
-  top: 60px;
+  top: 30px;
+  margin-top: -30px;
   left: 0;
   display: flex;
   align-self: flex-start;
   flex-direction: column;
   overflow: hidden;
   padding: 0;
-  z-index: 8;
+  z-index: 4;
   color: var(--third);
   background: var(--main);
   .dash-user {
@@ -79,7 +80,9 @@
 .crumbs {
   gap: 6px;
   align-self: flex-start;
-  margin: 60px 0 0 15px;
+  padding-top: 70px;
+  // padding-top: 10px;
+  // background: #000;
 
   .crumbs-line {
     background-color: var(--wheat-lighter);
@@ -151,6 +154,7 @@ a.crumb-link {
         a {
           font-weight: bold;
           font-size: 0.9rem;
+          text-shadow: 0.1px 0 0.1px black;
         }
         svg {
           font-size: 1.3rem;
@@ -254,27 +258,16 @@ a.crumb-link {
 }
 
 nav.dash-nav {
-  z-index: 50;
-  justify-content: flex-end;
-  box-shadow: 1px 0.5px 1px 1px grey;
-  .nav-children {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  z-index: 5;
+  // box-shadow: 1px 0.5px 1px 1px grey;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px;
+  align-items: center;
+  .center {
+    gap: 25px;
   }
 }
-
-// .order-link {
-//   padding: 2px 20%;
-//   font-weight: bold;
-//   text-transform: capitalize;
-//   letter-spacing: 0.7px;
-//   span :not(:last-child) {
-//     display: inline-block;
-//     border-bottom: 0.4px solid var(--secondary);
-//   }
-// }
-
 .dash-main {
   container-type: inline-size;
   container-name: dashboard;
@@ -282,13 +275,14 @@ nav.dash-nav {
   margin: 0 auto;
   flex-grow: 1;
   padding: 10px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 85vh;
   color: var(--third);
   .product-list-par {
-    padding-top: 0;
+    padding: 0;
   }
 }
 .mobile-dashboard {
@@ -300,5 +294,14 @@ nav.dash-nav {
   }
   .mobile-dashboard {
     display: flex;
+  }
+}
+
+.dash-menu {
+  .dash-menu-title {
+    span {
+      top: 40px;
+      left: 10px;
+    }
   }
 }

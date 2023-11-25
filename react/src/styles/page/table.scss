@@ -4,8 +4,9 @@ table.dash-table {
   width: 96%;
   max-width: 1050px;
   color: var(--third-light);
-  margin: 50px auto;
+  margin: 10px auto;
   background: var(--secondary);
+  text-shadow: 0.2px 0.2px 0.2px #000;
   .state-par {
     width: 80px;
     &.user-table {
@@ -35,8 +36,10 @@ table.dash-table {
     background: var(--green);
     color: var(--white);
     place-content: center;
+    text-transform: capitalize;
     text-align: center;
     font-size: 1.2rem;
+    letter-spacing: 1px;
     font-weight: 500;
   }
   tr {

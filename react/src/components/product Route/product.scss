@@ -6,6 +6,7 @@
   min-height: 100vh;
   flex-direction: column;
   width: 100vw;
+  position: relative;
   .slider-products-par {
     width: 100%;
   }
@@ -53,7 +54,6 @@
       justify-content: center;
       align-items: flex-end;
       gap: clamp(5px, 1vw, 20px);
-      position: relative;
 
       .small-img {
         width: clamp(20px, 10vw, 100px);
@@ -227,4 +227,14 @@
 
 .add-rate {
   height: 40px;
+}
+
+.zoom {
+  position: absolute !important;
+  background-color: var(--main);
+  min-height: 100%;
+  top: 0px !important;
+  z-index: 3;
+  right: 0 !important;
+  width: 50vw;
 }

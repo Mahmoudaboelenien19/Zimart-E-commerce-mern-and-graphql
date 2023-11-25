@@ -147,19 +147,19 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
             </Fragment>
           );
         })}
-        <>
-          <div className="inp-parent textarea-par w-100">
-            <TextArea
-              placeholder={"description"}
-              className="update-product  inp relative "
-              defaultValue={obj?.category ? obj.description : ""}
-            />
-          </div>
+
+        <div className="inp-parent textarea-par w-100    center  gap col">
+          <TextArea
+            placeholder={"description"}
+            className="  inp relative "
+            defaultValue={obj?.category ? obj.description : ""}
+          />
           <InpErr
             key={"description"}
             err={errors.description?.message?.toString()}
           />
-        </>
+        </div>
+
         <div>
           <MainBtn
             btn={btn}

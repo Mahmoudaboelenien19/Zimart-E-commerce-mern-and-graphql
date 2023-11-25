@@ -26,7 +26,6 @@ const ProductCardImage = ({ _id, path, isSLide }: Props) => {
             style={{
               viewTransitionName: vt && !isSLide ? `view-${_id}` : "",
             }}
-            width={300}
             src={getlink(path, 300)}
           />
         </picture>

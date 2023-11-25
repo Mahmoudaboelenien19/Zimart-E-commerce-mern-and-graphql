@@ -1,9 +1,9 @@
 import { categoriesArr, FeaturedProductsArr } from "@/assets/arries/arries";
 import { FILTER_All } from "@/graphql/mutations/product";
 import { useMutation } from "@apollo/client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useParams from "../helpers/useParams";
-import { useAppDispatch } from "../helpers/reduxTypes";
+import { useAppDispatch, useAppSelector } from "../helpers/reduxTypes";
 import {
   addToProductRedux,
   changeTotalProductsCount,
@@ -60,8 +60,20 @@ const useApplyFilters = () => {
     handleFiltering();
   };
 
+  const { Allproducts } = useAppSelector((st) => st.Allproducts);
+
+  const initialRender = useRef(Boolean(Allproducts.length));
+  const initialPage = useRef(page);
+  const initialCatFilter = useRef(catFilter);
+  const refetch = useRef(false);
   useEffect(() => {
-    if (isFilterApplied) {
+    if (page !== initialPage.current) {
+      initialRender.current = false;
+    }
+    if (catFilter !== initialCatFilter.current) {
+      refetch.current = true;
+    }
+    if (isFilterApplied && (!initialRender.current || refetch.current)) {
       console.log(" use effect apply filter");
 
       handleFiltering();

@@ -11,11 +11,9 @@ import "swiper/css/autoplay";
 import CustomArrows from "./CustomArrows";
 import { bannerOptions } from "@/lib/swiper/options";
 import Container from "../widgets/shared/Container";
-import FadeElement from "../widgets/animation/FadeElement";
 import useModifyUrl from "@/custom/helpers/useModifyUrl";
 const Banner = () => {
   const [ind, setInd] = useState(0);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

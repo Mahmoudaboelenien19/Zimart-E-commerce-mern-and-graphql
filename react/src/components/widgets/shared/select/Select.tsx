@@ -12,9 +12,18 @@ interface Props {
   setter?: React.Dispatch<React.SetStateAction<string>>;
   fn?: (val: string) => void;
   className?: string;
+  dropdownClassName?: string;
 }
 
-const Select = ({ className, ar, fn, val, noVal, setter }: Props) => {
+const Select = ({
+  dropdownClassName,
+  className,
+  ar,
+  fn,
+  val,
+  noVal,
+  setter,
+}: Props) => {
   const [showDropSelect, setShowSelectDrop] = useState(false);
   const selectRef = useClickOutside<HTMLDivElement>(() => {
     setShowSelectDrop(false);
@@ -30,7 +39,12 @@ const Select = ({ className, ar, fn, val, noVal, setter }: Props) => {
       ref={selectRef}
     >
       <AnimatePresence mode="wait">
-        <FadeElement key={val || noVal} duration={0.15} className="w-100">
+        <FadeElement
+          key={val || noVal}
+          endOpacity={!val ? 0.7 : 1}
+          duration={0.15}
+          className="w-100"
+        >
           <div className="select-value "> {val || noVal}</div>
         </FadeElement>
       </AnimatePresence>
@@ -38,7 +52,7 @@ const Select = ({ className, ar, fn, val, noVal, setter }: Props) => {
       <DropDown
         bool={showDropSelect}
         setter={setShowSelectDrop}
-        className={"w-100"}
+        className={clsx(dropdownClassName, "w-100")}
       >
         {ar?.map((val: string) => {
           return (

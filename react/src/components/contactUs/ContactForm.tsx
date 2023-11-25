@@ -31,7 +31,7 @@ const ContactForm = () => {
     <FormProvider {...methods}>
       <Form
         initialTranslate={0}
-        className="center main col gap abs-err"
+        className="center main col gap "
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2>Contact us</h2>

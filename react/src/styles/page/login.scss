@@ -36,14 +36,13 @@ form.main.log-in {
   }
   .google-log {
     border: 0;
-
     height: 40px;
     padding: 0 10px;
     border-radius: 5px;
     justify-content: flex-start;
     gap: 20px;
     box-shadow: var(--third-shadow);
-    text-transform: capitalize;
+    text-transform: initial;
     font-weight: 400;
     color: var(--wheat);
     letter-spacing: 1px;
@@ -76,7 +75,7 @@ form.main.log-in {
   position: absolute;
   right: 8px;
   font-size: 16px;
-  top: 50%;
+  top: 20px;
   transform: translate(0, -50%);
   color: var(--third-light);
   opacity: 0.4;

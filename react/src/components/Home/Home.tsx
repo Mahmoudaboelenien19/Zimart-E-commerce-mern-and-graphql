@@ -7,13 +7,13 @@ import Banner from "./Banner";
 import useTitle from "@/custom/helpers/useTitle";
 import useParams from "@/custom/helpers/useParams";
 import useHideScroll from "@/custom/helpers/useHideScroll";
+import Parallax from "./Parallax/Parallax";
 
 export function Home() {
   const { getParam } = useParams();
   const isSuccess = getParam("success") || "";
   useTitle("Zimart");
   useHideScroll(Boolean(isSuccess));
-
   return (
     <>
       <Banner />
@@ -21,6 +21,7 @@ export function Home() {
       <Products />
 
       {isSuccess && <StripeSuccess />}
+      <Parallax />
       <NewsLetter />
       <Footer />
     </>

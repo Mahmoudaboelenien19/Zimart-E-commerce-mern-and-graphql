@@ -14,6 +14,11 @@ export const imgArr = [
   "https://res.cloudinary.com/domobky11/image/upload/v1681798916/products/Daco_4jtfyj236560.png.png",
   "https://res.cloudinary.com/domobky11/image/upload/v1682583204/Daco_844028_e2jzoa.png",
   "https://res.cloudinary.com/domobky11/image/upload/v1682820618/data/Black-Leather-Jacket-PNG-Image.png.png.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1699777955/ucmp3fm4y5nlzer3ntzf.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1700434712/pngfind.com-baby-groot-png-1774718.png_hdu6mf.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1700434712/Daco_4637414.png_si6boe.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1700434711/pngfind.com-bomber-jacket-template-png-6114956.png_idg7nj.png",
+  "https://res.cloudinary.com/domobky11/image/upload/v1700434710/pngfind.com-button-down-shirt-png-3333098.png_pgxr84.png",
 ];
 export const faqArr = {
   title: "Frequently Asked Questions",
@@ -76,4 +81,9 @@ export const optionsArr = [
   "oldest",
 ];
 
-export const arrClrs = ["#237a44", "#ea4335", "#751d15", "#1877f2"];
+export const arrClrs = [
+  "var(--green)",
+  "var(--sale)",
+  "green",
+  "var(--twitter)",
+];

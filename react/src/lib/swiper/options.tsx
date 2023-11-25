@@ -1,5 +1,5 @@
 import { RefAttributes } from "react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { SwiperProps, SwiperRef } from "swiper/react";
 
 export const bannerOptions: RefAttributes<SwiperRef> & SwiperProps = {
@@ -9,12 +9,6 @@ export const bannerOptions: RefAttributes<SwiperRef> & SwiperProps = {
     prevEl: ".prev-slide",
     enabled: true,
   },
-  autoplay: {
-    delay: 350000,
-    disableOnInteraction: false,
-    pauseOnMouseEnter: true,
-    waitForTransition: true,
-  },
   pagination: {
     dynamicBullets: true,
     clickable: true,
@@ -22,5 +16,5 @@ export const bannerOptions: RefAttributes<SwiperRef> & SwiperProps = {
   lazyPreloadPrevNext: 1,
   spaceBetween: 5,
   slidesPerView: 1,
-  modules: [Pagination, Navigation, Autoplay],
+  modules: [Pagination, Navigation],
 };

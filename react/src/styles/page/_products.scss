@@ -124,6 +124,12 @@ svg.svg-star {
       justify-content: space-between;
       align-items: flex-start;
       padding: 10px 25px;
+      background: linear-gradient(
+        to bottom,
+        var(--secondary),
+        var(--main) 50%,
+        rgba(132, 126, 113, 0.3)
+      );
     }
   }
   a {

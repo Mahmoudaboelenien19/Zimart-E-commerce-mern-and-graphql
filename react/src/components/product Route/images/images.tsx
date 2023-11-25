@@ -21,6 +21,7 @@ const ProductImages = ({ _id, images }: { _id: string; images: Images[] }) => {
   const [variant, dir] = useCarousel(bigImgInd);
   const { getlink } = useModifyUrl();
   const { pathname } = useLocation();
+
   // const vt = unstable_useViewTransitionState(`/`);
   const vt = unstable_useViewTransitionState(pathname);
 
@@ -38,7 +39,8 @@ const ProductImages = ({ _id, images }: { _id: string; images: Images[] }) => {
         >
           <img
             style={{
-              viewTransitionName: vt ? `view-${_id}` : "",
+              // viewTransitionName: vt ? `view-${_id}` : "",
+              viewTransitionName: `view-${_id}`,
             }}
             src={getlink(url, 300)}
           />

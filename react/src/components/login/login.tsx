@@ -37,9 +37,11 @@ export const Login = () => {
             Welcome Back.
             <div className="sign"> !</div>
           </h2>
-          <p>
-            Please enter your email and password below to access your account.
-          </p>
+          <div className="w-100 center">
+            <p>
+              Please enter your email and password below to access your account.
+            </p>
+          </div>
           <Input
             Icon={HiAtSymbol}
             placeholder={"email"}

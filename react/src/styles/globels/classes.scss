@@ -30,6 +30,7 @@
   @extend .remove-border;
   text-shadow: var(--forth-shadow);
   box-shadow: var(--forth-shadow);
+  user-select: none;
   color: rgb(247, 246, 246);
   white-space: nowrap;
   padding: clamp(6px, 1vw, 8px) clamp(10px, 1.2vw, 12px);
@@ -107,6 +108,7 @@
 }
 .header {
   font-family: cursive;
+  user-select: none;
   filter: drop-shadow(var(--forth-shadow));
 }
 
@@ -472,12 +474,13 @@
   justify-content: flex-start;
   height: 25px;
   width: 100%;
+  gap: 10px;
   span {
     text-align: left;
   }
   img {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
   }
 }
@@ -510,4 +513,17 @@
 
 .border {
   border: solid rgba(128, 128, 128, 0.445) 0.5px;
+}
+
+.blur-parallax {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
 }

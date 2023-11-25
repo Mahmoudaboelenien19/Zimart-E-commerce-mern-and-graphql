@@ -65,7 +65,7 @@ const UserMobile = ({ role, _id, lastLogIn, name, email, createdAt }: User) => {
           <div className="details ">
             <div className="detail">last login : </div>
             <AnimatePresence mode="wait">
-              <FadeElement className="" key={lastLogIn}>
+              <FadeElement>
                 <p>
                   &#160;{" "}
                   {lastLogIn

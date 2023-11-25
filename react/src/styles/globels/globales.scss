@@ -10,7 +10,8 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   background: var(--main);
-  scrollbar-gutter: stable both-edges;
+  /* ! not work */
+  scrollbar-gutter: stable two-edges;
 }
 
 body {
@@ -48,7 +49,6 @@ p {
   background: rgb(35, 122, 68, 0.7);
   border-radius: 100vh;
   border: 1px solid gray;
-
   transition: 0.3s;
 }
 
@@ -94,6 +94,7 @@ form.main {
       left: 8px;
       color: var(--third);
       font-size: 1rem;
+      opacity: 0.7;
     }
     &.placeholder-top {
       left: 5px;
@@ -110,7 +111,6 @@ form.main {
   }
   button {
     height: 40px;
-    text-transform: lowercase;
     .btn-txt {
       gap: 8px;
     }
@@ -123,6 +123,7 @@ form.main {
   p {
     text-wrap: balance;
     color: var(--third-light);
+    opacity: 0.7;
     width: 80%;
     margin-top: -5px;
     font-size: min(1rem, 14px);
@@ -211,4 +212,11 @@ h2 {
 
 img {
   object-fit: cover;
+}
+
+img,
+picture,
+.header,
+button {
+  user-select: none;
 }

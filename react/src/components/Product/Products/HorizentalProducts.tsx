@@ -3,6 +3,7 @@ import { imgArr } from "@/assets/arries/arries";
 import useModifyUrl from "@/custom/helpers/useModifyUrl";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import useLens from "@/custom/helpers/useLens";
 
 const HorizentalProducts = () => {
   const { getlink } = useModifyUrl();
@@ -12,11 +13,13 @@ const HorizentalProducts = () => {
     offset: ["start end", "end start"],
   });
   const xTransform = useTransform(scrollYProgress, [0, 0.1, 1], [0, 0, -500]);
+  useLens();
+
   return (
-    <div className="horizental-wrapper relative " ref={ref}>
+    <div className="  horizental-wrapper relative blur-parallax" ref={ref}>
       <motion.div
         style={{ translateX: xTransform }}
-        className={"  center products-animation-par gap "}
+        className={"  center products-animation-par gap   "}
       >
         {[...Array(7)].map((_, i) => {
           return (

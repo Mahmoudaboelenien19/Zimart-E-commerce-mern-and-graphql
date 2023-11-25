@@ -1,6 +1,5 @@
 import InpErr from "@/components/widgets/shared/forms/InpErr";
 import Select from "@/components/widgets/shared/select/Select";
-import { useAppSelector } from "@/custom/helpers/reduxTypes";
 import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
@@ -52,6 +51,7 @@ const DashboardSelect = ({ isPromiseSucess, name, defaultValue }: Props) => {
         setter={setter}
         val={value || ""}
         ar={ar}
+        dropdownClassName="main-clr"
         noVal={
           name === "category"
             ? "Select Product Category"

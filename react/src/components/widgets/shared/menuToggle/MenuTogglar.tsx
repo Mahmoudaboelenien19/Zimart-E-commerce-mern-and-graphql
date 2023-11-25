@@ -1,6 +1,8 @@
-import Title from "../../Title";
 import useParams from "@/custom/helpers/useParams";
-import "./menu.scss";
+
+import { Twirl as Hamburger } from "hamburger-react";
+import { useEffect, useState } from "react";
+import Title from "../../Title";
 interface Props {
   hideMsg: string;
   target?: string;
@@ -10,7 +12,15 @@ interface Props {
 }
 const MenuTogglar = ({ setter, bool, target, hideMsg, showMsg }: Props) => {
   const { deleteParam, getParam, setParam } = useParams();
+  const [show, setShow] = useState(Boolean(target || bool));
   const value = getParam(target || "");
+  useEffect(() => {
+    if (bool || value) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [value, bool]);
   const handleShow = () => {
     if (target) {
       if (value && target) {
@@ -23,17 +33,18 @@ const MenuTogglar = ({ setter, bool, target, hideMsg, showMsg }: Props) => {
     }
   };
   return (
-    <Title title={value ? hideMsg : showMsg}>
-      <div className="menu-togglar" onClick={handleShow}>
-        {[...Array(3)].map((_, i) => {
-          return (
-            <span
-              key={i}
-              className={`menu-toggle-span ${value ? "animate" : ""}`}
-            ></span>
-          );
-        })}
-      </div>
+    <Title
+      title={value ? hideMsg : showMsg}
+      dir="left"
+      className="dash-menu-title"
+    >
+      <Hamburger
+        toggle={setShow}
+        toggled={show}
+        size={20}
+        color="var(--third)"
+        onToggle={handleShow}
+      />
     </Title>
   );
 };

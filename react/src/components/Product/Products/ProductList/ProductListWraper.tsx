@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import useParams from "@/custom/helpers/useParams";
 import { Get_All_Products } from "@/graphql/general";
 import { useLazyQuery } from "@apollo/client";
@@ -22,18 +22,19 @@ const ProductListWrapper = ({ children }: Props) => {
   const isFilterApplied = getParam("isFilterApplied") || "";
   const [getProducts] = useLazyQuery(Get_All_Products);
   const dispatch = useAppDispatch();
-  const { Allproducts } = useAppSelector((st) => st.Allproducts);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0 });
-  const check =
-    inView &&
-    !isFilterApplied &&
-    !search &&
-    !sort &&
-    !catFilter &&
-    !Allproducts.length;
+  const { Allproducts } = useAppSelector((st) => st.Allproducts);
+
+  const check = inView && !isFilterApplied && !search && !sort && !catFilter;
+  const initialRender = useRef(Boolean(Allproducts.length));
+  const initialPage = useRef(page);
+
   useEffect(() => {
-    if (check) {
+    if (page !== initialPage.current) {
+      initialRender.current = false;
+    }
+    if (check && !initialRender.current) {
       dispatch(skeltonProductSlice());
       getProducts({
         variables: {
@@ -46,7 +47,8 @@ const ProductListWrapper = ({ children }: Props) => {
         dispatch(changeTotalProductsCount(data?.totalProducts));
       });
     }
-  }, [check]);
+  }, [check, page]);
+
   useProductsSubscription();
 
   return (

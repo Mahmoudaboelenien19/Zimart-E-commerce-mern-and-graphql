@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect } from "react";
+import { memo, useEffect } from "react";
 import DashBoardRecap from "./DashBoardRecap";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { GrProductHunt } from "react-icons/gr";

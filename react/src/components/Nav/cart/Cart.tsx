@@ -3,8 +3,6 @@ import useTitle from "@/custom/helpers/useTitle";
 import CartHeader from "./Cart/CartHeader";
 import Container from "@/components/widgets/shared/Container";
 import CartData from "./Cart/CartData";
-import Transition from "@/components/widgets/animation/transition/Transition";
-import SLiderComponent from "@/components/widgets/SLider";
 
 export const Component = () => {
   useTitle("Zimart | Cart");

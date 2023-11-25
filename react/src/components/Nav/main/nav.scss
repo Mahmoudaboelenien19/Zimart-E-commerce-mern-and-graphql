@@ -1,7 +1,6 @@
 @import "@/styles/variables.scss";
 
 nav.main {
-  // transition: 0.3s ease-in-out;
   left: 0;
   width: 100vw;
   .links-par {
@@ -17,36 +16,21 @@ nav.main {
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
+
     li {
       list-style: none;
-      // position: relative;
       margin: 5px;
       padding: 5px 8px;
+      font-weight: 500;
+      text-transform: capitalize;
       cursor: pointer;
       &.link {
         transition: 0.3s;
 
         color: white;
         mix-blend-mode: difference;
-
         font-weight: bold;
-
-        // text-shadow: 0.2px 0.2px 0.2px black;
-
-        // div {
-        //   z-index: 4;
-        //   position: relative;
-        //   mix-blend-mode: exclusion;
-        // }
-
-        //   &.active {
-        //     color: var(--white);
-        //     transition: 0.3s 1.5s;
-        //   }
-        //   &:hover:not(&.active) {
-        //     color: var(--green);
-        //     opacity: 0.7;
-        //   }
       }
     }
   }
@@ -97,7 +81,16 @@ nav.main {
     }
   }
 }
+div.active-link {
+  height: 100%;
+  width: 100%;
+  position: absolute;
 
+  z-index: 2;
+  background-color: white;
+  mix-blend-mode: difference;
+  border-radius: 5px;
+}
 @media (max-width: 800px) {
   nav {
     padding: 0 10px;
@@ -116,43 +109,42 @@ nav.main {
     right: 0;
     z-index: 5;
     background-color: var(--secondary);
+    box-shadow: var(--main-shadow);
     .links {
       height: 100%;
       flex-direction: column;
       justify-content: center;
       gap: 30px;
-
-      a {
-        font-size: 20px;
+      li {
+        font-size: 30px;
         color: var(--third);
-        &:before,
-        &:after {
-          content: initial;
-        }
+        text-transform: capitalize;
+        font-weight: 400;
       }
     }
   }
 }
 
-#logo-svg {
-  filter: drop-shadow(var(--third-shadow));
-  transition: 0.3s;
-  transform-origin: 0 0;
-}
-
-div.active-link {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-
-  z-index: 2;
-  background-color: white;
-  mix-blend-mode: difference;
-  border-radius: 5px;
+.logo-svg {
+  svg {
+    width: 80px;
+    height: 30px;
+    filter: drop-shadow(var(--third-shadow));
+  }
 }
 
 .user-profile {
   width: 35px;
   height: 35px;
   display: block;
+}
+
+.nav-menu {
+  position: relative;
+  z-index: 6;
+  .custom-title {
+    top: 40px;
+    right: 10px;
+    left: initial;
+  }
 }

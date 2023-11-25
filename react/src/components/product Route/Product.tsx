@@ -19,7 +19,7 @@ export const Component = () => {
       id,
     },
   });
-  console.log({ id });
+
   //to catch  product changes
   useSubscription(Single_Updated_Product_Subscription, {
     onData: (data: OnDataOptions<{ singleProductUpdate: Product }>) => {

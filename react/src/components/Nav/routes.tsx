@@ -8,15 +8,11 @@ import Layout from "@/components/Layout";
 import { NotAuthedRoutes } from "./NotAuthedRoutes";
 import DashboardLayout from "../dashboard/dashboardLayout";
 import NotFound from "../NotFound/NotFound";
-
 import { Component as Product } from "@/components/product Route/Product";
 import { Home } from "@/components/Home/Home";
 import { Login } from "../login/login";
 import { Payment } from "../payment/Payment";
-
-import React from "react";
 import Loading from "@/loading/Loading";
-
 export const AppRoutes = () => {
   /*   note 
  home and login mustn't be lazyloaded as it doesn't work
