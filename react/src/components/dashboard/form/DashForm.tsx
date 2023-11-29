@@ -11,6 +11,7 @@ import { Product } from "@/types/product";
 import { DashFormSchema } from "@/lib/formschemas/form schemas";
 import DashboardSelect from "./DashboardSelect";
 import TextArea from "@/components/widgets/shared/forms/TextArea";
+import { useAppSelector } from "@/custom/helpers/reduxTypes";
 interface keyedProduct extends Product {
   [key: string]: any;
 }
@@ -27,6 +28,7 @@ interface Props {
 const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   //i used external state for sucess peomise not react hook form isSuccessffelSubmited or isSubmitting cuz they'ren't enough for custom select box
   const [isPromiseSucess, setisPromiseSucess] = useState(false);
+  const { role } = useAppSelector((st) => st.userData);
   const methods = useForm({
     resolver: yupResolver(DashFormSchema(type || "")),
     defaultValues: {},
@@ -45,67 +47,72 @@ const DashForm = ({ type, fn, id, obj, head, btn }: Props) => {
   ];
 
   const onSubmit = async (data: FieldValues) => {
-    try {
-      const obj = {
-        ...data,
-        stock: Number(data.stock),
-        price: Number(data.price),
-      };
+    if (role === "admin") {
+      try {
+        const obj = {
+          ...data,
+          stock: Number(data.stock),
+          price: Number(data.price),
+        };
 
-      if (type === "update") {
-        if (isDirty) {
-          setisPromiseSucess(false);
-          const res: Promise<{ data: { updateProduct: { msg: string } } }> = fn(
-            {
-              variables: {
-                input: {
-                  ...obj,
-                  _id: id,
+        if (type === "update") {
+          if (isDirty) {
+            setisPromiseSucess(false);
+            const res: Promise<{ data: { updateProduct: { msg: string } } }> =
+              fn({
+                variables: {
+                  input: {
+                    ...obj,
+                    _id: id,
+                  },
                 },
+              });
+            toast.promise(res, {
+              loading: <div>updating... !</div>,
+
+              success: (res) => {
+                reset();
+                setisPromiseSucess(true);
+
+                return res.data.updateProduct.msg;
               },
+              error: (err) => {
+                return err;
+              },
+            });
+          } else {
+            toast.error("no data changed");
+          }
+        } else {
+          setisPromiseSucess(false);
+
+          const res: Promise<{ data: { addNewProduct: { msg: string } } }> = fn(
+            {
+              variables: { input: obj },
             }
           );
+
           toast.promise(res, {
-            loading: <div>updating... !</div>,
+            loading: <div>uploading... !</div>,
 
             success: (res) => {
               reset();
               setisPromiseSucess(true);
 
-              return res.data.updateProduct.msg;
+              return res.data.addNewProduct.msg;
             },
             error: (err) => {
               return err;
             },
           });
-        } else {
-          toast.error("no data changed");
         }
-      } else {
-        setisPromiseSucess(false);
-
-        const res: Promise<{ data: { addNewProduct: { msg: string } } }> = fn({
-          variables: { input: obj },
-        });
-
-        toast.promise(res, {
-          loading: <div>uploading... !</div>,
-
-          success: (res) => {
-            reset();
-            setisPromiseSucess(true);
-
-            return res.data.addNewProduct.msg;
-          },
-          error: (err) => {
-            return err;
-          },
-        });
+      } catch (err: unknown) {
+        if ((err as Error).message === "Not Authorised!") {
+          toast.error("you aren't an admin");
+        }
       }
-    } catch (err: unknown) {
-      if ((err as Error).message === "Not Authorised!") {
-        toast.error("you aren't an admin");
-      }
+    } else {
+      toast.error("your must be an admin ");
     }
   };
 

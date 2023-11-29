@@ -3,13 +3,13 @@ import Skeleton from "react-loading-skeleton";
 import MainImage from "../widgets/shared/Image";
 
 const ProfileImg = () => {
-  const { image: profile, name } = useAppSelector((st) => st.userData);
+  const { image, name } = useAppSelector((st) => st.userData);
 
   return (
     <>
-      {profile ? (
+      {image ? (
         <MainImage
-          path={profile as string | ""}
+          path={image as string | ""}
           alt={`${name} proile`}
           wrapperClassName="user-profile-wrapper w-100 h-100"
           className=" w-100 h-100"

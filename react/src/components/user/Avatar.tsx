@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { toast } from "react-hot-toast";
 import { Update_Profile_Img } from "@/graphql/mutations/user";
 import { useAppDispatch, useAppSelector } from "@/custom/helpers/reduxTypes";
-import { updateUserData } from "@/redux/userDataSlice";
+import { updateProfileImage } from "@/redux/userDataSlice";
 interface Props {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   newImg: File | undefined;
@@ -24,6 +24,7 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
     setPosition(position);
   };
   const { userId } = useAppSelector((st) => st.isAuth);
+
   const dispatch = useAppDispatch();
   const [uploadImgFn] = useMutation(Update_Profile_Img);
   async function handleSaveButtonClick() {
@@ -50,8 +51,11 @@ const Avatar = ({ setEdit, newImg, handleCancel, setFileKey }: Props) => {
           loading: "updating ...  !",
           success: (res) => {
             if (res.data.updateUserImage.status === 200) {
+              dispatch(
+                updateProfileImage(res.data.updateUserImage.url as string)
+              );
               setEdit(false);
-              dispatch(updateUserData({ image: croppedImage as string }));
+
               return res.data.updateUserImage.msg;
             }
           },

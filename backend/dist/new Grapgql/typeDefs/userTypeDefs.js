@@ -113,6 +113,12 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
     count: Int
     product: Product
   }
+
+  type UpdateImgReturn {
+    url: String
+    msg: String
+    status: Int
+  }
   type Mutation {
     addUser(input: AddUserInput): StatusMsg
     authenticate(password: String!, email: String!): AuthResult
@@ -133,6 +139,6 @@ exports.userTypeDefs = (0, apollo_server_express_1.gql) `
       oldPassword: String!
       newPassword: String!
     ): StatusMsg
-    updateUserImage(_id: ID, image: Upload): StatusMsg
+    updateUserImage(_id: ID, image: Upload): UpdateImgReturn
   }
 `;

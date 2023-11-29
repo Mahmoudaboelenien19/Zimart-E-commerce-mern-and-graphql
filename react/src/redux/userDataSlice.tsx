@@ -18,10 +18,10 @@ const userData = createSlice({
     updateName(state, action) {
       state.name = action.payload;
     },
+    updateProfileImage(state, action) {
+      state.image = action.payload;
+    },
     updateUserData(state, action) {
-      // Object.keys(action.payload).forEach((key) => {
-      //   state[key] = action.payload[key];
-      // });
       return {
         ...state,
         ...action.payload,
@@ -30,5 +30,6 @@ const userData = createSlice({
   },
 });
 
-export const { updateUserData, updateRole, updateName } = userData.actions;
+export const { updateUserData, updateProfileImage, updateRole, updateName } =
+  userData.actions;
 export default userData.reducer;

@@ -439,7 +439,7 @@ export const userResolver = {
           await userCollection.findByIdAndUpdate(args._id, {
             image: url,
           });
-          return { status: 200, msg: "you profile successfully updated" };
+          return { status: 200, msg: "you profile successfully updated", url };
         } else {
           return { status: 404, msg: "faild to upload" };
         }

@@ -211,6 +211,7 @@ export const Update_Profile_Img = gql`
     updateUserImage(_id: $_id, image: $image) {
       status
       msg
+      url
     }
   }
 `;

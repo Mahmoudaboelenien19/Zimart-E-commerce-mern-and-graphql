@@ -111,6 +111,12 @@ export const userTypeDefs = gql`
     count: Int
     product: Product
   }
+
+  type UpdateImgReturn {
+    url: String
+    msg: String
+    status: Int
+  }
   type Mutation {
     addUser(input: AddUserInput): StatusMsg
     authenticate(password: String!, email: String!): AuthResult
@@ -131,6 +137,6 @@ export const userTypeDefs = gql`
       oldPassword: String!
       newPassword: String!
     ): StatusMsg
-    updateUserImage(_id: ID, image: Upload): StatusMsg
+    updateUserImage(_id: ID, image: Upload): UpdateImgReturn
   }
 `;
