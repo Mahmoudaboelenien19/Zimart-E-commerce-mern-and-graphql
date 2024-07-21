@@ -1,4 +1,4 @@
-import express, { Request } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -117,7 +117,12 @@ app.get("/cookie", (req: Request, res) => {
 });
 app.use("/", oAuthRouter);
 app.use("/token", AuthRouter);
-
+app.use("/api/test", (_: any, res: Response) => {
+  console.log("test");
+  res.json({
+    status: 200,
+  });
+});
 app.get("*", (_, res) => {
   res.sendFile(path.join(path.resolve(), "/react/dist/index.html"));
 });

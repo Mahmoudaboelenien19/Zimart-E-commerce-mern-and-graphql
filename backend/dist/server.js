@@ -140,6 +140,12 @@ app.get("/cookie", (req, res) => {
 });
 app.use("/", googleAuth_js_1.oAuthRouter);
 app.use("/token", tokensRoutes_js_1.AuthRouter);
+app.use("/api/test", (_, res) => {
+    console.log("test");
+    res.json({
+        status: 200,
+    });
+});
 app.get("*", (_, res) => {
     res.sendFile(path_1.default.join(path_1.default.resolve(), "/react/dist/index.html"));
 });
