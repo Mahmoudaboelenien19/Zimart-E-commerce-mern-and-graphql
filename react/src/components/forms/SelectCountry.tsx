@@ -32,7 +32,9 @@ const SelectCountry = ({ setCountry, country }: Props) => {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      fetch("https://restcountries.com/v3.1/all")
+      fetch(
+        "https://restcountries.com/v3.1/all?fields=name,capital,region,flags"
+      )
         .then((data) => data.json())
         .then((data) => setCountries(data));
     }
@@ -81,7 +83,7 @@ const SelectCountry = ({ setCountry, country }: Props) => {
         setter={setShowSelectDrop}
         className={"select-drop w-100 dropdown gap drop-country main-clr"}
       >
-        {countries.map((obj: countryInterface, i) => {
+        {countries?.map((obj: countryInterface, i) => {
           const flag = obj.flags.png;
           const country = obj.name.common;
           if (obj.name.common !== "Israel") {
